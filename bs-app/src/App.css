@@ -5,38 +5,119 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.App {
+  font-family: 'Inter', Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #f5c8e8, #b1e0f9);
+  color: #000;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #f5c8e8, #b1e0f9);
+  width: 100%;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  border-bottom: 2px solid #eaeaea;
+  background-size: 100% 100%;
+  background-position: center;
+  height: auto;
+  min-height: 200px;
+}
+
+.profile-avatar {
+  margin-bottom: 1.5rem;
+}
+
+.avatar-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 500;
+  font-family: 'Unbounded', sans-serif;
+}
+
+.profile-surname {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 500;
+  font-family: 'Unbounded', sans-serif;}
+
+.profile-username {
+  font-size: 1rem;
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.profile-contact {
+  font-size: 1rem;
+  color: #646cff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.content-space {
+  background: #fff;
+  flex-grow: 1;
+  padding: 2rem 1rem;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .profile-name {
+    font-size: 1.4rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .profile-surname {
+    font-size: 1.2rem;
+  }
+
+  .avatar-image {
+    width: 90px;
+    height: 90px;
+  }
+
+  .profile-header {
+    padding: 1.2rem 1rem;
+  }
+
+  .profile-info {
+    padding: 0 1rem;
+  }
+
+  .profile-username {
+    font-size: 0.9rem;
+  }
+
+  .profile-contact {
+    font-size: 0.9rem;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
