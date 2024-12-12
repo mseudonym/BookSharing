@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api-gen": "orval --config ./orval.config.js"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.62.7",
+    "axios": "^1.7.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -22,6 +25,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
+    "orval": "^7.3.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.11.0",
     "vite": "^5.4.10"
