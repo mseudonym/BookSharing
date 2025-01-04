@@ -31,7 +31,7 @@ import type {
   DeleteApiFriendsDeleteParams,
   PostApiFriendsRespondRequestParams,
   PostApiFriendsSendRequestParams
-} from '../model'
+} from '.././model'
 
 
 

@@ -1,4 +1,5 @@
-import './ProfilePage.css';
+import { Navbar } from '../../components/navbar/navbar';
+import './profile-page.css';
 
 export const ProfilePage = () => {
   return (
@@ -14,6 +15,7 @@ export const ProfilePage = () => {
           <p className="profile-contact">Связаться</p>
         </div>
       </div>
+      <Navbar></Navbar>
       <div className="content-space">
       </div>
     </div>

@@ -1,7 +1,28 @@
+import '@mantine/core/styles.css';
+import './index.css';
 import React from 'react';
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router";
-import App from "./app/App";
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { MantineProvider } from '@mantine/core';
+import { AppRoute } from './conts';
+import { ProfilePage } from './pages/profile-page/profile-page';
+import { BookPage } from './pages/book-page/book-page';
+
+
+const router = createBrowserRouter([
+  {
+    path: `${AppRoute.Root}`,
+    element: <Navigate to={AppRoute.Profile} />,
+  },
+  {
+    path: `${AppRoute.Profile}`,
+    element: <ProfilePage/>,
+  },
+  {
+    path: `${AppRoute.Book}`,
+    element: <BookPage/>,
+  }
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,8 +30,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <MantineProvider>
+      <RouterProvider router={router}/>
+    </MantineProvider>
   </React.StrictMode>
 );
