@@ -1,9 +1,10 @@
 import { Navbar } from '../../components/navbar/navbar';
+import { Page } from '../../ui/page/page';
 import './profile-page.css';
 
 export const ProfilePage = () => {
   return (
-    <div className="App">
+    <Page>
       <div className="profile-header">
         <div className="profile-avatar">
           <img src="/src/assets/UserImg.png" alt="Avatar" className="avatar-image" />
@@ -18,6 +19,7 @@ export const ProfilePage = () => {
       <Navbar></Navbar>
       <div className="content-space">
       </div>
-    </div>
+    </Page>
+
   )
 }

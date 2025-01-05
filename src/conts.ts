@@ -6,3 +6,7 @@ export enum AppRoute {
   Profile = '/profile',
   Book = '/book'
 }
+
+export type PropsWithClass = {
+  customClass?: string;
+}

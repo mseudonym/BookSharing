@@ -5,27 +5,11 @@
   text-align: center;
 }
 
-.App {
-  font-family: 'Inter', Arial, sans-serif;
-  text-align: center;
-  background: linear-gradient(135deg, #f5c8e8, #b1e0f9);
-  color: #000;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: hidden;
-}
-
 
 .profile-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(135deg, #f5c8e8, #b1e0f9);
   width: 100%;
   padding: 2rem 1rem;
   box-sizing: border-box;
