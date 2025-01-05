@@ -5,7 +5,7 @@
  * OpenAPI spec version: v1
  */
 
-export type MapIdentityApiConfirmEmailParams = {
+export type MapIdentityApiAuthConfirmEmailParams = {
 userId?: string;
 code?: string;
 changedEmail?: string;

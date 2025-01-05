@@ -7,7 +7,7 @@
 
 export interface RegisterRequest {
   /** @nullable */
-  email?: string | null;
+  email: string | null;
   /** @nullable */
-  password?: string | null;
+  password: string | null;
 }

@@ -7,6 +7,6 @@
 
 export interface InfoResponse {
   /** @nullable */
-  email?: string | null;
-  isEmailConfirmed?: boolean;
+  email: string | null;
+  isEmailConfirmed: boolean;
 }

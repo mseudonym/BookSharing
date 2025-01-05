@@ -4,7 +4,7 @@
  * BookSharingApi
  * OpenAPI spec version: v1
  */
-import type { HttpValidationProblemDetailsErrors } from './httpValidationProblemDetailsErrors.ts';
+import type { HttpValidationProblemDetailsErrors } from './httpValidationProblemDetailsErrors';
 
 export interface HttpValidationProblemDetails {
   /** @nullable */

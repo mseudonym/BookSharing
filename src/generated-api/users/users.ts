@@ -30,14 +30,16 @@ import type {
 import type {
   PostUsersEditProfileBody,
   PostUsersEditProfileParams,
-  PostUsersEditUsernameParams
-} from '../model'
+  PostUsersEditUsernameParams,
+  UserData,
+  UserProfile
+} from '.././model'
 
 
 
 export const getUsersUserId = (
     userId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<UserProfile>> => {
     
     return axios.default.get(
       `/Users/${userId}`,options
@@ -115,7 +117,7 @@ export function useGetUsersUserId<TData = Awaited<ReturnType<typeof getUsersUser
 
 export const getUsersMe = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<UserData>> => {
     
     return axios.default.get(
       `/Users/me`,options
@@ -194,7 +196,7 @@ export function useGetUsersMe<TData = Awaited<ReturnType<typeof getUsersMe>>, TE
 export const postUsersEditProfile = (
     postUsersEditProfileBody: PostUsersEditProfileBody,
     params?: PostUsersEditProfileParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {const formData = new FormData();
+ ): Promise<AxiosResponse<UserData>> => {const formData = new FormData();
 if(postUsersEditProfileBody.PhotoFile !== undefined) {
  formData.append('PhotoFile', postUsersEditProfileBody.PhotoFile)
  }
@@ -248,7 +250,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     }
     export const postUsersEditUsername = (
     params?: PostUsersEditUsernameParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<string>> => {
     
     return axios.default.post(
       `/Users/editUsername`,undefined,{

@@ -28,81 +28,82 @@ import type {
   AxiosResponse
 } from 'axios'
 import type {
-  DeleteApiFriendsDeleteParams,
-  PostApiFriendsRespondRequestParams,
-  PostApiFriendsSendRequestParams
-} from '../model'
+  DeleteFriendsDeleteParams,
+  PostFriendsRespondRequestParams,
+  PostFriendsSendRequestParams,
+  UserProfile
+} from '.././model'
 
 
 
-export const getApiFriendsList = (
+export const getFriendsList = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<UserProfile[]>> => {
     
     return axios.default.get(
-      `/api/Friends/list`,options
+      `/Friends/list`,options
     );
   }
 
 
-export const getGetApiFriendsListQueryKey = () => {
-    return [`/api/Friends/list`] as const;
+export const getGetFriendsListQueryKey = () => {
+    return [`/Friends/list`] as const;
     }
 
     
-export const getGetApiFriendsListQueryOptions = <TData = Awaited<ReturnType<typeof getApiFriendsList>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsList>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetFriendsListQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsList>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiFriendsListQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetFriendsListQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiFriendsList>>> = ({ signal }) => getApiFriendsList({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsList>>> = ({ signal }) => getFriendsList({ signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetApiFriendsListQueryResult = NonNullable<Awaited<ReturnType<typeof getApiFriendsList>>>
-export type GetApiFriendsListQueryError = AxiosError<unknown>
+export type GetFriendsListQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsList>>>
+export type GetFriendsListQueryError = AxiosError<unknown>
 
 
-export function useGetApiFriendsList<TData = Awaited<ReturnType<typeof getApiFriendsList>>, TError = AxiosError<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsList>>, TError, TData>> & Pick<
+export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = AxiosError<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiFriendsList>>,
+          Awaited<ReturnType<typeof getFriendsList>>,
           TError,
           TData
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApiFriendsList<TData = Awaited<ReturnType<typeof getApiFriendsList>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsList>>, TError, TData>> & Pick<
+export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiFriendsList>>,
+          Awaited<ReturnType<typeof getFriendsList>>,
           TError,
           TData
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApiFriendsList<TData = Awaited<ReturnType<typeof getApiFriendsList>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsList>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetApiFriendsList<TData = Awaited<ReturnType<typeof getApiFriendsList>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsList>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetApiFriendsListQueryOptions(options)
+  const queryOptions = getGetFriendsListQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
@@ -113,12 +114,12 @@ export function useGetApiFriendsList<TData = Awaited<ReturnType<typeof getApiFri
 
 
 
-export const postApiFriendsSendRequest = (
-    params?: PostApiFriendsSendRequestParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+export const postFriendsSendRequest = (
+    params?: PostFriendsSendRequestParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<UserProfile>> => {
     
     return axios.default.post(
-      `/api/Friends/sendRequest`,undefined,{
+      `/Friends/sendRequest`,undefined,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -126,18 +127,18 @@ export const postApiFriendsSendRequest = (
 
 
 
-export const getPostApiFriendsSendRequestMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiFriendsSendRequest>>, TError,{params?: PostApiFriendsSendRequestParams}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiFriendsSendRequest>>, TError,{params?: PostApiFriendsSendRequestParams}, TContext> => {
+export const getPostFriendsSendRequestMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postFriendsSendRequest>>, TError,{params?: PostFriendsSendRequestParams}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postFriendsSendRequest>>, TError,{params?: PostFriendsSendRequestParams}, TContext> => {
 const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiFriendsSendRequest>>, {params?: PostApiFriendsSendRequestParams}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postFriendsSendRequest>>, {params?: PostFriendsSendRequestParams}> = (props) => {
           const {params} = props ?? {};
 
-          return  postApiFriendsSendRequest(params,axiosOptions)
+          return  postFriendsSendRequest(params,axiosOptions)
         }
 
         
@@ -145,29 +146,29 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiFriendsSendRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postApiFriendsSendRequest>>>
+    export type PostFriendsSendRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postFriendsSendRequest>>>
     
-    export type PostApiFriendsSendRequestMutationError = AxiosError<unknown>
+    export type PostFriendsSendRequestMutationError = AxiosError<unknown>
 
-    export const usePostApiFriendsSendRequest = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiFriendsSendRequest>>, TError,{params?: PostApiFriendsSendRequestParams}, TContext>, axios?: AxiosRequestConfig}
+    export const usePostFriendsSendRequest = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postFriendsSendRequest>>, TError,{params?: PostFriendsSendRequestParams}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationResult<
-        Awaited<ReturnType<typeof postApiFriendsSendRequest>>,
+        Awaited<ReturnType<typeof postFriendsSendRequest>>,
         TError,
-        {params?: PostApiFriendsSendRequestParams},
+        {params?: PostFriendsSendRequestParams},
         TContext
       > => {
 
-      const mutationOptions = getPostApiFriendsSendRequestMutationOptions(options);
+      const mutationOptions = getPostFriendsSendRequestMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
-    export const postApiFriendsRespondRequest = (
-    params?: PostApiFriendsRespondRequestParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+    export const postFriendsRespondRequest = (
+    params?: PostFriendsRespondRequestParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<UserProfile>> => {
     
     return axios.default.post(
-      `/api/Friends/respondRequest`,undefined,{
+      `/Friends/respondRequest`,undefined,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -175,18 +176,18 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
 
 
-export const getPostApiFriendsRespondRequestMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiFriendsRespondRequest>>, TError,{params?: PostApiFriendsRespondRequestParams}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postApiFriendsRespondRequest>>, TError,{params?: PostApiFriendsRespondRequestParams}, TContext> => {
+export const getPostFriendsRespondRequestMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postFriendsRespondRequest>>, TError,{params?: PostFriendsRespondRequestParams}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postFriendsRespondRequest>>, TError,{params?: PostFriendsRespondRequestParams}, TContext> => {
 const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiFriendsRespondRequest>>, {params?: PostApiFriendsRespondRequestParams}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postFriendsRespondRequest>>, {params?: PostFriendsRespondRequestParams}> = (props) => {
           const {params} = props ?? {};
 
-          return  postApiFriendsRespondRequest(params,axiosOptions)
+          return  postFriendsRespondRequest(params,axiosOptions)
         }
 
         
@@ -194,91 +195,91 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostApiFriendsRespondRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postApiFriendsRespondRequest>>>
+    export type PostFriendsRespondRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postFriendsRespondRequest>>>
     
-    export type PostApiFriendsRespondRequestMutationError = AxiosError<unknown>
+    export type PostFriendsRespondRequestMutationError = AxiosError<unknown>
 
-    export const usePostApiFriendsRespondRequest = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiFriendsRespondRequest>>, TError,{params?: PostApiFriendsRespondRequestParams}, TContext>, axios?: AxiosRequestConfig}
+    export const usePostFriendsRespondRequest = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postFriendsRespondRequest>>, TError,{params?: PostFriendsRespondRequestParams}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationResult<
-        Awaited<ReturnType<typeof postApiFriendsRespondRequest>>,
+        Awaited<ReturnType<typeof postFriendsRespondRequest>>,
         TError,
-        {params?: PostApiFriendsRespondRequestParams},
+        {params?: PostFriendsRespondRequestParams},
         TContext
       > => {
 
-      const mutationOptions = getPostApiFriendsRespondRequestMutationOptions(options);
+      const mutationOptions = getPostFriendsRespondRequestMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
-    export const getApiFriendsRequestsSent = (
+    export const getFriendsRequestsSent = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<UserProfile[]>> => {
     
     return axios.default.get(
-      `/api/Friends/requests/sent`,options
+      `/Friends/requests/sent`,options
     );
   }
 
 
-export const getGetApiFriendsRequestsSentQueryKey = () => {
-    return [`/api/Friends/requests/sent`] as const;
+export const getGetFriendsRequestsSentQueryKey = () => {
+    return [`/Friends/requests/sent`] as const;
     }
 
     
-export const getGetApiFriendsRequestsSentQueryOptions = <TData = Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetFriendsRequestsSentQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiFriendsRequestsSentQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetFriendsRequestsSentQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>> = ({ signal }) => getApiFriendsRequestsSent({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsRequestsSent>>> = ({ signal }) => getFriendsRequestsSent({ signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetApiFriendsRequestsSentQueryResult = NonNullable<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>>
-export type GetApiFriendsRequestsSentQueryError = AxiosError<unknown>
+export type GetFriendsRequestsSentQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsRequestsSent>>>
+export type GetFriendsRequestsSentQueryError = AxiosError<unknown>
 
 
-export function useGetApiFriendsRequestsSent<TData = Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError = AxiosError<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError, TData>> & Pick<
+export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = AxiosError<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiFriendsRequestsSent>>,
+          Awaited<ReturnType<typeof getFriendsRequestsSent>>,
           TError,
           TData
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApiFriendsRequestsSent<TData = Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError, TData>> & Pick<
+export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiFriendsRequestsSent>>,
+          Awaited<ReturnType<typeof getFriendsRequestsSent>>,
           TError,
           TData
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApiFriendsRequestsSent<TData = Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetApiFriendsRequestsSent<TData = Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsSent>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetApiFriendsRequestsSentQueryOptions(options)
+  const queryOptions = getGetFriendsRequestsSentQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
@@ -289,74 +290,74 @@ export function useGetApiFriendsRequestsSent<TData = Awaited<ReturnType<typeof g
 
 
 
-export const getApiFriendsRequestsReceived = (
+export const getFriendsRequestsReceived = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<UserProfile[]>> => {
     
     return axios.default.get(
-      `/api/Friends/requests/received`,options
+      `/Friends/requests/received`,options
     );
   }
 
 
-export const getGetApiFriendsRequestsReceivedQueryKey = () => {
-    return [`/api/Friends/requests/received`] as const;
+export const getGetFriendsRequestsReceivedQueryKey = () => {
+    return [`/Friends/requests/received`] as const;
     }
 
     
-export const getGetApiFriendsRequestsReceivedQueryOptions = <TData = Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetFriendsRequestsReceivedQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiFriendsRequestsReceivedQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetFriendsRequestsReceivedQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>> = ({ signal }) => getApiFriendsRequestsReceived({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsRequestsReceived>>> = ({ signal }) => getFriendsRequestsReceived({ signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetApiFriendsRequestsReceivedQueryResult = NonNullable<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>>
-export type GetApiFriendsRequestsReceivedQueryError = AxiosError<unknown>
+export type GetFriendsRequestsReceivedQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsRequestsReceived>>>
+export type GetFriendsRequestsReceivedQueryError = AxiosError<unknown>
 
 
-export function useGetApiFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError, TData>> & Pick<
+export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>,
+          Awaited<ReturnType<typeof getFriendsRequestsReceived>>,
           TError,
           TData
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApiFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError, TData>> & Pick<
+export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>,
+          Awaited<ReturnType<typeof getFriendsRequestsReceived>>,
           TError,
           TData
         > , 'initialData'
       >, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetApiFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 
-export function useGetApiFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiFriendsRequestsReceived>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  const queryOptions = getGetApiFriendsRequestsReceivedQueryOptions(options)
+  const queryOptions = getGetFriendsRequestsReceivedQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
@@ -367,12 +368,12 @@ export function useGetApiFriendsRequestsReceived<TData = Awaited<ReturnType<type
 
 
 
-export const deleteApiFriendsDelete = (
-    params?: DeleteApiFriendsDeleteParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+export const deleteFriendsDelete = (
+    params?: DeleteFriendsDeleteParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<UserProfile>> => {
     
     return axios.default.delete(
-      `/api/Friends/delete`,{
+      `/Friends/delete`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -380,18 +381,18 @@ export const deleteApiFriendsDelete = (
 
 
 
-export const getDeleteApiFriendsDeleteMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiFriendsDelete>>, TError,{params?: DeleteApiFriendsDeleteParams}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteApiFriendsDelete>>, TError,{params?: DeleteApiFriendsDeleteParams}, TContext> => {
+export const getDeleteFriendsDeleteMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteFriendsDelete>>, TError,{params?: DeleteFriendsDeleteParams}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteFriendsDelete>>, TError,{params?: DeleteFriendsDeleteParams}, TContext> => {
 const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiFriendsDelete>>, {params?: DeleteApiFriendsDeleteParams}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteFriendsDelete>>, {params?: DeleteFriendsDeleteParams}> = (props) => {
           const {params} = props ?? {};
 
-          return  deleteApiFriendsDelete(params,axiosOptions)
+          return  deleteFriendsDelete(params,axiosOptions)
         }
 
         
@@ -399,20 +400,20 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type DeleteApiFriendsDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiFriendsDelete>>>
+    export type DeleteFriendsDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteFriendsDelete>>>
     
-    export type DeleteApiFriendsDeleteMutationError = AxiosError<unknown>
+    export type DeleteFriendsDeleteMutationError = AxiosError<unknown>
 
-    export const useDeleteApiFriendsDelete = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiFriendsDelete>>, TError,{params?: DeleteApiFriendsDeleteParams}, TContext>, axios?: AxiosRequestConfig}
+    export const useDeleteFriendsDelete = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteFriendsDelete>>, TError,{params?: DeleteFriendsDeleteParams}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationResult<
-        Awaited<ReturnType<typeof deleteApiFriendsDelete>>,
+        Awaited<ReturnType<typeof deleteFriendsDelete>>,
         TError,
-        {params?: DeleteApiFriendsDeleteParams},
+        {params?: DeleteFriendsDeleteParams},
         TContext
       > => {
 
-      const mutationOptions = getDeleteApiFriendsDeleteMutationOptions(options);
+      const mutationOptions = getDeleteFriendsDeleteMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

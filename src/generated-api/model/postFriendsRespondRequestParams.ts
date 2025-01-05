@@ -5,7 +5,7 @@
  * OpenAPI spec version: v1
  */
 
-export type PostLoginParams = {
-useCookies?: boolean;
-useSessionCookies?: boolean;
+export type PostFriendsRespondRequestParams = {
+personToRespondId?: string;
+isAccepted?: boolean;
 };

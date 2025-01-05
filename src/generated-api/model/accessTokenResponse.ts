@@ -7,10 +7,10 @@
 
 export interface AccessTokenResponse {
   /** @nullable */
-  accessToken?: string | null;
-  expiresIn?: number;
+  accessToken: string | null;
+  expiresIn: number;
   /** @nullable */
-  refreshToken?: string | null;
+  refreshToken: string | null;
   /** @nullable */
   readonly tokenType?: string | null;
 }

@@ -5,7 +5,6 @@
  * OpenAPI spec version: v1
  */
 
-export interface RefreshRequest {
-  /** @nullable */
-  refreshToken: string | null;
-}
+export type PostQueueItemIdEnqueueParams = {
+isForcedByOwner?: boolean;
+};

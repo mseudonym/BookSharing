@@ -7,5 +7,5 @@
 
 export interface ForgotPasswordRequest {
   /** @nullable */
-  email?: string | null;
+  email: string | null;
 }

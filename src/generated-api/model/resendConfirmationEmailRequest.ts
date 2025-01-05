@@ -7,5 +7,5 @@
 
 export interface ResendConfirmationEmailRequest {
   /** @nullable */
-  email?: string | null;
+  email: string | null;
 }

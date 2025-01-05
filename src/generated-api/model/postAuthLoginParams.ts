@@ -5,6 +5,7 @@
  * OpenAPI spec version: v1
  */
 
-export type DeleteApiFriendsDeleteParams = {
-personToDeleteId?: string;
+export type PostAuthLoginParams = {
+useCookies?: boolean;
+useSessionCookies?: boolean;
 };

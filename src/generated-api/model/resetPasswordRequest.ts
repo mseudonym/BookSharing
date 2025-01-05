@@ -7,9 +7,9 @@
 
 export interface ResetPasswordRequest {
   /** @nullable */
-  email?: string | null;
+  email: string | null;
   /** @nullable */
-  newPassword?: string | null;
+  newPassword: string | null;
   /** @nullable */
-  resetCode?: string | null;
+  resetCode: string | null;
 }

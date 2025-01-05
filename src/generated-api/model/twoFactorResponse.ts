@@ -6,11 +6,11 @@
  */
 
 export interface TwoFactorResponse {
-  isMachineRemembered?: boolean;
-  isTwoFactorEnabled?: boolean;
+  isMachineRemembered: boolean;
+  isTwoFactorEnabled: boolean;
   /** @nullable */
   recoveryCodes?: string[] | null;
-  recoveryCodesLeft?: number;
+  recoveryCodesLeft: number;
   /** @nullable */
-  sharedKey?: string | null;
+  sharedKey: string | null;
 }

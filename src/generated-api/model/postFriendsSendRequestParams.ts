@@ -5,7 +5,6 @@
  * OpenAPI spec version: v1
  */
 
-export type PostApiFriendsRespondRequestParams = {
-personToRespondId?: string;
-isAccepted?: boolean;
+export type PostFriendsSendRequestParams = {
+personToSendId?: string;
 };

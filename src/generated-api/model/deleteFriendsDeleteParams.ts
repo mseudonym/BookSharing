@@ -5,6 +5,6 @@
  * OpenAPI spec version: v1
  */
 
-export type PostApiFriendsSendRequestParams = {
-personToSendId?: string;
+export type DeleteFriendsDeleteParams = {
+personToDeleteId?: string;
 };

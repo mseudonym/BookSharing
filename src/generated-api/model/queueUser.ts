@@ -5,7 +5,9 @@
  * OpenAPI spec version: v1
  */
 
-export interface RefreshRequest {
+export interface QueueUser {
   /** @nullable */
-  refreshToken: string | null;
+  lowQualityPhotoUrl?: string | null;
+  /** @nullable */
+  username: string | null;
 }

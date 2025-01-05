@@ -7,9 +7,9 @@
 
 export interface LoginRequest {
   /** @nullable */
-  email?: string | null;
+  email: string | null;
   /** @nullable */
-  password?: string | null;
+  password: string | null;
   /** @nullable */
   twoFactorCode?: string | null;
   /** @nullable */
