@@ -42,7 +42,7 @@ import type {
   ResetPasswordRequest,
   TwoFactorRequest,
   TwoFactorResponse
-} from '.././model'
+} from '../model'
 
 
 

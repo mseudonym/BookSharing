@@ -31,7 +31,7 @@ import type {
   PostUsersEditProfileBody,
   PostUsersEditProfileParams,
   PostUsersEditUsernameParams
-} from '.././model'
+} from '../model'
 
 
 
