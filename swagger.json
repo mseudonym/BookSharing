@@ -5,10 +5,10 @@
     "version": "v1"
   },
   "paths": {
-    "/register": {
+    "/Auth/register": {
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -21,7 +21,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request",
@@ -36,10 +36,10 @@
         }
       }
     },
-    "/login": {
+    "/Auth/login": {
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "parameters": [
           {
@@ -68,7 +68,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -80,10 +80,10 @@
         }
       }
     },
-    "/refresh": {
+    "/Auth/refresh": {
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -96,7 +96,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -108,12 +108,12 @@
         }
       }
     },
-    "/confirmEmail": {
+    "/Auth/confirmEmail": {
       "get": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
-        "operationId": "MapIdentityApi-/confirmEmail",
+        "operationId": "MapIdentityApi-Auth/confirmEmail",
         "parameters": [
           {
             "name": "userId",
@@ -139,15 +139,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           }
         }
       }
     },
-    "/resendConfirmationEmail": {
+    "/Auth/resendConfirmationEmail": {
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -160,15 +160,15 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           }
         }
       }
     },
-    "/forgotPassword": {
+    "/Auth/forgotPassword": {
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -181,7 +181,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request",
@@ -196,10 +196,10 @@
         }
       }
     },
-    "/resetPassword": {
+    "/Auth/resetPassword": {
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -212,7 +212,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request",
@@ -227,10 +227,10 @@
         }
       }
     },
-    "/manage/2fa": {
+    "/Auth/manage/2fa": {
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -243,7 +243,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -268,14 +268,14 @@
         }
       }
     },
-    "/manage/info": {
+    "/Auth/manage/info": {
       "get": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -301,7 +301,7 @@
       },
       "post": {
         "tags": [
-          "BS.Api"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -314,7 +314,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -339,19 +339,45 @@
         }
       }
     },
-    "/api/Friends/list": {
+    "/Friends/list": {
       "get": {
         "tags": [
           "Friends"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Friends/sendRequest": {
+    "/Friends/sendRequest": {
       "post": {
         "tags": [
           "Friends"
@@ -368,12 +394,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Friends/respondRequest": {
+    "/Friends/respondRequest": {
       "post": {
         "tags": [
           "Friends"
@@ -397,36 +440,105 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Friends/requests/sent": {
+    "/Friends/requests/sent": {
       "get": {
         "tags": [
           "Friends"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Friends/requests/received": {
+    "/Friends/requests/received": {
       "get": {
         "tags": [
           "Friends"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfile"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Friends/delete": {
+    "/Friends/delete": {
       "delete": {
         "tags": [
           "Friends"
@@ -443,7 +555,118 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Queue/{itemId}/getQueue": {
+      "get": {
+        "tags": [
+          "Queue"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Queue/{itemId}/enqueue": {
+      "post": {
+        "tags": [
+          "Queue"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isForcedByOwner",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Queue/{itemId}/leaveQueue": {
+      "post": {
+        "tags": [
+          "Queue"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -466,7 +689,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
           }
         }
       }
@@ -478,7 +718,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                }
+              }
+            }
           }
         }
       }
@@ -533,7 +790,24 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserData"
+                }
+              }
+            }
           }
         }
       }
@@ -554,7 +828,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -563,6 +854,11 @@
   "components": {
     "schemas": {
       "AccessTokenResponse": {
+        "required": [
+          "accessToken",
+          "expiresIn",
+          "refreshToken"
+        ],
         "type": "object",
         "properties": {
           "tokenType": {
@@ -586,6 +882,9 @@
         "additionalProperties": false
       },
       "ForgotPasswordRequest": {
+        "required": [
+          "email"
+        ],
         "type": "object",
         "properties": {
           "email": {
@@ -651,6 +950,10 @@
         "additionalProperties": false
       },
       "InfoResponse": {
+        "required": [
+          "email",
+          "isEmailConfirmed"
+        ],
         "type": "object",
         "properties": {
           "email": {
@@ -664,6 +967,10 @@
         "additionalProperties": false
       },
       "LoginRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "email": {
@@ -685,7 +992,46 @@
         },
         "additionalProperties": false
       },
+      "QueueModel": {
+        "type": "object",
+        "properties": {
+          "queue": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QueueUser"
+            },
+            "nullable": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/QueueUser"
+          },
+          "holder": {
+            "$ref": "#/components/schemas/QueueUser"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QueueUser": {
+        "required": [
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "lowQualityPhotoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RefreshRequest": {
+        "required": [
+          "refreshToken"
+        ],
         "type": "object",
         "properties": {
           "refreshToken": {
@@ -696,6 +1042,10 @@
         "additionalProperties": false
       },
       "RegisterRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "email": {
@@ -710,6 +1060,9 @@
         "additionalProperties": false
       },
       "ResendConfirmationEmailRequest": {
+        "required": [
+          "email"
+        ],
         "type": "object",
         "properties": {
           "email": {
@@ -720,6 +1073,11 @@
         "additionalProperties": false
       },
       "ResetPasswordRequest": {
+        "required": [
+          "email",
+          "newPassword",
+          "resetCode"
+        ],
         "type": "object",
         "properties": {
           "email": {
@@ -761,6 +1119,12 @@
         "additionalProperties": false
       },
       "TwoFactorResponse": {
+        "required": [
+          "isMachineRemembered",
+          "isTwoFactorEnabled",
+          "recoveryCodesLeft",
+          "sharedKey"
+        ],
         "type": "object",
         "properties": {
           "sharedKey": {
@@ -783,6 +1147,91 @@
           },
           "isMachineRemembered": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserData": {
+        "required": [
+          "email",
+          "id",
+          "isProfileFilled",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "isProfileFilled": {
+            "type": "boolean"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserProfile": {
+        "required": [
+          "firstName",
+          "lastName",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "isFriend": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "highQualityPhotoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "lowQualityPhotoUrl": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

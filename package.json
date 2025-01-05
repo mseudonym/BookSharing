@@ -11,6 +11,7 @@
     "api-gen": "orval --config ./orval.config.ts"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.0",
     "@mantine/core": "^7.15.2",
     "@mantine/dates": "^7.15.2",
     "@mantine/form": "^7.15.2",
@@ -18,9 +19,12 @@
     "@skbkontur/icons": "^1.15.1",
     "@tanstack/react-query": "^5.62.7",
     "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
     "dayjs": "^1.11.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.2.0",
+    "ts-node": "^10.9.2",
     "react-router": "^7.1.1",
     "react-router-dom": "^7.1.1"
   },

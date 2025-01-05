@@ -1,11 +1,12 @@
 export default {
-  'booksharing-file': {
+  'booksharing': {
     input: './swagger.json',
     output: {
       mode: 'tags-split',
-      target: 'src/api/booksharing.ts',
-      schemas: 'src/api/model',
-      client: 'react-query'
+      target: './src/generated-api/booksharing.ts',
+      schemas: 'src/generated-api/model',
+      client: 'react-query',
+      baseUrl: process.env.BS_API_BASE_URL,
     }
   }
 };
