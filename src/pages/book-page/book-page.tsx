@@ -2,8 +2,12 @@ import { Navigation } from '../../components/navigation/navigation';
 import { ArrowALeftIcon24Regular, UiMenuDots3HIcon24Regular } from '@skbkontur/icons';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
 import { Page } from '../../ui/page/page';
+import {getApiBooksSearchByIdBookId} from "../../generated-api/books/books.ts";
 
 export const BookPage = () => {
+
+  getApiBooksSearchByIdBookId("book")
+
   return (
     <Page>
       <Navigation customClass='nav-auto'>

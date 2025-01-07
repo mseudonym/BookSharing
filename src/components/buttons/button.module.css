@@ -1,0 +1,21 @@
+.button {
+    align-self: stretch;
+    border-radius: 16px;
+    min-height: 50px;
+    width: 100%;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 16px 20px;
+    font: 16px/1.2 Inter, sans-serif;
+    cursor: pointer;
+}
+
+.primary {
+    background: var(--black-color);
+    color: var(--white-color, #fff);
+}
+
+.secondary {
+    border: 1px solid var(--light-gray-color, #adadad);
+    color: var(--black-color);
+}

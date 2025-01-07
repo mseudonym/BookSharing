@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {StoreNamespace} from "../namespaces.ts";
-import {UserState} from "../state.ts";
-import {AuthStatus} from "../../types/auth-status.ts";
-import {UserData, UserProfile} from "../../generated-api/model";
+import {UserState} from "../../state.ts";
+import {AuthStatus} from "../../../types/auth-status.ts";
+import {UserData, UserProfile} from "../../../generated-api/model";
+import {StoreNamespace} from "../store-namespaces.ts";
 
 const initialState: UserState = {
     AuthStatus: AuthStatus.Unknown,
@@ -25,7 +25,6 @@ export const userProcess = createSlice({
         }
     },
     extraReducers() {
-
     }
 })
 

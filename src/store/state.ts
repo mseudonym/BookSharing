@@ -1,6 +1,6 @@
 import { AuthStatus } from "../types/auth-status";
 import {UserData, UserProfile} from "../generated-api/model";
-import {store} from "./index.ts";
+import {store} from "./store.ts";
 
 export type State = ReturnType<typeof store.getState>;
 

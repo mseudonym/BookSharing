@@ -1,6 +1,6 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {store} from "./index.ts";
-import {AppDispatch} from "./state.ts";
+import {store} from "../store.ts";
+import {AppDispatch} from "../state.ts";
 
 export type State = ReturnType<typeof store.getState>;
 

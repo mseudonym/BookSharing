@@ -1,0 +1,28 @@
+.content {
+    justify-content: end;
+    border-radius: 16px 16px 0 0;
+    background: var(--white-color, #fff);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    flex: 1;
+    gap: 16px;
+    padding: 32px 16px;
+}
+
+.textContainer {
+    display: flex;
+    margin-top: 16px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: start;
+    padding: 8px 0 16px;
+}
+
+.description {
+    color: var(--gray-color, #757575);
+    margin-top: 8px;
+    font: 16px/19px Inter, sans-serif;
+}

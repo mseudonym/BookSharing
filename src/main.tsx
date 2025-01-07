@@ -2,17 +2,20 @@ import '@mantine/core/styles.css';
 import './index.css';
 import React from 'react';
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import { AppRoute } from './conts';
 import { ProfilePage } from './pages/profile-page/profile-page';
 import { BookPage } from './pages/book-page/book-page';
+import {store} from "./store/store.ts";
+import {checkAuth} from "./store/actions/user.ts";
+import { WelcomePage } from './pages/welcome/welcome-page.tsx';
 
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: `${AppRoute.Root}`,
-    element: <Navigate to={AppRoute.Profile} />,
+    element: <WelcomePage />,
   },
   {
     path: `${AppRoute.Profile}`,
@@ -27,6 +30,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+store.dispatch(checkAuth)
 
 root.render(
   <React.StrictMode>

@@ -1,6 +1,6 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {StoreNamespace} from "./namespaces.ts";
-import {userProcess} from "./user/user.slice.ts";
+import {userProcess} from "./spaces/user/user.slice.ts";
+import { StoreNamespace } from "./spaces/store-namespaces.ts";
 
 export const store = configureStore({
     reducer: combineReducers({

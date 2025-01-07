@@ -1,10 +1,12 @@
 :root {
   --rainbow-color: linear-gradient(0deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.55) 100%), linear-gradient(90deg, #FEAC5E 0%, #C779D0 50%, #4BC0C8 100%);
+  --white-color: rgba(255, 255, 255, 1);
   --white-80-color: rgba(255, 255, 255, 0.80);
   --gray-color: #757575;
   --gray-80-color: rgba(218, 218, 218, 0.80);
   --gray-50-color: rgba(218, 218, 218, 0.50);
   --light-gray-color: #ADADAD;
+  --black-color: rgba(0, 0, 0);
 }
 
 body {
@@ -54,7 +56,7 @@ hr {
 
 .page {
   width: 360px;
-  min-height: 100vh;
+  /*min-height: 100vh;*/
 
   display: flex;
   padding-top: 16px;

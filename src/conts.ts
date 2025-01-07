@@ -4,7 +4,9 @@ export enum AppRoute {
   Shelf = '/shelf',
   Storage = '/storage',
   Profile = '/profile',
-  Book = '/book'
+  Book = '/book',
+  Login = '/login',
+  Register = '/register',
 }
 
 export type PropsWithClass = {
