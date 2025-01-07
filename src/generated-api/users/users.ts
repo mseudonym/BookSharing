@@ -115,6 +115,84 @@ export function useGetUsersUserId<TData = Awaited<ReturnType<typeof getUsersUser
 
 
 
+export const getUsersUsername = (
+    username: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<UserProfile>> => {
+    
+    return axios.default.get(
+      `/Users/${username}`,options
+    );
+  }
+
+
+export const getGetUsersUsernameQueryKey = (username: string,) => {
+    return [`/Users/${username}`] as const;
+    }
+
+    
+export const getGetUsersUsernameQueryOptions = <TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = AxiosError<unknown>>(username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUsersUsernameQueryKey(username);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsersUsername>>> = ({ signal }) => getUsersUsername(username, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(username), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetUsersUsernameQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersUsername>>>
+export type GetUsersUsernameQueryError = AxiosError<unknown>
+
+
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = AxiosError<unknown>>(
+ username: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsersUsername>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = AxiosError<unknown>>(
+ username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsersUsername>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = AxiosError<unknown>>(
+ username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = AxiosError<unknown>>(
+ username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetUsersUsernameQueryOptions(username,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
 export const getUsersMe = (
      options?: AxiosRequestConfig
  ): Promise<AxiosResponse<UserData>> => {

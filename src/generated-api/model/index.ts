@@ -6,6 +6,7 @@
  */
 
 export * from './accessTokenResponse';
+export * from './bookModel';
 export * from './deleteFriendsDeleteParams';
 export * from './forgotPasswordRequest';
 export * from './httpValidationProblemDetails';
@@ -14,6 +15,8 @@ export * from './infoRequest';
 export * from './infoResponse';
 export * from './loginRequest';
 export * from './mapIdentityApiAuthConfirmEmailParams';
+export * from './postApiBooksAddBody';
+export * from './postApiBooksAddParams';
 export * from './postAuthLoginParams';
 export * from './postFriendsRespondRequestParams';
 export * from './postFriendsSendRequestParams';
