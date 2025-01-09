@@ -1,12 +1,14 @@
-export default {
+module.exports = {
   'booksharing': {
     input: './swagger.json',
     output: {
       mode: 'tags-split',
       target: './src/generated-api/booksharing.ts',
       schemas: 'src/generated-api/model',
-      client: 'react-query',
-      baseUrl: process.env.BS_API_BASE_URL,
+      mutator: {
+        path: './services/api/api.ts',
+        name: 'api',
+      }
     }
   }
 };

@@ -1,28 +1,31 @@
 import React from "react";
 import styles from './input-field.module.css';
+import {Message, UseFormRegisterReturn} from "react-hook-form";
 
 
 export interface InputFieldProps {
-    label: string;
-    placeholder: string;
-    type?: string;
+    label: string,
+    placeholder: string,
+    type?: string,
+    register?: UseFormRegisterReturn<string>,
+    error?: Message | undefined
 }
 
-export const InputField: React.FC<InputFieldProps> = ({ label, placeholder, type}) => {
-    const inputId = `${label.toLowerCase()}-input`;
+export const InputField: React.FC<InputFieldProps> = ({label, placeholder, type, register, error}) => {
 
     return (
         <div className={styles.inputBlock}>
-            <label htmlFor={inputId} className={styles.inputLabel}>
+            <label className={styles.inputLabel}>
                 {label}
+                <input
+                    {...register}
+                    type={type}
+                    className={styles.input}
+                    placeholder={placeholder}
+                    aria-label={label}
+                />
             </label>
-            <input
-                id={inputId}
-                type={type}
-                className={styles.input}
-                placeholder={placeholder}
-                aria-label={label}
-            />
+            <p>{error}</p>
         </div>
     );
 };

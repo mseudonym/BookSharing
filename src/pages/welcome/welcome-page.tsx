@@ -3,8 +3,11 @@ import styles from './welcome-screen.module.css';
 import _styles from '../../index.module.css'
 import { Button } from '../../components/buttons/button.tsx';
 import { Page } from '../../ui/page/page';
+import {useNavigate} from "react-router";
+import {AppRoute} from "../../conts.ts";
 
 export const WelcomePage : React.FC = () => {
+    const navigate = useNavigate();
 
     return (
         <Page>
@@ -21,10 +24,10 @@ export const WelcomePage : React.FC = () => {
                         Здесь вы можете делиться книгами со своей полки, а также бронировать книги друзей. Наслаждайтесь чтением!
                     </p>
                 </div>
-                <Button variant={'primary'} >
+                <Button variant={'primary'} onClick={() => navigate(AppRoute.Login)} >
                     Войти
                 </Button>
-                <Button variant={'secondary'} >
+                <Button variant={'secondary'} onClick={() => navigate(AppRoute.Register)} >
                     Зарегистрироваться
                 </Button>
             </div>

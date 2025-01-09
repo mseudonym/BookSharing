@@ -6,6 +6,7 @@
     gap: 8px;
     white-space: nowrap;
     padding: 16px 20px;
+    margin: 8px 0;
     font: 16px/1.2 Inter, sans-serif;
     cursor: pointer;
 }

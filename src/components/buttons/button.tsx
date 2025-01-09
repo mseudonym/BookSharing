@@ -1,18 +1,18 @@
-import React, {PropsWithChildren} from 'react';
 import styles from './button.module.css';
+import {FC, PropsWithChildren} from "react";
 
-export interface ButtonProps {
+interface ButtonProps extends PropsWithChildren {
     variant: 'primary' | 'secondary';
     onClick?: () => void;
 }
 
-export const Button: React.FC<PropsWithChildren<ButtonProps>> = ({ children, variant, onClick }) => {
+export const Button: FC<ButtonProps> = (props) => {
     return (
         <button
-            className={`${styles.button} ${styles[variant]}`}
-            onClick={onClick}
+            className={`${styles.button} ${styles[props.variant]}`}
+            onClick={props.onClick}
         >
-            {children}
+            {props.children}
         </button>
     );
 };
