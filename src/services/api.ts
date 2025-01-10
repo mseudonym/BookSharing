@@ -1,6 +1,11 @@
 import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
 
-export const AXIOS_INSTANCE = Axios.create({ baseURL: 'http://localhost:5287' });
+export const AXIOS_INSTANCE = Axios.create(
+    {
+        baseURL: import.meta.env.VITE_BS_API_BASE_URL,
+        withCredentials: true,
+    }
+);
 
 export const api = <T>(
     config: AxiosRequestConfig,
@@ -9,7 +14,7 @@ export const api = <T>(
     const axiosInstance = AXIOS_INSTANCE({
         ...config,
         ...options,
-    }).then(({ data }) => data);
+    }).then(({data}) => data);
 
     return axiosInstance;
 };

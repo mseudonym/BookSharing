@@ -16,10 +16,11 @@ export const loginAction = createAsyncThunk<void, LoginRequest, {
     state: State;
 }>(
     'auth/login',
-    async (payload) => {
+    async (payload, { dispatch }) => {
         await postAuthLogin(payload, {useCookies: true})
             .then(async () => {
                 await router.navigate(AppRoute.Shelf);
+                dispatch(fetchUserSlice());
             });
 
 
@@ -31,18 +32,19 @@ export const registerAction = createAsyncThunk<void, RegisterRequest, {
     state: State;
 }>(
     'auth/register',
-    async (payload) => {
+    async (payload, { dispatch }) => {
         await postAuthRegister(payload)
             .then(async () => {
-                // await router.navigate(AppRoute.ProfileFilling);
+                dispatch(loginAction({email: payload.email, password: payload.password}));
+                await router.navigate(AppRoute.ProfileFilling);
             })
             .catch(async (error: Error | AxiosError) => {
                 if (axios.isAxiosError(error)) {
-                    // switch (error.status) {
-                        // case StatusCodes.UNAUTHORIZED:
-                        //     setAuthStatus(AuthStatus.NoAuth);
-                        //     await router.navigate(AppRoute.Root);
-                    // }
+                    switch (error.status) {
+                        case StatusCodes.UNAUTHORIZED:
+                            setAuthStatus(AuthStatus.NoAuth);
+                            await router.navigate(AppRoute.Root);
+                    }
                 }
             });
     }
@@ -60,11 +62,14 @@ export const checkAuthAction = createAsyncThunk<
     async (_arg, {dispatch}) => {
         await getUsersMe()
             .then(async (userData) => {
-                dispatch(setAuthStatus(AuthStatus.Auth));
-                dispatch(setUserData(userData));
-                await router.navigate(AppRoute.Shelf);
-            })
+                    dispatch(setAuthStatus(AuthStatus.Auth));
+                    dispatch(setUserData(userData));
+                    dispatch(fetchUserSlice())
+                    await router.navigate(AppRoute.Shelf);
+                }
+            )
             .catch(async (error: Error | AxiosError) => {
+                console.log('no auth')
                 if (axios.isAxiosError(error)) {
                     switch (error.status) {
                         case StatusCodes.UNAUTHORIZED:
