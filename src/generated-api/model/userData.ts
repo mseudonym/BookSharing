@@ -11,6 +11,7 @@ export interface UserData {
   email: string | null;
   /** @nullable */
   username: string | null;
+  isEmailConfirm: boolean;
   isProfileFilled: boolean;
   /** @nullable */
   firstName?: string | null;

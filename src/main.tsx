@@ -9,10 +9,10 @@ import {ProfilePage} from './pages/profile-page/profile-page';
 import {BookPage} from './pages/book-page/book-page';
 import {store} from "./store/store.ts";
 import {checkAuthAction} from "./store/actions/user-actions.ts";
-import {WelcomePage} from './pages/welcome/welcome-page.tsx';
-import {RegistrationPage} from "./pages/registration/registration-page.tsx";
 import { Provider } from 'react-redux';
-import {LoginPage} from "./pages/registration/login-page.tsx";
+import { LoginPage } from './pages/registration-login-page/login-page.tsx';
+import {RegistrationPage} from "./pages/registration-login-page/registration-page.tsx";
+import {WelcomePage} from "./pages/welcome-page/welcome-page.tsx";
 
 export const router = createBrowserRouter([
     {
