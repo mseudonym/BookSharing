@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import {useAppDispatch} from "../../store/hooks/hooks.ts";
-import {registerAction} from "../../store/actions/user.ts";
+import {registerAction} from "../../store/actions/user-actions.ts";
 
 const FormSchema = zod.object({
     email: zod
@@ -16,7 +16,8 @@ const FormSchema = zod.object({
         .min(6, 'Пароль должен быть не меньше 6-ти символов')
         .regex(/[0-9]+/, 'Пароль должен содержать минимум одну цифру')
         .regex(/[a-z]+/, 'Пароль должен содержать минимум одну строчную латинскую букву')
-        .regex(/[A-Z]+/, 'Пароль должен содержать минимум одну заглавную латинскую букву'),
+        .regex(/[A-Z]+/, 'Пароль должен содержать минимум одну заглавную латинскую букву')
+        .regex(/[^0-9a-zA-Z]+/, 'Пароль должен содержать минимум один не буквенный и не числовой символ'),
     confirmPassword: zod
         .string(),
 }).superRefine(({ confirmPassword, password }, ctx) => {
@@ -45,7 +46,7 @@ export const RegistrationForm: FC = () => {
     });
 
     const onSubmit = (data: IFormInput) => {
-        dispatch(registerAction(data));
+        dispatch(registerAction({email: data.email, password: data.password}));
     };
 
     return (

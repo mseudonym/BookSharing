@@ -8,11 +8,10 @@ import {AppRoute} from './conts';
 import {ProfilePage} from './pages/profile-page/profile-page';
 import {BookPage} from './pages/book-page/book-page';
 import {store} from "./store/store.ts";
-import {checkAuthAction} from "./store/actions/user.ts";
+import {checkAuthAction} from "./store/actions/user-actions.ts";
 import {WelcomePage} from './pages/welcome/welcome-page.tsx';
 import {RegistrationPage} from "./pages/registration/registeration.tsx";
 import { Provider } from 'react-redux';
-
 
 export const router = createBrowserRouter([
     {
@@ -37,7 +36,7 @@ const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 
-store.dispatch(checkAuthAction)
+store.dispatch(checkAuthAction())
 
 root.render(
     <React.StrictMode>

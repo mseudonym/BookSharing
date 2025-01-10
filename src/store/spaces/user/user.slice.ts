@@ -6,7 +6,7 @@ import {StoreNamespace} from "../store-namespaces.ts";
 
 const initialState: UserState = {
     AuthStatus: AuthStatus.Unknown,
-    UserInfo: null,
+    UserData: null,
     Friends: [],
 }
 
@@ -17,8 +17,8 @@ export const userProcess = createSlice({
         setAuthStatus: (state, action: PayloadAction<AuthStatus>) => {
             state.AuthStatus = action.payload;
         },
-        setUserInfo: (state, action: PayloadAction<UserData | null>) => {
-            state.UserInfo = action.payload;
+        setUserData: (state, action: PayloadAction<UserData | null>) => {
+            state.UserData = action.payload;
         },
         setFriends: (state, action: PayloadAction<UserProfile[]>) => {
             state.Friends = action.payload;
@@ -28,4 +28,4 @@ export const userProcess = createSlice({
     }
 })
 
-export const {setAuthStatus, setUserInfo, setFriends} = userProcess.actions;
+export const {setAuthStatus, setUserData, setFriends} = userProcess.actions;

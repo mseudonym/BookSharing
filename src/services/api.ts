@@ -1,6 +1,6 @@
 import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
 
-export const AXIOS_INSTANCE = Axios.create({ baseURL: '<BACKEND URL>' }); // use your own URL here or environment variable
+export const AXIOS_INSTANCE = Axios.create({ baseURL: 'http://localhost:5287' });
 
 export const api = <T>(
     config: AxiosRequestConfig,
@@ -9,11 +9,7 @@ export const api = <T>(
     const axiosInstance = AXIOS_INSTANCE({
         ...config,
         ...options,
-        baseURL: process.env.BS_API_BASE_URL
     }).then(({ data }) => data);
-
-    console.log("process.env.BS_API_BASE_URL");
-    console.log(process.env.BS_API_BASE_URL);
 
     return axiosInstance;
 };

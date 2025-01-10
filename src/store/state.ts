@@ -8,7 +8,7 @@ export type AppDispatch = typeof store.dispatch;
 
 export type UserState = {
     AuthStatus: AuthStatus;
-    UserInfo: UserData | null;
+    UserData: UserData | null;
     Friends: UserProfile[];
 };
 
