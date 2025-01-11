@@ -69,7 +69,6 @@ export const checkAuthAction = createAsyncThunk<
                 }
             )
             .catch(async (error: Error | AxiosError) => {
-                console.log('no auth')
                 if (axios.isAxiosError(error)) {
                     switch (error.status) {
                         case StatusCodes.UNAUTHORIZED:
