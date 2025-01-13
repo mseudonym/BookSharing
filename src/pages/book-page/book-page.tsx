@@ -47,9 +47,9 @@ export const BookPage = () => {
               <p>{description}</p>
             </div>
           </div>
+          <Divider my="l" style={{ width: "90%" }} />
           <section className={styles.queues}>
             <h1 className={`${_styles.title} ${_styles.titleWrapper}`}>Эта книга у ваших друзей</h1>
-            <Divider my="l" />
             <Queue
               owner='Вы'
               currentHolder='Павел Ловыгин'

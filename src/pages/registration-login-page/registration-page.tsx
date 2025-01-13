@@ -1,12 +1,13 @@
-import { FC } from 'react';
 import styles from './registration-login-page.module.css';
+import _styles from '../../index.module.css';
+import { FC } from 'react';
 import { Page } from "../../ui/page/page.tsx";
 import { Divider } from "@mantine/core";
 import { Button } from "../../components/buttons/button.tsx";
 import { RegistrationForm } from "../../components/forms/registration-form.tsx";
 import { router } from "../../main.tsx";
 import { AppRoute } from "../../conts.ts";
-import {Logo} from "../../components/logo/logo.tsx";
+import { Logo } from "../../components/logo/logo.tsx";
 
 
 export const RegistrationPage: FC = () => {
@@ -15,7 +16,7 @@ export const RegistrationPage: FC = () => {
       <div className={styles.content}>
         <div className={styles.header}>
           <Logo />
-          <h1 className={styles.title}>Регистрация</h1>
+          <h1 className={_styles.title}>Регистрация</h1>
         </div>
 
         <RegistrationForm />

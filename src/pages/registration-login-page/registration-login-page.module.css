@@ -1,63 +1,20 @@
 .content {
-    border-radius: 16px 16px 0 0;
-    background: var(--white-color, #fff);
-    width: 100%;
-    min-width: 240px;
-    padding: 32px 16px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+  border-radius: 16px 16px 0 0;
+  background: var(--white-color);
+  width: 100%;
+  min-width: 240px;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 16px;
+  padding: 32px 0;
 }
 
 .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-
-.title {
-    margin: 24px 0 0;
-    color: #000;
-    font: 22px Unbounded, sans-serif;
-}
-
-.inputBlock {
-    margin: 16px 0 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.inputLabel {
-    color: var(--gray-color);
-}
-
-.input {
-    margin: 4px 0 0;
-    padding: 12px 8px;
-    min-height: 48px;
-    width: 100%;
-    border-radius: 4px;
-    border: 1px solid var(--gray-80-color);
-    color: var(--light-gray-color, #adadad);
-}
-
-.divider {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 16px 0 0;
-    color: var(--light-gray-color);
-}
-
-.dividerLine {
-    flex: 1;
-    height: 1px;
-    background-color: rgba(218, 218, 218, 0.8);
-    border: none;
-}
-
-.dividerText {
-    white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
 }
