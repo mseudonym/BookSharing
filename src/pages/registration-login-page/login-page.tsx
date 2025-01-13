@@ -21,7 +21,7 @@ export const LoginPage: FC = () => {
         <LoginForm />
 
         <Divider my="l" label="Или" />
-        <Button variant={'secondary'} onClick={async () => await router.navigate(AppRoute.Register)}>
+        <Button variant='border' onClick={async () => await router.navigate(AppRoute.Register)}>
           Зарегистрироваться
         </Button>
       </div>

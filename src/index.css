@@ -1,5 +1,6 @@
 :root {
   --rainbow-color: linear-gradient(0deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.55) 100%), linear-gradient(90deg, #FEAC5E 0%, #C779D0 50%, #4BC0C8 100%);
+  --light-yellow-color: #FDEED9;
   --white-color: rgba(255, 255, 255, 1);
   --white-80-color: rgba(255, 255, 255, 0.80);
   --gray-color: #757575;
@@ -27,43 +28,26 @@ body {
   margin: 0;
   padding: 0;
   border: none;
-}
-
-h1 {
-  font-family: Unbounded;
-  font-size: 22px;
-}
-
-p {
   text-align: left;
 }
 
-hr {
-  border-color: var(--gray-50-color);
+a {
+  display: inline-block;
+  text-decoration: none;
 }
 
-.description {
-  font-size: 18px;
+a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--black-color);
+  transition: width .3s;
 }
 
-.text-gray {
-  color: var(--gray-color);
-}
-
-.border-gray {
-  border: 1px solid var(--light-gray-color);
-}
-
-.page {
-  width: 360px;
-  /*min-height: 100vh;*/
-
-  display: flex;
-  padding-top: 16px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 24px;
-  background: var(--rainbow-color);
+a:hover::after {
+  width: 100%;
+  transition: width .3s;
 }
 
 .wrapper {
@@ -81,36 +65,6 @@ hr {
   gap: 24px;
   align-self: stretch;
   background: white;
-}
-
-/* Компонент навбара */
-.navbar-root {
-  border: 1px solid var(--gray-80-color);
-  background-color: var(--white-80-color);
-  backdrop-filter: blur(8px);
-}
-
-.navbar-label,
-.button-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-}
-
-.navbar-indicator {
-  background-color: var(--gray-50-color);
-}
-
-/* Компонент навигации */
-.nav-auto {
-  display: flex;
-  padding: 0px 16px;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-self: stretch;
 }
 
 /* Компонент книги */
@@ -171,13 +125,4 @@ hr {
   align-self: stretch;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-}
+@media (prefers-color-scheme: light) {}

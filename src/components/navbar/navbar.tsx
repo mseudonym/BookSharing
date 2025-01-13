@@ -1,3 +1,4 @@
+import styles from './navbar.module.css';
 import { SegmentedControl } from '@mantine/core';
 import { AppRoute } from '../../conts';
 import { BooksLibraryIcon24Regular, People3Icon24Regular, FolderIcon24Regular, People1Icon24Regular } from "@skbkontur/icons";
@@ -30,9 +31,9 @@ export const Navbar = () => {
         ),
       },
     ]} classNames={{
-      root: 'navbar-root',
-      label: 'navbar-label',
-      indicator: 'navbar-indicator'
+      root: `${styles.navbarRoot}`,
+      label: `${styles.navbarLabel}`,
+      indicator: `${styles.navbarIndicator}`
     }}
     />
   );

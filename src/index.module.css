@@ -1,9 +1,20 @@
-
 .title {
-    color: #000;
-    font: 22px/1.2 Unbounded, sans-serif;
+  font-family: Unbounded;
+  font-size: 22px;
 }
 
-.h1 {
+.titleWrapper {
+  padding: 0px 16px;
+}
 
+.description {
+  font-size: 18px;
+}
+
+.textGray {
+  color: var(--gray-color);
+}
+
+.textCenter {
+  text-align: center;
 }

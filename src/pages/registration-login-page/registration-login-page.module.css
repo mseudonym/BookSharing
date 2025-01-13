@@ -43,30 +43,6 @@
     color: var(--light-gray-color, #adadad);
 }
 
-.primaryButton {
-    margin: 16px 0 0;
-    padding: 16px 20px;
-    width: 100%;
-    min-height: 50px;
-    border-radius: 16px;
-    background: var(--black-color);
-    color: var(--white-color);
-    border: none;
-    cursor: pointer;
-}
-
-.secondaryButton {
-    margin: 16px 0 0;
-    padding: 16px 20px;
-    width: 100%;
-    min-height: 50px;
-    border-radius: 16px;
-    border: 1px solid var(--light-gray-color);
-    background: transparent;
-    color: var(--black-color);
-    cursor: pointer;
-}
-
 .divider {
     display: flex;
     align-items: center;

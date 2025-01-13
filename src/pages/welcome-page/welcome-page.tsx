@@ -24,10 +24,10 @@ export const WelcomePage : React.FC = () => {
                         Здесь вы можете делиться книгами со своей полки, а также бронировать книги друзей. Наслаждайтесь чтением!
                     </p>
                 </div>
-                <Button variant={'primary'} onClick={() => navigate(AppRoute.Login)} >
+                <Button variant='primary' onClick={() => navigate(AppRoute.Login)} >
                     Войти
                 </Button>
-                <Button variant={'secondary'} onClick={() => navigate(AppRoute.Register)} >
+                <Button variant='border' onClick={() => navigate(AppRoute.Register)} >
                     Зарегистрироваться
                 </Button>
             </div>

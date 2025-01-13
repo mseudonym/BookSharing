@@ -3,7 +3,7 @@ import { FC, PropsWithChildren } from 'react';
 import styles from './button-icon.module.css';
 
 interface ButtonIconProps extends PropsWithChildren {
-  variant: 'filled' | 'flat';
+  variant: 'fill' | 'flat';
   onClick?: () => void;
 }
 

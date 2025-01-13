@@ -2,7 +2,7 @@ import styles from './button.module.css';
 import {FC, PropsWithChildren} from "react";
 
 interface ButtonProps extends PropsWithChildren {
-    variant: 'primary' | 'secondary';
+    variant: 'primary' | 'fill' | 'border';
     onClick?: () => void;
 }
 

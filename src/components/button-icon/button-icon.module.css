@@ -6,12 +6,21 @@
   height: 50px;
   border-radius: 100%;
   cursor: pointer;
+  transition: 0.4s;
 }
 
-.filled {
+.fill {
   background-color: var(--white-80-color);
+}
+
+.fill:hover {
+  background-color: var(--white-color);
 }
 
 .flat {
   background: none;
+}
+
+.flat:hover {
+  background-color: var(--white-80-color);
 }

@@ -1,37 +1,64 @@
-import { Flex, Group } from '@mantine/core';
+import _styles from '../../index.module.css'
+import styles from './queue.module.css';
+import { Avatar, Flex } from '@mantine/core';
+import { Button } from '../buttons/button';
 
-export const Queue = () => {
+export interface QueueProps {
+  owner: string;
+  currentHolder: string;
+  queueAvatars: string[]
+}
+
+export const Queue: React.FC<QueueProps> = ({
+  owner,
+  currentHolder,
+  queueAvatars
+}) => {
   return (
-    <article className='queue'>
+    <article className={styles.queue}>
       <Flex gap={8} direction="column">
-        <span className='text-gray'>Владелец</span>
+        <span className={_styles.textGray}>Владелец</span>
         <Flex gap={16}>
-          <img src='src/assets/profile.png' className='queue-person__image' />
+          <Avatar src='src/assets/default-profile.png'
+            radius='xl'
+            size={41} />
           <Flex gap={4} direction="column">
-            <p>Александр Михайличенко</p>
+            <p>{owner}</p>
             <a>Перейти в профиль</a>
           </Flex>
         </Flex>
       </Flex>
 
       <Flex gap={8} direction="column">
-        <span className='text-gray'>Текущий держатель</span>
+        <span className={_styles.textGray}>Текущий держатель</span>
         <Flex gap={16}>
-          <img src='src/assets/profile.png' className='queue-person__image' />
+          <Avatar src='src/assets/default-profile.png'
+            radius='xl'
+            size={41} />
           <Flex gap={4} direction="column">
-            <p>Павел Ловыгин</p>
+            <p>{currentHolder}</p>
             <a>Связаться</a>
           </Flex>
         </Flex>
       </Flex>
 
       <Flex gap={4} direction="column">
-        <span className='text-gray'>1 человек в очереди</span>
-        <Group gap={-8}>
-          <img src='src/assets/profile.png' className='queue-person__image' />
-          <img src='src/assets/profile.png' className='queue-person__image' />
-        </Group>
+        <span className={_styles.textGray}>{queueAvatars.length} человек в очереди</span>
+        <div className={styles.avatarStack}>
+          {queueAvatars.map((avatar, index) => (
+            <Avatar
+              key={index}
+              src={avatar}
+              size={41}
+              radius="xl"
+              className={styles.avatar}
+              style={{zIndex: index}}
+            />
+          ))}
+        </div>
       </Flex>
+
+      <Button variant='fill'>Встать в очередь</Button>
     </article>
   );
 }

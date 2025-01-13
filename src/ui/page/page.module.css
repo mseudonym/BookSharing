@@ -1,0 +1,9 @@
+.page {
+  width: 360px;
+  display: flex;
+  padding-top: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  background: var(--rainbow-color);
+}

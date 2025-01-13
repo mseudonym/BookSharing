@@ -1,0 +1,7 @@
+.navAuto {
+  display: flex;
+  padding: 0px 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}

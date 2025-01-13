@@ -1,0 +1,18 @@
+.navbarRoot {
+  border: 1px solid var(--gray-80-color);
+  background-color: var(--white-80-color);
+  backdrop-filter: blur(8px);
+}
+
+.navbarLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
+.navbarIndicator {
+  background-color: var(--gray-50-color);
+}

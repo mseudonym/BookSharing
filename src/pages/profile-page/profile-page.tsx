@@ -7,7 +7,7 @@ export const ProfilePage = () => {
     <Page>
       <div className="profile-header">
         <div className="profile-avatar">
-          <img src="/src/assets/UserImg.png" alt="Avatar" className="avatar-image" />
+          <img src="/src/assets/profile.png" alt="Avatar" className="avatar-image" />
         </div>
         <div className="profile-info">
           <p className="profile-name">Александр</p>
