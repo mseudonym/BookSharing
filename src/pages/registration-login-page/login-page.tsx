@@ -6,7 +6,7 @@ import { Button } from "../../components/buttons/button.tsx";
 import { router } from "../../main.tsx";
 import { AppRoute } from "../../conts.ts";
 import { LoginForm } from "../../components/forms/login-form.tsx";
-import {Logo} from "../../components/logo/Logo.tsx";
+import {Logo} from "../../components/logo/logo.tsx";
 
 
 export const LoginPage: FC = () => {
