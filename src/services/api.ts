@@ -1,11 +1,23 @@
-import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
+import axios, {AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig} from 'axios';
+import { getToken } from './token';
 
-export const AXIOS_INSTANCE = Axios.create(
+export const AXIOS_INSTANCE = axios.create(
     {
         baseURL: import.meta.env.VITE_BS_API_BASE_URL,
-        withCredentials: true,
+        timeout: import.meta.env.REQUEST_TIMEOUT,
     }
 );
+
+AXIOS_INSTANCE.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    const token = getToken();
+
+    if (token && config.headers) {
+        config.headers['Authorization'] = token;
+    }
+
+    return config;
+});
+
 
 export const api = <T>(
     config: AxiosRequestConfig,

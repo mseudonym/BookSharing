@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { LoginPage } from './pages/registration-login-page/login-page.tsx';
 import {RegistrationPage} from "./pages/registration-login-page/registration-page.tsx";
 import {WelcomePage} from "./pages/welcome-page/welcome-page.tsx";
+import {ProfileFillingPage} from "./pages/profile-filling-page/profile-filling-page.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
     {
         path: `${AppRoute.Profile}`,
         element: <ProfilePage/>,
+    },
+    {
+        path: `${AppRoute.ProfileFilling}`,
+        element: <ProfileFillingPage/>,
     },
     {
         path: `${AppRoute.Book}`,

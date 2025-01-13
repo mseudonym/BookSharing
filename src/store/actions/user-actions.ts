@@ -10,6 +10,7 @@ import axios, {AxiosError} from "axios";
 import {StatusCodes} from "http-status-codes";
 import {AuthStatus} from "../../types/auth-status.ts";
 import {getFriendsList} from "../../generated-api/friends/friends.ts";
+import {saveToken} from "../../services/token.ts";
 
 export const loginAction = createAsyncThunk<void, LoginRequest, {
     dispatch: AppDispatch;
@@ -17,13 +18,11 @@ export const loginAction = createAsyncThunk<void, LoginRequest, {
 }>(
     'auth/login',
     async (payload, { dispatch }) => {
-        await postAuthLogin(payload, {useCookies: true})
-            .then(async () => {
-                await router.navigate(AppRoute.Shelf);
+        await postAuthLogin(payload)
+            .then(async (result) => {
+                saveToken(result.accessToken!, result.tokenType!)
                 dispatch(fetchUserSlice());
             });
-
-
     }
 );
 
@@ -36,7 +35,6 @@ export const registerAction = createAsyncThunk<void, RegisterRequest, {
         await postAuthRegister(payload)
             .then(async () => {
                 dispatch(loginAction({email: payload.email, password: payload.password}));
-                await router.navigate(AppRoute.ProfileFilling);
             })
             .catch(async (error: Error | AxiosError) => {
                 if (axios.isAxiosError(error)) {
@@ -65,7 +63,6 @@ export const checkAuthAction = createAsyncThunk<
                     dispatch(setAuthStatus(AuthStatus.Auth));
                     dispatch(setUserData(userData));
                     dispatch(fetchUserSlice())
-                    await router.navigate(AppRoute.Shelf);
                 }
             )
             .catch(async (error: Error | AxiosError) => {
@@ -88,6 +85,10 @@ export const fetchUserSlice = createAsyncThunk<void, undefined, {
     async (_args, {dispatch}) => {
         const userData = await getUsersMe();
         dispatch(setUserData(userData));
+
+        if (!userData.isEmailConfirm || !userData.isProfileFilled){
+            await router.navigate(AppRoute.ProfileFilling);
+        }
 
         const userFriends = await getFriendsList();
         dispatch(setFriends(userFriends));
