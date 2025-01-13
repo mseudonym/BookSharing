@@ -1,31 +1,31 @@
-import {FC} from 'react';
+import { FC } from 'react';
 import styles from './registration-login-page.module.css';
-import {Page} from "../../ui/page/page.tsx";
-import {Divider} from "@mantine/core";
-import {Button} from "../../components/buttons/button.tsx";
-import {RegistrationForm} from "../../components/forms/registration-form.tsx";
-import {router} from "../../main.tsx";
-import {AppRoute} from "../../conts.ts";
-import {Logo} from "../../components/logo/Logo.tsx";
+import { Page } from "../../ui/page/page.tsx";
+import { Divider } from "@mantine/core";
+import { Button } from "../../components/buttons/button.tsx";
+import { RegistrationForm } from "../../components/forms/registration-form.tsx";
+import { router } from "../../main.tsx";
+import { AppRoute } from "../../conts.ts";
+import { Logo } from "../../components/logo/logo.tsx";
 
 
 export const RegistrationPage: FC = () => {
-    return (
-        <Page>
-            <div className={styles.content}>
-                <div className={styles.header}>
-                    <Logo/>
-                    <h1 className={styles.title}>Регистрация</h1>
-                </div>
+  return (
+    <Page>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <Logo />
+          <h1 className={styles.title}>Регистрация</h1>
+        </div>
 
-                <RegistrationForm/>
+        <RegistrationForm />
 
-                <Divider my="l" label="Или"/>
-                <Button variant={'secondary'} onClick={async () => await router.navigate(AppRoute.Login)}>
-                    Войти
-                </Button>
-            </div>
-        </Page>
-    );
+        <Divider my="l" label="Или" />
+        <Button variant={'secondary'} onClick={async () => await router.navigate(AppRoute.Login)}>
+          Войти
+        </Button>
+      </div>
+    </Page>
+  );
 };
 

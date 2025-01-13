@@ -5,16 +5,15 @@ import { Page } from '../../ui/page/page';
 import {getApiBooksSearchByIdBookId} from "../../generated-api/books/books.ts";
 
 export const BookPage = () => {
-
-  getApiBooksSearchByIdBookId("book")
+  const a = getApiBooksSearchByIdBookId("book");
 
   return (
     <Page>
       <Navigation customClass='nav-auto'>
-        <ButtonIcon>
+        <ButtonIcon variant='flat'>
           <ArrowALeftIcon24Regular />
         </ButtonIcon>
-        <ButtonIcon>
+        <ButtonIcon variant='flat'>
           <UiMenuDots3HIcon24Regular />
         </ButtonIcon>
       </Navigation>

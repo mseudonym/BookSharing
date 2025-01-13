@@ -86,9 +86,9 @@ export const fetchUserSlice = createAsyncThunk<void, undefined, {
         const userData = await getUsersMe();
         dispatch(setUserData(userData));
 
-        if (!userData.isEmailConfirm || !userData.isProfileFilled){
-            await router.navigate(AppRoute.ProfileFilling);
-        }
+        //if (!userData.isEmailConfirm || !userData.isProfileFilled){
+        //    await router.navigate(AppRoute.ProfileFilling);
+        //}
 
         const userFriends = await getFriendsList();
         dispatch(setFriends(userFriends));

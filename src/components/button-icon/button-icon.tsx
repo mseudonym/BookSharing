@@ -1,11 +1,17 @@
 import { ActionIcon } from '@mantine/core';
-import { PropsWithChildren } from 'react';
-import { PropsWithClass } from '../../conts';
+import { FC, PropsWithChildren } from 'react';
+import styles from './button-icon.module.css';
 
-export const ButtonIcon = ({ children }: PropsWithChildren<PropsWithClass>) => {
+interface ButtonIconProps extends PropsWithChildren {
+  variant: 'filled' | 'flat';
+  onClick?: () => void;
+}
+
+export const ButtonIcon: FC<ButtonIconProps> = (props) => {
   return (
-    <ActionIcon unstyled className='button-icon'>
-      {children}
+    <ActionIcon unstyled className={`${styles.buttonIcon} ${styles[props.variant]}`}
+      onClick={props.onClick}>
+      {props.children}
     </ActionIcon>
   );
 }
