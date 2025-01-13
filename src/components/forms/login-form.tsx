@@ -4,8 +4,11 @@ import {Button} from "../buttons/button.tsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import {useAppDispatch} from "../../store/hooks/hooks.ts";
-import {loginAction} from "../../store/actions/user-actions.ts";
+import {useMutation} from "@tanstack/react-query";
+import {postAuthLogin} from "../../generated-api/auth/auth.ts";
+import {saveToken} from "../../services/token.ts";
+import {useNavigate} from "react-router";
+import {AppRoute} from "../../conts.ts";
 
 const FormSchema = zod.object({
     email: zod
@@ -18,7 +21,7 @@ const FormSchema = zod.object({
 type IFormInput = zod.infer<typeof FormSchema>;
 
 export const LoginForm: FC = () => {
-    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -30,8 +33,16 @@ export const LoginForm: FC = () => {
         mode: 'onTouched',
     });
 
-    const onSubmit = (data: IFormInput) => {
-        dispatch(loginAction({email: data.email, password: data.password}));
+    const {mutateAsync: loginMutation} = useMutation({
+        mutationFn: postAuthLogin,
+        onSuccess: (response) => {
+            saveToken(response.accessToken!, response.tokenType!);
+            navigate(AppRoute.Shelf)
+        }
+    });
+
+    const onSubmit = async (data: IFormInput) => {
+        await loginMutation({email: data.email, password: data.password});
     };
 
     return (
