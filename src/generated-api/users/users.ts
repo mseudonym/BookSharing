@@ -23,8 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   PostUsersEditProfileBody,
-  PostUsersEditProfileParams,
-  PostUsersEditUsernameParams,
   UserData,
   UserProfile
 } from '.././model'
@@ -280,11 +278,19 @@ export function useGetUsersMe<TData = Awaited<ReturnType<typeof getUsersMe>>, TE
 
 export const postUsersEditProfile = (
     postUsersEditProfileBody: BodyType<PostUsersEditProfileBody>,
-    params?: PostUsersEditProfileParams,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       const formData = new FormData();
+if(postUsersEditProfileBody.FirstName !== undefined) {
+ formData.append('FirstName', postUsersEditProfileBody.FirstName)
+ }
+if(postUsersEditProfileBody.LastName !== undefined) {
+ formData.append('LastName', postUsersEditProfileBody.LastName)
+ }
+if(postUsersEditProfileBody.ContactUrl !== undefined) {
+ formData.append('ContactUrl', postUsersEditProfileBody.ContactUrl)
+ }
 if(postUsersEditProfileBody.PhotoFile !== undefined) {
  formData.append('PhotoFile', postUsersEditProfileBody.PhotoFile)
  }
@@ -292,8 +298,7 @@ if(postUsersEditProfileBody.PhotoFile !== undefined) {
       return api<UserData>(
       {url: `/Users/editProfile`, method: 'POST',
       headers: {'Content-Type': 'multipart/form-data', },
-       data: formData,
-        params, signal
+       data: formData, signal
     },
       options);
     }
@@ -301,7 +306,7 @@ if(postUsersEditProfileBody.PhotoFile !== undefined) {
 
 
 export const getPostUsersEditProfileMutationOptions = <TData = Awaited<ReturnType<typeof postUsersEditProfile>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostUsersEditProfileBody>;params?: PostUsersEditProfileParams}, TContext>, request?: SecondParameter<typeof api>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostUsersEditProfileBody>}, TContext>, request?: SecondParameter<typeof api>}
 ) => {
 const mutationKey = ['postUsersEditProfile'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -313,27 +318,27 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUsersEditProfile>>, {data: BodyType<PostUsersEditProfileBody>;params?: PostUsersEditProfileParams}> = (props) => {
-          const {data,params} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUsersEditProfile>>, {data: BodyType<PostUsersEditProfileBody>}> = (props) => {
+          const {data} = props ?? {};
 
-          return  postUsersEditProfile(data,params,requestOptions)
+          return  postUsersEditProfile(data,requestOptions)
         }
 
         
 
 
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{data: BodyType<PostUsersEditProfileBody>;params?: PostUsersEditProfileParams}, TContext>}
+  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{data: BodyType<PostUsersEditProfileBody>}, TContext>}
 
     export type PostUsersEditProfileMutationResult = NonNullable<Awaited<ReturnType<typeof postUsersEditProfile>>>
     export type PostUsersEditProfileMutationBody = BodyType<PostUsersEditProfileBody>
     export type PostUsersEditProfileMutationError = ErrorType<unknown>
 
     export const usePostUsersEditProfile = <TData = Awaited<ReturnType<typeof postUsersEditProfile>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostUsersEditProfileBody>;params?: PostUsersEditProfileParams}, TContext>, request?: SecondParameter<typeof api>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostUsersEditProfileBody>}, TContext>, request?: SecondParameter<typeof api>}
 ): UseMutationResult<
         TData,
         TError,
-        {data: BodyType<PostUsersEditProfileBody>;params?: PostUsersEditProfileParams},
+        {data: BodyType<PostUsersEditProfileBody>},
         TContext
       > => {
 
@@ -342,14 +347,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     export const postUsersEditUsername = (
-    params?: PostUsersEditUsernameParams,
+    postUsersEditUsernameBody: BodyType<string>,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       
       return api<string>(
       {url: `/Users/editUsername`, method: 'POST',
-        params, signal
+      headers: {'Content-Type': 'application/json', },
+      data: postUsersEditUsernameBody, signal
     },
       options);
     }
@@ -357,7 +363,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
 
 export const getPostUsersEditUsernameMutationOptions = <TData = Awaited<ReturnType<typeof postUsersEditUsername>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostUsersEditUsernameParams}, TContext>, request?: SecondParameter<typeof api>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<string>}, TContext>, request?: SecondParameter<typeof api>}
 ) => {
 const mutationKey = ['postUsersEditUsername'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -369,27 +375,27 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUsersEditUsername>>, {params?: PostUsersEditUsernameParams}> = (props) => {
-          const {params} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUsersEditUsername>>, {data: BodyType<string>}> = (props) => {
+          const {data} = props ?? {};
 
-          return  postUsersEditUsername(params,requestOptions)
+          return  postUsersEditUsername(data,requestOptions)
         }
 
         
 
 
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{params?: PostUsersEditUsernameParams}, TContext>}
+  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{data: BodyType<string>}, TContext>}
 
     export type PostUsersEditUsernameMutationResult = NonNullable<Awaited<ReturnType<typeof postUsersEditUsername>>>
-    
+    export type PostUsersEditUsernameMutationBody = BodyType<string>
     export type PostUsersEditUsernameMutationError = ErrorType<unknown>
 
     export const usePostUsersEditUsername = <TData = Awaited<ReturnType<typeof postUsersEditUsername>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostUsersEditUsernameParams}, TContext>, request?: SecondParameter<typeof api>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<string>}, TContext>, request?: SecondParameter<typeof api>}
 ): UseMutationResult<
         TData,
         TError,
-        {params?: PostUsersEditUsernameParams},
+        {data: BodyType<string>},
         TContext
       > => {
 

@@ -339,7 +339,7 @@
         }
       }
     },
-    "/api/Books/searchById/{bookId}": {
+    "/Books/byId/{bookId}": {
       "get": {
         "tags": [
           "Books"
@@ -379,7 +379,7 @@
         }
       }
     },
-    "/api/Books/searchByTitle/{title}": {
+    "/Books/byTitle/{title}": {
       "get": {
         "tags": [
           "Books"
@@ -418,7 +418,7 @@
         }
       }
     },
-    "/api/Books/searchByIsbn/{isbn}": {
+    "/Books/byIsbn/{isbn}": {
       "get": {
         "tags": [
           "Books"
@@ -457,54 +457,38 @@
         }
       }
     },
-    "/api/Books/add": {
+    "/Books/add": {
       "post": {
         "tags": [
           "Books"
-        ],
-        "parameters": [
-          {
-            "name": "Title",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Author",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Description",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ISBN",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Language",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
         ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "Author",
+                  "Description",
+                  "Language",
+                  "Title"
+                ],
                 "type": "object",
                 "properties": {
+                  "Title": {
+                    "type": "string"
+                  },
+                  "Author": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Isbn": {
+                    "type": "string"
+                  },
+                  "Language": {
+                    "type": "string"
+                  },
                   "BookCover": {
                     "type": "string",
                     "format": "binary"
@@ -512,6 +496,21 @@
                 }
               },
               "encoding": {
+                "Title": {
+                  "style": "form"
+                },
+                "Author": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Isbn": {
+                  "style": "form"
+                },
+                "Language": {
+                  "style": "form"
+                },
                 "BookCover": {
                   "style": "form"
                 }
@@ -543,7 +542,7 @@
         }
       }
     },
-    "/api/Books/delete/{bookId}": {
+    "/Books/delete/{bookId}": {
       "delete": {
         "tags": [
           "Books"
@@ -1011,35 +1010,21 @@
         "tags": [
           "Users"
         ],
-        "parameters": [
-          {
-            "name": "FirstName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "LastName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ContactUrl",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "FirstName": {
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "type": "string"
+                  },
+                  "ContactUrl": {
+                    "type": "string"
+                  },
                   "PhotoFile": {
                     "type": "string",
                     "format": "binary"
@@ -1047,6 +1032,15 @@
                 }
               },
               "encoding": {
+                "FirstName": {
+                  "style": "form"
+                },
+                "LastName": {
+                  "style": "form"
+                },
+                "ContactUrl": {
+                  "style": "form"
+                },
                 "PhotoFile": {
                   "style": "form"
                 }
@@ -1083,15 +1077,25 @@
         "tags": [
           "Users"
         ],
-        "parameters": [
-          {
-            "name": "newUsername",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK",

@@ -23,8 +23,7 @@ import type {
 } from '@tanstack/react-query'
 import type {
   BookModel,
-  PostApiBooksAddBody,
-  PostApiBooksAddParams
+  PostBooksAddBody
 } from '.././model'
 import { api } from '../../services/api';
 import type { ErrorType, BodyType } from '../../services/api';
@@ -33,77 +32,77 @@ import type { ErrorType, BodyType } from '../../services/api';
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 
-export const getApiBooksSearchByIdBookId = (
+export const getBooksByIdBookId = (
     bookId: string,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       
       return api<BookModel>(
-      {url: `/api/Books/searchById/${bookId}`, method: 'GET', signal
+      {url: `/Books/byId/${bookId}`, method: 'GET', signal
     },
       options);
     }
   
 
-export const getGetApiBooksSearchByIdBookIdQueryKey = (bookId: string,) => {
-    return [`/api/Books/searchById/${bookId}`] as const;
+export const getGetBooksByIdBookIdQueryKey = (bookId: string,) => {
+    return [`/Books/byId/${bookId}`] as const;
     }
 
     
-export const getGetApiBooksSearchByIdBookIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError = ErrorType<unknown>>(bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetBooksByIdBookIdQueryOptions = <TData = Awaited<ReturnType<typeof getBooksByIdBookId>>, TError = ErrorType<unknown>>(bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIdBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiBooksSearchByIdBookIdQueryKey(bookId);
+  const queryKey =  queryOptions?.queryKey ?? getGetBooksByIdBookIdQueryKey(bookId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>> = ({ signal }) => getApiBooksSearchByIdBookId(bookId, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBooksByIdBookId>>> = ({ signal }) => getBooksByIdBookId(bookId, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(bookId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(bookId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBooksByIdBookId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiBooksSearchByIdBookIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>>
-export type GetApiBooksSearchByIdBookIdQueryError = ErrorType<unknown>
+export type GetBooksByIdBookIdQueryResult = NonNullable<Awaited<ReturnType<typeof getBooksByIdBookId>>>
+export type GetBooksByIdBookIdQueryError = ErrorType<unknown>
 
 
-export function useGetApiBooksSearchByIdBookId<TData = Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError = ErrorType<unknown>>(
- bookId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError, TData>> & Pick<
+export function useGetBooksByIdBookId<TData = Awaited<ReturnType<typeof getBooksByIdBookId>>, TError = ErrorType<unknown>>(
+ bookId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIdBookId>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>,
+          Awaited<ReturnType<typeof getBooksByIdBookId>>,
           TError,
           TData
         > , 'initialData'
       >, request?: SecondParameter<typeof api>}
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiBooksSearchByIdBookId<TData = Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError = ErrorType<unknown>>(
- bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError, TData>> & Pick<
+export function useGetBooksByIdBookId<TData = Awaited<ReturnType<typeof getBooksByIdBookId>>, TError = ErrorType<unknown>>(
+ bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIdBookId>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>,
+          Awaited<ReturnType<typeof getBooksByIdBookId>>,
           TError,
           TData
         > , 'initialData'
       >, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiBooksSearchByIdBookId<TData = Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError = ErrorType<unknown>>(
- bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export function useGetBooksByIdBookId<TData = Awaited<ReturnType<typeof getBooksByIdBookId>>, TError = ErrorType<unknown>>(
+ bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIdBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetApiBooksSearchByIdBookId<TData = Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError = ErrorType<unknown>>(
- bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIdBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export function useGetBooksByIdBookId<TData = Awaited<ReturnType<typeof getBooksByIdBookId>>, TError = ErrorType<unknown>>(
+ bookId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIdBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiBooksSearchByIdBookIdQueryOptions(bookId,options)
+  const queryOptions = getGetBooksByIdBookIdQueryOptions(bookId,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -114,77 +113,77 @@ export function useGetApiBooksSearchByIdBookId<TData = Awaited<ReturnType<typeof
 
 
 
-export const getApiBooksSearchByTitleTitle = (
+export const getBooksByTitleTitle = (
     title: string,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       
       return api<BookModel>(
-      {url: `/api/Books/searchByTitle/${title}`, method: 'GET', signal
+      {url: `/Books/byTitle/${title}`, method: 'GET', signal
     },
       options);
     }
   
 
-export const getGetApiBooksSearchByTitleTitleQueryKey = (title: string,) => {
-    return [`/api/Books/searchByTitle/${title}`] as const;
+export const getGetBooksByTitleTitleQueryKey = (title: string,) => {
+    return [`/Books/byTitle/${title}`] as const;
     }
 
     
-export const getGetApiBooksSearchByTitleTitleQueryOptions = <TData = Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError = ErrorType<unknown>>(title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetBooksByTitleTitleQueryOptions = <TData = Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError = ErrorType<unknown>>(title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError, TData>>, request?: SecondParameter<typeof api>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiBooksSearchByTitleTitleQueryKey(title);
+  const queryKey =  queryOptions?.queryKey ?? getGetBooksByTitleTitleQueryKey(title);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>> = ({ signal }) => getApiBooksSearchByTitleTitle(title, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBooksByTitleTitle>>> = ({ signal }) => getBooksByTitleTitle(title, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(title), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(title), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiBooksSearchByTitleTitleQueryResult = NonNullable<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>>
-export type GetApiBooksSearchByTitleTitleQueryError = ErrorType<unknown>
+export type GetBooksByTitleTitleQueryResult = NonNullable<Awaited<ReturnType<typeof getBooksByTitleTitle>>>
+export type GetBooksByTitleTitleQueryError = ErrorType<unknown>
 
 
-export function useGetApiBooksSearchByTitleTitle<TData = Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError = ErrorType<unknown>>(
- title: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError, TData>> & Pick<
+export function useGetBooksByTitleTitle<TData = Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError = ErrorType<unknown>>(
+ title: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>,
+          Awaited<ReturnType<typeof getBooksByTitleTitle>>,
           TError,
           TData
         > , 'initialData'
       >, request?: SecondParameter<typeof api>}
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiBooksSearchByTitleTitle<TData = Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError = ErrorType<unknown>>(
- title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError, TData>> & Pick<
+export function useGetBooksByTitleTitle<TData = Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError = ErrorType<unknown>>(
+ title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>,
+          Awaited<ReturnType<typeof getBooksByTitleTitle>>,
           TError,
           TData
         > , 'initialData'
       >, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiBooksSearchByTitleTitle<TData = Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError = ErrorType<unknown>>(
- title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export function useGetBooksByTitleTitle<TData = Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError = ErrorType<unknown>>(
+ title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetApiBooksSearchByTitleTitle<TData = Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError = ErrorType<unknown>>(
- title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByTitleTitle>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export function useGetBooksByTitleTitle<TData = Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError = ErrorType<unknown>>(
+ title: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByTitleTitle>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiBooksSearchByTitleTitleQueryOptions(title,options)
+  const queryOptions = getGetBooksByTitleTitleQueryOptions(title,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -195,77 +194,77 @@ export function useGetApiBooksSearchByTitleTitle<TData = Awaited<ReturnType<type
 
 
 
-export const getApiBooksSearchByIsbnIsbn = (
+export const getBooksByIsbnIsbn = (
     isbn: string,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       
       return api<BookModel>(
-      {url: `/api/Books/searchByIsbn/${isbn}`, method: 'GET', signal
+      {url: `/Books/byIsbn/${isbn}`, method: 'GET', signal
     },
       options);
     }
   
 
-export const getGetApiBooksSearchByIsbnIsbnQueryKey = (isbn: string,) => {
-    return [`/api/Books/searchByIsbn/${isbn}`] as const;
+export const getGetBooksByIsbnIsbnQueryKey = (isbn: string,) => {
+    return [`/Books/byIsbn/${isbn}`] as const;
     }
 
     
-export const getGetApiBooksSearchByIsbnIsbnQueryOptions = <TData = Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError = ErrorType<unknown>>(isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetBooksByIsbnIsbnQueryOptions = <TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiBooksSearchByIsbnIsbnQueryKey(isbn);
+  const queryKey =  queryOptions?.queryKey ?? getGetBooksByIsbnIsbnQueryKey(isbn);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>> = ({ signal }) => getApiBooksSearchByIsbnIsbn(isbn, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>> = ({ signal }) => getBooksByIsbnIsbn(isbn, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(isbn), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(isbn), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetApiBooksSearchByIsbnIsbnQueryResult = NonNullable<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>>
-export type GetApiBooksSearchByIsbnIsbnQueryError = ErrorType<unknown>
+export type GetBooksByIsbnIsbnQueryResult = NonNullable<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>>
+export type GetBooksByIsbnIsbnQueryError = ErrorType<unknown>
 
 
-export function useGetApiBooksSearchByIsbnIsbn<TData = Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError = ErrorType<unknown>>(
- isbn: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError, TData>> & Pick<
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+ isbn: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>,
+          Awaited<ReturnType<typeof getBooksByIsbnIsbn>>,
           TError,
           TData
         > , 'initialData'
       >, request?: SecondParameter<typeof api>}
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiBooksSearchByIsbnIsbn<TData = Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError = ErrorType<unknown>>(
- isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError, TData>> & Pick<
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+ isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>,
+          Awaited<ReturnType<typeof getBooksByIsbnIsbn>>,
           TError,
           TData
         > , 'initialData'
       >, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiBooksSearchByIsbnIsbn<TData = Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError = ErrorType<unknown>>(
- isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+ isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetApiBooksSearchByIsbnIsbn<TData = Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError = ErrorType<unknown>>(
- isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiBooksSearchByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+ isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiBooksSearchByIsbnIsbnQueryOptions(isbn,options)
+  const queryOptions = getGetBooksByIsbnIsbnQueryOptions(isbn,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -276,32 +275,37 @@ export function useGetApiBooksSearchByIsbnIsbn<TData = Awaited<ReturnType<typeof
 
 
 
-export const postApiBooksAdd = (
-    postApiBooksAddBody: BodyType<PostApiBooksAddBody>,
-    params?: PostApiBooksAddParams,
+export const postBooksAdd = (
+    postBooksAddBody: BodyType<PostBooksAddBody>,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       const formData = new FormData();
-if(postApiBooksAddBody.BookCover !== undefined) {
- formData.append('BookCover', postApiBooksAddBody.BookCover)
+formData.append('Title', postBooksAddBody.Title)
+formData.append('Author', postBooksAddBody.Author)
+formData.append('Description', postBooksAddBody.Description)
+if(postBooksAddBody.Isbn !== undefined) {
+ formData.append('Isbn', postBooksAddBody.Isbn)
+ }
+formData.append('Language', postBooksAddBody.Language)
+if(postBooksAddBody.BookCover !== undefined) {
+ formData.append('BookCover', postBooksAddBody.BookCover)
  }
 
       return api<BookModel>(
-      {url: `/api/Books/add`, method: 'POST',
+      {url: `/Books/add`, method: 'POST',
       headers: {'Content-Type': 'multipart/form-data', },
-       data: formData,
-        params, signal
+       data: formData, signal
     },
       options);
     }
   
 
 
-export const getPostApiBooksAddMutationOptions = <TData = Awaited<ReturnType<typeof postApiBooksAdd>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostApiBooksAddBody>;params?: PostApiBooksAddParams}, TContext>, request?: SecondParameter<typeof api>}
+export const getPostBooksAddMutationOptions = <TData = Awaited<ReturnType<typeof postBooksAdd>>, TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostBooksAddBody>}, TContext>, request?: SecondParameter<typeof api>}
 ) => {
-const mutationKey = ['postApiBooksAdd'];
+const mutationKey = ['postBooksAdd'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -311,51 +315,51 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiBooksAdd>>, {data: BodyType<PostApiBooksAddBody>;params?: PostApiBooksAddParams}> = (props) => {
-          const {data,params} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postBooksAdd>>, {data: BodyType<PostBooksAddBody>}> = (props) => {
+          const {data} = props ?? {};
 
-          return  postApiBooksAdd(data,params,requestOptions)
+          return  postBooksAdd(data,requestOptions)
         }
 
         
 
 
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{data: BodyType<PostApiBooksAddBody>;params?: PostApiBooksAddParams}, TContext>}
+  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{data: BodyType<PostBooksAddBody>}, TContext>}
 
-    export type PostApiBooksAddMutationResult = NonNullable<Awaited<ReturnType<typeof postApiBooksAdd>>>
-    export type PostApiBooksAddMutationBody = BodyType<PostApiBooksAddBody>
-    export type PostApiBooksAddMutationError = ErrorType<unknown>
+    export type PostBooksAddMutationResult = NonNullable<Awaited<ReturnType<typeof postBooksAdd>>>
+    export type PostBooksAddMutationBody = BodyType<PostBooksAddBody>
+    export type PostBooksAddMutationError = ErrorType<unknown>
 
-    export const usePostApiBooksAdd = <TData = Awaited<ReturnType<typeof postApiBooksAdd>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostApiBooksAddBody>;params?: PostApiBooksAddParams}, TContext>, request?: SecondParameter<typeof api>}
+    export const usePostBooksAdd = <TData = Awaited<ReturnType<typeof postBooksAdd>>, TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{data: BodyType<PostBooksAddBody>}, TContext>, request?: SecondParameter<typeof api>}
 ): UseMutationResult<
         TData,
         TError,
-        {data: BodyType<PostApiBooksAddBody>;params?: PostApiBooksAddParams},
+        {data: BodyType<PostBooksAddBody>},
         TContext
       > => {
 
-      const mutationOptions = getPostApiBooksAddMutationOptions(options);
+      const mutationOptions = getPostBooksAddMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
-    export const deleteApiBooksDeleteBookId = (
+    export const deleteBooksDeleteBookId = (
     bookId: string,
  options?: SecondParameter<typeof api>,) => {
       
       
       return api<void>(
-      {url: `/api/Books/delete/${bookId}`, method: 'DELETE'
+      {url: `/Books/delete/${bookId}`, method: 'DELETE'
     },
       options);
     }
   
 
 
-export const getDeleteApiBooksDeleteBookIdMutationOptions = <TData = Awaited<ReturnType<typeof deleteApiBooksDeleteBookId>>, TError = ErrorType<unknown>,
+export const getDeleteBooksDeleteBookIdMutationOptions = <TData = Awaited<ReturnType<typeof deleteBooksDeleteBookId>>, TError = ErrorType<unknown>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{bookId: string}, TContext>, request?: SecondParameter<typeof api>}
 ) => {
-const mutationKey = ['deleteApiBooksDeleteBookId'];
+const mutationKey = ['deleteBooksDeleteBookId'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -365,10 +369,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiBooksDeleteBookId>>, {bookId: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteBooksDeleteBookId>>, {bookId: string}> = (props) => {
           const {bookId} = props ?? {};
 
-          return  deleteApiBooksDeleteBookId(bookId,requestOptions)
+          return  deleteBooksDeleteBookId(bookId,requestOptions)
         }
 
         
@@ -376,11 +380,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{bookId: string}, TContext>}
 
-    export type DeleteApiBooksDeleteBookIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiBooksDeleteBookId>>>
+    export type DeleteBooksDeleteBookIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteBooksDeleteBookId>>>
     
-    export type DeleteApiBooksDeleteBookIdMutationError = ErrorType<unknown>
+    export type DeleteBooksDeleteBookIdMutationError = ErrorType<unknown>
 
-    export const useDeleteApiBooksDeleteBookId = <TData = Awaited<ReturnType<typeof deleteApiBooksDeleteBookId>>, TError = ErrorType<unknown>,
+    export const useDeleteBooksDeleteBookId = <TData = Awaited<ReturnType<typeof deleteBooksDeleteBookId>>, TError = ErrorType<unknown>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{bookId: string}, TContext>, request?: SecondParameter<typeof api>}
 ): UseMutationResult<
         TData,
@@ -389,7 +393,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
 
-      const mutationOptions = getDeleteApiBooksDeleteBookIdMutationOptions(options);
+      const mutationOptions = getDeleteBooksDeleteBookIdMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

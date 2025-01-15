@@ -18,6 +18,7 @@ export * from './mapIdentityApiAuthConfirmEmailParams';
 export * from './postApiBooksAddBody';
 export * from './postApiBooksAddParams';
 export * from './postAuthLoginParams';
+export * from './postBooksAddBody';
 export * from './postFriendsRespondRequestParams';
 export * from './postFriendsSendRequestParams';
 export * from './postQueueItemIdEnqueueParams';
