@@ -1,6 +1,7 @@
 import {Navbar} from '../../components/navbar/navbar';
 import './friends-page.css';
 import React from 'react';
+import {PageBackground} from "../../ui/page/page-background";
 export const FriendsPage: React.FC = () => {
     const handleMyFriendsClick = () => {
         alert("Показать моих друзей");
@@ -11,15 +12,9 @@ export const FriendsPage: React.FC = () => {
     };
 
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            height: '100vh',
-            backgroundColor: '#f4f4f4'
-        }}>
+        <PageBackground>
             {/* Верхняя часть страницы */}
-            <div style={{marginTop: '20px'}}>
+            <div style={{marginTop: '20px', alignItems: 'center'}}>
                 <h1>Друзья</h1>
 
                 {/* Кнопки */}
@@ -43,15 +38,17 @@ export const FriendsPage: React.FC = () => {
 
                         <div className="ground"></div>
                     </div>
-                    <p style={{marginTop: '10px', color: '#666'}}>Пока друзей нет</p>
+                    <p style={{marginTop: '10px', display: 'flex', justifyContent: 'center', color: '#666'}}>Пока друзей нет</p>
                 </div>
             </div>
 
-            {/* Нижняя часть страницы — Navbar */}
-            <div style={{marginTop: 'auto', width: '100%'}}>
-                <Navbar></Navbar>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 'auto' }}>
+                <Navbar />
             </div>
-        </div>
+
+            <div className="content-space">
+            </div>
+        </PageBackground>
     );
 };
 
