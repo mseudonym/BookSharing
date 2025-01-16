@@ -1,0 +1,140 @@
+body {
+    max-width: 1280px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.buttons button:hover {
+    background-color: #0056b3;
+}
+
+.image-container img {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+.message {
+    font-size: 16px;
+    color: #666;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.ghost {
+    position: absolute;
+    bottom: 30px;
+    width: 120px;
+    height: 160px;
+    background-color: #fff;
+    border-radius: 50% 50% 0 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.ghost-eyes {
+    position: absolute;
+    top: 35px;
+    display: flex;
+    justify-content: space-between;
+    width: 60px;
+}
+
+.ghost-eye {
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.cloud {
+    position: absolute;
+    top: 10px;
+    width: 50px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cloud.left {
+    left: 10px;
+    transform: translateY(-30px);
+}
+
+.cloud.right {
+    right: 10px;
+    transform: translateY(-30px);
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+    height: 30px;
+    background-color: #000;
+    border-radius: 50%;
+    z-index: 0;
+}

@@ -14,6 +14,7 @@ import {ProfileFillingPage} from "./pages/profile-filling-page/profile-filling-p
 import {queryClient} from "./services/query-client.ts";
 import {QueryClientProvider} from '@tanstack/react-query';
 import {checkAuth} from './actions/user.ts';
+import {FriendsPage} from "./pages/friends-page/friends-page";
 
 export const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
     {
         path: `${AppRoute.Book}`,
         element: <BookPage/>,
+    },
+    {
+        path: `${AppRoute.Friends}`,
+        element: <FriendsPage/>
     }
 ]);
 
