@@ -3,13 +3,13 @@ import styles from './book-page.module.css';
 import { Navigation } from '../../components/navigation/navigation';
 import { ArrowALeftIcon24Regular, UiMenuDots3HIcon24Regular } from '@skbkontur/icons';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
-import { Page } from '../../ui/page/page';
+import { PageBackground } from '../../ui/page/page-background.tsx';
 import { Divider } from '@mantine/core';
-import { getApiBooksSearchByIdBookId } from "../../generated-api/books/books.ts";
+import { getBooksByIdBookId } from "../../generated-api/books/books.ts";
 import { Queue } from '../../components/queue/queue.tsx';
 
 export const BookPage = () => {
-  getApiBooksSearchByIdBookId("book");
+  getBooksByIdBookId("book");
   const author = "Оливия Лэнг";
   const year = 2021;
   const title = "Тело каждого. Книга о свободе";
@@ -17,7 +17,7 @@ export const BookPage = () => {
 
 
   return (
-    <Page>
+    <PageBackground>
       <Navigation variant='navAuto'>
         <ButtonIcon variant='flat'>
           <ArrowALeftIcon24Regular />
@@ -58,6 +58,6 @@ export const BookPage = () => {
           </section>
         </div>
       </div>
-    </Page>
+    </PageBackground>
   );
 }

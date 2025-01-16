@@ -57,7 +57,7 @@ export const RegistrationForm: FC = () => {
         onSuccess: (response) => {
             saveToken(response.accessToken!, response.tokenType!);
             navigate(AppRoute.Shelf)
-        }
+        },
     });
 
 
