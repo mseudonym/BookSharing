@@ -1,10 +1,13 @@
-import { PropsWithChildren } from 'react';
-import styles from './page.module.css';
+import {PropsWithChildren} from "react";
+import {PageBackground} from "./page-background.tsx";
+import styles from "./page.module.css"
 
-export const Page = ({ children }: PropsWithChildren) => {
-  return (
-    <div className={styles.page}>
-      {children}
-    </div>
-  );
+export const Page = ({children}: PropsWithChildren) => {
+    return (
+        <PageBackground>
+            <div className={styles.content}>
+                {children}
+            </div>
+        </PageBackground>
+    );
 }

@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './welcome-screen.module.css';
 import _styles from '../../index.module.css'
 import { Button } from '../../components/buttons/button.tsx';
-import { Page } from '../../ui/page/page';
 import { useNavigate } from "react-router";
 import { AppRoute } from "../../conts.ts";
+import {Page} from "../../ui/page/page.tsx";
 
 export const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
