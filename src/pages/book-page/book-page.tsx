@@ -10,13 +10,18 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getBooksByIdBookId, getGetBooksByIdBookIdQueryKey } from '../../generated-api/books/books.ts';
 import { ErrorPage } from '../error-page/error-page.tsx';
+import { Loading } from '../../components/loading/loading.tsx';
 
 export const BookPage = () => {
-  const { id } = useParams();
-  const { data: book } = useQuery({
-    queryFn: () => getBooksByIdBookId(id ?? ""),
-    queryKey: getGetBooksByIdBookIdQueryKey(id ?? ""),
+  const id = useParams().id ?? "";
+  const { data: book, isLoading } = useQuery({
+    queryFn: () => getBooksByIdBookId(id),
+    queryKey: getGetBooksByIdBookIdQueryKey(id),
   })
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   if (!book) {
     return <ErrorPage />;
