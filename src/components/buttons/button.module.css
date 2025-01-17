@@ -7,11 +7,16 @@
   padding: 16px 20px;
   cursor: pointer;
   text-align: center;
+  transition: 0.4s;
 }
 
 .primary {
   background: var(--black-color);
   color: var(--white-color);
+}
+
+.primary:hover {
+  opacity: 0.8;
 }
 
 .border {
@@ -20,7 +25,15 @@
   color: var(--black-color);
 }
 
+.border:hover {
+  background-color: #f9f9f9;
+}
+
 .fill {
   background: var(--white-color);
   color: var(--black-color);
+}
+
+.fill:hover {
+  background-color: #f9f9f9;
 }

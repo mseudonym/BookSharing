@@ -4,7 +4,7 @@ export enum AppRoute {
   Shelf = '/shelf',
   Storage = '/storage',
   Profile = '/profile',
-  Book = '/book',
+  Book = '/book/:id',
 
   Login = '/login',
   Register = '/register',

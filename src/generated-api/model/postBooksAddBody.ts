@@ -5,6 +5,11 @@
  * OpenAPI spec version: v1
  */
 
-export type PostApiBooksAddBody = {
+export type PostBooksAddBody = {
+  Title: string;
+  Author: string;
+  Description: string;
+  Isbn?: string;
+  Language: string;
   BookCover?: Blob;
 };
