@@ -2,10 +2,17 @@ import styles from './navbar.module.css';
 import { SegmentedControl } from '@mantine/core';
 import { AppRoute } from '../../conts';
 import { BooksLibraryIcon24Regular, People3Icon24Regular, FolderIcon24Regular, People1Icon24Regular } from "@skbkontur/icons";
+import { useNavigate } from 'react-router';
 
 export const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleChange = (value: string) => {
+    navigate(value);
+  }
+
   return (
-    <SegmentedControl size='md' withItemsBorders={false} radius='xl' data={[
+    <SegmentedControl size='md' withItemsBorders={false} radius='xl' onChange={handleChange} data={[
       {
         value: `${AppRoute.Shelf}`,
         label: (
@@ -33,7 +40,8 @@ export const Navbar = () => {
     ]} classNames={{
       root: `${styles.navbarRoot}`,
       label: `${styles.navbarLabel}`,
-      indicator: `${styles.navbarIndicator}`
+      indicator: `${styles.navbarIndicator}`,
+      control: `${styles.navbarControl}`
     }}
     />
   );

@@ -1,10 +1,9 @@
-import { Navbar } from '../../components/navbar/navbar';
-import { PageBackground } from '../../ui/page/page-background.tsx';
+import { PageWithNavbar } from '../../ui/page/page-with-navbar.tsx';
 import './profile-page.css';
 
 export const ProfilePage = () => {
   return (
-    <PageBackground>
+    <PageWithNavbar>
       <div className="profile-header">
         <div className="profile-avatar">
           <img src="/src/assets/profile.png" alt="Avatar" className="avatar-image" />
@@ -16,10 +15,9 @@ export const ProfilePage = () => {
           <p className="profile-contact">Связаться</p>
         </div>
       </div>
-      <Navbar></Navbar>
       <div className="content-space">
       </div>
-    </PageBackground>
+    </PageWithNavbar>
 
   )
 }
