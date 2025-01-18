@@ -19,6 +19,8 @@ export interface BookModel {
   isbn?: string | null;
   /** @nullable */
   language?: string | null;
+  /** @nullable */
+  publicationYear?: number | null;
   isPhotoUploaded?: boolean;
   isAddedByUser?: boolean;
 }

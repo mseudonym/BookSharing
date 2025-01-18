@@ -289,6 +289,9 @@ if(postBooksAddBody.Isbn !== undefined) {
  formData.append('Isbn', postBooksAddBody.Isbn)
  }
 formData.append('Language', postBooksAddBody.Language)
+if(postBooksAddBody.PublicationYear !== undefined) {
+ formData.append('PublicationYear', postBooksAddBody.PublicationYear.toString())
+ }
 if(postBooksAddBody.BookCover !== undefined) {
  formData.append('BookCover', postBooksAddBody.BookCover)
  }

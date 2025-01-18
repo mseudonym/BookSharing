@@ -499,6 +499,10 @@
                   "Language": {
                     "type": "string"
                   },
+                  "PublicationYear": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
                   "BookCover": {
                     "type": "string",
                     "format": "binary"
@@ -519,6 +523,9 @@
                   "style": "form"
                 },
                 "Language": {
+                  "style": "form"
+                },
+                "PublicationYear": {
                   "style": "form"
                 },
                 "BookCover": {
@@ -1465,6 +1472,11 @@
           },
           "language": {
             "type": "string",
+            "nullable": true
+          },
+          "publicationYear": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "isPhotoUploaded": {
