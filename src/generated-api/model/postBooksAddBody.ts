@@ -11,5 +11,6 @@ export type PostBooksAddBody = {
   Description: string;
   Isbn?: string;
   Language: string;
+  PublicationYear?: number;
   BookCover?: Blob;
 };

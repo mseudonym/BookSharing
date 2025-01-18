@@ -15,6 +15,7 @@ import { queryClient } from "./services/query-client.ts";
 import { QueryClientProvider } from '@tanstack/react-query';
 import { checkAuth } from './actions/user.ts';
 import { ErrorPage } from './pages/error-page/error-page.tsx';
+import { ShelfPage } from './pages/shelf-page/shelf-page.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.ProfileFilling}`,
     element: <ProfileFillingPage />,
+  },
+  {
+    path: `${AppRoute.Shelf}`,
+    element: <ShelfPage />
   },
   {
     path: `${AppRoute.Book}`,

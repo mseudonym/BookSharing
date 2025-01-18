@@ -24,7 +24,7 @@ export const Queue: React.FC<QueueProps> = ({
             size={41} />
           <Flex gap={4} direction="column">
             <p>{owner}</p>
-            <a>Перейти в профиль</a>
+            <a className={_styles.link}>Перейти в профиль</a>
           </Flex>
         </Flex>
       </Flex>
@@ -37,7 +37,7 @@ export const Queue: React.FC<QueueProps> = ({
             size={41} />
           <Flex gap={4} direction="column">
             <p>{currentHolder}</p>
-            <a>Связаться</a>
+            <a className={_styles.link}>Связаться</a>
           </Flex>
         </Flex>
       </Flex>

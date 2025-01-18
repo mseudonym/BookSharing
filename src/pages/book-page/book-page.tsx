@@ -1,6 +1,6 @@
 import _styles from '../../index.module.css'
 import styles from './book-page.module.css';
-import { Navigation } from '../../components/navigation/navigation';
+import { Header } from '../../components/header/header.tsx';
 import { ArrowALeftIcon24Regular, UiMenuDots3HIcon24Regular } from '@skbkontur/icons';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
 import { PageBackground } from '../../ui/page/page-background.tsx';
@@ -27,35 +27,33 @@ export const BookPage = () => {
     return <ErrorPage />;
   }
 
-  const year = 2021;
-
   return (
     <PageBackground>
-      <Navigation variant='navAuto'>
-        <ButtonIcon variant='flat'>
+      <Header variant='autoPadding'>
+        <ButtonIcon variant='flat' onClick={() => { window.history.back() }}>
           <ArrowALeftIcon24Regular />
         </ButtonIcon>
         <ButtonIcon variant='flat'>
           <UiMenuDots3HIcon24Regular />
         </ButtonIcon>
-      </Navigation>
+      </Header>
 
-      <div className='wrapper'>
-        <div className='book-wrapper'>
-          <img className='book-image' src={book.isPhotoUploaded! ? book.bookCoverUrl! : "/src/assets/default-book-cover.png"} />
-          <div className='round-rect' />
+      <div className={styles.wrapper}>
+        <div className={styles.bookWrapper}>
+          <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : "/src/assets/default-book-cover.png"} />
+          <div className={_styles.roundRect} />
         </div>
-        <div className='content'>
-          <div className='book-info'>
-            <div className='book-header'>
-              <div className='book-extra-info'>
+        <div className={_styles.content}>
+          <div className={styles.bookInfo}>
+            <div className={styles.bookHeader}>
+              <div className={styles.bookExtra}>
                 <p className={_styles.textGray}>{book?.author}</p>
                 <p className={_styles.textGray}>/</p>
-                <p className={_styles.textGray}>{year} г.</p>
+                <p className={_styles.textGray}>{book.publicationYear} г.</p>
               </div>
               <h1 className={`${_styles.title} ${_styles.textCenter}`}>{book?.title}</h1>
             </div>
-            <div className='book-block'>
+            <div className={styles.bookBlock}>
               <p className={_styles.textGray}>Описание</p>
               <p>{book?.description}</p>
             </div>

@@ -225,4 +225,59 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
+    export const postQueueItemIdBecomeHolder = (
+    itemId: string,
+ options?: SecondParameter<typeof api>,signal?: AbortSignal
+) => {
+      
+      
+      return api<void>(
+      {url: `/Queue/${itemId}/becomeHolder`, method: 'POST', signal
+    },
+      options);
+    }
+  
+
+
+export const getPostQueueItemIdBecomeHolderMutationOptions = <TData = Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string}, TContext>, request?: SecondParameter<typeof api>}
+) => {
+const mutationKey = ['postQueueItemIdBecomeHolder'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, {itemId: string}> = (props) => {
+          const {itemId} = props ?? {};
+
+          return  postQueueItemIdBecomeHolder(itemId,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{itemId: string}, TContext>}
+
+    export type PostQueueItemIdBecomeHolderMutationResult = NonNullable<Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>>
+    
+    export type PostQueueItemIdBecomeHolderMutationError = ErrorType<unknown>
+
+    export const usePostQueueItemIdBecomeHolder = <TData = Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string}, TContext>, request?: SecondParameter<typeof api>}
+): UseMutationResult<
+        TData,
+        TError,
+        {itemId: string},
+        TContext
+      > => {
+
+      const mutationOptions = getPostQueueItemIdBecomeHolderMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
     

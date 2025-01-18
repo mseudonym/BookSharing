@@ -12,7 +12,7 @@ export const ErrorPage: FC = () => {
           src="/../../src/assets/error-illustration.svg"
           alt="Error illustration" />
         <div className={_styles.textContainer}>
-          <h1 className={_styles.title}>Упс! Страница не найдена</h1>
+          <h1 className={`${_styles.title} ${_styles.textCenter}`}>Упс! Страница не найдена</h1>
           <p className={`${_styles.textGray} ${_styles.textCenter}`}>Попробуйте вернуться назад или изменить запрос.</p>
         </div>
       </div>

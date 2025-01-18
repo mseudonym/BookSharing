@@ -1,3 +1,60 @@
+#TODO Почистить
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+}
+
+.bookWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  align-self: stretch;
+}
+
+.bookImage {
+  width: 156px;
+  height: 225px;
+  border-radius: 8px;
+  z-index: 2;
+  object-fit: cover;
+}
+
+.bookInfo {
+  display: flex;
+  padding: 0px 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+}
+
+.bookHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.bookExtra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+}
+
 .queues {
   display: flex;
   padding-top: 8px;
@@ -6,3 +63,4 @@
   gap: 16px;
   align-self: stretch;
 }
+

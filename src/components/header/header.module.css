@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  align-self: stretch;
+}
+
+.auto,
+.autoPadding {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.autoPadding {
+  padding: 0px 16px;
+}
+
+.left {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.right {
+  justify-content: flex-end;
+  gap: 8px;
+}

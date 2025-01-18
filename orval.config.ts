@@ -2,7 +2,9 @@ import {defineConfig} from 'orval'
 
 export default defineConfig({
     'booksharing': {
-        input: './swagger.json',
+        input: {
+          target: 'https://api.stage.book-sharing.ru/swagger/v1/swagger.json'
+        },
         output: {
             mode: 'tags-split',
             target: './src/generated-api/booksharing.ts',
