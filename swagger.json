@@ -17,7 +17,8 @@
                 "$ref": "#/components/schemas/RegisterRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -64,7 +65,8 @@
                 "$ref": "#/components/schemas/LoginRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -92,7 +94,8 @@
                 "$ref": "#/components/schemas/RefreshRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -118,6 +121,7 @@
           {
             "name": "userId",
             "in": "query",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -125,6 +129,7 @@
           {
             "name": "code",
             "in": "query",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -156,7 +161,8 @@
                 "$ref": "#/components/schemas/ResendConfirmationEmailRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -177,7 +183,8 @@
                 "$ref": "#/components/schemas/ForgotPasswordRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -208,7 +215,8 @@
                 "$ref": "#/components/schemas/ResetPasswordRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -239,7 +247,8 @@
                 "$ref": "#/components/schemas/TwoFactorRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -310,7 +319,8 @@
                 "$ref": "#/components/schemas/InfoRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -565,6 +575,130 @@
         }
       }
     },
+    "/Books/allFriendsBooks": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Books/friendBooks": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "parameters": [
+          {
+            "name": "friendId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Books/myBooks": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Friends/list": {
       "get": {
         "tags": [
@@ -803,6 +937,134 @@
         }
       }
     },
+    "/Items/my": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyItemInfo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyItemInfo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyItemInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Items/friends": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FriendItemInfo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FriendItemInfo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FriendItemInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Items/byBookId": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QueueModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QueueModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QueueModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Items/addToMyShelf": {
+      "post": {
+        "tags": [
+          "Items"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/Queue/{itemId}/getQueue": {
       "get": {
         "tags": [
@@ -875,6 +1137,29 @@
       }
     },
     "/Queue/{itemId}/leaveQueue": {
+      "post": {
+        "tags": [
+          "Queue"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Queue/{itemId}/becomeHolder": {
       "post": {
         "tags": [
           "Queue"
@@ -1204,6 +1489,55 @@
         },
         "additionalProperties": false
       },
+      "FriendItemInfo": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "book": {
+            "$ref": "#/components/schemas/BookModel"
+          },
+          "amIHolder": {
+            "type": "boolean"
+          },
+          "ownerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "holderContact": {
+            "type": "string",
+            "nullable": true
+          },
+          "holderUsername": {
+            "type": "string",
+            "nullable": true
+          },
+          "whoToGiveAfterContact": {
+            "type": "string",
+            "nullable": true
+          },
+          "whoToGiveAfterUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "queueNumber": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FriendshipStatus": {
+        "enum": [
+          "Friend",
+          "IncomeRequest",
+          "OutcomeRequest",
+          "None"
+        ],
+        "type": "string"
+      },
       "HttpValidationProblemDetails": {
         "type": "object",
         "properties": {
@@ -1302,9 +1636,34 @@
         },
         "additionalProperties": false
       },
+      "MyItemInfo": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "book": {
+            "$ref": "#/components/schemas/BookModel"
+          },
+          "currentHolderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentHolderContact": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "QueueModel": {
         "type": "object",
         "properties": {
+          "itemId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "queue": {
             "type": "array",
             "items": {
@@ -1327,6 +1686,10 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "username": {
             "type": "string",
             "nullable": true
@@ -1516,8 +1879,8 @@
         ],
         "type": "object",
         "properties": {
-          "isFriend": {
-            "type": "boolean"
+          "friendshipStatus": {
+            "$ref": "#/components/schemas/FriendshipStatus"
           },
           "id": {
             "type": "string",

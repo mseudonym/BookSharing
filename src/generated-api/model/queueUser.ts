@@ -6,6 +6,7 @@
  */
 
 export interface QueueUser {
+  id?: string;
   /** @nullable */
   username: string | null;
   /** @nullable */

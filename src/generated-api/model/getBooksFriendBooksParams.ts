@@ -5,8 +5,6 @@
  * OpenAPI spec version: v1
  */
 
-export type MapIdentityApiAuthConfirmEmailParams = {
-userId: string;
-code: string;
-changedEmail?: string;
+export type GetBooksFriendBooksParams = {
+friendId?: string;
 };

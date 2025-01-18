@@ -4,9 +4,10 @@
  * BookSharingApi
  * OpenAPI spec version: v1
  */
+import type { FriendshipStatus } from './friendshipStatus';
 
 export interface UserProfile {
-  isFriend?: boolean;
+  friendshipStatus?: FriendshipStatus;
   id?: string;
   /** @nullable */
   username: string | null;

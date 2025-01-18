@@ -218,7 +218,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     export const mapIdentityApiAuthConfirmEmail = (
-    params?: MapIdentityApiAuthConfirmEmailParams,
+    params: MapIdentityApiAuthConfirmEmailParams,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
@@ -231,12 +231,12 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
   
 
-export const getMapIdentityApiAuthConfirmEmailQueryKey = (params?: MapIdentityApiAuthConfirmEmailParams,) => {
+export const getMapIdentityApiAuthConfirmEmailQueryKey = (params: MapIdentityApiAuthConfirmEmailParams,) => {
     return [`/Auth/confirmEmail`, ...(params ? [params]: [])] as const;
     }
 
     
-export const getMapIdentityApiAuthConfirmEmailQueryOptions = <TData = Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(params?: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getMapIdentityApiAuthConfirmEmailQueryOptions = <TData = Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(params: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -259,7 +259,7 @@ export type MapIdentityApiAuthConfirmEmailQueryError = ErrorType<unknown>
 
 
 export function useMapIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params: undefined |  MapIdentityApiAuthConfirmEmailParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>> & Pick<
+ params: MapIdentityApiAuthConfirmEmailParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>,
           TError,
@@ -269,7 +269,7 @@ export function useMapIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typ
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useMapIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params?: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>> & Pick<
+ params: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>,
           TError,
@@ -279,12 +279,12 @@ export function useMapIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typ
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useMapIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params?: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
+ params: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useMapIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params?: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
+ params: MapIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 

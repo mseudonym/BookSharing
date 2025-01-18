@@ -7,6 +7,7 @@
 import type { QueueUser } from './queueUser';
 
 export interface QueueModel {
+  itemId?: string;
   /** @nullable */
   queue?: QueueUser[] | null;
   owner?: QueueUser;
