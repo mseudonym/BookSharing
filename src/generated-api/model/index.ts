@@ -37,3 +37,4 @@ export * from './twoFactorRequest';
 export * from './twoFactorResponse';
 export * from './userData';
 export * from './userProfile';
+export * from './userProfileFriendshipStatus';
