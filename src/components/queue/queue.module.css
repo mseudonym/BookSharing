@@ -9,10 +9,29 @@
   background: var(--light-yellow-color);
 }
 
-.avatarStack {
+.personWrapper {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
 }
 
-.avatar {
-  margin-right: -8px;
+.person {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+}
+
+.personInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 1 0 0;
+}
+
+.name {
+  align-self: stretch;
 }
