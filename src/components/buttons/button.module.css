@@ -3,6 +3,7 @@
   min-height: 50px;
   width: 100%;
   text-align: center;
+  transition: 0.4s;
 }
 
 .primary {
@@ -38,4 +39,8 @@
 .fill:hover {
   background-color: #f9f9f9;
   color: black;
+}
+
+.fill:disabled {
+  color: var(--light-gray-color);
 }

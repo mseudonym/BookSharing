@@ -9,6 +9,14 @@
   background: var(--light-yellow-color);
 }
 
+.backgroundBlue {
+  background-color: var(--light-blue-color);
+}
+
+.backgroundPink {
+  background-color: var(--light-pink-color);
+}
+
 .personWrapper {
   display: flex;
   flex-direction: column;
@@ -33,5 +41,12 @@
 }
 
 .name {
+  align-self: stretch;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   align-self: stretch;
 }

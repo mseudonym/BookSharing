@@ -5,11 +5,12 @@
  * OpenAPI spec version: v1
  */
 import type { QueueUser } from './queueUser';
+import type { UserProfile } from './userProfile';
 
 export interface QueueModel {
   itemId?: string;
   /** @nullable */
   queue?: QueueUser[] | null;
-  owner?: QueueUser;
-  holder?: QueueUser;
+  owner?: UserProfile;
+  holder?: UserProfile;
 }

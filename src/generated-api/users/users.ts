@@ -288,6 +288,9 @@ if(postUsersEditProfileBody.FirstName !== undefined) {
 if(postUsersEditProfileBody.LastName !== undefined) {
  formData.append('LastName', postUsersEditProfileBody.LastName)
  }
+if(postUsersEditProfileBody.Username !== undefined) {
+ formData.append('Username', postUsersEditProfileBody.Username)
+ }
 if(postUsersEditProfileBody.ContactUrl !== undefined) {
  formData.append('ContactUrl', postUsersEditProfileBody.ContactUrl)
  }

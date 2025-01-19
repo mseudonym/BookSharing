@@ -1,6 +1,8 @@
 :root {
   --rainbow-color: linear-gradient(0deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.55) 100%), linear-gradient(90deg, #FEAC5E 0%, #C779D0 50%, #4BC0C8 100%);
   --light-yellow-color: #FDEED9;
+  --light-blue-color: #E7ECFF;
+  --light-pink-color: #F7E7FF;
   --white-color: rgba(255, 255, 255, 1);
   --white-80-color: rgba(255, 255, 255, 0.80);
   --gray-color: #757575;

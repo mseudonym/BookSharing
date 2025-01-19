@@ -8,6 +8,7 @@
 export type PostUsersEditProfileBody = {
   FirstName?: string;
   LastName?: string;
+  Username?: string;
   ContactUrl?: string;
   PhotoFile?: Blob;
 };

@@ -69,7 +69,7 @@ export const BookPage = () => {
             <h1 className={`${_styles.title} ${_styles.titleWrapper}`}>Эта книга у ваших друзей</h1>
             {queueList == undefined || queueList.length == 0
               ? <p>Нет очередей</p>
-              : queueList.map((queue) => <Queue {...queue} />)}
+              : queueList.map((queue) => <Queue {...queue} bookId={id} />)}
           </section>
         </div>
       </div>
