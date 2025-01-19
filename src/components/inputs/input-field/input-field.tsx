@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './input-field.module.css';
+import _styles from '../../../index.module.css'
 import { Message, UseFormRegisterReturn } from "react-hook-form";
 
 
@@ -25,7 +26,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, placeholder, type
           aria-label={label}
         />
       </label>
-      <p className={styles.error}>{error}</p>
+      <p className={_styles.error}>{error}</p>
     </div>
   );
 };

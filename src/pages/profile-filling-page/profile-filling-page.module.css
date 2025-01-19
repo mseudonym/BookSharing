@@ -1,8 +1,113 @@
 .content {
-    margin: 0 20px;
     justify-content: space-around;
     align-items: center;
     display: flex;
     flex-direction: column;
     flex: 1;
+}
+
+.profileCreationContainer {
+  padding: 16px 0 0;
+  justify-content: center;
+  align-items: end;
+  background: var(--Rainbow, linear-gradient(0deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.55) 100%), linear-gradient(90deg, #feac5e 0%, #c779d0 50%, #4bc0c8 100%));
+  display: flex;
+  overflow: hidden;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  min-height: 50px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  color: var(--Black, #000);
+  font: 400 16px/1.2 Inter, sans-serif;
+  margin: 0;
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  border-radius: 100px;
+  width: 50px;
+  height: 50px;
+  padding: 13px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon, .uploadIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.avatarSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.avatarWrapper {
+  width: 120px;
+}
+
+.avatarButton {
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px dashed var(--light-gray-color, #adadad);
+  display: flex;
+  width: 100%;
+  height: 120px;
+  padding: 0 20px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0 32px;
+}
+
+.inputBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inputLabel {
+  color: var(--Gray, #757575);
+  font: 400 16px/1.2 Inter, sans-serif;
+}
+
+.input {
+  border-radius: 4px;
+  border: 1px solid var(--gray-80, rgba(218, 218, 218, 0.8));
+  height: 48px;
+  width: 100%;
+  padding: 12px 8px;
+  color: var(--Light-Gray, #adadad);
+  font: 400 16px/1.2 Inter, sans-serif;
+}
+
+.submitButton {
+  border-radius: 16px;
+  background: var(--gray-50, rgba(218, 218, 218, 0.5));
+  height: 50px;
+  width: 100%;
+  color: var(--Light-Gray, #adadad);
+  border: none;
+  padding: 16px 20px;
+  font: 400 16px/1.2 Inter, sans-serif;
+  cursor: pointer;
 }

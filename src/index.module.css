@@ -67,3 +67,7 @@
 .textLink {
     color: var(--blue-color);
 }
+.error {
+  margin-top: 4px;
+  color: red;
+}

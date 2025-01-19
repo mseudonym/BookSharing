@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {InputField} from "../inputs/input-field.tsx";
+import {InputField} from "../inputs/input-field/input-field.tsx";
 import {Button} from "../buttons/button.tsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
