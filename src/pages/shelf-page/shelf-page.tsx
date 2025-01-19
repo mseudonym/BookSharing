@@ -19,7 +19,14 @@ export const ShelfPage: FC = () => {
         <h1 className={_styles.title}>Полка друзей</h1>
       </Header>
       <section className={styles.bookList}>
-        {bookList?.map((book) => <BookCard {...book} key={book.id}/>)}
+        {bookList == undefined || bookList.length == 0
+          ? <div className={_styles.illustrationWrapper}>
+            <img loading='lazy'
+              src='src/assets/shelf-illustration.svg'
+              alt='ShelfEmpty illustration' />
+            <p className={_styles.textCenter}>Добавьте друзей, чтобы увидеть книги, которые они выложили.</p>
+          </div>
+          : bookList.map((book) => <BookCard {...book} key={book.id} />)}
       </section>
     </PageWithNavbar>
   );
