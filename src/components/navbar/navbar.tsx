@@ -41,7 +41,6 @@ export const Navbar = () => {
       root: `${styles.navbarRoot}`,
       label: `${styles.navbarLabel}`,
       indicator: `${styles.navbarIndicator}`,
-      control: `${styles.navbarControl}`
     }}
     />
   );
