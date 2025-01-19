@@ -11,12 +11,18 @@ import { useParams } from 'react-router-dom';
 import { getBooksByIdBookId, getGetBooksByIdBookIdQueryKey } from '../../generated-api/books/books.ts';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { Loading } from '../../components/loading/loading.tsx';
+import { getGetItemsByBookIdQueryKey, getItemsByBookId } from '../../generated-api/items/items.ts';
 
 export const BookPage = () => {
   const id = useParams().id ?? "";
   const { data: book, isLoading } = useQuery({
     queryFn: () => getBooksByIdBookId(id),
     queryKey: getGetBooksByIdBookIdQueryKey(id),
+  })
+
+  const { data: queueList } = useQuery({
+    queryFn: () => getItemsByBookId({ bookId: id }),
+    queryKey: getGetItemsByBookIdQueryKey({ bookId: id })
   })
 
   if (isLoading) {
@@ -61,11 +67,9 @@ export const BookPage = () => {
           <Divider my="l" style={{ width: "90%" }} />
           <section className={styles.queues}>
             <h1 className={`${_styles.title} ${_styles.titleWrapper}`}>Эта книга у ваших друзей</h1>
-            <Queue
-              owner='Вы'
-              currentHolder='Павел Ловыгин'
-              queueAvatars={['src/assets/default-profile.png', 'src/assets/default-profile.png']}
-            />
+            {queueList == undefined || queueList.length == 0
+              ? <p>Нет очередей</p>
+              : queueList.map((queue) => <Queue {...queue} />)}
           </section>
         </div>
       </div>
