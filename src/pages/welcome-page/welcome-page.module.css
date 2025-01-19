@@ -10,7 +10,7 @@
 }
 
 .content {
-  justify-content: space-around;
+  gap: 24px;
   align-items: center;
   display: flex;
   flex-direction: column;

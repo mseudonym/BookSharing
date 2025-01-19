@@ -33,9 +33,3 @@
   background-color: var(--black-color);
   border-radius: 16px;
 }
-
-.tabsInner {
-  font-size: 16px;
-  font-family: Inter;
-  font-weight: 400;
-}

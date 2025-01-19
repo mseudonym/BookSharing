@@ -1,13 +1,14 @@
-import {FC} from "react";
-import {InputField} from "../inputs/input-field/input-field.tsx";
-import {Button} from "../buttons/button.tsx";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { FC } from "react";
+import styles from './profile-filling-form.module.css';
+import { InputField } from "../inputs/input-field/input-field.tsx";
+import { Button } from "../buttons/button.tsx";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import {useMutation} from "@tanstack/react-query";
-import {checkProfileFilling} from "../../actions/user-actions.ts";
-import {postUsersEditProfile} from "../../generated-api/users/users.ts";
-import {InputAvatar} from "../inputs/input-avatar/input-avatar.tsx";
+import { useMutation } from "@tanstack/react-query";
+import { checkProfileFilling } from "../../actions/user-actions.ts";
+import { postUsersEditProfile } from "../../generated-api/users/users.ts";
+import { InputAvatar } from "../inputs/input-avatar/input-avatar.tsx";
 
 const FormSchema = zod.object({
   firstName: zod
@@ -54,7 +55,7 @@ export const ProfileFillingForm: FC = () => {
     setValue,
     register,
     handleSubmit,
-    formState: {errors, isValid},
+    formState: { errors, isValid },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
@@ -64,7 +65,7 @@ export const ProfileFillingForm: FC = () => {
   console.log(errors.root)
 
 
-  const {mutateAsync: fillProfile} = useMutation({
+  const { mutateAsync: fillProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onSuccess: async (userData) => {
       await checkProfileFilling(userData);
@@ -82,13 +83,14 @@ export const ProfileFillingForm: FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-
-      <InputAvatar
-        photoFile={watch('profilePhoto')}
-        onPhotoFileChange={(photoFile: File) => setValue("profilePhoto", photoFile)}
-        register={register("profilePhoto")}
-        error={errors?.profilePhoto?.message}
-      />
+      <div className={styles.photoButton}>
+        <InputAvatar
+          photoFile={watch('profilePhoto')}
+          onPhotoFileChange={(photoFile: File) => setValue("profilePhoto", photoFile)}
+          register={register("profilePhoto")}
+          error={errors?.profilePhoto?.message}
+        />
+      </div>
 
       <InputField
         label={"Имя"}

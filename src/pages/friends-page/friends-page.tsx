@@ -44,7 +44,6 @@ export const FriendsPage: FC = () => {
           root: `${styles.tabsRoot}`,
           label: `${styles.tabsLabel}`,
           indicator: `${styles.tabsIndicator}`,
-          innerLabel: `${styles.tabsInner}`
         }} />
 
       {activeTab == 'Мои друзья' ?
