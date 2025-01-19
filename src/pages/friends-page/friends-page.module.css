@@ -1,0 +1,41 @@
+.friendList {
+  display: flex;
+  padding-top: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+}
+
+.tabsRoot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  padding: 0;
+}
+
+.tabsLabel {
+  display: flex;
+  padding: 13px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 16px;
+  border: 1px solid var(--light-gray-color);
+}
+
+.tabsLabel:where([data-active]) {
+  color: white;
+}
+
+.tabsIndicator {
+  background-color: var(--black-color);
+  border-radius: 16px;
+}
+
+.tabsInner {
+  font-size: 16px;
+  font-family: Inter;
+  font-weight: 400;
+}
