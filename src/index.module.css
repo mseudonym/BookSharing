@@ -7,15 +7,11 @@
   padding: 0px 16px;
 }
 
-.description {
-  font-size: 18px;
-}
-
-.textGray {
+.description, .textGray {
   color: var(--gray-color);
 }
 
-.textCenter {
+.description, .textCenter {
   text-align: center;
 }
 
@@ -76,4 +72,12 @@
   align-items: center;
   gap: 16px;
   align-self: stretch;
+}
+
+.textLink {
+  color: var(--blue-color);
+}
+.error {
+  margin-top: 4px;
+  color: red;
 }

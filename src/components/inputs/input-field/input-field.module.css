@@ -20,8 +20,3 @@
 .input::placeholder {
   color: var(--light-gray-color);
 }
-
-.error {
-  margin-top: 4px;
-  color: red;
-}

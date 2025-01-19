@@ -1,18 +1,17 @@
 .button {
-  align-self: stretch;
   border-radius: 16px;
   min-height: 50px;
   width: 100%;
-  white-space: nowrap;
-  padding: 16px 20px;
-  cursor: pointer;
   text-align: center;
-  transition: 0.4s;
 }
 
 .primary {
   background: var(--black-color);
   color: var(--white-color);
+}
+
+.primary:disabled {
+  background: var(--light-gray-color);
 }
 
 .primary:hover {

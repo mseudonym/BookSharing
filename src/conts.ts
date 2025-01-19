@@ -9,6 +9,7 @@ export enum AppRoute {
   Login = '/login',
   Register = '/register',
   ProfileFilling = '/profile-filling',
+  EmailConfirmation = '/email-confirmation',
 }
 
 export type PropsWithClass = {
