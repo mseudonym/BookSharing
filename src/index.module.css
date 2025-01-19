@@ -7,15 +7,11 @@
   padding: 0px 16px;
 }
 
-.description {
-  font-size: 18px;
-}
-
-.textGray {
+.description, .textGray {
   color: var(--gray-color);
 }
 
-.textCenter {
+.description, .textCenter {
   text-align: center;
 }
 
@@ -66,4 +62,8 @@
 .link:hover::after {
   width: 100%;
   transition: width .3s;
+}
+
+.textLink {
+    color: var(--blue-color);
 }

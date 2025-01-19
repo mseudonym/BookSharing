@@ -16,6 +16,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { checkAuth } from './actions/user.ts';
 import { ErrorPage } from './pages/error-page/error-page.tsx';
 import { ShelfPage } from './pages/shelf-page/shelf-page.tsx';
+import {EmailConfirmationPage} from "./pages/email-confirmation-page/email-confirmation-page.tsx";
+
 
 export const router = createBrowserRouter([
   {
@@ -49,7 +51,11 @@ export const router = createBrowserRouter([
   {
     path: "*",
     element: <ErrorPage />
-  }
+  },
+  {
+    path: `${AppRoute.EmailConfirmation}`,
+    element: <EmailConfirmationPage/>,
+  },
 ]);
 
 const root = ReactDOM.createRoot(

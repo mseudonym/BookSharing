@@ -7,8 +7,7 @@ import * as zod from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { postAuthLogin } from "../../generated-api/auth/auth.ts";
 import { saveToken } from "../../services/token.ts";
-import { useNavigate } from "react-router";
-import { AppRoute } from "../../conts.ts";
+import {checkProfileFilling} from "../../actions/user-actions.ts";
 
 const FormSchema = zod.object({
   email: zod
@@ -21,8 +20,6 @@ const FormSchema = zod.object({
 type IFormInput = zod.infer<typeof FormSchema>;
 
 export const LoginForm: FC = () => {
-  const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -35,9 +32,9 @@ export const LoginForm: FC = () => {
 
   const { mutateAsync: loginMutation } = useMutation({
     mutationFn: postAuthLogin,
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
-      navigate(AppRoute.Shelf)
+      await checkProfileFilling();
     }
   });
 

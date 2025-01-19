@@ -3,8 +3,8 @@ import styles from './page.module.css';
 
 export const PageBackground = ({ children }: PropsWithChildren) => {
   return (
-    <div className={styles.page}>
+    <body className={styles.page}>
       {children}
-    </div>
+    </body>
   );
 }
