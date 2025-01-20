@@ -18,6 +18,7 @@ import { ErrorPage } from './pages/error-page/error-page.tsx';
 import { ShelfPage } from './pages/shelf-page/shelf-page.tsx';
 import { FriendsPage } from './pages/friends-page/friends-page.tsx';
 import {EmailConfirmationPage} from "./pages/email-confirmation-page/email-confirmation-page.tsx";
+import { BookFillingPage } from './pages/book-add-page/book-add-page.tsx';
 
 
 export const router = createBrowserRouter([
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
     element: <ProfilePage />,
   },
   {
+    path: `${AppRoute.EmailConfirmation}`,
+    element: <EmailConfirmationPage/>,
+  },
+  {
     path: `${AppRoute.ProfileFilling}`,
     element: <ProfileFillingPage />,
   },
@@ -54,13 +59,13 @@ export const router = createBrowserRouter([
     element: <BookPage />,
   },
   {
-    path: "*",
-    element: <ErrorPage />
+    path: `${AppRoute.AddBook}`,
+    element: <BookFillingPage />,
   },
   {
-    path: `${AppRoute.EmailConfirmation}`,
-    element: <EmailConfirmationPage/>,
-  },
+    path: "*",
+    element: <ErrorPage />
+  }
 ]);
 
 const root = ReactDOM.createRoot(

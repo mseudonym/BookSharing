@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postAuthLogin } from "../../generated-api/auth/auth.ts";
 import { saveToken } from "../../services/token.ts";
 import {checkProfileFilling} from "../../actions/user-actions.ts";
+import { useNavigate } from 'react-router';
 
 const FormSchema = zod.object({
   email: zod
@@ -30,11 +31,14 @@ export const LoginForm: FC = () => {
     mode: 'onTouched',
   });
 
+  const navigate = useNavigate();
+
   const { mutateAsync: loginMutation } = useMutation({
     mutationFn: postAuthLogin,
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
       await checkProfileFilling();
+      navigate('/shelf')
     }
   });
 
