@@ -68,7 +68,13 @@ export const BookPage = () => {
           <section className={styles.queues}>
             <h1 className={`${_styles.title} ${_styles.titleWrapper}`}>Эта книга у ваших друзей</h1>
             {queueList == undefined || queueList.length == 0
-              ? <p>Нет очередей</p>
+              ? <div className={_styles.illustrationWrapper}>
+                <img loading='lazy'
+                  src='/src/assets/queue-illustration.svg'
+                  alt='QueueEmpty illustration' 
+                  width={200}/>
+                <p className={_styles.textCenter}>Очередей нет</p>
+              </div>
               : queueList.map((queue) => <Queue {...queue} bookId={id} />)}
           </section>
         </div>

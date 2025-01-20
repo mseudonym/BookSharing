@@ -32,6 +32,14 @@
   align-self: stretch;
 }
 
+.bookInfo2{
+  display: flex;
+  padding: 0px 16px;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+}
+
 .bookHeader {
   display: flex;
   flex-direction: column;
@@ -64,3 +72,6 @@
   align-self: stretch;
 }
 
+.form {
+  align-self: stretch;
+}

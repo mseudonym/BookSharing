@@ -19,6 +19,19 @@
   padding: 0;
 }
 
+
 .navbarIndicator {
   background-color: var(--gray-50-color);
+  opacity: 0;
+  animation: show 0.7s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
