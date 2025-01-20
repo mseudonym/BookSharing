@@ -67,7 +67,7 @@ export const RegistrationForm: FC = () => {
 
       <InputField
         label={"Почта"}
-        placeholder={"Введите почту или логин"}
+        placeholder={"Введите почту"}
         register={register("email")}
         error={errors?.email?.message}
       />
