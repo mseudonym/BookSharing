@@ -9,6 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import { checkProfileFilling } from "../../actions/user-actions.ts";
 import { postUsersEditProfile } from "../../generated-api/users/users.ts";
 import { InputAvatar } from "../inputs/input-avatar/input-avatar.tsx";
+import { useNavigate } from 'react-router';
+import { AppRoute } from '../../conts.ts';
 
 const FormSchema = zod.object({
   firstName: zod
@@ -62,13 +64,13 @@ export const ProfileFillingForm: FC = () => {
     mode: 'onTouched',
   });
 
-  console.log(errors.root)
-
+  const navigate = useNavigate();
 
   const { mutateAsync: fillProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onSuccess: async (userData) => {
       await checkProfileFilling(userData);
+      navigate(AppRoute.Shelf);
     }
   });
 

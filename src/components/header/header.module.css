@@ -13,7 +13,7 @@
   align-self: stretch;
 }
 
-.autoPadding, .leftPadding {
+.autoPadding, .leftPadding, .rightPadding {
   padding: 0px 16px;
 }
 
@@ -22,7 +22,7 @@
   gap: 8px;
 }
 
-.right {
+.right, .rightPadding {
   justify-content: flex-end;
   gap: 8px;
 }

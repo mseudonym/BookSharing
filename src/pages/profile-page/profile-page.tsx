@@ -6,8 +6,10 @@ import { Navbar } from '../../components/navbar/navbar.tsx';
 import { PageBackground } from '../../ui/page/page-background.tsx';
 import { useGetBooksMyBooks } from '../../generated-api/books/books.ts';
 import { BookCard } from '../../components/book-card/book-card.tsx';
-import { PlusIcon24Regular } from '@skbkontur/icons';
+import { PlusIcon24Regular, SettingsGearIcon24Regular } from '@skbkontur/icons';
 import { useNavigate } from 'react-router';
+import { Header } from '../../components/header/header.tsx';
+import { ButtonIcon } from '../../components/button-icon/button-icon.tsx';
 
 export const ProfilePage = () => {
   const {
@@ -35,6 +37,11 @@ export const ProfilePage = () => {
 
   return (
     <PageBackground>
+      <Header variant='rightPadding'>
+        <ButtonIcon variant='flat'>
+          <SettingsGearIcon24Regular />
+        </ButtonIcon>
+      </Header>
       <div className={styles.userContent}>
         <img
           src={user.photoUrl || '/src/assets/default-profile.png'}

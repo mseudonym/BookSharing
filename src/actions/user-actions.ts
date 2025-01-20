@@ -8,7 +8,7 @@ import {UserData} from "../generated-api/model";
 export const checkAuth = async () => {
     await getUsersMe()
         .then(async user => {
-            await checkProfileFilling(user, false);
+            await checkProfileFilling(user);
         })
         .catch(async (error: Error | AxiosError) => {
             if (axios.isAxiosError(error)) {
@@ -20,7 +20,7 @@ export const checkAuth = async () => {
         });
 }
 
-export const checkProfileFilling = async (user?: UserData, redirectToDefault: boolean = true) => {
+export const checkProfileFilling = async (user?: UserData) => {
     if (user === undefined) {
         await checkAuth();
         return
@@ -33,9 +33,5 @@ export const checkProfileFilling = async (user?: UserData, redirectToDefault: bo
     if (!user.isProfileFilled){
         await router.navigate(AppRoute.ProfileFilling);
         return;
-    }
-
-    if (redirectToDefault){
-      await router.navigate(AppRoute.Shelf);
     }
 }

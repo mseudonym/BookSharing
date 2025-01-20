@@ -7,13 +7,13 @@ import * as zod from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { postAuthLogin } from "../../generated-api/auth/auth.ts";
 import { saveToken } from "../../services/token.ts";
-import {checkProfileFilling} from "../../actions/user-actions.ts";
+import { checkProfileFilling } from "../../actions/user-actions.ts";
 import { useNavigate } from 'react-router';
+import { AppRoute } from '../../conts.ts';
 
 const FormSchema = zod.object({
   email: zod
-    .string()
-    .email("Некорректный email"),
+    .string(),
   password: zod
     .string(),
 });
@@ -38,7 +38,7 @@ export const LoginForm: FC = () => {
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
       await checkProfileFilling();
-      navigate('/shelf')
+      navigate(AppRoute.Shelf);
     }
   });
 
@@ -50,8 +50,8 @@ export const LoginForm: FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
 
       <InputField
-        label={"Почта"}
-        placeholder={"Введите почту"}
+        label={"Логин"}
+        placeholder={"Введите логин"}
         register={register("email")}
         error={errors?.email?.message}
       />
