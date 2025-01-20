@@ -13,7 +13,7 @@
   align-self: stretch;
 }
 
-.autoPadding {
+.autoPadding, .leftPadding {
   padding: 0px 16px;
 }
 

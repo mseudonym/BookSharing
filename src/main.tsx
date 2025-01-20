@@ -18,7 +18,7 @@ import { ErrorPage } from './pages/error-page/error-page.tsx';
 import { ShelfPage } from './pages/shelf-page/shelf-page.tsx';
 import { FriendsPage } from './pages/friends-page/friends-page.tsx';
 import {EmailConfirmationPage} from "./pages/email-confirmation-page/email-confirmation-page.tsx";
-import { BookFillingPage } from './pages/book-filling-page/book-filling-page.tsx';
+import { BookFillingPage } from './pages/book-add-page/book-add-page.tsx';
 
 
 export const router = createBrowserRouter([

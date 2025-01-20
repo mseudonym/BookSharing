@@ -2,12 +2,15 @@
   display: flex;
   width: 156px;
   height: 225px;
-  padding: 15px 20px;
   justify-content: center;
   align-items: center;
   gap: 8px;
   border-radius: 8px;
-  border: 1px dashed var(--Light-Gray, #ADADAD);
+  border: 1px dashed var(--light-gray-color);
+  background: none;
+  z-index: 2;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .uploadedPhoto {

@@ -34,6 +34,4 @@ export const checkProfileFilling = async (user?: UserData) => {
         await router.navigate(AppRoute.ProfileFilling);
         return;
     }
-
-    await router.navigate(AppRoute.Shelf);
 }
