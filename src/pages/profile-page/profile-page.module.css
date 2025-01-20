@@ -1,0 +1,49 @@
+.userContent {
+  display: flex;
+  padding: 0px 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  padding-bottom: 24px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: 4px;
+}
+
+.bookList {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 16px;
+  align-self: stretch;
+  flex-wrap: wrap;
+  padding: 16px;
+  background-color: white;
+  height: 100%;
+  border-radius: 16px 16px 0px 0px;
+}
+
+.addButton {
+  display: flex;
+  width: 99px;
+  height: 140px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px dashed var(--Light-Gray, #ADADAD);
+  cursor: pointer;
+  background: none;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}

@@ -1,19 +1,33 @@
-import { PageWithNavbar } from '../../ui/page/page-with-navbar';
-import { useGetUsersUserId } from '../../generated-api/users/users';
+import _styles from '../../index.module.css';
+import styles from '../profile-page/profile-page.module.css';
+import { getGetUsersUserIdQueryKey, getUsersUserId } from '../../generated-api/users/users';
 import { useParams } from 'react-router-dom';
 import {
   postFriendsRespondRequest,
   postFriendsSendRequest,
 } from '../../generated-api/friends/friends'; // ← импорт ваших функций
-import './user-page.css';
+import { Loading } from '../../components/loading/loading';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '../../components/buttons/button';
+import { PageBackground } from '../../ui/page/page-background';
+import { useGetBooksFriendBooks } from '../../generated-api/books/books';
+import { BookCard } from '../../components/book-card/book-card';
+import { Header } from '../../components/header/header';
+import { ButtonIcon } from '../../components/button-icon/button-icon';
+import { ArrowALeftIcon24Regular, UiMenuDots3HIcon24Regular } from '@skbkontur/icons';
 
 
 export const UserPage = () => {
-  const { userId } = useParams<{ userId: string }>();
-  const { data: user, isLoading, isError, error } = useGetUsersUserId(userId!);
+  const { id } = useParams();
+  const { data: user, isLoading, isError, error } = useQuery({
+    queryFn: () => getUsersUserId(id!),
+    queryKey: getGetUsersUserIdQueryKey(id!),
+  })
+
+  const { data: bookList } = useGetBooksFriendBooks({ friendId: id });
 
   if (isLoading) {
-    return <div>Загрузка профиля...</div>;
+    return <Loading />;
   }
   if (isError) {
     return <div>Ошибка при загрузке данных: {String(error)}</div>;
@@ -25,10 +39,10 @@ export const UserPage = () => {
   const handleButtonClick = async () => {
     try {
       if (user.friendshipStatus === 'None') {
-        await postFriendsSendRequest({personToSendId: userId});
+        await postFriendsSendRequest({ personToSendId: id });
       } else if (user.friendshipStatus === 'IncomeRequest') {
         await postFriendsRespondRequest({
-          personToRespondId: userId,
+          personToRespondId: id,
           isAccepted: true,
         });
       }
@@ -60,48 +74,53 @@ export const UserPage = () => {
   }
 
   return (
-    <PageWithNavbar>
-      <div className="profile-header">
-        <div className="profile-avatar">
-          <img
-            src={user.highQualityPhotoUrl || '/src/assets/default-profile.png'}
-            alt="Avatar"
-            className="avatar-image"
-          />
-        </div>
-
-        <div className="profile-info">
-          <p className="profile-name">{user.firstName}</p>
-          <p className="profile-surname">{user.lastName}</p>
-
+    <PageBackground>
+      <Header variant='autoPadding'>
+        <ButtonIcon variant='flat' onClick={() => { window.history.back() }}>
+          <ArrowALeftIcon24Regular />
+        </ButtonIcon>
+        <ButtonIcon variant='flat'>
+          <UiMenuDots3HIcon24Regular />
+        </ButtonIcon>
+      </Header>
+      <div className={styles.userContent}>
+        <img
+          src={user.highQualityPhotoUrl || '/src/assets/default-profile.png'}
+          alt="Avatar"
+          className={styles.avatar}
+        />
+        <div className={styles.userInfo}>
+          <h1 className={`${_styles.title} ${_styles.textCenter}`}>{user.firstName} {user.lastName}</h1>
           {user.friendshipStatus !== 'Friend' && (
-            <button
-              className={`profile-add-friend-button ${
-                isDisabled ? 'profile-add-friend-button-disabled' : ''
-              }`}
+            <Button variant='fill'
               onClick={handleButtonClick}
               disabled={isDisabled}
             >
               {buttonText}
-            </button>
-          )}
-
-          <p className="profile-username">@{user.username}</p>
-          {user.contactUrl && (
-            <p className="profile-contact">
-              <a
-                href={user.contactUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Связаться
-              </a>
-            </p>
-          )}
+            </Button>)}
+          <p className={_styles.textGray}>@{user.username}</p>
         </div>
+        {user.contactUrl && (
+          <a
+            href={user.contactUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={_styles.link}
+          >
+            Связаться
+          </a>
+        )}
       </div>
-
-      <div className="content-space"></div>
-    </PageWithNavbar>
+      <div className={styles.bookList}>
+        {bookList == undefined || bookList.length == 0 ?
+          <div className={_styles.illustrationWrapper}>
+            <img loading='lazy'
+              src='src/assets/profile-illustration.svg'
+              alt='ProfileEmpty illustration' />
+            <p className={_styles.textCenter}>У твоего друга книг пока нет.</p>
+          </div>
+          : bookList?.map((book) => <BookCard {...book} key={book.id} />)}
+      </div>
+    </PageBackground>
   );
 };

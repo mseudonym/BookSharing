@@ -109,7 +109,7 @@ export const BookAddForm: FC = () => {
 
             <InputField
               label={"Язык"}
-              placeholder={"Введите язык, на котором написана книга"}
+              placeholder={"Введите язык книги"}
               register={register("language")}
               error={errors?.language?.message}
             />
