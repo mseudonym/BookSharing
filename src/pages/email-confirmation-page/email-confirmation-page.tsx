@@ -10,7 +10,7 @@ import { Header } from '../../components/header/header.tsx';
 import { ButtonIcon } from '../../components/button-icon/button-icon.tsx';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
 
-const RESEND_CONFIRMATION_EMAIL_SECONDS = 10;
+const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;
 
 export const EmailConfirmationPage: FC = () => {
   const [seconds, setSeconds] = useState<number>(RESEND_CONFIRMATION_EMAIL_SECONDS);
