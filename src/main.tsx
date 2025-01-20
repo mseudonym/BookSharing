@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import { AppRoute } from './conts';
 import { ProfilePage } from './pages/profile-page/profile-page';
+import { UserPage } from "./pages/user-page/user-page";
 import { BookPage } from './pages/book-page/book-page';
 import { LoginPage } from './pages/registration-login-page/login-page.tsx';
 import { RegistrationPage } from "./pages/registration-login-page/registration-page.tsx";
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.Friends}`,
     element: <FriendsPage />
+  },
+  {
+    path: `${AppRoute.Users}`,
+    element: <UserPage />
   },
   {
     path: `${AppRoute.Book}`,
