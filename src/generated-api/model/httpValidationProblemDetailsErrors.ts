@@ -8,4 +8,4 @@
 /**
  * @nullable
  */
-export type HttpValidationProblemDetailsErrors = {[key: string]: string[]} | null;
+export type HttpValidationProblemDetailsErrors = { [key: string]: string[] } | null;

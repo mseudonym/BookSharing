@@ -28,7 +28,12 @@ export const ProfilePage = () => {
   }
 
   if (isError) {
-    return <div>Ошибка при загрузке данных: {String(error)}</div>;
+    return (
+      <div>
+        Ошибка при загрузке данных:
+        {String(error)}
+      </div>
+    );
   }
 
   if (!user) {
@@ -37,8 +42,8 @@ export const ProfilePage = () => {
 
   return (
     <PageBackground>
-      <Header variant='rightPadding'>
-        <ButtonIcon variant='flat'>
+      <Header variant="rightPadding">
+        <ButtonIcon variant="flat">
           <SettingsGearIcon24Regular />
         </ButtonIcon>
       </Header>
@@ -49,8 +54,15 @@ export const ProfilePage = () => {
           className={styles.avatar}
         />
         <div className={styles.userInfo}>
-          <h1 className={`${_styles.title} ${_styles.textCenter}`}>{user.firstName} {user.lastName}</h1>
-          <p className={_styles.textGray}>@{user.username}</p>
+          <h1 className={`${_styles.title} ${_styles.textCenter}`}>
+            {user.firstName}
+            {' '}
+            {user.lastName}
+          </h1>
+          <p className={_styles.textGray}>
+            @
+            {user.username}
+          </p>
         </div>
         {user.contactUrl && (
           <a
@@ -65,7 +77,7 @@ export const ProfilePage = () => {
       </div>
       <div className={styles.bookList}>
         <button className={styles.addButton} onClick={() => navigate('/add-book')}><PlusIcon24Regular /></button>
-        {bookList?.map((book) => <BookCard {...book} key={book.id} />)}
+        {bookList?.map(book => <BookCard {...book} key={book.id} />)}
       </div>
       <Navbar />
     </PageBackground>

@@ -14,4 +14,4 @@ export const PageWithNavbar = ({ children }: PropsWithChildren) => {
       <Navbar />
     </>
   );
-}
+};

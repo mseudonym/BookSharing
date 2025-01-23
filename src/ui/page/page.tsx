@@ -1,6 +1,6 @@
-import { PropsWithChildren } from "react";
-import { PageBackground } from "./page-background.tsx";
-import styles from "./page.module.css"
+import { PropsWithChildren } from 'react';
+import { PageBackground } from './page-background.tsx';
+import styles from './page.module.css';
 
 export const Page = ({ children }: PropsWithChildren) => {
   return (
@@ -10,4 +10,4 @@ export const Page = ({ children }: PropsWithChildren) => {
       </div>
     </PageBackground>
   );
-}
+};

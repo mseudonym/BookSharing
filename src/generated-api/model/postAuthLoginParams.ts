@@ -6,6 +6,6 @@
  */
 
 export type PostAuthLoginParams = {
-useCookies?: boolean;
-useSessionCookies?: boolean;
+  useCookies?: boolean;
+  useSessionCookies?: boolean;
 };

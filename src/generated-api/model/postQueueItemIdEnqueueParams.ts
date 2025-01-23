@@ -6,5 +6,5 @@
  */
 
 export type PostQueueItemIdEnqueueParams = {
-isForcedByOwner?: boolean;
+  isForcedByOwner?: boolean;
 };

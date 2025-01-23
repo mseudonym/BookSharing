@@ -6,5 +6,5 @@
  */
 
 export type PostItemsAddToMyShelfParams = {
-bookId?: string;
+  bookId?: string;
 };

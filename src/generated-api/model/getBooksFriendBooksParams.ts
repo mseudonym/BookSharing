@@ -6,5 +6,5 @@
  */
 
 export type GetBooksFriendBooksParams = {
-friendId?: string;
+  friendId?: string;
 };

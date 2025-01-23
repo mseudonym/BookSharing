@@ -6,8 +6,8 @@
  */
 import {
   useMutation,
-  useQuery
-} from '@tanstack/react-query'
+  useQuery,
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -19,265 +19,217 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
+  UseQueryResult,
+} from '@tanstack/react-query';
 import type {
   PostQueueItemIdEnqueueParams,
-  QueueModel
-} from '.././model'
+  QueueModel,
+} from '.././model';
 import { api } from '../../services/api';
 import type { ErrorType } from '../../services/api';
 
-
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-
 export const getQueueItemIdGetQueue = (
-    itemId: string,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  itemId: string,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<QueueModel>(
-      {url: `/Queue/${itemId}/getQueue`, method: 'GET', signal
+  return api<QueueModel>(
+    { url: `/Queue/${itemId}/getQueue`, method: 'GET', signal,
     },
-      options);
-    }
-  
+    options);
+};
 
-export const getGetQueueItemIdGetQueueQueryKey = (itemId: string,) => {
-    return [`/Queue/${itemId}/getQueue`] as const;
-    }
+export const getGetQueueItemIdGetQueueQueryKey = (itemId: string) => {
+  return [`/Queue/${itemId}/getQueue`] as const;
+};
 
-    
-export const getGetQueueItemIdGetQueueQueryOptions = <TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetQueueItemIdGetQueueQueryOptions = <TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(itemId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>; request?: SecondParameter<typeof api> },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetQueueItemIdGetQueueQueryKey(itemId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetQueueItemIdGetQueueQueryKey(itemId);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>> = ({ signal }) => getQueueItemIdGetQueue(itemId, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, enabled: !!(itemId), ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>> = ({ signal }) => getQueueItemIdGetQueue(itemId, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(itemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetQueueItemIdGetQueueQueryResult = NonNullable<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>>
-export type GetQueueItemIdGetQueueQueryError = ErrorType<unknown>
-
+export type GetQueueItemIdGetQueueQueryResult = NonNullable<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>>;
+export type GetQueueItemIdGetQueueQueryError = ErrorType<unknown>;
 
 export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getQueueItemIdGetQueue>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  itemId: string, options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>> & Pick<
+    DefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getQueueItemIdGetQueue>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getQueueItemIdGetQueue>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  itemId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>> & Pick<
+    UndefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getQueueItemIdGetQueue>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  itemId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>; request?: SecondParameter<typeof api> }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  itemId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>; request?: SecondParameter<typeof api> },
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetQueueItemIdGetQueueQueryOptions(itemId, options);
 
-  const queryOptions = getGetQueueItemIdGetQueueQueryOptions(itemId,options)
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
 export const postQueueItemIdEnqueue = (
-    itemId: string,
-    params?: PostQueueItemIdEnqueueParams,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  itemId: string,
+  params?: PostQueueItemIdEnqueueParams,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<void>(
-      {url: `/Queue/${itemId}/enqueue`, method: 'POST',
-        params, signal
+  return api<void>(
+    { url: `/Queue/${itemId}/enqueue`, method: 'POST',
+      params, signal,
     },
-      options);
-    }
-  
-
+    options);
+};
 
 export const getPostQueueItemIdEnqueueMutationOptions = <TData = Awaited<ReturnType<typeof postQueueItemIdEnqueue>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string;params?: PostQueueItemIdEnqueueParams}, TContext>, request?: SecondParameter<typeof api>}
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { itemId: string; params?: PostQueueItemIdEnqueueParams }, TContext>; request?: SecondParameter<typeof api> },
 ) => {
-const mutationKey = ['postQueueItemIdEnqueue'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+  const mutationKey = ['postQueueItemIdEnqueue'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postQueueItemIdEnqueue>>, { itemId: string; params?: PostQueueItemIdEnqueueParams }> = (props) => {
+    const { itemId, params } = props ?? {};
 
+    return postQueueItemIdEnqueue(itemId, params, requestOptions);
+  };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postQueueItemIdEnqueue>>, {itemId: string;params?: PostQueueItemIdEnqueueParams}> = (props) => {
-          const {itemId,params} = props ?? {};
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { itemId: string; params?: PostQueueItemIdEnqueueParams }, TContext>;
+};
 
-          return  postQueueItemIdEnqueue(itemId,params,requestOptions)
-        }
+export type PostQueueItemIdEnqueueMutationResult = NonNullable<Awaited<ReturnType<typeof postQueueItemIdEnqueue>>>;
 
-        
+export type PostQueueItemIdEnqueueMutationError = ErrorType<unknown>;
 
-
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{itemId: string;params?: PostQueueItemIdEnqueueParams}, TContext>}
-
-    export type PostQueueItemIdEnqueueMutationResult = NonNullable<Awaited<ReturnType<typeof postQueueItemIdEnqueue>>>
-    
-    export type PostQueueItemIdEnqueueMutationError = ErrorType<unknown>
-
-    export const usePostQueueItemIdEnqueue = <TData = Awaited<ReturnType<typeof postQueueItemIdEnqueue>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string;params?: PostQueueItemIdEnqueueParams}, TContext>, request?: SecondParameter<typeof api>}
+export const usePostQueueItemIdEnqueue = <TData = Awaited<ReturnType<typeof postQueueItemIdEnqueue>>, TError = ErrorType<unknown>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { itemId: string; params?: PostQueueItemIdEnqueueParams }, TContext>; request?: SecondParameter<typeof api> },
 ): UseMutationResult<
-        TData,
-        TError,
-        {itemId: string;params?: PostQueueItemIdEnqueueParams},
-        TContext
-      > => {
+  TData,
+  TError,
+  { itemId: string; params?: PostQueueItemIdEnqueueParams },
+  TContext
+> => {
+  const mutationOptions = getPostQueueItemIdEnqueueMutationOptions(options);
 
-      const mutationOptions = getPostQueueItemIdEnqueueMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    export const postQueueItemIdLeaveQueue = (
-    itemId: string,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  return useMutation(mutationOptions);
+};
+export const postQueueItemIdLeaveQueue = (
+  itemId: string,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<void>(
-      {url: `/Queue/${itemId}/leaveQueue`, method: 'POST', signal
+  return api<void>(
+    { url: `/Queue/${itemId}/leaveQueue`, method: 'POST', signal,
     },
-      options);
-    }
-  
-
+    options);
+};
 
 export const getPostQueueItemIdLeaveQueueMutationOptions = <TData = Awaited<ReturnType<typeof postQueueItemIdLeaveQueue>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string}, TContext>, request?: SecondParameter<typeof api>}
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { itemId: string }, TContext>; request?: SecondParameter<typeof api> },
 ) => {
-const mutationKey = ['postQueueItemIdLeaveQueue'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+  const mutationKey = ['postQueueItemIdLeaveQueue'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postQueueItemIdLeaveQueue>>, { itemId: string }> = (props) => {
+    const { itemId } = props ?? {};
 
+    return postQueueItemIdLeaveQueue(itemId, requestOptions);
+  };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postQueueItemIdLeaveQueue>>, {itemId: string}> = (props) => {
-          const {itemId} = props ?? {};
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { itemId: string }, TContext>;
+};
 
-          return  postQueueItemIdLeaveQueue(itemId,requestOptions)
-        }
+export type PostQueueItemIdLeaveQueueMutationResult = NonNullable<Awaited<ReturnType<typeof postQueueItemIdLeaveQueue>>>;
 
-        
+export type PostQueueItemIdLeaveQueueMutationError = ErrorType<unknown>;
 
-
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{itemId: string}, TContext>}
-
-    export type PostQueueItemIdLeaveQueueMutationResult = NonNullable<Awaited<ReturnType<typeof postQueueItemIdLeaveQueue>>>
-    
-    export type PostQueueItemIdLeaveQueueMutationError = ErrorType<unknown>
-
-    export const usePostQueueItemIdLeaveQueue = <TData = Awaited<ReturnType<typeof postQueueItemIdLeaveQueue>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string}, TContext>, request?: SecondParameter<typeof api>}
+export const usePostQueueItemIdLeaveQueue = <TData = Awaited<ReturnType<typeof postQueueItemIdLeaveQueue>>, TError = ErrorType<unknown>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { itemId: string }, TContext>; request?: SecondParameter<typeof api> },
 ): UseMutationResult<
-        TData,
-        TError,
-        {itemId: string},
-        TContext
-      > => {
+  TData,
+  TError,
+  { itemId: string },
+  TContext
+> => {
+  const mutationOptions = getPostQueueItemIdLeaveQueueMutationOptions(options);
 
-      const mutationOptions = getPostQueueItemIdLeaveQueueMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    export const postQueueItemIdBecomeHolder = (
-    itemId: string,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  return useMutation(mutationOptions);
+};
+export const postQueueItemIdBecomeHolder = (
+  itemId: string,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<void>(
-      {url: `/Queue/${itemId}/becomeHolder`, method: 'POST', signal
+  return api<void>(
+    { url: `/Queue/${itemId}/becomeHolder`, method: 'POST', signal,
     },
-      options);
-    }
-  
-
+    options);
+};
 
 export const getPostQueueItemIdBecomeHolderMutationOptions = <TData = Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string}, TContext>, request?: SecondParameter<typeof api>}
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { itemId: string }, TContext>; request?: SecondParameter<typeof api> },
 ) => {
-const mutationKey = ['postQueueItemIdBecomeHolder'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+  const mutationKey = ['postQueueItemIdBecomeHolder'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, { itemId: string }> = (props) => {
+    const { itemId } = props ?? {};
 
+    return postQueueItemIdBecomeHolder(itemId, requestOptions);
+  };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, {itemId: string}> = (props) => {
-          const {itemId} = props ?? {};
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { itemId: string }, TContext>;
+};
 
-          return  postQueueItemIdBecomeHolder(itemId,requestOptions)
-        }
+export type PostQueueItemIdBecomeHolderMutationResult = NonNullable<Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>>;
 
-        
+export type PostQueueItemIdBecomeHolderMutationError = ErrorType<unknown>;
 
-
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{itemId: string}, TContext>}
-
-    export type PostQueueItemIdBecomeHolderMutationResult = NonNullable<Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>>
-    
-    export type PostQueueItemIdBecomeHolderMutationError = ErrorType<unknown>
-
-    export const usePostQueueItemIdBecomeHolder = <TData = Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{itemId: string}, TContext>, request?: SecondParameter<typeof api>}
+export const usePostQueueItemIdBecomeHolder = <TData = Awaited<ReturnType<typeof postQueueItemIdBecomeHolder>>, TError = ErrorType<unknown>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { itemId: string }, TContext>; request?: SecondParameter<typeof api> },
 ): UseMutationResult<
-        TData,
-        TError,
-        {itemId: string},
-        TContext
-      > => {
+  TData,
+  TError,
+  { itemId: string },
+  TContext
+> => {
+  const mutationOptions = getPostQueueItemIdBecomeHolderMutationOptions(options);
 
-      const mutationOptions = getPostQueueItemIdBecomeHolderMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions);
+};

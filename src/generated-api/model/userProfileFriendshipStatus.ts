@@ -7,8 +7,6 @@
 
 export type UserProfileFriendshipStatus = typeof UserProfileFriendshipStatus[keyof typeof UserProfileFriendshipStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserProfileFriendshipStatus = {
   Friend: 'Friend',
   IncomeRequest: 'IncomeRequest',

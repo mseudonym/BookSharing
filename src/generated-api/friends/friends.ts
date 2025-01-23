@@ -6,8 +6,8 @@
  */
 import {
   useMutation,
-  useQuery
-} from '@tanstack/react-query'
+  useQuery,
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -19,429 +19,351 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
+  UseQueryResult,
+} from '@tanstack/react-query';
 import type {
   DeleteFriendsDeleteParams,
   PostFriendsRespondRequestParams,
   PostFriendsSendRequestParams,
-  UserProfile
-} from '.././model'
+  UserProfile,
+} from '.././model';
 import { api } from '../../services/api';
 import type { ErrorType } from '../../services/api';
 
-
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-
 export const getFriendsList = (
-    
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<UserProfile[]>(
-      {url: `/Friends/list`, method: 'GET', signal
+  return api<UserProfile[]>(
+    { url: `/Friends/list`, method: 'GET', signal,
     },
-      options);
-    }
-  
+    options);
+};
 
 export const getGetFriendsListQueryKey = () => {
-    return [`/Friends/list`] as const;
-    }
+  return [`/Friends/list`] as const;
+};
 
-    
-export const getGetFriendsListQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsList>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetFriendsListQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsList>>, TError = ErrorType<unknown>>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>; request?: SecondParameter<typeof api> },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetFriendsListQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetFriendsListQueryKey();
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsList>>> = ({ signal }) => getFriendsList(requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsList>>> = ({ signal }) => getFriendsList(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetFriendsListQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsList>>>
-export type GetFriendsListQueryError = ErrorType<unknown>
-
+export type GetFriendsListQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsList>>>;
+export type GetFriendsListQueryError = ErrorType<unknown>;
 
 export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getFriendsList>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>> & Pick<
+    DefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getFriendsList>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getFriendsList>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>> & Pick<
+    UndefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getFriendsList>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>; request?: SecondParameter<typeof api> }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetFriendsList<TData = Awaited<ReturnType<typeof getFriendsList>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsList>>, TError, TData>>; request?: SecondParameter<typeof api> },
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetFriendsListQueryOptions(options);
 
-  const queryOptions = getGetFriendsListQueryOptions(options)
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
 
 export const postFriendsSendRequest = (
-    params?: PostFriendsSendRequestParams,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  params?: PostFriendsSendRequestParams,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<UserProfile>(
-      {url: `/Friends/sendRequest`, method: 'POST',
-        params, signal
+  return api<UserProfile>(
+    { url: `/Friends/sendRequest`, method: 'POST',
+      params, signal,
     },
-      options);
-    }
-  
-
+    options);
+};
 
 export const getPostFriendsSendRequestMutationOptions = <TData = Awaited<ReturnType<typeof postFriendsSendRequest>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostFriendsSendRequestParams}, TContext>, request?: SecondParameter<typeof api>}
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: PostFriendsSendRequestParams }, TContext>; request?: SecondParameter<typeof api> },
 ) => {
-const mutationKey = ['postFriendsSendRequest'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+  const mutationKey = ['postFriendsSendRequest'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postFriendsSendRequest>>, { params?: PostFriendsSendRequestParams }> = (props) => {
+    const { params } = props ?? {};
 
+    return postFriendsSendRequest(params, requestOptions);
+  };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postFriendsSendRequest>>, {params?: PostFriendsSendRequestParams}> = (props) => {
-          const {params} = props ?? {};
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { params?: PostFriendsSendRequestParams }, TContext>;
+};
 
-          return  postFriendsSendRequest(params,requestOptions)
-        }
+export type PostFriendsSendRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postFriendsSendRequest>>>;
 
-        
+export type PostFriendsSendRequestMutationError = ErrorType<unknown>;
 
-
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{params?: PostFriendsSendRequestParams}, TContext>}
-
-    export type PostFriendsSendRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postFriendsSendRequest>>>
-    
-    export type PostFriendsSendRequestMutationError = ErrorType<unknown>
-
-    export const usePostFriendsSendRequest = <TData = Awaited<ReturnType<typeof postFriendsSendRequest>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostFriendsSendRequestParams}, TContext>, request?: SecondParameter<typeof api>}
+export const usePostFriendsSendRequest = <TData = Awaited<ReturnType<typeof postFriendsSendRequest>>, TError = ErrorType<unknown>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: PostFriendsSendRequestParams }, TContext>; request?: SecondParameter<typeof api> },
 ): UseMutationResult<
-        TData,
-        TError,
-        {params?: PostFriendsSendRequestParams},
-        TContext
-      > => {
+  TData,
+  TError,
+  { params?: PostFriendsSendRequestParams },
+  TContext
+> => {
+  const mutationOptions = getPostFriendsSendRequestMutationOptions(options);
 
-      const mutationOptions = getPostFriendsSendRequestMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    export const postFriendsRespondRequest = (
-    params?: PostFriendsRespondRequestParams,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  return useMutation(mutationOptions);
+};
+export const postFriendsRespondRequest = (
+  params?: PostFriendsRespondRequestParams,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<UserProfile>(
-      {url: `/Friends/respondRequest`, method: 'POST',
-        params, signal
+  return api<UserProfile>(
+    { url: `/Friends/respondRequest`, method: 'POST',
+      params, signal,
     },
-      options);
-    }
-  
-
+    options);
+};
 
 export const getPostFriendsRespondRequestMutationOptions = <TData = Awaited<ReturnType<typeof postFriendsRespondRequest>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostFriendsRespondRequestParams}, TContext>, request?: SecondParameter<typeof api>}
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: PostFriendsRespondRequestParams }, TContext>; request?: SecondParameter<typeof api> },
 ) => {
-const mutationKey = ['postFriendsRespondRequest'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+  const mutationKey = ['postFriendsRespondRequest'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postFriendsRespondRequest>>, { params?: PostFriendsRespondRequestParams }> = (props) => {
+    const { params } = props ?? {};
 
+    return postFriendsRespondRequest(params, requestOptions);
+  };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postFriendsRespondRequest>>, {params?: PostFriendsRespondRequestParams}> = (props) => {
-          const {params} = props ?? {};
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { params?: PostFriendsRespondRequestParams }, TContext>;
+};
 
-          return  postFriendsRespondRequest(params,requestOptions)
-        }
+export type PostFriendsRespondRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postFriendsRespondRequest>>>;
 
-        
+export type PostFriendsRespondRequestMutationError = ErrorType<unknown>;
 
-
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{params?: PostFriendsRespondRequestParams}, TContext>}
-
-    export type PostFriendsRespondRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postFriendsRespondRequest>>>
-    
-    export type PostFriendsRespondRequestMutationError = ErrorType<unknown>
-
-    export const usePostFriendsRespondRequest = <TData = Awaited<ReturnType<typeof postFriendsRespondRequest>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostFriendsRespondRequestParams}, TContext>, request?: SecondParameter<typeof api>}
+export const usePostFriendsRespondRequest = <TData = Awaited<ReturnType<typeof postFriendsRespondRequest>>, TError = ErrorType<unknown>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: PostFriendsRespondRequestParams }, TContext>; request?: SecondParameter<typeof api> },
 ): UseMutationResult<
-        TData,
-        TError,
-        {params?: PostFriendsRespondRequestParams},
-        TContext
-      > => {
+  TData,
+  TError,
+  { params?: PostFriendsRespondRequestParams },
+  TContext
+> => {
+  const mutationOptions = getPostFriendsRespondRequestMutationOptions(options);
 
-      const mutationOptions = getPostFriendsRespondRequestMutationOptions(options);
+  return useMutation(mutationOptions);
+};
+export const getFriendsRequestsSent = (
 
-      return useMutation(mutationOptions);
-    }
-    export const getFriendsRequestsSent = (
-    
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<UserProfile[]>(
-      {url: `/Friends/requests/sent`, method: 'GET', signal
+  return api<UserProfile[]>(
+    { url: `/Friends/requests/sent`, method: 'GET', signal,
     },
-      options);
-    }
-  
+    options);
+};
 
 export const getGetFriendsRequestsSentQueryKey = () => {
-    return [`/Friends/requests/sent`] as const;
-    }
+  return [`/Friends/requests/sent`] as const;
+};
 
-    
-export const getGetFriendsRequestsSentQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetFriendsRequestsSentQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = ErrorType<unknown>>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>; request?: SecondParameter<typeof api> },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetFriendsRequestsSentQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetFriendsRequestsSentQueryKey();
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsRequestsSent>>> = ({ signal }) => getFriendsRequestsSent(requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsRequestsSent>>> = ({ signal }) => getFriendsRequestsSent(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetFriendsRequestsSentQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsRequestsSent>>>
-export type GetFriendsRequestsSentQueryError = ErrorType<unknown>
-
+export type GetFriendsRequestsSentQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsRequestsSent>>>;
+export type GetFriendsRequestsSentQueryError = ErrorType<unknown>;
 
 export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getFriendsRequestsSent>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>> & Pick<
+    DefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getFriendsRequestsSent>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getFriendsRequestsSent>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>> & Pick<
+    UndefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getFriendsRequestsSent>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>; request?: SecondParameter<typeof api> }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetFriendsRequestsSent<TData = Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsSent>>, TError, TData>>; request?: SecondParameter<typeof api> },
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetFriendsRequestsSentQueryOptions(options);
 
-  const queryOptions = getGetFriendsRequestsSentQueryOptions(options)
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
 
 export const getFriendsRequestsReceived = (
-    
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<UserProfile[]>(
-      {url: `/Friends/requests/received`, method: 'GET', signal
+  return api<UserProfile[]>(
+    { url: `/Friends/requests/received`, method: 'GET', signal,
     },
-      options);
-    }
-  
+    options);
+};
 
 export const getGetFriendsRequestsReceivedQueryKey = () => {
-    return [`/Friends/requests/received`] as const;
-    }
+  return [`/Friends/requests/received`] as const;
+};
 
-    
-export const getGetFriendsRequestsReceivedQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetFriendsRequestsReceivedQueryOptions = <TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = ErrorType<unknown>>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>; request?: SecondParameter<typeof api> },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetFriendsRequestsReceivedQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetFriendsRequestsReceivedQueryKey();
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsRequestsReceived>>> = ({ signal }) => getFriendsRequestsReceived(requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFriendsRequestsReceived>>> = ({ signal }) => getFriendsRequestsReceived(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetFriendsRequestsReceivedQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsRequestsReceived>>>
-export type GetFriendsRequestsReceivedQueryError = ErrorType<unknown>
-
+export type GetFriendsRequestsReceivedQueryResult = NonNullable<Awaited<ReturnType<typeof getFriendsRequestsReceived>>>;
+export type GetFriendsRequestsReceivedQueryError = ErrorType<unknown>;
 
 export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getFriendsRequestsReceived>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>> & Pick<
+    DefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getFriendsRequestsReceived>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getFriendsRequestsReceived>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>> & Pick<
+    UndefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getFriendsRequestsReceived>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>; request?: SecondParameter<typeof api> }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetFriendsRequestsReceived<TData = Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFriendsRequestsReceived>>, TError, TData>>; request?: SecondParameter<typeof api> },
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetFriendsRequestsReceivedQueryOptions(options);
 
-  const queryOptions = getGetFriendsRequestsReceivedQueryOptions(options)
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
 export const deleteFriendsDelete = (
-    params?: DeleteFriendsDeleteParams,
- options?: SecondParameter<typeof api>,) => {
-      
-      
-      return api<UserProfile>(
-      {url: `/Friends/delete`, method: 'DELETE',
-        params
+  params?: DeleteFriendsDeleteParams,
+  options?: SecondParameter<typeof api>) => {
+  return api<UserProfile>(
+    { url: `/Friends/delete`, method: 'DELETE',
+      params,
     },
-      options);
-    }
-  
-
+    options);
+};
 
 export const getDeleteFriendsDeleteMutationOptions = <TData = Awaited<ReturnType<typeof deleteFriendsDelete>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: DeleteFriendsDeleteParams}, TContext>, request?: SecondParameter<typeof api>}
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: DeleteFriendsDeleteParams }, TContext>; request?: SecondParameter<typeof api> },
 ) => {
-const mutationKey = ['deleteFriendsDelete'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+  const mutationKey = ['deleteFriendsDelete'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteFriendsDelete>>, { params?: DeleteFriendsDeleteParams }> = (props) => {
+    const { params } = props ?? {};
 
+    return deleteFriendsDelete(params, requestOptions);
+  };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteFriendsDelete>>, {params?: DeleteFriendsDeleteParams}> = (props) => {
-          const {params} = props ?? {};
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { params?: DeleteFriendsDeleteParams }, TContext>;
+};
 
-          return  deleteFriendsDelete(params,requestOptions)
-        }
+export type DeleteFriendsDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteFriendsDelete>>>;
 
-        
+export type DeleteFriendsDeleteMutationError = ErrorType<unknown>;
 
-
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{params?: DeleteFriendsDeleteParams}, TContext>}
-
-    export type DeleteFriendsDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteFriendsDelete>>>
-    
-    export type DeleteFriendsDeleteMutationError = ErrorType<unknown>
-
-    export const useDeleteFriendsDelete = <TData = Awaited<ReturnType<typeof deleteFriendsDelete>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: DeleteFriendsDeleteParams}, TContext>, request?: SecondParameter<typeof api>}
+export const useDeleteFriendsDelete = <TData = Awaited<ReturnType<typeof deleteFriendsDelete>>, TError = ErrorType<unknown>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: DeleteFriendsDeleteParams }, TContext>; request?: SecondParameter<typeof api> },
 ): UseMutationResult<
-        TData,
-        TError,
-        {params?: DeleteFriendsDeleteParams},
-        TContext
-      > => {
+  TData,
+  TError,
+  { params?: DeleteFriendsDeleteParams },
+  TContext
+> => {
+  const mutationOptions = getDeleteFriendsDeleteMutationOptions(options);
 
-      const mutationOptions = getDeleteFriendsDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions);
+};

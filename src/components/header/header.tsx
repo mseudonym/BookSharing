@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from 'react';
 import styles from './header.module.css';
 
 interface HeaderProps extends PropsWithChildren {
@@ -9,6 +9,6 @@ export const Header: FC<HeaderProps> = (props) => {
   return (
     <div className={`${styles.header} ${styles[props.variant]}`}>
       {props.children}
-    </div >
+    </div>
   );
-}
+};

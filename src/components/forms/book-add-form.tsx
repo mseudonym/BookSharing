@@ -1,8 +1,8 @@
-import _styles from '../../index.module.css'
+import _styles from '../../index.module.css';
 import styles from '/src/pages/book-page/book-page.module.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as zod from "zod";
+import * as zod from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { postBooksAdd } from '../../generated-api/books/books';
 import { useNavigate } from 'react-router';
@@ -14,16 +14,16 @@ import { Button } from '../buttons/button';
 const FormSchema = zod.object({
   title: zod
     .string()
-    .nonempty("Обязательное поле"),
+    .nonempty('Обязательное поле'),
   description: zod
     .string()
-    .nonempty("Обязательное поле"),
+    .nonempty('Обязательное поле'),
   author: zod
     .string()
-    .nonempty("Обязательное поле"),
+    .nonempty('Обязательное поле'),
   language: zod
     .string()
-    .nonempty("Обязательное поле"),
+    .nonempty('Обязательное поле'),
   year: zod
     .coerce.number(),
   bookCover: zod
@@ -50,8 +50,8 @@ export const BookAddForm: FC = () => {
   const { mutateAsync: addBook } = useMutation({
     mutationFn: postBooksAdd,
     onSuccess: async (bookData) => {
-      navigate(`/book/${bookData.id}`)
-    }
+      navigate(`/book/${bookData.id}`);
+    },
   });
 
   const onSubmit = async (data: IFormInput) => {
@@ -71,51 +71,52 @@ export const BookAddForm: FC = () => {
         <div className={styles.bookWrapper}>
           <InputCover
             coverFile={watch('bookCover')}
-            onCoverFileChange={(photoFile: File) => setValue("bookCover", photoFile)}
-            register={register("bookCover")}
-            error={errors?.bookCover?.message} />
+            onCoverFileChange={(photoFile: File) => setValue('bookCover', photoFile)}
+            register={register('bookCover')}
+            error={errors?.bookCover?.message}
+          />
           <div className={_styles.roundRect} />
         </div>
         <div className={_styles.content}>
           <div className={styles.bookInfo2}>
             <InputField
-              label={"Название"}
-              placeholder={"Введите название книги"}
-              register={register("title")}
+              label="Название"
+              placeholder="Введите название книги"
+              register={register('title')}
               error={errors?.title?.message}
             />
 
             <InputField
-              label={"Описание"}
-              placeholder={"Введите описание книги"}
-              register={register("description")}
+              label="Описание"
+              placeholder="Введите описание книги"
+              register={register('description')}
               error={errors?.description?.message}
             />
 
             <InputField
-              label={"Автор"}
-              placeholder={"Введите автора книги"}
-              register={register("author")}
+              label="Автор"
+              placeholder="Введите автора книги"
+              register={register('author')}
               error={errors?.author?.message}
             />
 
             <InputField
-              label={"Год"}
-              placeholder={"Введите год написания книги"}
-              register={register("year")}
+              label="Год"
+              placeholder="Введите год написания книги"
+              register={register('year')}
               error={errors?.year?.message}
-              type='number'
+              type="number"
             />
 
             <InputField
-              label={"Язык"}
-              placeholder={"Введите язык книги"}
-              register={register("language")}
+              label="Язык"
+              placeholder="Введите язык книги"
+              register={register('language')}
               error={errors?.language?.message}
             />
 
             <Button
-              variant={'primary'}
+              variant="primary"
               onClick={handleSubmit(onSubmit)}
               disabled={!isValid}
             >
@@ -126,4 +127,4 @@ export const BookAddForm: FC = () => {
       </div>
     </form>
   );
-}
+};

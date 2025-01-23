@@ -1,13 +1,13 @@
-import { FC } from "react";
-import { InputField } from "../inputs/input-field/input-field.tsx";
-import { Button } from "../buttons/button.tsx";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
-import { useMutation } from "@tanstack/react-query";
-import { postAuthLogin } from "../../generated-api/auth/auth.ts";
-import { saveToken } from "../../services/token.ts";
-import { checkProfileFilling } from "../../actions/user-actions.ts";
+import { FC } from 'react';
+import { InputField } from '../inputs/input-field/input-field.tsx';
+import { Button } from '../buttons/button.tsx';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as zod from 'zod';
+import { useMutation } from '@tanstack/react-query';
+import { postAuthLogin } from '../../generated-api/auth/auth.ts';
+import { saveToken } from '../../services/token.ts';
+import { checkProfileFilling } from '../../actions/user-actions.ts';
 import { useNavigate } from 'react-router';
 import { AppRoute } from '../../conts.ts';
 
@@ -39,7 +39,7 @@ export const LoginForm: FC = () => {
       saveToken(response.accessToken!, response.tokenType!);
       await checkProfileFilling();
       navigate(AppRoute.Shelf);
-    }
+    },
   });
 
   const onSubmit = async (data: IFormInput) => {
@@ -50,24 +50,24 @@ export const LoginForm: FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
 
       <InputField
-        label={"Логин"}
-        placeholder={"Введите логин"}
-        register={register("email")}
+        label="Логин"
+        placeholder="Введите логин"
+        register={register('email')}
         error={errors?.email?.message}
       />
 
       <InputField
-        label={"Пароль"}
-        placeholder={"Введите пароль"}
-        register={register("password")}
+        label="Пароль"
+        placeholder="Введите пароль"
+        register={register('password')}
         error={errors?.password?.message}
       />
 
-      <Button variant={'primary'} onClick={handleSubmit(onSubmit)}>
+      <Button variant="primary" onClick={handleSubmit(onSubmit)}>
         Войти
       </Button>
 
     </form>
 
   );
-}
+};

@@ -6,8 +6,8 @@
  */
 import {
   useMutation,
-  useQuery
-} from '@tanstack/react-query'
+  useQuery,
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -19,320 +19,262 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
+  UseQueryResult,
+} from '@tanstack/react-query';
 import type {
   FriendItemInfo,
   GetItemsByBookIdParams,
   MyItemInfo,
   PostItemsAddToMyShelfParams,
-  QueueModel
-} from '.././model'
+  QueueModel,
+} from '.././model';
 import { api } from '../../services/api';
 import type { ErrorType } from '../../services/api';
 
-
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-
 export const getItemsMy = (
-    
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<MyItemInfo>(
-      {url: `/Items/my`, method: 'GET', signal
+  return api<MyItemInfo>(
+    { url: `/Items/my`, method: 'GET', signal,
     },
-      options);
-    }
-  
+    options);
+};
 
 export const getGetItemsMyQueryKey = () => {
-    return [`/Items/my`] as const;
-    }
+  return [`/Items/my`] as const;
+};
 
-    
-export const getGetItemsMyQueryOptions = <TData = Awaited<ReturnType<typeof getItemsMy>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetItemsMyQueryOptions = <TData = Awaited<ReturnType<typeof getItemsMy>>, TError = ErrorType<unknown>>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>>; request?: SecondParameter<typeof api> },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetItemsMyQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetItemsMyQueryKey();
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemsMy>>> = ({ signal }) => getItemsMy(requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemsMy>>> = ({ signal }) => getItemsMy(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetItemsMyQueryResult = NonNullable<Awaited<ReturnType<typeof getItemsMy>>>
-export type GetItemsMyQueryError = ErrorType<unknown>
-
+export type GetItemsMyQueryResult = NonNullable<Awaited<ReturnType<typeof getItemsMy>>>;
+export type GetItemsMyQueryError = ErrorType<unknown>;
 
 export function useGetItemsMy<TData = Awaited<ReturnType<typeof getItemsMy>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getItemsMy>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>> & Pick<
+    DefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getItemsMy>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetItemsMy<TData = Awaited<ReturnType<typeof getItemsMy>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getItemsMy>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>> & Pick<
+    UndefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getItemsMy>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetItemsMy<TData = Awaited<ReturnType<typeof getItemsMy>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>>; request?: SecondParameter<typeof api> }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetItemsMy<TData = Awaited<ReturnType<typeof getItemsMy>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsMy>>, TError, TData>>; request?: SecondParameter<typeof api> },
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetItemsMyQueryOptions(options);
 
-  const queryOptions = getGetItemsMyQueryOptions(options)
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
 
 export const getItemsFriends = (
-    
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<FriendItemInfo>(
-      {url: `/Items/friends`, method: 'GET', signal
+  return api<FriendItemInfo>(
+    { url: `/Items/friends`, method: 'GET', signal,
     },
-      options);
-    }
-  
+    options);
+};
 
 export const getGetItemsFriendsQueryKey = () => {
-    return [`/Items/friends`] as const;
-    }
+  return [`/Items/friends`] as const;
+};
 
-    
-export const getGetItemsFriendsQueryOptions = <TData = Awaited<ReturnType<typeof getItemsFriends>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetItemsFriendsQueryOptions = <TData = Awaited<ReturnType<typeof getItemsFriends>>, TError = ErrorType<unknown>>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>>; request?: SecondParameter<typeof api> },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetItemsFriendsQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetItemsFriendsQueryKey();
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemsFriends>>> = ({ signal }) => getItemsFriends(requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemsFriends>>> = ({ signal }) => getItemsFriends(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetItemsFriendsQueryResult = NonNullable<Awaited<ReturnType<typeof getItemsFriends>>>
-export type GetItemsFriendsQueryError = ErrorType<unknown>
-
+export type GetItemsFriendsQueryResult = NonNullable<Awaited<ReturnType<typeof getItemsFriends>>>;
+export type GetItemsFriendsQueryError = ErrorType<unknown>;
 
 export function useGetItemsFriends<TData = Awaited<ReturnType<typeof getItemsFriends>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getItemsFriends>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>> & Pick<
+    DefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getItemsFriends>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetItemsFriends<TData = Awaited<ReturnType<typeof getItemsFriends>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getItemsFriends>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>> & Pick<
+    UndefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getItemsFriends>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetItemsFriends<TData = Awaited<ReturnType<typeof getItemsFriends>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>>; request?: SecondParameter<typeof api> }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetItemsFriends<TData = Awaited<ReturnType<typeof getItemsFriends>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsFriends>>, TError, TData>>; request?: SecondParameter<typeof api> },
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetItemsFriendsQueryOptions(options);
 
-  const queryOptions = getGetItemsFriendsQueryOptions(options)
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
 
 export const getItemsByBookId = (
-    params?: GetItemsByBookIdParams,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  params?: GetItemsByBookIdParams,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<QueueModel[]>(
-      {url: `/Items/byBookId`, method: 'GET',
-        params, signal
+  return api<QueueModel[]>(
+    { url: `/Items/byBookId`, method: 'GET',
+      params, signal,
     },
-      options);
-    }
-  
+    options);
+};
 
-export const getGetItemsByBookIdQueryKey = (params?: GetItemsByBookIdParams,) => {
-    return [`/Items/byBookId`, ...(params ? [params]: [])] as const;
-    }
+export const getGetItemsByBookIdQueryKey = (params?: GetItemsByBookIdParams) => {
+  return [`/Items/byBookId`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetItemsByBookIdQueryOptions = <TData = Awaited<ReturnType<typeof getItemsByBookId>>, TError = ErrorType<unknown>>(params?: GetItemsByBookIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetItemsByBookIdQueryOptions = <TData = Awaited<ReturnType<typeof getItemsByBookId>>, TError = ErrorType<unknown>>(params?: GetItemsByBookIdParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>>; request?: SecondParameter<typeof api> },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetItemsByBookIdQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetItemsByBookIdQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemsByBookId>>> = ({ signal }) => getItemsByBookId(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getItemsByBookId>>> = ({ signal }) => getItemsByBookId(params, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetItemsByBookIdQueryResult = NonNullable<Awaited<ReturnType<typeof getItemsByBookId>>>
-export type GetItemsByBookIdQueryError = ErrorType<unknown>
-
+export type GetItemsByBookIdQueryResult = NonNullable<Awaited<ReturnType<typeof getItemsByBookId>>>;
+export type GetItemsByBookIdQueryError = ErrorType<unknown>;
 
 export function useGetItemsByBookId<TData = Awaited<ReturnType<typeof getItemsByBookId>>, TError = ErrorType<unknown>>(
- params: undefined |  GetItemsByBookIdParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getItemsByBookId>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  params: undefined | GetItemsByBookIdParams, options: { query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>> & Pick<
+    DefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getItemsByBookId>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetItemsByBookId<TData = Awaited<ReturnType<typeof getItemsByBookId>>, TError = ErrorType<unknown>>(
- params?: GetItemsByBookIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getItemsByBookId>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
+  params?: GetItemsByBookIdParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>> & Pick<
+    UndefinedInitialDataOptions<
+      Awaited<ReturnType<typeof getItemsByBookId>>,
+      TError,
+      TData
+    >, 'initialData'
+  >; request?: SecondParameter<typeof api>; }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetItemsByBookId<TData = Awaited<ReturnType<typeof getItemsByBookId>>, TError = ErrorType<unknown>>(
- params?: GetItemsByBookIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  params?: GetItemsByBookIdParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>>; request?: SecondParameter<typeof api> }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetItemsByBookId<TData = Awaited<ReturnType<typeof getItemsByBookId>>, TError = ErrorType<unknown>>(
- params?: GetItemsByBookIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>>, request?: SecondParameter<typeof api>}
+  params?: GetItemsByBookIdParams, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getItemsByBookId>>, TError, TData>>; request?: SecondParameter<typeof api> },
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetItemsByBookIdQueryOptions(params, options);
 
-  const queryOptions = getGetItemsByBookIdQueryOptions(params,options)
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
 export const postItemsAddToMyShelf = (
-    params?: PostItemsAddToMyShelfParams,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
+  params?: PostItemsAddToMyShelfParams,
+  options?: SecondParameter<typeof api>, signal?: AbortSignal,
 ) => {
-      
-      
-      return api<void>(
-      {url: `/Items/addToMyShelf`, method: 'POST',
-        params, signal
+  return api<void>(
+    { url: `/Items/addToMyShelf`, method: 'POST',
+      params, signal,
     },
-      options);
-    }
-  
-
+    options);
+};
 
 export const getPostItemsAddToMyShelfMutationOptions = <TData = Awaited<ReturnType<typeof postItemsAddToMyShelf>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostItemsAddToMyShelfParams}, TContext>, request?: SecondParameter<typeof api>}
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: PostItemsAddToMyShelfParams }, TContext>; request?: SecondParameter<typeof api> },
 ) => {
-const mutationKey = ['postItemsAddToMyShelf'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+  const mutationKey = ['postItemsAddToMyShelf'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-      
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postItemsAddToMyShelf>>, { params?: PostItemsAddToMyShelfParams }> = (props) => {
+    const { params } = props ?? {};
 
+    return postItemsAddToMyShelf(params, requestOptions);
+  };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postItemsAddToMyShelf>>, {params?: PostItemsAddToMyShelfParams}> = (props) => {
-          const {params} = props ?? {};
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError, { params?: PostItemsAddToMyShelfParams }, TContext>;
+};
 
-          return  postItemsAddToMyShelf(params,requestOptions)
-        }
+export type PostItemsAddToMyShelfMutationResult = NonNullable<Awaited<ReturnType<typeof postItemsAddToMyShelf>>>;
 
-        
+export type PostItemsAddToMyShelfMutationError = ErrorType<unknown>;
 
-
-  return  { mutationFn, ...mutationOptions } as UseMutationOptions<TData, TError,{params?: PostItemsAddToMyShelfParams}, TContext>}
-
-    export type PostItemsAddToMyShelfMutationResult = NonNullable<Awaited<ReturnType<typeof postItemsAddToMyShelf>>>
-    
-    export type PostItemsAddToMyShelfMutationError = ErrorType<unknown>
-
-    export const usePostItemsAddToMyShelf = <TData = Awaited<ReturnType<typeof postItemsAddToMyShelf>>, TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<TData, TError,{params?: PostItemsAddToMyShelfParams}, TContext>, request?: SecondParameter<typeof api>}
+export const usePostItemsAddToMyShelf = <TData = Awaited<ReturnType<typeof postItemsAddToMyShelf>>, TError = ErrorType<unknown>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<TData, TError, { params?: PostItemsAddToMyShelfParams }, TContext>; request?: SecondParameter<typeof api> },
 ): UseMutationResult<
-        TData,
-        TError,
-        {params?: PostItemsAddToMyShelfParams},
-        TContext
-      > => {
+  TData,
+  TError,
+  { params?: PostItemsAddToMyShelfParams },
+  TContext
+> => {
+  const mutationOptions = getPostItemsAddToMyShelfMutationOptions(options);
 
-      const mutationOptions = getPostItemsAddToMyShelfMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions);
+};

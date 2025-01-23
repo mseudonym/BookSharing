@@ -7,4 +7,4 @@ export const PageBackground = ({ children }: PropsWithChildren) => {
       {children}
     </body>
   );
-}
+};

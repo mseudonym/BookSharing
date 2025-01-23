@@ -16,13 +16,12 @@ import { Header } from '../../components/header/header';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
 import { ArrowALeftIcon24Regular, UiMenuDots3HIcon24Regular } from '@skbkontur/icons';
 
-
 export const UserPage = () => {
   const { id } = useParams();
   const { data: user, isLoading, isError, error } = useQuery({
     queryFn: () => getUsersUserId(id!),
     queryKey: getGetUsersUserIdQueryKey(id!),
-  })
+  });
 
   const { data: bookList } = useGetBooksFriendBooks({ friendId: id });
 
@@ -30,7 +29,12 @@ export const UserPage = () => {
     return <Loading />;
   }
   if (isError) {
-    return <div>Ошибка при загрузке данных: {String(error)}</div>;
+    return (
+      <div>
+        Ошибка при загрузке данных:
+        {String(error)}
+      </div>
+    );
   }
   if (!user) {
     return <div>Нет данных пользователя</div>;
@@ -40,17 +44,19 @@ export const UserPage = () => {
     try {
       if (user.friendshipStatus === 'None') {
         await postFriendsSendRequest({ personToSendId: id });
-      } else if (user.friendshipStatus === 'IncomeRequest') {
+      }
+      else if (user.friendshipStatus === 'IncomeRequest') {
         await postFriendsRespondRequest({
           personToRespondId: id,
           isAccepted: true,
         });
       }
       // Остальные статусы не требуют новых запросов
-    } catch (e) {
+    }
+    catch (e) {
       console.error('Ошибка при отправке запроса:', e);
     }
-  }
+  };
   let buttonText = '';
   let isDisabled = false;
 
@@ -75,11 +81,11 @@ export const UserPage = () => {
 
   return (
     <PageBackground>
-      <Header variant='autoPadding'>
-        <ButtonIcon variant='flat' onClick={() => { window.history.back() }}>
+      <Header variant="autoPadding">
+        <ButtonIcon variant="flat" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ButtonIcon>
-        <ButtonIcon variant='flat'>
+        <ButtonIcon variant="flat">
           <UiMenuDots3HIcon24Regular />
         </ButtonIcon>
       </Header>
@@ -90,15 +96,24 @@ export const UserPage = () => {
           className={styles.avatar}
         />
         <div className={styles.userInfo}>
-          <h1 className={`${_styles.title} ${_styles.textCenter}`}>{user.firstName} {user.lastName}</h1>
+          <h1 className={`${_styles.title} ${_styles.textCenter}`}>
+            {user.firstName}
+            {' '}
+            {user.lastName}
+          </h1>
           {user.friendshipStatus !== 'Friend' && (
-            <Button variant='fill'
+            <Button
+              variant="fill"
               onClick={handleButtonClick}
               disabled={isDisabled}
             >
               {buttonText}
-            </Button>)}
-          <p className={_styles.textGray}>@{user.username}</p>
+            </Button>
+          )}
+          <p className={_styles.textGray}>
+            @
+            {user.username}
+          </p>
         </div>
         {user.contactUrl && (
           <a
@@ -112,14 +127,18 @@ export const UserPage = () => {
         )}
       </div>
       <div className={styles.bookList}>
-        {bookList == undefined || bookList.length == 0 ?
-          <div className={_styles.illustrationWrapper}>
-            <img loading='lazy'
-              src='/profile-illustration.svg'
-              alt='ProfileEmpty illustration' />
-            <p className={_styles.textCenter}>У твоего друга книг пока нет.</p>
-          </div>
-          : bookList?.map((book) => <BookCard {...book} key={book.id} />)}
+        {bookList == undefined || bookList.length == 0
+          ? (
+              <div className={_styles.illustrationWrapper}>
+                <img
+                  loading="lazy"
+                  src="/profile-illustration.svg"
+                  alt="ProfileEmpty illustration"
+                />
+                <p className={_styles.textCenter}>У твоего друга книг пока нет.</p>
+              </div>
+            )
+          : bookList?.map(book => <BookCard {...book} key={book.id} />)}
       </div>
     </PageBackground>
   );

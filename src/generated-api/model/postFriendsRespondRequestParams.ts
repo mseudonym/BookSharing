@@ -6,6 +6,6 @@
  */
 
 export type PostFriendsRespondRequestParams = {
-personToRespondId?: string;
-isAccepted?: boolean;
+  personToRespondId?: string;
+  isAccepted?: boolean;
 };

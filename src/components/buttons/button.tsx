@@ -1,6 +1,6 @@
 import styles from './button.module.css';
-import { FC, PropsWithChildren } from "react";
-import {Button as MButton} from "@mantine/core";
+import { FC, PropsWithChildren } from 'react';
+import { Button as MButton } from '@mantine/core';
 
 interface ButtonProps extends PropsWithChildren {
   variant: 'primary' | 'fill' | 'border';

@@ -13,7 +13,3 @@ export enum AppRoute {
   ProfileFilling = '/profile-filling',
   EmailConfirmation = '/email-confirmation',
 }
-
-export type PropsWithClass = {
-  customClass?: string;
-}

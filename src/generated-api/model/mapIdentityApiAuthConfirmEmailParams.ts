@@ -6,7 +6,7 @@
  */
 
 export type MapIdentityApiAuthConfirmEmailParams = {
-userId: string;
-code: string;
-changedEmail?: string;
+  userId: string;
+  code: string;
+  changedEmail?: string;
 };

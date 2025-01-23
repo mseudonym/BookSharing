@@ -7,12 +7,12 @@ import { BookAddForm } from '../../components/forms/book-add-form';
 export const BookFillingPage = () => {
   return (
     <PageBackground>
-      <Header variant='leftPadding'>
-        <ButtonIcon variant='flat' onClick={() => { window.history.back() }}>
+      <Header variant="leftPadding">
+        <ButtonIcon variant="flat" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ButtonIcon>
       </Header>
       <BookAddForm />
     </PageBackground>
   );
-}
+};

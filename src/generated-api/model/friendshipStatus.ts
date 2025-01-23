@@ -7,8 +7,6 @@
 
 export type FriendshipStatus = typeof FriendshipStatus[keyof typeof FriendshipStatus];
 
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FriendshipStatus = {
   Friend: 'Friend',
   IncomeRequest: 'IncomeRequest',

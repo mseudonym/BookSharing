@@ -9,9 +9,12 @@ interface ButtonIconProps extends PropsWithChildren {
 
 export const ButtonIcon: FC<ButtonIconProps> = (props) => {
   return (
-    <ActionIcon unstyled className={`${styles.buttonIcon} ${styles[props.variant]}`}
-      onClick={props.onClick}>
+    <ActionIcon
+      unstyled
+      className={`${styles.buttonIcon} ${styles[props.variant]}`}
+      onClick={props.onClick}
+    >
       {props.children}
     </ActionIcon>
   );
-}
+};

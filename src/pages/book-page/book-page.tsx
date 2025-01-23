@@ -1,4 +1,4 @@
-import _styles from '../../index.module.css'
+import _styles from '../../index.module.css';
 import styles from './book-page.module.css';
 import { Header } from '../../components/header/header.tsx';
 import { ArrowALeftIcon24Regular, UiMenuDots3HIcon24Regular } from '@skbkontur/icons';
@@ -14,19 +14,19 @@ import { Loading } from '../../components/loading/loading.tsx';
 import { getGetItemsByBookIdQueryKey, getItemsByBookId } from '../../generated-api/items/items.ts';
 
 export const BookPage = () => {
-  const id = useParams().id ?? "";
+  const id = useParams().id ?? '';
   const { data: book, isLoading } = useQuery({
     queryFn: () => getBooksByIdBookId(id),
     queryKey: getGetBooksByIdBookIdQueryKey(id),
-  })
+  });
 
   const { data: queueList } = useQuery({
     queryFn: () => getItemsByBookId({ bookId: id }),
-    queryKey: getGetItemsByBookIdQueryKey({ bookId: id })
-  })
+    queryKey: getGetItemsByBookIdQueryKey({ bookId: id }),
+  });
 
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (!book) {
@@ -35,18 +35,18 @@ export const BookPage = () => {
 
   return (
     <PageBackground>
-      <Header variant='autoPadding'>
-        <ButtonIcon variant='flat' onClick={() => { window.history.back() }}>
+      <Header variant="autoPadding">
+        <ButtonIcon variant="flat" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ButtonIcon>
-        <ButtonIcon variant='flat'>
+        <ButtonIcon variant="flat">
           <UiMenuDots3HIcon24Regular />
         </ButtonIcon>
       </Header>
 
       <div className={styles.wrapper}>
         <div className={styles.bookWrapper}>
-          <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : "//default-book-cover.png"} />
+          <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '//default-book-cover.png'} />
           <div className={_styles.roundRect} />
         </div>
         <div className={_styles.content}>
@@ -55,7 +55,11 @@ export const BookPage = () => {
               <div className={styles.bookExtra}>
                 <p className={_styles.textGray}>{book?.author}</p>
                 <p className={_styles.textGray}>/</p>
-                <p className={_styles.textGray}>{book.publicationYear} г.</p>
+                <p className={_styles.textGray}>
+                  {book.publicationYear}
+                  {' '}
+                  г.
+                </p>
               </div>
               <h1 className={`${_styles.title} ${_styles.textCenter}`}>{book?.title}</h1>
             </div>
@@ -64,21 +68,25 @@ export const BookPage = () => {
               <p>{book?.description}</p>
             </div>
           </div>
-          <Divider my="l" style={{ width: "90%" }} />
+          <Divider my="l" style={{ width: '90%' }} />
           <section className={styles.queues}>
             <h1 className={`${_styles.title} ${_styles.titleWrapper}`}>Эта книга у ваших друзей</h1>
             {queueList == undefined || queueList.length == 0
-              ? <div className={_styles.illustrationWrapper}>
-                <img loading='lazy'
-                  src='/queue-illustration.svg'
-                  alt='QueueEmpty illustration'
-                  width={200} />
-                <p className={_styles.textCenter}>Очередей нет</p>
-              </div>
-              : queueList.map((queue) => <Queue {...queue} bookId={id} />)}
+              ? (
+                  <div className={_styles.illustrationWrapper}>
+                    <img
+                      loading="lazy"
+                      src="/queue-illustration.svg"
+                      alt="QueueEmpty illustration"
+                      width={200}
+                    />
+                    <p className={_styles.textCenter}>Очередей нет</p>
+                  </div>
+                )
+              : queueList.map(queue => <Queue {...queue} bookId={id} />)}
           </section>
         </div>
       </div>
     </PageBackground>
   );
-}
+};

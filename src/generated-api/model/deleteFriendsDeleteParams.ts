@@ -6,5 +6,5 @@
  */
 
 export type DeleteFriendsDeleteParams = {
-personToDeleteId?: string;
+  personToDeleteId?: string;
 };

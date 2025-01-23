@@ -6,5 +6,5 @@
  */
 
 export type PostFriendsSendRequestParams = {
-personToSendId?: string;
+  personToSendId?: string;
 };

@@ -1,14 +1,14 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import styles from './input-cover.module.css'
+import styles from './input-cover.module.css';
 import _styles from '../../../index.module.css';
-import { clsx } from "clsx";
-import { Message, UseFormRegisterReturn } from "react-hook-form";
+import { clsx } from 'clsx';
+import { Message, UseFormRegisterReturn } from 'react-hook-form';
 
 export interface InputCoverProps {
   coverFile: File;
   onCoverFileChange: (photoFile: File) => void;
-  register?: UseFormRegisterReturn<string>,
-  error?: Message | undefined
+  register?: UseFormRegisterReturn<string>;
+  error?: Message | undefined;
 }
 
 export const InputCover: FC<InputCoverProps> = ({ register, error, coverFile, onCoverFileChange }) => {
@@ -20,12 +20,11 @@ export const InputCover: FC<InputCoverProps> = ({ register, error, coverFile, on
       return;
     }
 
-    const objectUrl = URL.createObjectURL(coverFile)
-    setCoverUrl(objectUrl)
+    const objectUrl = URL.createObjectURL(coverFile);
+    setCoverUrl(objectUrl);
 
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [coverFile])
-
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [coverFile]);
 
   function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
@@ -48,9 +47,10 @@ export const InputCover: FC<InputCoverProps> = ({ register, error, coverFile, on
       <button
         className={styles.coverButton}
         aria-label="Upload profile picture"
-        onClick={handleButtonClick}>
+        onClick={handleButtonClick}
+      >
         <img
-          src={coverrUrl ?? "/сamera-icon.svg"}
+          src={coverrUrl ?? '/сamera-icon.svg'}
           className={clsx(coverrUrl && styles.uploadedPhoto)}
           alt=""
         />
@@ -59,10 +59,10 @@ export const InputCover: FC<InputCoverProps> = ({ register, error, coverFile, on
         {...register}
         hidden
         ref={avatarCoverRef}
-        type='file'
+        type="file"
         onChange={handleFileUpload}
       />
       <p className={_styles.error}>{error}</p>
     </>
   );
-}
+};

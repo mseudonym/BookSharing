@@ -1,14 +1,14 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import styles from './input-avatar.module.css'
+import styles from './input-avatar.module.css';
 import _styles from '../../../index.module.css';
-import { clsx } from "clsx";
-import { Message, UseFormRegisterReturn } from "react-hook-form";
+import { clsx } from 'clsx';
+import { Message, UseFormRegisterReturn } from 'react-hook-form';
 
 export interface InputAvatarProps {
   photoFile: File;
   onPhotoFileChange: (photoFile: File) => void;
-  register?: UseFormRegisterReturn<string>,
-  error?: Message | undefined
+  register?: UseFormRegisterReturn<string>;
+  error?: Message | undefined;
 }
 
 export const InputAvatar: FC<InputAvatarProps> = ({ register, error, photoFile, onPhotoFileChange }) => {
@@ -20,12 +20,11 @@ export const InputAvatar: FC<InputAvatarProps> = ({ register, error, photoFile, 
       return;
     }
 
-    const objectUrl = URL.createObjectURL(photoFile)
-    setAvatarUrl(objectUrl)
+    const objectUrl = URL.createObjectURL(photoFile);
+    setAvatarUrl(objectUrl);
 
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [photoFile])
-
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [photoFile]);
 
   function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
@@ -48,9 +47,10 @@ export const InputAvatar: FC<InputAvatarProps> = ({ register, error, photoFile, 
       <button
         className={styles.avatarButton}
         aria-label="Upload profile picture"
-        onClick={handleButtonClick}>
+        onClick={handleButtonClick}
+      >
         <img
-          src={avatarUrl ?? "/сamera-icon.svg"}
+          src={avatarUrl ?? '/сamera-icon.svg'}
           className={clsx(avatarUrl && styles.uploadedPhoto)}
           alt=""
         />
@@ -59,10 +59,10 @@ export const InputAvatar: FC<InputAvatarProps> = ({ register, error, photoFile, 
         {...register}
         hidden
         ref={avatarInputRef}
-        type='file'
+        type="file"
         onChange={handleFileUpload}
       />
       <p className={_styles.error}>{error}</p>
     </>
   );
-}
+};

@@ -6,5 +6,5 @@
  */
 
 export type GetItemsByBookIdParams = {
-bookId?: string;
+  bookId?: string;
 };

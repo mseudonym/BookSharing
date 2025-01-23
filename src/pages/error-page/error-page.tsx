@@ -1,7 +1,6 @@
 import _styles from '../../index.module.css';
-import { FC } from 'react'
+import { FC } from 'react';
 import { Page } from '../../ui/page/page';
-
 
 export const ErrorPage: FC = () => {
   return (
@@ -10,12 +9,13 @@ export const ErrorPage: FC = () => {
         <img
           loading="lazy"
           src="/error-illustration.svg"
-          alt="Error illustration" />
+          alt="Error illustration"
+        />
         <div className={_styles.textContainer}>
           <h1 className={`${_styles.title} ${_styles.textCenter}`}>Упс! Страница не найдена</h1>
           <p className={`${_styles.textGray} ${_styles.textCenter}`}>Попробуйте вернуться назад или изменить запрос.</p>
         </div>
       </div>
     </Page>
-  )
-}
+  );
+};

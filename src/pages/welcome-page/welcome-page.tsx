@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './welcome-page.module.css';
-import _styles from '../../index.module.css'
+import _styles from '../../index.module.css';
 import { Button } from '../../components/buttons/button.tsx';
-import { useNavigate } from "react-router";
-import { AppRoute } from "../../conts.ts";
-import { Page } from "../../ui/page/page.tsx";
+import { useNavigate } from 'react-router';
+import { AppRoute } from '../../conts.ts';
+import { Page } from '../../ui/page/page.tsx';
 
 export const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -24,10 +24,10 @@ export const WelcomePage: React.FC = () => {
             чтением!
           </p>
         </div>
-        <Button variant='primary' onClick={() => navigate(AppRoute.Login)}>
+        <Button variant="primary" onClick={() => navigate(AppRoute.Login)}>
           Войти
         </Button>
-        <Button variant='border' onClick={() => navigate(AppRoute.Register)}>
+        <Button variant="border" onClick={() => navigate(AppRoute.Register)}>
           Зарегистрироваться
         </Button>
       </div>
