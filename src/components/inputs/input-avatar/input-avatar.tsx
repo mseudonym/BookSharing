@@ -1,8 +1,8 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './input-avatar.module.css'
 import _styles from '../../../index.module.css';
-import {clsx} from "clsx";
-import {Message, UseFormRegisterReturn} from "react-hook-form";
+import { clsx } from "clsx";
+import { Message, UseFormRegisterReturn } from "react-hook-form";
 
 export interface InputAvatarProps {
   photoFile: File;
@@ -11,7 +11,7 @@ export interface InputAvatarProps {
   error?: Message | undefined
 }
 
-export const InputAvatar: FC<InputAvatarProps> = ({register, error, photoFile, onPhotoFileChange}) => {
+export const InputAvatar: FC<InputAvatarProps> = ({ register, error, photoFile, onPhotoFileChange }) => {
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const [avatarUrl, setAvatarUrl] = useState<string>();
 
@@ -50,7 +50,7 @@ export const InputAvatar: FC<InputAvatarProps> = ({register, error, photoFile, o
         aria-label="Upload profile picture"
         onClick={handleButtonClick}>
         <img
-          src={avatarUrl ?? "/../../src/assets/сamera-icon.svg"}
+          src={avatarUrl ?? "/сamera-icon.svg"}
           className={clsx(avatarUrl && styles.uploadedPhoto)}
           alt=""
         />

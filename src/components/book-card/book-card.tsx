@@ -8,7 +8,7 @@ export const BookCard: React.FC<BookModel> = ({ id, title, bookCoverUrl, author 
     <Link className={styles.bookCard} to={`/book/${id}`}>
       <img
         loading="lazy"
-        src={bookCoverUrl ?? "src/assets/default-book-cover.png"}
+        src={bookCoverUrl ?? "/default-book-cover.png"}
         className={styles.bookCover}
         alt={`Book cover for ${title}`}
       />

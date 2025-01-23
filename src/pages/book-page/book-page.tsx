@@ -46,7 +46,7 @@ export const BookPage = () => {
 
       <div className={styles.wrapper}>
         <div className={styles.bookWrapper}>
-          <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : "/src/assets/default-book-cover.png"} />
+          <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : "//default-book-cover.png"} />
           <div className={_styles.roundRect} />
         </div>
         <div className={_styles.content}>
@@ -70,9 +70,9 @@ export const BookPage = () => {
             {queueList == undefined || queueList.length == 0
               ? <div className={_styles.illustrationWrapper}>
                 <img loading='lazy'
-                  src='/src/assets/queue-illustration.svg'
-                  alt='QueueEmpty illustration' 
-                  width={200}/>
+                  src='/queue-illustration.svg'
+                  alt='QueueEmpty illustration'
+                  width={200} />
                 <p className={_styles.textCenter}>Очередей нет</p>
               </div>
               : queueList.map((queue) => <Queue {...queue} bookId={id} />)}

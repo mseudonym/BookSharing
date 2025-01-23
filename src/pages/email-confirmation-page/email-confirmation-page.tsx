@@ -63,7 +63,7 @@ export const EmailConfirmationPage: FC = () => {
         </p>
         <div >
           <img
-            src="/../../src/assets/mail.svg"
+            src="/mail.svg"
             alt="Email confirmation illustration"
           />
         </div>

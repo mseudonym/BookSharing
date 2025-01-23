@@ -9,7 +9,7 @@ export const ErrorPage: FC = () => {
       <div className={_styles.content}>
         <img
           loading="lazy"
-          src="/../../src/assets/error-illustration.svg"
+          src="/error-illustration.svg"
           alt="Error illustration" />
         <div className={_styles.textContainer}>
           <h1 className={`${_styles.title} ${_styles.textCenter}`}>Упс! Страница не найдена</h1>

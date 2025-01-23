@@ -51,7 +51,7 @@ export const FriendsPage: FC = () => {
           {friendList == undefined || friendList.length == 0
             ? <div className={_styles.illustrationWrapper}>
               <img loading='lazy'
-                src='src/assets/friends-illustration.svg'
+                src='/friends-illustration.svg'
                 alt='FriendsEmpty illustration' />
               <p className={_styles.textCenter}>Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху.</p>
             </div>
@@ -59,9 +59,9 @@ export const FriendsPage: FC = () => {
         </section>
         : <div className={_styles.illustrationWrapper}>
           <img loading='lazy'
-            src='src/assets/request-illustration.svg'
+            src='/request-illustration.svg'
             alt='RequestEmpty illustration' />
-            <p className={_styles.textCenter}>Заявок пока нет, но можно добавить кого-нибудь самому. </p>
+          <p className={_styles.textCenter}>Заявок пока нет, но можно добавить кого-нибудь самому. </p>
         </div>}
     </PageWithNavbar>
   );

@@ -85,7 +85,7 @@ export const UserPage = () => {
       </Header>
       <div className={styles.userContent}>
         <img
-          src={user.highQualityPhotoUrl || '/src/assets/default-profile.png'}
+          src={user.highQualityPhotoUrl || '/default-profile.png'}
           alt="Avatar"
           className={styles.avatar}
         />
@@ -115,7 +115,7 @@ export const UserPage = () => {
         {bookList == undefined || bookList.length == 0 ?
           <div className={_styles.illustrationWrapper}>
             <img loading='lazy'
-              src='src/assets/profile-illustration.svg'
+              src='/profile-illustration.svg'
               alt='ProfileEmpty illustration' />
             <p className={_styles.textCenter}>У твоего друга книг пока нет.</p>
           </div>

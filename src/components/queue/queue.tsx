@@ -58,7 +58,7 @@ export const Queue: FC<QueueModel & QueueProps> = ({ bookId, itemId, owner, hold
       <div className={styles.personWrapper}>
         <span className={_styles.textGray}>Владелец</span>
         <div className={styles.person}>
-          <Avatar src={owner.lowQualityPhotoUrl ?? "/src/assets/default-profile.png"}
+          <Avatar src={owner.lowQualityPhotoUrl ?? "/default-profile.png"}
             radius='xl'
             size={41} />
           <div className={styles.personInfo}>
@@ -72,7 +72,7 @@ export const Queue: FC<QueueModel & QueueProps> = ({ bookId, itemId, owner, hold
         <span className={_styles.textGray}>Текущий держатель</span>
         {holder == undefined ? <p>Пока никого</p> :
           <div className={styles.person}>
-            <Avatar src={holder.lowQualityPhotoUrl ?? "/src/assets/default-profile.png"}
+            <Avatar src={holder.lowQualityPhotoUrl ?? "/default-profile.png"}
               radius='xl'
               size={41} />
             <div className={styles.personInfo}>

@@ -44,7 +44,7 @@ export const ProfilePage = () => {
       </Header>
       <div className={styles.userContent}>
         <img
-          src={user.photoUrl || '/src/assets/default-profile.png'}
+          src={user.photoUrl || '/default-profile.png'}
           alt="Avatar"
           className={styles.avatar}
         />

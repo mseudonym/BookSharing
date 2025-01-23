@@ -22,7 +22,7 @@ export const ShelfPage: FC = () => {
         {bookList == undefined || bookList.length == 0
           ? <div className={_styles.illustrationWrapper}>
             <img loading='lazy'
-              src='src/assets/shelf-illustration.svg'
+              src='/shelf-illustration.svg'
               alt='ShelfEmpty illustration' />
             <p className={_styles.textCenter}>Добавьте друзей, чтобы увидеть книги, которые они выложили.</p>
           </div>

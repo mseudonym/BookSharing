@@ -1,8 +1,8 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './input-cover.module.css'
 import _styles from '../../../index.module.css';
-import {clsx} from "clsx";
-import {Message, UseFormRegisterReturn} from "react-hook-form";
+import { clsx } from "clsx";
+import { Message, UseFormRegisterReturn } from "react-hook-form";
 
 export interface InputCoverProps {
   coverFile: File;
@@ -11,7 +11,7 @@ export interface InputCoverProps {
   error?: Message | undefined
 }
 
-export const InputCover: FC<InputCoverProps> = ({register, error, coverFile, onCoverFileChange}) => {
+export const InputCover: FC<InputCoverProps> = ({ register, error, coverFile, onCoverFileChange }) => {
   const avatarCoverRef = useRef<HTMLInputElement>(null);
   const [coverrUrl, setCoverUrl] = useState<string>();
 
@@ -50,7 +50,7 @@ export const InputCover: FC<InputCoverProps> = ({register, error, coverFile, onC
         aria-label="Upload profile picture"
         onClick={handleButtonClick}>
         <img
-          src={coverrUrl ?? "/../../src/assets/сamera-icon.svg"}
+          src={coverrUrl ?? "/сamera-icon.svg"}
           className={clsx(coverrUrl && styles.uploadedPhoto)}
           alt=""
         />
