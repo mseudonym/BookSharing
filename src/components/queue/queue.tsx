@@ -5,11 +5,12 @@ import { Button } from '../buttons/button';
 import { Link } from 'react-router';
 import { QueueModel } from '../../generated-api/model';
 import { ButtonIcon } from '../button-icon/button-icon';
-import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons';
 import { getGetUsersMeQueryKey, getUsersMe } from '../../generated-api/users/users';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getGetItemsByBookIdQueryKey } from '../../generated-api/items/items';
 import { postQueueItemIdBecomeHolder, postQueueItemIdEnqueue, postQueueItemIdLeaveQueue } from '../../generated-api/queue/queue.ts';
+import { AppRoute } from '../../conts.ts';
+import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons/icons/ArrowUiAuthLogoutIcon';
 
 interface QueueProps extends QueueModel {
   bookId: string;
@@ -48,7 +49,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
     return <p>Нет очередей</p>;
   }
 
-  const isUserInQueue: boolean = queue.find(element => element.id == userData?.id) !== undefined;
+  const isUserInQueue: boolean = queue.find((element) => element.id == userData?.id) !== undefined;
   const isUserFirst: boolean = queue.at(0)?.id === userData?.id;
   const isUserHolder: boolean = userData?.username === holder?.username;
 
@@ -68,7 +69,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
               {' '}
               {owner.lastName}
             </p>
-            <Link className={_styles.link} to={`/user/${owner.id}`}>Перейти в профиль</Link>
+            <Link className={_styles.link} to={AppRoute.User.replace(':username', owner.username!)}>Перейти в профиль</Link>
           </div>
         </div>
       </div>
@@ -90,7 +91,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
                     {' '}
                     {holder.lastName}
                   </p>
-                  <Link className={_styles.link} to={`/user/${holder.id}`}>Связаться</Link>
+                  <Link className={_styles.link} to={AppRoute.User.replace(':username', holder.username!)}>Связаться</Link>
                 </div>
               </div>
             )}

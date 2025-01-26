@@ -7,7 +7,7 @@ import { postAuthResendConfirmationEmail } from '../../generated-api/auth/auth.t
 import { checkProfileFilling } from '../../actions/user-actions.ts';
 import { Header } from '../../components/header/header.tsx';
 import { ButtonIcon } from '../../components/button-icon/button-icon.tsx';
-import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
+import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 
 const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;
 

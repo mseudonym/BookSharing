@@ -1,41 +1,34 @@
 import _styles from '../../index.module.css';
 import styles from './book-page.module.css';
 import { Header } from '../../components/header/header.tsx';
-import { ArrowALeftIcon24Regular, UiMenuDots3HIcon24Regular } from '@skbkontur/icons';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
 import { PageBackground } from '../../ui/page/page-background.tsx';
 import { Divider } from '@mantine/core';
 import { Queue } from '../../components/queue/queue.tsx';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { getBooksByIdBookId, getGetBooksByIdBookIdQueryKey } from '../../generated-api/books/books.ts';
+import { useGetBooksByIdBookId } from '../../generated-api/books/books.ts';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { Loading } from '../../components/loading/loading.tsx';
-import { getGetItemsByBookIdQueryKey, getItemsByBookId } from '../../generated-api/items/items.ts';
+import { useGetItemsByBookId } from '../../generated-api/items/items.ts';
+import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
+import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
 
 export const BookPage = () => {
-  const id = useParams().id ?? '';
-  const { data: book, isLoading } = useQuery({
-    queryFn: () => getBooksByIdBookId(id),
-    queryKey: getGetBooksByIdBookIdQueryKey(id),
-  });
+  const { id } = useParams();
+  const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
+  const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsByBookId({ bookId: id });
 
-  const { data: queueList } = useQuery({
-    queryFn: () => getItemsByBookId({ bookId: id }),
-    queryKey: getGetItemsByBookIdQueryKey({ bookId: id }),
-  });
-
-  if (isLoading) {
+  if (isLoadingBook || isLoadingQueues) {
     return <Loading />;
   }
 
-  if (!book) {
+  if (isErrorBook || isErrorQueues || !book) {
     return <ErrorPage />;
   }
 
   return (
     <PageBackground>
-      <Header variant="autoPadding">
+      <Header variant="auto" withPadding>
         <ButtonIcon variant="flat" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ButtonIcon>
@@ -83,7 +76,7 @@ export const BookPage = () => {
                     <p className={_styles.textCenter}>Очередей нет</p>
                   </div>
                 )
-              : queueList.map(queue => <Queue {...queue} bookId={id} />)}
+              : queueList.map((queue) => <Queue {...queue} bookId={id!} />)}
           </section>
         </div>
       </div>

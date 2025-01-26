@@ -1,25 +1,29 @@
+import * as zod from 'zod';
 import { InputField } from '../inputs/input-field/input-field.tsx';
 import { Button } from '../buttons/button.tsx';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as zod from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { postAuthLogin, postAuthRegister } from '../../generated-api/auth/auth.ts';
 import { saveToken } from '../../services/token.ts';
 import { checkProfileFilling } from '../../actions/user-actions.ts';
+import { REQUIRED_FIELD_TEXT } from '../../conts.ts';
 
 const FormSchema = zod.object({
   email: zod
-    .string(),
+    .string()
+    .nonempty(REQUIRED_FIELD_TEXT),
   password: zod
     .string()
     .min(6, 'Пароль должен быть не меньше 6-ти символов')
     .regex(/[0-9]+/, 'Пароль должен содержать минимум одну цифру')
     .regex(/[a-z]+/, 'Пароль должен содержать минимум одну строчную латинскую букву')
     .regex(/[A-Z]+/, 'Пароль должен содержать минимум одну заглавную латинскую букву')
-    .regex(/[^0-9a-zA-Z]+/, 'Пароль должен содержать минимум один не буквенный и не числовой символ'),
+    .regex(/[^0-9a-zA-Z]+/, 'Пароль должен содержать минимум один не буквенный и не числовой символ')
+    .nonempty(REQUIRED_FIELD_TEXT),
   confirmPassword: zod
-    .string(),
+    .string()
+    .nonempty(REQUIRED_FIELD_TEXT),
 }).superRefine(({ confirmPassword, password }, ctx) => {
   if (confirmPassword !== password) {
     ctx.addIssue({
@@ -36,7 +40,7 @@ export const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
@@ -84,7 +88,7 @@ export const RegistrationForm = () => {
         error={errors?.confirmPassword?.message}
       />
 
-      <Button variant="primary" onClick={handleSubmit(onSubmit)}>
+      <Button variant="primary" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
         Зарегистрироваться
       </Button>
 

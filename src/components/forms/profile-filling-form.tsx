@@ -8,17 +8,18 @@ import { useMutation } from '@tanstack/react-query';
 import { checkProfileFilling } from '../../actions/user-actions.ts';
 import { postUsersEditProfile } from '../../generated-api/users/users.ts';
 import { InputAvatar } from '../inputs/input-avatar/input-avatar.tsx';
+import { REQUIRED_FIELD_TEXT } from '../../conts.ts';
 
 const FormSchema = zod.object({
   firstName: zod
     .string()
-    .nonempty('Имя — обязательное поле'),
+    .nonempty(REQUIRED_FIELD_TEXT),
   lastName: zod
     .string()
-    .nonempty('Фамилия — обязательное поле'),
+    .nonempty(REQUIRED_FIELD_TEXT),
   username: zod
     .string()
-    .nonempty('Никнейм — обязательное поле')
+    .nonempty(REQUIRED_FIELD_TEXT)
     .min(5, 'Никнейм не может быть короче 5-ти символов')
     .max(20, 'Никнейм не может быть длиннее 20-ти символов')
     .regex(/^[a-zA-Z0-9_]+$/, 'Никнейм может содержать только латинские буквы, цифры и нижние подчёркивания'),

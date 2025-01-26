@@ -5,12 +5,17 @@ export enum AppRoute {
   Storage = '/storage',
   Profile = '/profile',
   Book = '/book/:id',
-  Users = '/users/:id',
+  User = '/user/:username',
   AddBook = '/add-book',
   Login = '/login',
   Register = '/register',
   ProfileFilling = '/profile-filling',
   EmailConfirmation = '/email-confirmation',
+}
+
+export enum FriendsTabs {
+  MyFriends = 'Мои друзья',
+  Requests = 'Заявки',
 }
 
 export const REQUIRED_FIELD_TEXT = 'Это поле нужно заполнить';

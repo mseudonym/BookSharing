@@ -13,5 +13,6 @@ export default [
     quotes: 'single',
     semi: true,
     jsx: true,
+    arrowParens: true,
   }),
 ];

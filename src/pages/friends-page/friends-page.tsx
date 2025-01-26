@@ -4,20 +4,17 @@ import { useState } from 'react';
 import { PageWithNavbar } from '../../ui/page/page-with-navbar';
 import { Header } from '../../components/header/header';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
-import { SearchLoupeIcon24Regular } from '@skbkontur/icons';
-import { getFriendsList, getGetFriendsListQueryKey } from '../../generated-api/friends/friends';
-import { useQuery } from '@tanstack/react-query';
+import { useGetFriendsList } from '../../generated-api/friends/friends';
 import { FriendCard } from '../../components/friend-card/friend-card';
 import { Loading } from '../../components/loading/loading';
 import { SegmentedControl } from '@mantine/core';
+import { ErrorPage } from '../error-page/error-page';
+import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
+import { FriendsTabs } from '../../conts';
 
 export const FriendsPage = () => {
-  const { data: friendList, isLoading } = useQuery({
-    queryFn: () => getFriendsList(),
-    queryKey: getGetFriendsListQueryKey(),
-  });
-
-  const [activeTab, setActiveTab] = useState('Мои друзья');
+  const { data: friendList, isLoading, isError } = useGetFriendsList();
+  const [activeTab, setActiveTab] = useState<string>(FriendsTabs.MyFriends);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -25,6 +22,10 @@ export const FriendsPage = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (isError) {
+    return <ErrorPage />;
   }
 
   return (
@@ -37,7 +38,7 @@ export const FriendsPage = () => {
       </Header>
 
       <SegmentedControl
-        data={['Мои друзья', 'Заявки']}
+        data={[FriendsTabs.MyFriends, FriendsTabs.Requests]}
         value={activeTab}
         onChange={handleTabChange}
         classNames={{
@@ -47,7 +48,7 @@ export const FriendsPage = () => {
         }}
       />
 
-      {activeTab == 'Мои друзья'
+      {activeTab == FriendsTabs.MyFriends
         ? (
             <section className={styles.friendList}>
               {friendList == undefined || friendList.length == 0
@@ -61,7 +62,7 @@ export const FriendsPage = () => {
                       <p className={_styles.textCenter}>Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху.</p>
                     </div>
                   )
-                : friendList.map(friend => <FriendCard {...friend} key={friend.id} />)}
+                : friendList.map((friend) => <FriendCard {...friend} key={friend.id} />)}
             </section>
           )
         : (

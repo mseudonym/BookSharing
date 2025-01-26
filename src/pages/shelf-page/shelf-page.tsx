@@ -2,15 +2,21 @@ import _styles from '../../index.module.css';
 import styles from './shelf-page.module.css';
 import { BookCard } from '../../components/book-card/book-card';
 import { Header } from '../../components/header/header';
-import { useQuery } from '@tanstack/react-query';
-import { getBooksAllFriendsBooks, getGetBooksAllFriendsBooksQueryKey } from '../../generated-api/books/books';
+import { useGetBooksAllFriendsBooks } from '../../generated-api/books/books';
 import { PageWithNavbar } from '../../ui/page/page-with-navbar';
+import { Loading } from '../../components/loading/loading';
+import { ErrorPage } from '../error-page/error-page';
 
 export const ShelfPage = () => {
-  const { data: bookList } = useQuery({
-    queryFn: () => getBooksAllFriendsBooks(),
-    queryKey: getGetBooksAllFriendsBooksQueryKey(),
-  });
+  const { data: bookList, isLoading, isError } = useGetBooksAllFriendsBooks();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <ErrorPage />;
+  }
 
   return (
     <PageWithNavbar>
@@ -29,7 +35,7 @@ export const ShelfPage = () => {
                 <p className={_styles.textCenter}>Добавьте друзей, чтобы увидеть книги, которые они выложили.</p>
               </div>
             )
-          : bookList.map(book => <BookCard {...book} key={book.id} />)}
+          : bookList.map((book) => <BookCard {...book} key={book.id} />)}
       </section>
     </PageWithNavbar>
   );

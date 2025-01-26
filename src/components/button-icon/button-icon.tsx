@@ -1,6 +1,6 @@
+import styles from './button-icon.module.css';
 import { ActionIcon } from '@mantine/core';
 import { PropsWithChildren } from 'react';
-import styles from './button-icon.module.css';
 
 interface ButtonIconProps extends PropsWithChildren {
   variant: 'fill' | 'flat';

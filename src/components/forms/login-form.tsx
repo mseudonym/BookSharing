@@ -7,12 +7,15 @@ import { useMutation } from '@tanstack/react-query';
 import { postAuthLogin } from '../../generated-api/auth/auth.ts';
 import { saveToken } from '../../services/token.ts';
 import { checkProfileFilling } from '../../actions/user-actions.ts';
+import { REQUIRED_FIELD_TEXT } from '../../conts.ts';
 
 const FormSchema = zod.object({
   email: zod
-    .string(),
+    .string()
+    .nonempty(REQUIRED_FIELD_TEXT),
   password: zod
-    .string(),
+    .string()
+    .nonempty(REQUIRED_FIELD_TEXT),
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
@@ -21,7 +24,7 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
@@ -57,7 +60,7 @@ export const LoginForm = () => {
         error={errors?.password?.message}
       />
 
-      <Button variant="primary" onClick={handleSubmit(onSubmit)}>
+      <Button variant="primary" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
         Войти
       </Button>
 

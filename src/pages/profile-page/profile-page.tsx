@@ -6,43 +6,29 @@ import { Navbar } from '../../components/navbar/navbar.tsx';
 import { PageBackground } from '../../ui/page/page-background.tsx';
 import { useGetBooksMyBooks } from '../../generated-api/books/books.ts';
 import { BookCard } from '../../components/book-card/book-card.tsx';
-import { PlusIcon24Regular, SettingsGearIcon24Regular } from '@skbkontur/icons';
 import { useNavigate } from 'react-router';
 import { Header } from '../../components/header/header.tsx';
 import { ButtonIcon } from '../../components/button-icon/button-icon.tsx';
+import { ErrorPage } from '../error-page/error-page.tsx';
+import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
+import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
 
 export const ProfilePage = () => {
-  const {
-    data: user,
-    isLoading,
-    isError,
-    error,
-  } = useGetUsersMe();
-
-  const { data: bookList } = useGetBooksMyBooks();
-
+  const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersMe();
+  const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksMyBooks();
   const navigate = useNavigate();
 
-  if (isLoading) {
+  if (isLoadingUser || isLoadingBooks) {
     return <Loading />;
   }
 
-  if (isError) {
-    return (
-      <div>
-        Ошибка при загрузке данных:
-        {String(error)}
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <div>Нет данных пользователя</div>;
+  if (isErrorUser || isErrorBooks || !user) {
+    return <ErrorPage />;
   }
 
   return (
     <PageBackground>
-      <Header variant="rightPadding">
+      <Header variant="right" withPadding>
         <ButtonIcon variant="flat">
           <SettingsGearIcon24Regular />
         </ButtonIcon>
@@ -77,7 +63,7 @@ export const ProfilePage = () => {
       </div>
       <div className={styles.bookList}>
         <button className={styles.addButton} onClick={() => navigate('/add-book')}><PlusIcon24Regular /></button>
-        {bookList?.map(book => <BookCard {...book} key={book.id} />)}
+        {bookList?.map((book) => <BookCard {...book} key={book.id} />)}
       </div>
       <Navbar />
     </PageBackground>

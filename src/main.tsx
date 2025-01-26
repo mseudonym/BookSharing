@@ -55,7 +55,7 @@ export const router = createBrowserRouter([
     element: <FriendsPage />,
   },
   {
-    path: `${AppRoute.Users}`,
+    path: `${AppRoute.User}`,
     element: <UserPage />,
   },
   {

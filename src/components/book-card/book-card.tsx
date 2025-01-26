@@ -2,10 +2,11 @@ import _styles from '../../index.module.css';
 import styles from './book-card.module.css';
 import { BookModel } from '../../generated-api/model';
 import { Link } from 'react-router-dom';
+import { AppRoute } from '../../conts';
 
 export const BookCard = ({ id, title, bookCoverUrl, author }: BookModel) => {
   return (
-    <Link className={styles.bookCard} to={`/book/${id}`}>
+    <Link className={styles.bookCard} to={AppRoute.Book.replace(':id', id!)}>
       <img
         loading="lazy"
         src={bookCoverUrl ?? '/default-book-cover.png'}
