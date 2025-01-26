@@ -1,13 +1,12 @@
 import _styles from '../../index.module.css';
 import styles from './shelf-page.module.css';
-import { FC } from 'react';
 import { BookCard } from '../../components/book-card/book-card';
 import { Header } from '../../components/header/header';
 import { useQuery } from '@tanstack/react-query';
 import { getBooksAllFriendsBooks, getGetBooksAllFriendsBooksQueryKey } from '../../generated-api/books/books';
 import { PageWithNavbar } from '../../ui/page/page-with-navbar';
 
-export const ShelfPage: FC = () => {
+export const ShelfPage = () => {
   const { data: bookList } = useQuery({
     queryFn: () => getBooksAllFriendsBooks(),
     queryKey: getGetBooksAllFriendsBooksQueryKey(),

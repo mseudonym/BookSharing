@@ -1,8 +1,7 @@
 import _styles from '../../index.module.css';
-import { FC } from 'react';
 import { Page } from '../../ui/page/page';
 
-export const ErrorPage: FC = () => {
+export const ErrorPage = () => {
   return (
     <Page>
       <div className={_styles.content}>

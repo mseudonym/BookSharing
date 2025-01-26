@@ -20,7 +20,7 @@ export const checkAuth = async () => {
     });
 };
 
-export const checkProfileFilling = async (user?: UserData) => {
+export const checkProfileFilling = async (user?: UserData, redirectToDefault: boolean = true) => {
   if (user === undefined) {
     await checkAuth();
     return;
@@ -30,8 +30,13 @@ export const checkProfileFilling = async (user?: UserData) => {
     await router.navigate(AppRoute.EmailConfirmation);
     return;
   }
+
   if (!user.isProfileFilled) {
     await router.navigate(AppRoute.ProfileFilling);
     return;
+  }
+
+  if (redirectToDefault) {
+    await router.navigate(AppRoute.Shelf);
   }
 };

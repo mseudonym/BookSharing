@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './input-avatar.module.css';
 import _styles from '../../../index.module.css';
 import { clsx } from 'clsx';
@@ -11,7 +11,7 @@ export interface InputAvatarProps {
   error?: Message | undefined;
 }
 
-export const InputAvatar: FC<InputAvatarProps> = ({ register, error, photoFile, onPhotoFileChange }) => {
+export const InputAvatar = ({ register, error, photoFile, onPhotoFileChange }: InputAvatarProps) => {
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const [avatarUrl, setAvatarUrl] = useState<string>();
 

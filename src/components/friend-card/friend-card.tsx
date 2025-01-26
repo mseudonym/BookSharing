@@ -3,7 +3,7 @@ import styles from './friend-card.module.css';
 import { UserProfile } from '../../generated-api/model';
 import { Link } from 'react-router-dom';
 
-export const FriendCard: React.FC<UserProfile> = ({ id, lowQualityPhotoUrl, username, firstName, lastName }) => {
+export const FriendCard = ({ id, lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   return (
     <Link className={styles.friendCard} to={`/users/${id}`}>
       <img

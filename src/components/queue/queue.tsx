@@ -3,7 +3,6 @@ import styles from './queue.module.css';
 import { Avatar, Flex } from '@mantine/core';
 import { Button } from '../buttons/button';
 import { Link } from 'react-router';
-import { FC } from 'react';
 import { QueueModel } from '../../generated-api/model';
 import { ButtonIcon } from '../button-icon/button-icon';
 import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons';
@@ -12,11 +11,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getGetItemsByBookIdQueryKey } from '../../generated-api/items/items';
 import { postQueueItemIdBecomeHolder, postQueueItemIdEnqueue, postQueueItemIdLeaveQueue } from '../../generated-api/queue/queue.ts';
 
-type QueueProps = {
+interface QueueProps extends QueueModel {
   bookId: string;
 };
 
-export const Queue: FC<QueueModel & QueueProps> = ({ bookId, itemId, owner, holder, queue }) => {
+export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: enqueue } = useMutation({

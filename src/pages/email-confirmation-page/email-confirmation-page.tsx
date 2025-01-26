@@ -1,5 +1,4 @@
 import _styles from '../../index.module.css';
-import { FC } from 'react';
 import { Page } from '../../ui/page/page.tsx';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getGetUsersMeQueryKey, getUsersMe } from '../../generated-api/users/users.ts';
@@ -12,7 +11,7 @@ import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
 
 const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;
 
-export const EmailConfirmationPage: FC = () => {
+export const EmailConfirmationPage = () => {
   const [seconds, setSeconds] = useState<number>(RESEND_CONFIRMATION_EMAIL_SECONDS);
 
   const { mutateAsync: resendConfirmationEmail } = useMutation({

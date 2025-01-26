@@ -7,9 +7,10 @@ export enum AppRoute {
   Book = '/book/:id',
   Users = '/users/:id',
   AddBook = '/add-book',
-
   Login = '/login',
   Register = '/register',
   ProfileFilling = '/profile-filling',
   EmailConfirmation = '/email-confirmation',
 }
+
+export const REQUIRED_FIELD_TEXT = 'Это поле нужно заполнить';

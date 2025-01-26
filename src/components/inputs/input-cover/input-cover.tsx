@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './input-cover.module.css';
 import _styles from '../../../index.module.css';
 import { clsx } from 'clsx';
@@ -11,7 +11,7 @@ export interface InputCoverProps {
   error?: Message | undefined;
 }
 
-export const InputCover: FC<InputCoverProps> = ({ register, error, coverFile, onCoverFileChange }) => {
+export const InputCover = ({ register, error, coverFile, onCoverFileChange }: InputCoverProps) => {
   const avatarCoverRef = useRef<HTMLInputElement>(null);
   const [coverrUrl, setCoverUrl] = useState<string>();
 

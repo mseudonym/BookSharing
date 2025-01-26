@@ -1,11 +1,10 @@
-import { FC } from 'react';
 import styles from './profile-filling-page.module.css';
 import { Page } from '../../ui/page/page.tsx';
 import { Header } from '../../components/header/header.tsx';
 import _styles from '../../index.module.css';
 import { ProfileFillingForm } from '../../components/forms/profile-filling-form.tsx';
 
-export const ProfileFillingPage: FC = () => {
+export const ProfileFillingPage = () => {
   return (
     <Page>
       <div className={styles.content}>

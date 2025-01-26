@@ -1,5 +1,5 @@
 import styles from './button.module.css';
-import { FC, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { Button as MButton } from '@mantine/core';
 
 interface ButtonProps extends PropsWithChildren {
@@ -8,14 +8,14 @@ interface ButtonProps extends PropsWithChildren {
   disabled?: boolean;
 }
 
-export const Button: FC<ButtonProps> = (props) => {
+export const Button = ({ variant, onClick, disabled, children }: ButtonProps) => {
   return (
     <MButton
-      className={`${styles.button} ${styles[props.variant]}`}
-      onClick={props.onClick}
-      disabled={props.disabled}
+      className={`${styles.button} ${styles[variant]}`}
+      onClick={onClick}
+      disabled={disabled}
     >
-      {props.children}
+      {children}
     </MButton>
   );
 };

@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { InputField } from '../inputs/input-field/input-field.tsx';
 import { Button } from '../buttons/button.tsx';
 import { useForm } from 'react-hook-form';
@@ -33,7 +32,7 @@ const FormSchema = zod.object({
 
 type IFormInput = zod.infer<typeof FormSchema>;
 
-export const RegistrationForm: FC = () => {
+export const RegistrationForm = () => {
   const {
     register,
     handleSubmit,

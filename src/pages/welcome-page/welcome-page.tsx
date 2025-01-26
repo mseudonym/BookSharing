@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './welcome-page.module.css';
 import _styles from '../../index.module.css';
 import { Button } from '../../components/buttons/button.tsx';
@@ -6,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { AppRoute } from '../../conts.ts';
 import { Page } from '../../ui/page/page.tsx';
 
-export const WelcomePage: React.FC = () => {
+export const WelcomePage = () => {
   const navigate = useNavigate();
 
   return (
@@ -14,7 +13,7 @@ export const WelcomePage: React.FC = () => {
       <div className={styles.content}>
         <img
           loading="lazy"
-          src="/welcome-page-illustration.svg"
+          src="/welcome-illustration.svg"
           alt="Welcome illustration"
         />
         <div className={styles.textContainer}>

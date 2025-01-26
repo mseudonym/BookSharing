@@ -3,7 +3,7 @@ import styles from './book-card.module.css';
 import { BookModel } from '../../generated-api/model';
 import { Link } from 'react-router-dom';
 
-export const BookCard: React.FC<BookModel> = ({ id, title, bookCoverUrl, author }) => {
+export const BookCard = ({ id, title, bookCoverUrl, author }: BookModel) => {
   return (
     <Link className={styles.bookCard} to={`/book/${id}`}>
       <img

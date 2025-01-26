@@ -1,38 +1,41 @@
 import _styles from '../../index.module.css';
 import styles from '/src/pages/book-page/book-page.module.css';
+import * as zod from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as zod from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { postBooksAdd } from '../../generated-api/books/books';
 import { useNavigate } from 'react-router';
-import { FC } from 'react';
 import { InputCover } from '../../components/inputs/input-cover/input-cover';
 import { InputField } from '../../components/inputs/input-field/input-field';
 import { Button } from '../buttons/button';
+import { REQUIRED_FIELD_TEXT } from '../../conts';
 
 const FormSchema = zod.object({
   title: zod
     .string()
-    .nonempty('Обязательное поле'),
+    .nonempty(REQUIRED_FIELD_TEXT),
   description: zod
     .string()
-    .nonempty('Обязательное поле'),
+    .nonempty(REQUIRED_FIELD_TEXT),
   author: zod
     .string()
-    .nonempty('Обязательное поле'),
+    .nonempty(REQUIRED_FIELD_TEXT),
   language: zod
     .string()
-    .nonempty('Обязательное поле'),
+    .nonempty(REQUIRED_FIELD_TEXT),
   year: zod
-    .coerce.number(),
+    .coerce.number()
+    .int()
+    .gte(1900, 'Год написания должен быть более поздний')
+    .lte(new Date().getFullYear(), 'Год написания не может быть в будущем'),
   bookCover: zod
     .custom<File>(),
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
 
-export const BookAddForm: FC = () => {
+export const BookAddForm = () => {
   const {
     watch,
     setValue,
@@ -61,7 +64,7 @@ export const BookAddForm: FC = () => {
       Description: data.description,
       BookCover: data.bookCover,
       Language: data.language,
-      PublicationYear: Number(data.year),
+      PublicationYear: data.year,
     });
   };
 

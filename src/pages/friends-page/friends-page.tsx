@@ -1,6 +1,6 @@
 import _styles from '../../index.module.css';
 import styles from './friends-page.module.css';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { PageWithNavbar } from '../../ui/page/page-with-navbar';
 import { Header } from '../../components/header/header';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
@@ -11,7 +11,7 @@ import { FriendCard } from '../../components/friend-card/friend-card';
 import { Loading } from '../../components/loading/loading';
 import { SegmentedControl } from '@mantine/core';
 
-export const FriendsPage: FC = () => {
+export const FriendsPage = () => {
   const { data: friendList, isLoading } = useQuery({
     queryFn: () => getFriendsList(),
     queryKey: getGetFriendsListQueryKey(),

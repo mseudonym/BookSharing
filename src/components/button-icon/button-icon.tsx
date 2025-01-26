@@ -1,5 +1,5 @@
 import { ActionIcon } from '@mantine/core';
-import { FC, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import styles from './button-icon.module.css';
 
 interface ButtonIconProps extends PropsWithChildren {
@@ -7,14 +7,14 @@ interface ButtonIconProps extends PropsWithChildren {
   onClick?: () => void;
 }
 
-export const ButtonIcon: FC<ButtonIconProps> = (props) => {
+export const ButtonIcon = ({ variant, onClick, children }: ButtonIconProps) => {
   return (
     <ActionIcon
       unstyled
-      className={`${styles.buttonIcon} ${styles[props.variant]}`}
-      onClick={props.onClick}
+      className={`${styles.buttonIcon} ${styles[variant]}`}
+      onClick={onClick}
     >
-      {props.children}
+      {children}
     </ActionIcon>
   );
 };

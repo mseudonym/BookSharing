@@ -1,6 +1,4 @@
-import { FC } from 'react';
-
-export const Loading: FC = () => {
+export const Loading = () => {
   return (
     <img loading="lazy" src="/loading.svg" alt="Loading icon" />
   );

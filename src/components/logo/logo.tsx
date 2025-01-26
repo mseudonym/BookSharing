@@ -1,6 +1,4 @@
-import { FC } from 'react';
-
-export const Logo: FC = () => {
+export const Logo = () => {
   return (
     <img loading="lazy" src="/logo.svg" alt="Company logo" />
   );

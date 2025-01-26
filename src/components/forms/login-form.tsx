@@ -1,15 +1,12 @@
-import { FC } from 'react';
+import * as zod from 'zod';
 import { InputField } from '../inputs/input-field/input-field.tsx';
 import { Button } from '../buttons/button.tsx';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as zod from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { postAuthLogin } from '../../generated-api/auth/auth.ts';
 import { saveToken } from '../../services/token.ts';
 import { checkProfileFilling } from '../../actions/user-actions.ts';
-import { useNavigate } from 'react-router';
-import { AppRoute } from '../../conts.ts';
 
 const FormSchema = zod.object({
   email: zod
@@ -20,7 +17,7 @@ const FormSchema = zod.object({
 
 type IFormInput = zod.infer<typeof FormSchema>;
 
-export const LoginForm: FC = () => {
+export const LoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -31,14 +28,11 @@ export const LoginForm: FC = () => {
     mode: 'onTouched',
   });
 
-  const navigate = useNavigate();
-
   const { mutateAsync: loginMutation } = useMutation({
     mutationFn: postAuthLogin,
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
       await checkProfileFilling();
-      navigate(AppRoute.Shelf);
     },
   });
 
