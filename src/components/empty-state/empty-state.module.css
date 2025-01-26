@@ -1,0 +1,13 @@
+.illustrationWrapper {
+  display: flex;
+  padding-top: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+}
+
+.image {
+  max-width: 200px;
+}

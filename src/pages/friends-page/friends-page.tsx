@@ -11,6 +11,7 @@ import { SegmentedControl } from '@mantine/core';
 import { ErrorPage } from '../error-page/error-page';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { FriendsTabs } from '../../conts';
+import { EmptyState } from '../../components/empty-state/empty-state';
 
 export const FriendsPage = () => {
   const { data: friendList, isLoading, isError } = useGetFriendsList();
@@ -53,27 +54,21 @@ export const FriendsPage = () => {
             <section className={styles.friendList}>
               {friendList == undefined || friendList.length == 0
                 ? (
-                    <div className={_styles.illustrationWrapper}>
-                      <img
-                        loading="lazy"
-                        src="/friends-illustration.svg"
-                        alt="FriendsEmpty illustration"
-                      />
-                      <p className={_styles.textCenter}>Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху.</p>
-                    </div>
+                    <EmptyState
+                      src="/friends-illustration.svg"
+                      alt="No friends illustration"
+                      text="Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху."
+                    />
                   )
                 : friendList.map((friend) => <FriendCard {...friend} key={friend.id} />)}
             </section>
           )
         : (
-            <div className={_styles.illustrationWrapper}>
-              <img
-                loading="lazy"
-                src="/request-illustration.svg"
-                alt="RequestEmpty illustration"
-              />
-              <p className={_styles.textCenter}>Заявок пока нет, но можно добавить кого-нибудь самому. </p>
-            </div>
+            <EmptyState
+              src="/request-illustration.svg"
+              alt="No requests illustration"
+              text="Заявок пока нет, но можно кого-нибудь добавить самому."
+            />
           )}
     </PageWithNavbar>
   );

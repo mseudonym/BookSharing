@@ -11,6 +11,7 @@ import { getGetItemsByBookIdQueryKey } from '../../generated-api/items/items';
 import { postQueueItemIdBecomeHolder, postQueueItemIdEnqueue, postQueueItemIdLeaveQueue } from '../../generated-api/queue/queue.ts';
 import { AppRoute } from '../../conts.ts';
 import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons/icons/ArrowUiAuthLogoutIcon';
+import { getNounForm } from '../../helpers/helpers.ts';
 
 interface QueueProps extends QueueModel {
   bookId: string;
@@ -105,7 +106,8 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
                   <span className={_styles.textGray}>
                     {queue.length}
                     {' '}
-                    человек в очереди
+                    {getNounForm(queue.length, 'человек', 'человека', 'человек')}
+                    в очереди
                   </span>
                   <Avatar.Group>
                     {queue.map((avatar, index) => (

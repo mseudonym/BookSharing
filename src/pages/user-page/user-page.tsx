@@ -11,6 +11,7 @@ import { ButtonIcon } from '../../components/button-icon/button-icon';
 import { ErrorPage } from '../error-page/error-page';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
+import { EmptyState } from '../../components/empty-state/empty-state';
 
 export const UserPage = () => {
   const { username } = useParams();
@@ -66,14 +67,11 @@ export const UserPage = () => {
       <div className={styles.bookList}>
         {bookList == undefined || bookList.length == 0
           ? (
-              <div className={_styles.illustrationWrapper}>
-                <img
-                  loading="lazy"
-                  src="/profile-illustration.svg"
-                  alt="ProfileEmpty illustration"
-                />
-                <p className={_styles.textCenter}>У твоего друга книг пока нет.</p>
-              </div>
+              <EmptyState
+                src="/profile-illustration.svg"
+                alt="No books illustration"
+                text="У твоего друга книг пока нет."
+              />
             )
           : bookList?.map((book) => <BookCard {...book} key={book.id} />)}
       </div>

@@ -23,6 +23,7 @@
   gap: 24px;
   align-self: stretch;
   background: white;
+  flex-grow: 1;
 }
 
 .textContainer {
@@ -65,19 +66,6 @@
   transition: .3s;
 }
 
-.illustrationWrapper {
-  display: flex;
-  padding-top: 16px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  align-self: stretch;
-}
-
-.textLink {
-  color: var(--blue-color);
-}
 .error {
   margin-top: 4px;
   color: red;
