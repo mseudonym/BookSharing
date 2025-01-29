@@ -1,5 +1,8 @@
+import styles from './loading.module.css';
+import { Loader } from '@mantine/core';
+
 export const Loading = () => {
   return (
-    <img loading="lazy" src="/loading.svg" alt="Loading icon" />
+    <Loader className={styles.loader} color="var(--light-gray-color)" />
   );
 };
