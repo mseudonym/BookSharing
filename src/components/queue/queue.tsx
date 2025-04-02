@@ -107,6 +107,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
                     {queue.length}
                     {' '}
                     {getNounForm(queue.length, 'человек', 'человека', 'человек')}
+                    {' '}
                     в очереди
                   </span>
                   <Avatar.Group>
