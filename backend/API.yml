@@ -1,0 +1,631 @@
+openapi: '3.0.3'
+info:
+  title: BookSharingApp API
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+security:
+  - userAuthToken: []
+paths:
+  /friends/list:
+    get:
+      summary: Gets the list of users friends
+      tags:
+        - friends
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"
+        '401':
+          description: Unauthorized
+
+  /friends/requests/send:
+      post:
+        summary: Send friend request
+        tags:
+        - friends
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  senderId:
+                    type: string
+                  receiverId:
+                    type: string
+        responses:
+          '200':
+            description: Friend request sent successfully
+            content:
+              application/json:
+                schema: 
+                  $ref: '#/components/schemas/FriendRequest'
+                      
+  /friends/requests/incoming:
+    get:
+      summary: Get incoming friend requests
+      tags:
+        - friends
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of incoming friend requests
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendRequest'
+
+  /friends/requests/outgoing:
+    get:
+      summary: Get outgoing friend requests
+      tags:
+        - friends
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of outgoing friend requests
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendRequest'
+
+  /friends/requests/response:
+    post:
+      summary: Respond to friend request
+      tags:
+        - friends
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                responseType:
+                  type: string
+                  enum: [accept, reject]
+                requestId:
+                  type: string
+      responses:
+        '200':
+          description: Friend request responded successfully
+
+  /friend:
+      delete:
+        summary: Deletes friend
+        tags:
+         - friends
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fromUserId:
+                    type: string
+                  toUserId:
+                    type: string
+        responses:
+          '200':
+            description: Friends removed successfully
+          '404':
+            description: Users cannot be found or they weren't friends
+  
+  /items/{itemId}:
+    get:
+      tags:
+        - items
+      parameters:
+        - name: itemId
+          in: path
+          description: Item id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      summary: Get single item
+      description: Get single item
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+    delete:
+      tags:
+        - items
+      parameters:
+        - name: itemId
+          in: path
+          description: Item id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      summary: Delete item from your shelf
+      description: Delete item from your shelf
+      responses:
+        200:
+          description: successful operation
+        404:
+          description: item not found
+          
+  /items/{bookId}:
+    post:
+      tags:
+        - items
+      summary: Add book to your shelf
+      description: Add book to your shelf
+      parameters:
+        - name: bookId
+          in: path
+          description: Book id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Book with requested Id was not found
+
+  /items/enqueue/{itemId}:
+    post:
+      tags:
+        - queues
+      summary: Stand in line for a book
+      parameters:
+        - name: itemId
+          in: path
+          description: Item id
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: first
+          in: query
+          description: be the first in line for a book (only for owner of a book)
+          required: false
+          schema:
+            type: boolean
+
+      responses:
+        '200':
+          description: successful operation
+
+  /items/ownedByFriends:
+    get:
+      tags:
+        - items
+      summary: Get all friends items
+      description: Get all friends items
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+                  
+  /items/ownedByFriend/{friendId}:
+    get:
+      tags:
+        - items
+      summary: Get all friend items
+      description: Get all friend items
+      parameters:
+        - name: friendId
+          in: path
+          description: Friend id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+    
+          
+  /items/loaned:
+    get:
+      tags:
+        - items
+      summary: All loaned items
+      description: All loaned items
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+
+  /items/borrowed:
+    get:
+      tags:
+        - items
+      summary: All borrowed items
+      description: All borrowed items
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+
+  /items/userInQueue:
+    get:
+      tags:
+        - queues
+      summary: All queues where I'm in
+      description: All queues where I'm in
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Queue'
+
+  /items/dequeue/{itemId}:
+    post:
+      tags:
+        - queues
+      summary: Left the queue
+      parameters:
+        - name: itemId
+          in: path
+          description: Item id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+      
+  /items/take/{itemId}:    
+    put:
+      tags:
+        - queues
+      summary: Get hold of the item
+      parameters:
+        - name: itemId
+          in: path
+          description: Item id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+
+  /user/checkIn:
+    get:
+      tags:
+        - user
+      summary: Check in for new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /user/login:
+    get:
+      tags:
+        - user
+      summary: Logs user into the system
+      parameters:
+        - name: email
+          in: query
+          description: The user email for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid email/password supplied
+
+  /user/logout:
+    get:
+      tags:
+        - user
+      summary: Logs out current logged in user session
+      description: ''
+      parameters: [ ]
+      responses:
+        default:
+          description: successful operation
+
+  /user/{username}:
+    get:
+      tags:
+        - user
+      summary: Get user by user name
+      parameters:
+        - name: username
+          in: path
+          description: 'The name that needs to be fetched.'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  
+  /user:
+    put:
+      tags:
+        - user
+      summary: Update user data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  
+  /books:
+    post:
+      tags:
+        - books
+      summary: Create a new book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddBookModel'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  
+  /books/findByName:
+    get:
+      tags:
+        - books
+      summary: Get suitable books
+      parameters:
+        - name: name
+          in: query
+          description: Name to find book
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                maxLength: 10
+                items:
+                  $ref: '#/components/schemas/Book'
+
+
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        contact:
+          type: string
+        profilePhotoUrl:
+          type: string
+          format: uri
+        isFriend: 
+          type: boolean
+          
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        profilePhotoUrl:
+          type: string
+          format: uri
+        password:
+          type: string
+
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        isbn:
+          type: integer
+          format: int64
+        description:
+          type: string
+        picture:
+          type: string
+          format: uri
+        language:
+          type: string
+        added_by_user:
+          type: boolean
+
+    AddBookModel:
+      type: object
+      required:
+        - name
+        - description
+        - picture
+        - language
+      properties:
+        name:
+          type: string
+        isbn:
+          type: integer
+          format: int64
+        description:
+          type: string
+        picture:
+          type: string
+          format: binary
+        language:
+          type: string
+    
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        book:
+          $ref: '#/components/schemas/Book'
+        owner:
+          $ref: '#/components/schemas/Person'
+        holder:
+          $ref: '#/components/schemas/Person'
+        queue:
+          $ref: '#/components/schemas/Queue'
+
+    FriendRequest: 
+      type: object
+      properties:
+        requestId:
+          type: string
+        senderId:
+          type: string
+        receiverId:
+          type: string
+          
+    Queue:
+      type: object
+      properties: 
+        holder:
+          $ref: '#/components/schemas/Person'
+        item:
+          $ref: '#/components/schemas/Item'
+        all_waiting_users:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+
+  securitySchemes:
+    userAuthToken:
+      description: Auth Token given to user on each session
+      type: apiKey
+      name: authToken
+      in: header
