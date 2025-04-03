@@ -8,24 +8,22 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
-public class FriendsController: Controller
+public class FriendsController : Controller
 {
     private readonly IFriendsService _friendsService;
+
     public FriendsController(IFriendsService friendsService)
     {
         _friendsService = friendsService;
     }
-    
+
     [HttpGet("list")]
     public async Task<ActionResult<UserProfile[]>> GetFriends()
     {
         var friendsResult = await _friendsService.GetFriendsAsync();
-        
-        if (friendsResult.IsFailed)
-        {
-            return MapResult(friendsResult);
-        }
-        
+
+        if (friendsResult.IsFailed) return MapResult(friendsResult);
+
         return Ok(friendsResult.Value);
     }
 
@@ -34,11 +32,8 @@ public class FriendsController: Controller
     {
         var sendRequestResult = await _friendsService.SendFriendRequestAsync(personToSendId);
 
-        if (sendRequestResult.IsFailed)
-        {
-            return MapResult(sendRequestResult);
-        }
-        
+        if (sendRequestResult.IsFailed) return MapResult(sendRequestResult);
+
         return Ok();
     }
 
@@ -48,12 +43,9 @@ public class FriendsController: Controller
         [FromQuery] bool isAccepted)
     {
         var respondRequestResult = await _friendsService.RespondToFriendRequestAsync(personToRespondId, isAccepted);
-        
-        if (respondRequestResult.IsFailed)
-        {
-            return MapResult(respondRequestResult);
-        }
-        
+
+        if (respondRequestResult.IsFailed) return MapResult(respondRequestResult);
+
         return Ok();
     }
 
@@ -61,12 +53,9 @@ public class FriendsController: Controller
     public async Task<ActionResult<UserProfile[]>> GetSentFriendRequests()
     {
         var sentRequestsResult = await _friendsService.GetSentFriendRequestsAsync();
-        
-        if (sentRequestsResult.IsFailed)
-        {
-            return MapResult(sentRequestsResult);
-        }
-        
+
+        if (sentRequestsResult.IsFailed) return MapResult(sentRequestsResult);
+
         return Ok(sentRequestsResult.Value);
     }
 
@@ -74,12 +63,9 @@ public class FriendsController: Controller
     public async Task<ActionResult<UserProfile[]>> GetReceivedFriendRequests()
     {
         var receivedFriendRequestsResult = await _friendsService.GetReceivedFriendRequestsAsync();
-        
-        if (receivedFriendRequestsResult.IsFailed)
-        {
-            return MapResult(receivedFriendRequestsResult);
-        }
-        
+
+        if (receivedFriendRequestsResult.IsFailed) return MapResult(receivedFriendRequestsResult);
+
         return Ok(receivedFriendRequestsResult.Value);
     }
 
@@ -87,12 +73,9 @@ public class FriendsController: Controller
     public async Task<ActionResult<UserProfile>> DeleteFriendRequest([FromQuery] Guid personToDeleteId)
     {
         var deleteFriendResult = await _friendsService.DeleteFriendAsync(personToDeleteId);
-        
-        if (deleteFriendResult.IsFailed)
-        {
-            return MapResult(deleteFriendResult);
-        }
-        
+
+        if (deleteFriendResult.IsFailed) return MapResult(deleteFriendResult);
+
         return Ok();
     }
 }

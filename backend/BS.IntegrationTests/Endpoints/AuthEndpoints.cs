@@ -17,7 +17,7 @@ public class AuthEndpoints
 
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", accessTokenResponse.AccessToken);
-        
+
         return registerRequest;
     }
 

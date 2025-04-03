@@ -10,10 +10,9 @@ public class AuthTests : IntegrationTestsBase
     [Test]
     public async Task LoginWorkOnlyByEmail()
     {
+        // Arrange
         var client = GetClient();
-
         var registerRequest = await AuthEndpoints.RegisterAndLogin(client);
-
         var editProfileModel = GenerateEditProfileModel();
         await UserEndpoints.EditUserProfile(client, editProfileModel);
 
@@ -21,6 +20,7 @@ public class AuthTests : IntegrationTestsBase
         var loginByEmailModel = new LoginRequest { Email = registerRequest.Email, Password = password };
         var loginByUsernameModel = new LoginRequest { Email = editProfileModel.Username!, Password = password };
 
+        // Arrange
         await AuthEndpoints.Login(client, loginByEmailModel);
         AssertReturnCode(HttpStatusCode.Unauthorized, AuthEndpoints.Login(client, loginByUsernameModel));
     }

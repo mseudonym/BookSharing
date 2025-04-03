@@ -19,7 +19,7 @@ public class BookEntityConfiguration : IEntityTypeConfiguration<BookEntity>
         builder.Property(user => user.Isbn).HasMaxLength(IsbnMaxLength);
         builder.Property(user => user.Description).HasMaxLength(DescriptionMaxLength);
         builder.Property(user => user.Language).HasMaxLength(LanguageMaxLength);
-        
+
         builder.HasMany(book => book.Items)
             .WithOne(item => item.Book)
             .HasForeignKey(item => item.BookId);

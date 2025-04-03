@@ -16,14 +16,14 @@ namespace BS.Core.Services.User;
 
 internal class UserService : IUserService
 {
-    private readonly BookSharingContext _dbContext;
-    private readonly UserManager<UserEntity> _userManager;
-    private readonly IS3Service _s3Service;
+    private readonly IValidator<string> _changeUsernameValidator = new UsernameValidator();
     private readonly ICurrentUserService _currentUserService;
-    private readonly UserMapper _userMapper;
+    private readonly BookSharingContext _dbContext;
 
     private readonly IValidator<EditProfileModel> _editProfileModelValidator = new ProfileModelValidator();
-    private readonly IValidator<string> _changeUsernameValidator = new UsernameValidator();
+    private readonly IS3Service _s3Service;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly UserMapper _userMapper;
 
     public UserService(
         BookSharingContext dbContext,
@@ -46,19 +46,14 @@ internal class UserService : IUserService
 
         var validationResult = await ValidateEditUserModel(model, currentUser.IsProfileFilled);
         if (!validationResult.IsValid)
-        {
             return Result.Fail<UserData>(new ModelValidationError(validationResult.ErrorsToString()));
-        }
 
         if (model.Photo != null)
         {
             var uploadResult = await _s3Service.UploadProfilePhotoAsync(model.Photo);
 
-            if (uploadResult.IsFailed)
-            {
-                return Result.Fail<UserData>(uploadResult.Errors);
-            }
-            
+            if (uploadResult.IsFailed) return Result.Fail<UserData>(uploadResult.Errors);
+
             currentUser.IsProfilePhotoUploaded = true;
             await _dbContext.SaveChangesAsync();
         }
@@ -69,11 +64,8 @@ internal class UserService : IUserService
         currentUser.IsProfileFilled = true;
 
         await _dbContext.SaveChangesAsync();
-        
-        if (model.Username != null)
-        {
-            await EditUsername(model.Username);
-        }
+
+        if (model.Username != null) await EditUsername(model.Username);
 
         currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
 
@@ -82,11 +74,8 @@ internal class UserService : IUserService
 
     public async Task<Result<UserProfile[]>> SearchByUsernamePrefix(string usernamePrefix)
     {
-        if (usernamePrefix.Length < 3)
-        {
-            return Result.Fail<UserProfile[]>(new UsernameSearchPrefixTooShortError());
-        }
-        
+        if (usernamePrefix.Length < 3) return Result.Fail<UserProfile[]>(new UsernameSearchPrefixTooShortError());
+
         var currentUserId = await _currentUserService.GetIdAsync();
         var currentUser = await _dbContext.Users
             .Where(u => u.Id == currentUserId)
@@ -110,25 +99,17 @@ internal class UserService : IUserService
     {
         var validationResult = await _changeUsernameValidator.ValidateAsync(newUsername);
         if (!validationResult.IsValid)
-        {
             return Result.Fail<string>(new ModelValidationError(validationResult.ErrorsToString()));
-        }
-        
+
         var currentUserId = await _currentUserService.GetIdAsync();
         var currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
 
         var setUsernameResult = await _userManager.SetUserNameAsync(currentUser, newUsername);
-        if (!setUsernameResult.Succeeded)
-        {
-            return Result.Fail<string>(new UsernameAlreadyTakenError(newUsername));
-        }
-        
+        if (!setUsernameResult.Succeeded) return Result.Fail<string>(new UsernameAlreadyTakenError(newUsername));
+
         currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
-        if (currentUser.UserName != newUsername)
-        {
-            return Result.Fail<string>("Failed changing username");
-        }
-        
+        if (currentUser.UserName != newUsername) return Result.Fail<string>("Failed changing username");
+
         return Result.Ok(currentUser.UserName);
     }
 
@@ -152,11 +133,8 @@ internal class UserService : IUserService
 
         var person = await _dbContext.Users.Where(u => u.Id == personId).FirstOrDefaultAsync();
 
-        if (person is null)
-        {
-            return Result.Fail<UserProfile>(new PersonNotFoundError(personId));
-        }
-        
+        if (person is null) return Result.Fail<UserProfile>(new PersonNotFoundError(personId));
+
         var friendshipStatus = GetFriendshipStatus(currentUser, person);
         return Result.Ok(_userMapper.ToUserProfile(person, friendshipStatus));
     }
@@ -176,9 +154,7 @@ internal class UserService : IUserService
             .FirstOrDefaultAsync();
 
         if (person is null || !person.IsProfileFilled)
-        {
             return Result.Fail<UserProfile>(new PersonNotFoundError(username));
-        }
 
         var friendshipStatus = GetFriendshipStatus(currentUser, person);
         return Result.Ok(_userMapper.ToUserProfile(person, friendshipStatus));
@@ -190,38 +166,26 @@ internal class UserService : IUserService
     {
         ValidationResult validationResult;
         if (isProfileFilled)
-        {
             validationResult = await _editProfileModelValidator.ValidateNotNullFieldsAsync(model);
-        }
         else
-        {
             validationResult = await _editProfileModelValidator.ValidateAsync(model);
-        }
-        
+
         return validationResult;
     }
 
     /// <summary>
-    /// Возвращает FriendshipStatus для текущего юзера и другого юзера.
-    /// ВАЖНО! Чтобы метод корректно отработал необходимо, чтобы в currentUser были подгружены поля
-    /// Friends, SentFriendRequests, ReceivedFriendRequests.
+    ///     Возвращает FriendshipStatus для текущего юзера и другого юзера.
+    ///     ВАЖНО! Чтобы метод корректно отработал необходимо, чтобы в currentUser были подгружены поля
+    ///     Friends, SentFriendRequests, ReceivedFriendRequests.
     /// </summary>
     /// <param name="currentUser">Текущий пользователь</param>
     /// <param name="person">Юзер, про которого мы хоти узнать FriendshipStatus</param>
     private static FriendshipStatus GetFriendshipStatus(UserEntity currentUser, UserEntity person)
     {
-        if (currentUser.Friends.Any(user => user.Id == person.Id))
-        {
-            return FriendshipStatus.Friend;
-        }
-        if (currentUser.ReceivedFriendRequests.Any(user => user.Id == person.Id))
-        {
-            return FriendshipStatus.IncomeRequest;
-        }
+        if (currentUser.Friends.Any(user => user.Id == person.Id)) return FriendshipStatus.Friend;
+        if (currentUser.ReceivedFriendRequests.Any(user => user.Id == person.Id)) return FriendshipStatus.IncomeRequest;
         if (currentUser.SentFriendRequests.Any(friend => friend.Id == person.Id))
-        {
             return FriendshipStatus.OutcomeRequest;
-        }
 
         return FriendshipStatus.None;
     }

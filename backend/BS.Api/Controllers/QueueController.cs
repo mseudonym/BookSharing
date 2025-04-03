@@ -8,9 +8,9 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
-public class QueueController: Controller
+public class QueueController : Controller
 {
-    private IQueueService _queueService;
+    private readonly IQueueService _queueService;
 
     public QueueController(IQueueService queueService)
     {

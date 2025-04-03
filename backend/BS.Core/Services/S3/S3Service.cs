@@ -1,3 +1,4 @@
+using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
 using BS.Core.Models.S3;
@@ -11,8 +12,8 @@ namespace BS.Core.Services.S3;
 public class S3Service : IS3Service
 {
     private readonly ICurrentUserService _currentUserService;
-    private readonly IAmazonS3 _s3Client;
     private readonly YandexCloudS3Options _options;
+    private readonly IAmazonS3 _s3Client;
 
     public S3Service(
         ICurrentUserService currentUserService,
@@ -28,7 +29,8 @@ public class S3Service : IS3Service
     {
         var currentUserId = await _currentUserService.GetIdAsync();
 
-        var objectKey = $"{_options.OriginalQualityProfilePhotoPath}/{currentUserId.ToString()}{model.FileExtension.ToLower()}";
+        var objectKey =
+            $"{_options.OriginalQualityProfilePhotoPath}/{currentUserId.ToString()}{model.FileExtension.ToLower()}";
 
         var putObjectRequest = new PutObjectRequest
         {
@@ -38,10 +40,7 @@ public class S3Service : IS3Service
             ContentType = model.ContentType,
         };
         var response = await _s3Client.PutObjectAsync(putObjectRequest);
-        if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
-        {
-            return Result.Ok(GeneratePreSignedUrl(objectKey));
-        }
+        if (response.HttpStatusCode == HttpStatusCode.OK) return Result.Ok(GeneratePreSignedUrl(objectKey));
 
         return Result.Fail("Failed to upload profile photo");
     }
@@ -77,10 +76,7 @@ public class S3Service : IS3Service
             ContentType = model.ContentType,
         };
         var response = await _s3Client.PutObjectAsync(putObjectRequest);
-        if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
-        {
-            return Result.Ok(GeneratePreSignedUrl(objectKey));
-        }
+        if (response.HttpStatusCode == HttpStatusCode.OK) return Result.Ok(GeneratePreSignedUrl(objectKey));
 
         return Result.Fail("Failed to upload book cover");
     }
@@ -104,7 +100,7 @@ public class S3Service : IS3Service
             BucketName = _options.PhotosBucketName,
             Key = objectKey,
             Verb = HttpVerb.GET,
-            Expires = DateTime.UtcNow.AddHours(_options.ExpireDurationInHours)
+            Expires = DateTime.UtcNow.AddHours(_options.ExpireDurationInHours),
         };
 
         return _s3Client.GetPreSignedURL(request);

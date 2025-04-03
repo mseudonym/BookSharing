@@ -25,6 +25,6 @@ public class BookMapper
             PublicationYear = bookEntity.PublicationYear,
             IsAddedByUser = bookEntity.IsAddedByUser,
             IsPhotoUploaded = bookEntity.IsPhotoUploaded,
-            Isbn = bookEntity.Isbn
+            Isbn = bookEntity.Isbn,
         };
 }

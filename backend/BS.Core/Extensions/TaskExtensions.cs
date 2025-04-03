@@ -13,7 +13,7 @@ public static class TaskExtensions
             var result = await task;
             resultBag.Add(result);
         });
-        
+
         return resultBag.ToArray();
-    }   
+    }
 }

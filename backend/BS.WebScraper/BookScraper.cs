@@ -71,7 +71,7 @@ public static partial class BookScraper
             Description = description ?? "~~~",
             Isbn = isbn,
             Language = "RUS",
-            Title = bookTitle
+            Title = bookTitle,
         };
         var res = await bookService.AddBookAsync(addBookModel);
         return res.IsSuccess ? res.Value : null;
@@ -104,12 +104,9 @@ public static partial class BookScraper
 
     private static string? GetIsbnByMetaOrNull(string htmlContent)
     {
-        Match match = MetaDescriptionRegex().Match(htmlContent);
+        var match = MetaDescriptionRegex().Match(htmlContent);
 
-        if (!match.Success)
-        {
-            return null;
-        }
+        if (!match.Success) return null;
 
         var descriptionContent = match.Groups[1].Value; // Извлекаем содержимое атрибута content
         match = IsbnRegex1().Match(descriptionContent);
@@ -124,10 +121,7 @@ public static partial class BookScraper
         var script = document.QuerySelector(BookIsbnSelector);
 
         var textContent = script?.TextContent;
-        if (textContent is null)
-        {
-            return null;
-        }
+        if (textContent is null) return null;
 
         var match = IsbnRegex2().Match(textContent);
         return match.Success ? match.Groups[1].Value : null;
@@ -156,14 +150,15 @@ public static partial class BookScraper
 
         var stream = new MemoryStream(imageBytes);
         var file = new FormFile(
-            stream, baseStreamOffset: 0,
+            stream,
+            baseStreamOffset: 0,
             imageBytes.Length,
             name: bookCoverId,
             fileName: $"{bookCoverId}.jpg");
         // file.ContentType = "image/jpeg";
         return (bookCoverId, file);
     }
-    
+
     public static async Task<ICollection<BookModel>> GetBookInfos(
         IBookService bookService, IEnumerable<string> booksArray)
     {

@@ -3,6 +3,7 @@
 public static class StringExtensions
 {
     private const char IsbnChar = 'X';
+
     public static bool IsValidIsbn(this string isbn, out string validIsbn)
     {
         // Убираем все нецифровые символы (пробелы, тире и т.д.)

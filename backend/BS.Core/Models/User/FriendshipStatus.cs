@@ -8,5 +8,5 @@ public enum FriendshipStatus
     Friend = 0,
     IncomeRequest = 1,
     OutcomeRequest = 2,
-    None = 3
+    None = 3,
 }

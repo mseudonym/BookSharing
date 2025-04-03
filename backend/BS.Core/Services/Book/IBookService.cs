@@ -1,5 +1,5 @@
-﻿using FluentResults;
-using BS.Core.Models.Book;
+﻿using BS.Core.Models.Book;
+using FluentResults;
 
 namespace BS.Core.Services.Book;
 

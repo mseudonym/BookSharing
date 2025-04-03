@@ -35,10 +35,7 @@ public static class HttpClientExtensions
 
     private static async Task EnsureSuccessResponse(HttpResponseMessage response)
     {
-        if (response.IsSuccessStatusCode)
-        {
-            return;
-        }
+        if (response.IsSuccessStatusCode) return;
 
         var content = await response.Content.ReadAsStringAsync();
         throw new HttpRequestException(

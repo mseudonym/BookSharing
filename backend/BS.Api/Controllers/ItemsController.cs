@@ -38,7 +38,7 @@ public class ItemsController : Controller
         var result = await _itemsService.GetAllQueuesOfBook(bookId);
         return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
-    
+
     [HttpPost("addToMyShelf")]
     public async Task<IActionResult> AddBookToMyShelf(Guid bookId)
     {

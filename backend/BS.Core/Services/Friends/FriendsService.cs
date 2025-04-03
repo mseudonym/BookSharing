@@ -11,8 +11,8 @@ namespace BS.Core.Services.Friends;
 
 public class FriendsService : IFriendsService
 {
-    private readonly BookSharingContext _dbContext;
     private readonly ICurrentUserService _currentUserService;
+    private readonly BookSharingContext _dbContext;
     private readonly UserMapper _userMapper;
 
     public FriendsService(BookSharingContext dbContext, ICurrentUserService currentUserService, UserMapper userMapper)
@@ -67,24 +67,17 @@ public class FriendsService : IFriendsService
             .FirstAsync();
 
         if (currentUser.ReceivedFriendRequests.Any(u => u.Id == personId))
-        {
             return await RespondToFriendRequestAsync(personId, true);
-        }
 
         if (currentUser.Friends.Any(u => u.Id == personId) || currentUser.SentFriendRequests.Any(u => u.Id == personId))
-        {
             return Result.Fail(new OperationAlreadyApplied("Request is already sent"));
-        }
 
         var friend = await _dbContext.Users
             .Where(u => u.Id == personId)
             .Include(u => u.ReceivedFriendRequests)
             .FirstOrDefaultAsync();
 
-        if (friend is null)
-        {
-            return Result.Fail(new PersonNotFoundError(personId));
-        }
+        if (friend is null) return Result.Fail(new PersonNotFoundError(personId));
 
         currentUser.SentFriendRequests.Add(friend);
         friend.ReceivedFriendRequests.Add(currentUser);
@@ -108,20 +101,13 @@ public class FriendsService : IFriendsService
             .Include(u => u.Friends)
             .FirstOrDefaultAsync();
 
-        if (userWhoSendRequest is null)
-        {
-            return Result.Fail(new PersonNotFoundError(personId));
-        }
+        if (userWhoSendRequest is null) return Result.Fail(new PersonNotFoundError(personId));
 
         if (currentUser.Friends.Any(u => u.Id == userWhoSendRequest.Id))
-        {
             return Result.Fail(new OperationAlreadyApplied("Already Friends with this user"));
-        }
 
         if (currentUser.ReceivedFriendRequests.All(u => u.Id != userWhoSendRequest.Id))
-        {
             return Result.Fail(new OperationAlreadyApplied("Doesn't have requests from this user"));
-        }
 
 
         currentUser.ReceivedFriendRequests.Remove(userWhoSendRequest);
@@ -155,15 +141,10 @@ public class FriendsService : IFriendsService
             .Include(u => u.Friends)
             .FirstOrDefaultAsync();
 
-        if (friend is null)
-        {
-            return Result.Fail(new PersonNotFoundError(personId));
-        }
+        if (friend is null) return Result.Fail(new PersonNotFoundError(personId));
 
         if (currentUser.Friends.All(user => user.Id != friend.Id))
-        {
             return Result.Fail(new OperationAlreadyApplied("Person is already not your friend"));
-        }
 
         currentUser.Friends.Remove(friend);
         friend.Friends.Remove(currentUser);
@@ -181,10 +162,7 @@ public class FriendsService : IFriendsService
         foreach (var item in items)
         {
             var queueItem = item.QueueItems.FirstOrDefault(qi => qi.UserId == user.Id);
-            if (queueItem != null)
-            {
-                item.QueueItems.Remove(queueItem);
-            }
+            if (queueItem != null) item.QueueItems.Remove(queueItem);
         }
     }
 }

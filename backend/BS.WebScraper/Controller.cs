@@ -8,10 +8,10 @@ namespace BS.WebScraper;
 [Route("api/[controller]")]
 public class ScrapeController : ControllerBase
 {
-    private readonly IBookService _bookService;
-    private static readonly Regex Regex = new Regex(BookNamesFromTxtFile);
     private const string FileName = "book_titles.txt";
     private const string BookNamesFromTxtFile = @"^\d+\.\s*(.*)$";
+    private static readonly Regex Regex = new(BookNamesFromTxtFile);
+    private readonly IBookService _bookService;
 
     public ScrapeController(IBookService bookService)
     {
@@ -23,10 +23,7 @@ public class ScrapeController : ControllerBase
     {
         var bookNames = ParseBookNamesFromFile();
         var books = await BookScraper.GetBookInfos(_bookService, bookNames);
-        foreach (var bookInfo in books)
-        {
-            Console.WriteLine(bookInfo);
-        }
+        foreach (var bookInfo in books) Console.WriteLine(bookInfo);
 
         Console.WriteLine($"Total count: {books.Count}.");
         return books.Any() ? Ok(books) : NotFound();
@@ -48,7 +45,6 @@ public class ScrapeController : ControllerBase
         var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"..\..\..\{FileName}");
         // var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FileName);
         if (System.IO.File.Exists(fullPath))
-        {
             try
             {
                 var lines = System.IO.File.ReadAllLines(fullPath);
@@ -57,10 +53,7 @@ public class ScrapeController : ControllerBase
                 {
                     var match = Regex.Match(line.Trim());
 
-                    if (match.Success)
-                    {
-                        bookNames.Add(match.Groups[1].Value);
-                    }
+                    if (match.Success) bookNames.Add(match.Groups[1].Value);
                 }
 
                 return bookNames.ToArray();
@@ -69,11 +62,8 @@ public class ScrapeController : ControllerBase
             {
                 Console.WriteLine($"Error reading the file: {ex.Message}");
             }
-        }
         else
-        {
             Console.WriteLine($"The file {fullPath} does not exist.");
-        }
 
         return [];
     }

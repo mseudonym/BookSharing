@@ -12,7 +12,7 @@ var configuration = builder.Configuration;
 var environment = builder.Environment;
 
 builder.Services.AddLogging();
-builder.Services.AddHttpLogging(_ => {  });
+builder.Services.AddHttpLogging(_ => { });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddBsSwagger();
 
@@ -65,4 +65,3 @@ public class Startup
     {
     }
 }
-

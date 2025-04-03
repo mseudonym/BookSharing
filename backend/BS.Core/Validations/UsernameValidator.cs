@@ -6,7 +6,7 @@ namespace BS.Core.Validations;
 public class UsernameValidator : AbstractValidator<string?>
 {
     private const string UnderScope = "_";
-    
+
     public UsernameValidator()
     {
         RuleFor(username => username)

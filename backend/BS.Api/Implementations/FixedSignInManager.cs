@@ -18,14 +18,12 @@ public class FixedSignInManager<TUser> : SignInManager<TUser> where TUser : clas
     {
     }
 
-    public override async Task<SignInResult> PasswordSignInAsync(string email, string password, bool isPersistent, bool lockoutOnFailure)
+    public override async Task<SignInResult> PasswordSignInAsync(string email, string password, bool isPersistent,
+        bool lockoutOnFailure)
     {
         var user = await UserManager.FindByEmailAsync(email);
-        
-        if (user == null)
-        {
-            return SignInResult.Failed;
-        }
+
+        if (user == null) return SignInResult.Failed;
 
         return await PasswordSignInAsync(user, password, isPersistent, lockoutOnFailure);
     }

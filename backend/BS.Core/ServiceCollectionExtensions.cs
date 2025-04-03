@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
         services.AddS3Client(configuration);
         services.AddModelMappers();
         services.AddCoreServices();
-        
+
         return services;
     }
 
@@ -42,7 +42,7 @@ public static class ServiceCollectionExtensions
                 Host = emailOptions.Host,
                 Port = emailOptions.Port,
                 Credentials = new NetworkCredential(emailOptions.Username, emailOptions.Password),
-                EnableSsl = true
+                EnableSsl = true,
             };
         });
         services.AddTransient<IEmailSender, EmailSender>();
@@ -50,7 +50,8 @@ public static class ServiceCollectionExtensions
 
     private static void AddCloudCredentials(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<YandexCloudCredentialsOptions>(configuration.GetRequiredSection(YandexCloudCredentialsOptions.Section));
+        services.Configure<YandexCloudCredentialsOptions>(
+            configuration.GetRequiredSection(YandexCloudCredentialsOptions.Section));
     }
 
     public static void AddS3Client(this IServiceCollection services, IConfiguration configuration)
@@ -65,7 +66,7 @@ public static class ServiceCollectionExtensions
                 yandexCloudCredentialsOptions.SecretKey,
                 new AmazonS3Config
                 {
-                    ServiceURL = yandexCloudS3Options.Url
+                    ServiceURL = yandexCloudS3Options.Url,
                 }
             );
         });
@@ -80,7 +81,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IItemService, ItemService>();
     }
-    
+
     private static void AddModelMappers(this IServiceCollection services)
     {
         services.AddScoped<UserMapper>();

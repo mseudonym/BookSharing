@@ -10,22 +10,22 @@ public static class ServiceCollectionExtensions
     {
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
-        
+
         return services;
     }
-    
+
     public static IServiceCollection AddBsSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "BookSharingApi", Version = "v1" });
-            options.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
                 Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
+                Scheme = "Bearer",
             });
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
@@ -37,15 +37,16 @@ public static class ServiceCollectionExtensions
                         Reference = new OpenApiReference
                         {
                             Id = "Bearer",
-                            Type = ReferenceType.SecurityScheme
-                        }
+                            Type = ReferenceType.SecurityScheme,
+                        },
                     },
                     new List<string>()
-                }
+                },
             });
-        });        
+        });
         return services;
-    }  
+    }
+
     public static IServiceCollection AddBsCors(
         this IServiceCollection services,
         IWebHostEnvironment environment)
@@ -56,7 +57,6 @@ public static class ServiceCollectionExtensions
                 policy =>
                 {
                     if (environment.IsProduction())
-                    {
                         policy
                             .AllowAnyHeader()
                             .AllowAnyMethod()
@@ -65,21 +65,15 @@ public static class ServiceCollectionExtensions
                                 "http://*.book-sharing.ru",
                                 "https://*.book-sharing.ru"
                             );
-                    }
 
                     if (environment.IsStaging() || environment.IsDevelopment())
-                    {
                         policy
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
                             .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
-                    }
                 });
         });
         return services;
     }
-    
-    
-
 }

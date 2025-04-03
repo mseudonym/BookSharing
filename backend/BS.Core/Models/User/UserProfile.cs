@@ -2,8 +2,7 @@ namespace BS.Core.Models.User;
 
 public class UserProfile
 {
-    public FriendshipStatus FriendshipStatus { get; set; } 
-    
+    public FriendshipStatus FriendshipStatus { get; set; }
     public Guid Id { get; set; }
     public required string Username { get; set; }
     public required string FirstName { get; set; }

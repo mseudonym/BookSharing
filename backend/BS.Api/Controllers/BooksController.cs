@@ -55,7 +55,7 @@ public class BooksController : Controller
             PublicationYear = bookRequest.PublicationYear,
             BookCover = bookRequest.BookCover is null
                 ? null
-                : bookRequest.BookCover!.GetPhotoFileModel()
+                : bookRequest.BookCover!.GetPhotoFileModel(),
         };
         var addResult = await _bookService.AddBookAsync(model);
         return addResult.IsFailed ? MapResult(addResult) : Ok(addResult.Value);
@@ -79,6 +79,6 @@ public class BooksController : Controller
     public async Task<ActionResult<BookModel[]>> GetMyBooks()
     {
         var result = await _bookService.GetMyBooks();
-        return result.IsFailed ? MapResult(result) : Ok(result.Value); 
+        return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
 }

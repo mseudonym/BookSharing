@@ -17,12 +17,12 @@ namespace BS.Core.Services.Book;
 public class BookService : IBookService
 {
     private const int SearchByTitleBooksMaxCount = 10;
-    private readonly BookSharingContext _dbContext;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IS3Service _s3Service;
-    private readonly BookMapper _bookMapper;
 
     private readonly IValidator<AddBookModel> _addBookModelValidator = new AddBookModelValidator();
+    private readonly BookMapper _bookMapper;
+    private readonly ICurrentUserService _currentUserService;
+    private readonly BookSharingContext _dbContext;
+    private readonly IS3Service _s3Service;
 
     public BookService(
         BookSharingContext dbContext,
@@ -52,9 +52,7 @@ public class BookService : IBookService
     public async Task<Result<BookModel>> GetBookByIsbnAsync(string isbn)
     {
         if (string.IsNullOrWhiteSpace(isbn) || !isbn.IsValidIsbn(out var validIsbn))
-        {
             return Result.Fail<BookModel>(new InvalidIsbnError(isbn));
-        }
 
         var book = await _dbContext.Books.Where(b => b.Isbn == validIsbn).FirstOrDefaultAsync();
         return book is null
@@ -75,16 +73,12 @@ public class BookService : IBookService
     {
         var validationResult = await _addBookModelValidator.ValidateAsync(book);
         if (!validationResult.IsValid)
-        {
             return Result.Fail<BookModel>(new ModelValidationError(validationResult.ErrorsToString()));
-        }
 
         var currentUserId = await _currentUserService.GetIdAsync();
 
         if (book.Isbn != null && await _dbContext.Books.AnyAsync(b => b.Isbn == book.Isbn))
-        {
             return Result.Fail<BookModel>(new BookAlreadyAddedError(book.Isbn));
-        }
 
         var bookId = Guid.NewGuid();
         var isUploaded = false;
@@ -92,10 +86,7 @@ public class BookService : IBookService
         {
             var uploadResult = await _s3Service.UploadBookCoverAsync(book.BookCover, bookId);
 
-            if (uploadResult.IsFailed)
-            {
-                return Result.Fail<BookModel>(uploadResult.Errors);
-            }
+            if (uploadResult.IsFailed) return Result.Fail<BookModel>(uploadResult.Errors);
 
             isUploaded = true;
         }
@@ -118,7 +109,7 @@ public class BookService : IBookService
             Language = book.Language,
             PublicationYear = book.PublicationYear,
             IsPhotoUploaded = isUploaded,
-            IsAddedByUser = true
+            IsAddedByUser = true,
         });
 
         await _dbContext.SaveChangesAsync();
@@ -143,11 +134,8 @@ public class BookService : IBookService
             .ThenInclude(friend => friend.Items)
             .ThenInclude(item => item.Book)
             .FirstOrDefaultAsync();
-        if (currentUserWithFriendsAndTheirBooks is null)
-        {
-            return Result.Fail(new FriendBooksNotFoundError());
-        }
-        
+        if (currentUserWithFriendsAndTheirBooks is null) return Result.Fail(new FriendBooksNotFoundError());
+
         var books = currentUserWithFriendsAndTheirBooks.Friends
             .SelectMany(friend => friend.Items)
             .OrderByDescending(item => item.CreatedUtc)
@@ -170,20 +158,14 @@ public class BookService : IBookService
             .ThenInclude(item => item.Book)
             .FirstOrDefaultAsync();
 
-        if (friend is null)
-        {
-            return Result.Fail(new FriendNotFoundError(friendId));
-        }
+        if (friend is null) return Result.Fail(new FriendNotFoundError(friendId));
 
         if (friend.Friends.All(f => f.Id != currentUserId))
-        {
             return Result.Fail(new PersonIsNotYourFriendError(friendId));
-        }
         return friend.Items
             .Select(item => _bookMapper
                 .ToBookModel(item.Book))
             .ToArray();
-        
     }
 
     public async Task<Result<BookModel[]>> GetMyBooks()

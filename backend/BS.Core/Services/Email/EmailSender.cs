@@ -25,7 +25,7 @@ public class EmailSender : IEmailSender
         var message = new MailMessage(GetNoreplyMailAddress(), recipientMailAddress)
         {
             Subject = subject,
-            Body = htmlMessage
+            Body = htmlMessage,
         };
         message.IsBodyHtml = true;
 
@@ -39,6 +39,6 @@ public class EmailSender : IEmailSender
             _logger.LogError(e, e.Message);
         }
     }
-    
+
     private MailAddress GetNoreplyMailAddress() => new(_options.NoreplyEmail, _options.DisplayName);
 }

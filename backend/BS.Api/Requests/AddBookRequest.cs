@@ -7,7 +7,7 @@ public class AddBookRequest
     public required string Description { get; init; }
     public string? Isbn { get; init; }
     public required string Language { get; set; }
-    
+
     public int? PublicationYear { get; set; }
     public IFormFile? BookCover { get; set; }
 }

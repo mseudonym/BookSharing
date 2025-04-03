@@ -28,12 +28,12 @@ public static class ErrorStatusCodeMapper
             // 404
             _ when result.HasError<PersonNotFoundError>() ||
                    result.HasError<BookNotFoundByTitleError>() ||
-                   result.HasError<BookNotFoundByIsbnError>() || 
+                   result.HasError<BookNotFoundByIsbnError>() ||
                    result.HasError<BookNotFoundByIdError>()
                 => new NotFoundObjectResult(result.ErrorsToString()),
 
             // 409
-            _ when result.HasError<BookAlreadyAddedError>() || 
+            _ when result.HasError<BookAlreadyAddedError>() ||
                    result.HasError<UsernameAlreadyTakenError>()
                 => new ConflictObjectResult(result.ErrorsToString()),
 

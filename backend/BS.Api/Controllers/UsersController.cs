@@ -10,7 +10,7 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
-public class UsersController: Controller
+public class UsersController : Controller
 {
     private readonly IUserService _userService;
 
@@ -18,30 +18,24 @@ public class UsersController: Controller
     {
         _userService = userService;
     }
-    
+
     [HttpGet("{username}")]
     public async Task<ActionResult<UserProfile>> GetUser([FromRoute] string username)
     {
         var getUserResult = await _userService.GetUserByUsername(username);
 
-        if (getUserResult.IsFailed)
-        {
-            return MapResult(getUserResult);
-        }
-        
+        if (getUserResult.IsFailed) return MapResult(getUserResult);
+
         return Ok(getUserResult.Value);
     }
-    
+
     [HttpGet("search/{usernamePrefix}")]
     public async Task<ActionResult<UserProfile>> GetUsers([FromRoute] string usernamePrefix)
     {
         var users = await _userService.SearchByUsernamePrefix(usernamePrefix);
 
-        if (users.IsFailed)
-        {
-            return MapResult(users);
-        }
-        
+        if (users.IsFailed) return MapResult(users);
+
         return Ok(users.Value);
     }
 
@@ -50,11 +44,8 @@ public class UsersController: Controller
     {
         var getCurrentUserResult = await _userService.GetCurrentUser();
 
-        if (getCurrentUserResult.IsFailed)
-        {
-            return MapResult(getCurrentUserResult);
-        }
-        
+        if (getCurrentUserResult.IsFailed) return MapResult(getCurrentUserResult);
+
         return Ok(getCurrentUserResult.Value);
     }
 
@@ -67,16 +58,13 @@ public class UsersController: Controller
             LastName = request.LastName,
             Username = request.Username,
             ContactUrl = request.ContactUrl,
-            Photo = request.PhotoFile is null 
-            ? null
-            : request.PhotoFile!.GetPhotoFileModel()
+            Photo = request.PhotoFile is null
+                ? null
+                : request.PhotoFile!.GetPhotoFileModel(),
         };
         var editUserProfile = await _userService.EditUserProfile(model);
 
-        if (editUserProfile.IsFailed)
-        {
-            return MapResult(editUserProfile);
-        }
+        if (editUserProfile.IsFailed) return MapResult(editUserProfile);
 
         return Ok(editUserProfile.Value);
     }

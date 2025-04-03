@@ -14,7 +14,7 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<ItemEntity>
         builder.HasOne(item => item.Book)
             .WithMany(item => item.Items)
             .HasForeignKey(item => item.BookId);
-        
+
         builder.HasMany(item => item.QueueItems)
             .WithOne(item => item.Item)
             .HasForeignKey(queueItem => queueItem.ItemId);

@@ -13,9 +13,9 @@ namespace BS.Core.Services.Items;
 
 public class ItemService : IItemService
 {
-    private readonly BookSharingContext _dbContext;
-    private readonly ICurrentUserService _currentUserService;
     private readonly BookMapper _bookMapper;
+    private readonly ICurrentUserService _currentUserService;
+    private readonly BookSharingContext _dbContext;
     private readonly IQueueService _queueService;
 
 
@@ -46,7 +46,7 @@ public class ItemService : IItemService
                     ItemId = item.Id,
                     Book = _bookMapper.ToBookModel(item.Book),
                     CurrentHolderId = item.HolderId,
-                    CurrentHolderContact = GetUserContact(item.HolderId)
+                    CurrentHolderContact = GetUserContact(item.HolderId),
                 })
             .ToArray();
     }
@@ -112,7 +112,7 @@ public class ItemService : IItemService
         );
 
         await _dbContext.SaveChangesAsync();
-        
+
         return Result.Ok();
     }
 
@@ -173,7 +173,7 @@ public class ItemService : IItemService
             OwnerId = queueItem.OwnerId,
             QueueNumber = 0,
             WhoToGiveAfterContact = whoToGiveAfter?.ContactUrl ?? "",
-            WhoToGiveAfterUserName = whoToGiveAfter?.UserName ?? ""
+            WhoToGiveAfterUserName = whoToGiveAfter?.UserName ?? "",
         };
     }
 }

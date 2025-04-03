@@ -7,8 +7,8 @@ namespace BS.Api.Implementations;
 public class CurrentUserService : ICurrentUserService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly UserManager<UserEntity> _userManager;
     private readonly ILogger<CurrentUserService> _logger;
+    private readonly UserManager<UserEntity> _userManager;
 
     public CurrentUserService(
         IHttpContextAccessor httpContextAccessor,
@@ -19,7 +19,7 @@ public class CurrentUserService : ICurrentUserService
         _userManager = userManager;
         _logger = logger;
     }
-    
+
     public async Task<Guid> GetIdAsync()
     {
         if (_httpContextAccessor.HttpContext is null)
@@ -27,7 +27,7 @@ public class CurrentUserService : ICurrentUserService
             _logger.LogError("HttpContext is null");
             throw new InvalidOperationException("HttpContext is null");
         }
-        
+
         var currentUser = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
 
         if (currentUser is null)

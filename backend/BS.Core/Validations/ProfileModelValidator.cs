@@ -11,16 +11,16 @@ public class ProfileModelValidator : AbstractValidator<EditProfileModel>
         new("https://vk.com"),
         new("https://instagram.com"),
         new("https://t.me"),
-        new("https://facebook.com")
+        new("https://facebook.com"),
     ];
 
     public ProfileModelValidator()
-    {   
+    {
         RuleFor(model => model.FirstName)
             .NotNull()
             .NotEmpty()
             .MaximumLength(FirstNameMaxLength);
-        
+
         RuleFor(model => model.LastName)
             .NotNull()
             .NotEmpty()
@@ -28,7 +28,7 @@ public class ProfileModelValidator : AbstractValidator<EditProfileModel>
 
         RuleFor(model => model.Username)
             .SetValidator(new UsernameValidator());
-        
+
         RuleFor(model => model.ContactUrl)
             .NotNull()
             .NotEmpty()
@@ -40,13 +40,11 @@ public class ProfileModelValidator : AbstractValidator<EditProfileModel>
                     context.AddFailure(context.PropertyPath, "Contact URL is invalid");
                     return;
                 }
-                
+
                 var contactUrl = new Uri(contactUrlInString);
 
                 if (_availableSocialDomains.All(domain => domain.Host != contactUrl.Host))
-                {
                     context.AddFailure(context.PropertyPath, "That social domain is not valid");
-                }
             });
     }
 }
