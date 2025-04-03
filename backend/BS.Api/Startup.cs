@@ -1,4 +1,5 @@
 using BS.Api;
+using BS.Api.Implementations;
 using BS.Core;
 using BS.Data;
 using BS.Data.Context;
@@ -32,7 +33,8 @@ builder.Services.AddIdentityApiEndpoints<UserEntity>(options =>
             options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
         }
     )
-    .AddEntityFrameworkStores<BookSharingContext>();
+    .AddEntityFrameworkStores<BookSharingContext>()
+    .AddSignInManager<FixedSignInManager<UserEntity>>();
 
 
 var app = builder.Build();

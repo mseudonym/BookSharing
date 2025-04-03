@@ -14,12 +14,12 @@ public static class UserEndpoints
             { new StringContent(model.ContactUrl!), "ContactUrl" },
         };
         
-        return await client.TestPostAsync<UserData>("/Users/editProfile", content);
+        return await client.PostAsync<UserData>("/Users/editProfile", content);
     }
     
     public static async Task<UserData> GetUserData(HttpClient client) => 
-        await client.TestGetAsync<UserData>("/Users/me");
+        await client.GetAsync<UserData>("/Users/me");
     
     public static Task<UserProfile[]> SearchByUsernamePrefix(HttpClient client, string usernamePrefix) => 
-        client.TestGetAsync<UserProfile[]>($"/Users/search/{usernamePrefix}");
+        client.GetAsync<UserProfile[]>($"/Users/search/{usernamePrefix}");
 }

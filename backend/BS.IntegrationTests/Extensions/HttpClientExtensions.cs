@@ -10,7 +10,7 @@ public static class HttpClientExtensions
         PropertyNameCaseInsensitive = true,
     };
 
-    public static async Task<TResponse> TestPostAsync<TResponse>(this HttpClient client, string requestUri,
+    public static async Task<TResponse> PostAsync<TResponse>(this HttpClient client, string requestUri,
         HttpContent content)
         where TResponse : class
     {
@@ -26,7 +26,7 @@ public static class HttpClientExtensions
         return result;
     }
 
-    public static async Task TestPostAsync(this HttpClient client, string requestUri, HttpContent content)
+    public static async Task PostAsync(this HttpClient client, string requestUri, HttpContent content)
     {
         var response = await client.PostAsync(requestUri, content);
 
@@ -41,10 +41,14 @@ public static class HttpClientExtensions
         }
 
         var content = await response.Content.ReadAsStringAsync();
-        throw new Exception("Response status is not success: " + response.StatusCode + "\n" + content);
+        throw new HttpRequestException(
+            "Response status is not success: " + response.StatusCode + "\n" + content,
+            null,
+            response.StatusCode
+        );
     }
 
-    public static async Task<T> TestGetAsync<T>(this HttpClient client, string requestUri)
+    public static async Task<T> GetAsync<T>(this HttpClient client, string requestUri)
         where T : class
     {
         var response = await client.GetAsync(requestUri);

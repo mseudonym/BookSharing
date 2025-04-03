@@ -8,23 +8,32 @@ namespace BS.IntegrationTests.Endpoints;
 
 public class AuthEndpoints
 {
-    public static async Task RegisterAndLoginUser(HttpClient client)
+    public static async Task<RegisterRequest> RegisterAndLogin(HttpClient client)
     {
-        var user = await RegisterUser(client);
+        var registerRequest = await Register(client);
 
-        var accessTokenResponse = await client.TestPostAsync<AccessTokenResponse>(
-            "/Auth/login",
-            JsonContent.Create(new LoginRequest { Email = user.Email, Password = user.Password })
-        );
+        var loginRequest = new LoginRequest { Email = registerRequest.Email, Password = registerRequest.Password };
+        var accessTokenResponse = await Login(client, loginRequest);
 
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", accessTokenResponse.AccessToken);
+        
+        return registerRequest;
     }
 
-    private static async Task<RegisterRequest> RegisterUser(HttpClient client)
+    public static async Task<AccessTokenResponse> Login(HttpClient client, LoginRequest loginRequest)
+    {
+        var accessTokenResponse = await client.PostAsync<AccessTokenResponse>(
+            "/Auth/login",
+            JsonContent.Create(loginRequest)
+        );
+        return accessTokenResponse;
+    }
+
+    public static async Task<RegisterRequest> Register(HttpClient client)
     {
         var user = GenerateRegisterRequest();
-        await client.TestPostAsync("/Auth/register", JsonContent.Create(user));
+        await HttpClientExtensions.PostAsync(client, "/Auth/register", JsonContent.Create(user));
         return user;
     }
 }

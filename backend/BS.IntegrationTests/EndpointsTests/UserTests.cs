@@ -11,7 +11,7 @@ public class UserTests : IntegrationTestsBase
     {
         var client = GetClient();
 
-        await AuthEndpoints.RegisterAndLoginUser(client);
+        await AuthEndpoints.RegisterAndLogin(client);
 
         var editProfileModel = GenerateEditProfileModel();
         await UserEndpoints.EditUserProfile(client, editProfileModel);

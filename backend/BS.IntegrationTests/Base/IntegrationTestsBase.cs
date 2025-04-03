@@ -11,7 +11,7 @@ public abstract class IntegrationTestsBase
     {
         var client = GetClient();
         
-        await AuthEndpoints.RegisterAndLoginUser(client);
+        await AuthEndpoints.RegisterAndLogin(client);
         
         return client;
     }
