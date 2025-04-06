@@ -47,6 +47,7 @@ public static class ServiceCollectionExtensions
             };
         });
         services.AddTransient<IEmailSender<UserEntity>, EmailSender>();
+        services.AddTransient<EmailSender>();
     }
 
     private static void AddCloudCredentials(this IServiceCollection services, IConfiguration configuration)
