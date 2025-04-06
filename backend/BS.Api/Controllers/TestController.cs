@@ -28,8 +28,8 @@ public class TestController : Controller
     
     public class SendEmailModel
     {
-        public required string RecipientEmail { get; init; }
-        public required string Subject { get; init; } 
-        public required IFormFile HtmlFile { get; init; }
+        public required string RecipientEmail { get; set; }
+        public required string Subject { get; set; } 
+        public required IFormFile HtmlFile { get; set; }
     }
 }
