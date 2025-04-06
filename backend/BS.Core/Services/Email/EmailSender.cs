@@ -5,6 +5,7 @@ using BS.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Polly;
 
 namespace BS.Core.Services.Email;
 
@@ -26,8 +27,8 @@ public class EmailSender : IEmailSender<UserEntity>
     {
         var body = FilesProvider.GetEmailConfirmHtml(confirmationLink);
         const string subject = "Подтвердите подтвердите ваш email";
-        
-        await SendEmail(email, body, subject);
+
+        await SendEmail(email, subject, body);
     }
 
     public Task SendPasswordResetLinkAsync(UserEntity user, string email, string resetLink)
@@ -39,28 +40,35 @@ public class EmailSender : IEmailSender<UserEntity>
     {
         var body = FilesProvider.GetResetCodeHtml(resetCode);
         const string subject = "Код для сброса пароля";
-        
-        await SendEmail(email, body, subject);
+
+        await SendEmail(email, subject, body);
     }
 
-    private async Task SendEmail(string email, string body, string subject)
+    private async Task SendEmail(string email, string subject, string body)
     {
         var recipientMailAddress = new MailAddress(email);
         var message = new MailMessage(GetNoreplyMailAddress(), recipientMailAddress);
-        
+
         message.Subject = subject;
         message.Body = body;
         message.IsBodyHtml = true;
 
-        try
+        const int retryCount = 3;
+        var result = await Policy
+            .Handle<SmtpException>()
+            .WaitAndRetryAsync(retryCount, retryAttempt => TimeSpan.FromSeconds(2 * retryAttempt),
+                (exception, _, count, _) => _logger.LogInformation(
+                    $"Retry {count} for sending email to {email} due to {exception.Message}"))
+            .ExecuteAndCaptureAsync(async () =>
+            {
+                await _smtpClient.SendMailAsync(message);
+                
+                _logger.LogInformation($"Email with subject \"{subject}\" sent to {email}");
+            });
+
+        if (result.Outcome is OutcomeType.Failure)
         {
-            await _smtpClient.SendMailAsync(message);
-            
-            _logger.LogInformation($"Email with subject \"{subject}\" sent to {email}");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, e.Message);
+            _logger.LogError("Cannot send email to {email} due to {exception}", email, result.FinalException.Message);
         }
     }
 
