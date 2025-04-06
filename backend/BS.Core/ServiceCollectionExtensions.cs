@@ -10,7 +10,8 @@ using BS.Core.Services.Items;
 using BS.Core.Services.Queue;
 using BS.Core.Services.S3;
 using BS.Core.Services.User;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using BS.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -45,7 +46,7 @@ public static class ServiceCollectionExtensions
                 EnableSsl = true,
             };
         });
-        services.AddTransient<IEmailSender, EmailSender>();
+        services.AddTransient<IEmailSender<UserEntity>, EmailSender>();
     }
 
     private static void AddCloudCredentials(this IServiceCollection services, IConfiguration configuration)
