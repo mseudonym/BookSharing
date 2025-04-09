@@ -18,3 +18,11 @@
   height: 49px;
   border-radius: 100%;
 }
+
+.checkButton {
+  color: var(--green-color);
+}
+
+.crossButton {
+  color: var(--red-color);
+}
