@@ -29,3 +29,6 @@ obj
 appsettings.*.json
 appsettings.json
 certs
+
+# Frontend
+generated-api
