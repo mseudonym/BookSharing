@@ -5,6 +5,8 @@
  * OpenAPI spec version: v1
  */
 
-export type PostItemsAddToMyShelfParams = {
-bookId?: string;
+export type PostTestSendEmailBody = {
+  RecipientEmail: string;
+  Subject: string;
+  HtmlFile: Blob;
 };
