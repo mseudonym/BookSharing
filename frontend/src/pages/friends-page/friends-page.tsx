@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { PageWithNavbar } from '../../ui/page/page-with-navbar';
 import { Header } from '../../components/header/header';
 import { ButtonIcon } from '../../components/button-icon/button-icon';
-import { useGetFriendsList } from '../../generated-api/friends/friends';
+import { useGetFriendsList, useGetFriendsRequestsReceived } from '../../generated-api/friends/friends';
 import { FriendCard } from '../../components/friend-card/friend-card';
 import { Loading } from '../../components/loading/loading';
 import { SegmentedControl } from '@mantine/core';
@@ -12,20 +12,22 @@ import { ErrorPage } from '../error-page/error-page';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { FriendsTabs } from '../../conts';
 import { EmptyState } from '../../components/empty-state/empty-state';
+import { RequestCard } from '../../components/friend-card/request-card';
 
 export const FriendsPage = () => {
-  const { data: friendList, isLoading, isError } = useGetFriendsList();
+  const { data: friendList, isLoading: isLoadingFriends, isError: isErrorFriends } = useGetFriendsList();
+  const { data: requestList, isLoading: isLoadingRequests, isError: isErrorRequests } = useGetFriendsRequestsReceived();
   const [activeTab, setActiveTab] = useState<string>(FriendsTabs.MyFriends);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
 
-  if (isLoading) {
+  if (isLoadingFriends || isLoadingRequests) {
     return <Loading />;
   }
 
-  if (isError) {
+  if (isErrorFriends || isErrorRequests) {
     return <ErrorPage />;
   }
 
@@ -64,11 +66,18 @@ export const FriendsPage = () => {
             </section>
           )
         : (
-            <EmptyState
-              src="/request-illustration.svg"
-              alt="No requests illustration"
-              text="Заявок пока нет, но можно кого-нибудь добавить самому."
-            />
+            <section className={styles.friendList}>
+              {requestList == undefined || requestList.length == 0
+                ? (
+                    <EmptyState
+                      src="/request-illustration.svg"
+                      alt="No requests illustration"
+                      text="Заявок пока нет, но можно кого-нибудь добавить самому."
+                    />
+                  )
+                : requestList.map((person) => <RequestCard {...person} key={person.id} />)}
+            </section>
+
           )}
     </PageWithNavbar>
   );
