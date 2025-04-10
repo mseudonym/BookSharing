@@ -20,6 +20,7 @@ import { ShelfPage } from './pages/shelf-page/shelf-page.tsx';
 import { FriendsPage } from './pages/friends-page/friends-page.tsx';
 import { EmailConfirmationPage } from './pages/email-confirmation-page/email-confirmation-page.tsx';
 import { BookAdditionPage } from './pages/book-addition-page/book-addition-page.tsx';
+import { SearchFriendsPage } from './pages/search-friends-page/search-friends-page.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.AddBook}`,
     element: <BookAdditionPage />,
+  },
+  {
+    path: `${AppRoute.SearchFriends}`,
+    element: <SearchFriendsPage />,
   },
   {
     path: '*',

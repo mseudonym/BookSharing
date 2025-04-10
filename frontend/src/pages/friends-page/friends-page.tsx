@@ -10,9 +10,10 @@ import { Loading } from '../../components/loading/loading';
 import { SegmentedControl } from '@mantine/core';
 import { ErrorPage } from '../error-page/error-page';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
-import { FriendsTabs } from '../../conts';
+import { AppRoute, FriendsTabs } from '../../conts';
 import { EmptyState } from '../../components/empty-state/empty-state';
 import { RequestCard } from '../../components/friend-card/request-card';
+import { router } from '../../main.tsx';
 
 export const FriendsPage = () => {
   const { data: friendList, isLoading: isLoadingFriends, isError: isErrorFriends } = useGetFriendsList();
@@ -35,7 +36,7 @@ export const FriendsPage = () => {
     <PageWithNavbar>
       <Header variant="auto">
         <h1 className={_styles.title}>Друзья</h1>
-        <ButtonIcon variant="flat">
+        <ButtonIcon variant="flat" onClick={async () => await router.navigate(AppRoute.SearchFriends)}>
           <SearchLoupeIcon24Regular />
         </ButtonIcon>
       </Header>
