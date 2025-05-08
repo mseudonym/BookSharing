@@ -2,7 +2,7 @@
 
 services:
   bs-api:
-    image: cr.yandex/crpa2d789cn3jqj76is3/bs-api:v1.4
+    image: cr.yandex/crpa2d789cn3jqj76is3/bs-api:v1.9
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
@@ -10,5 +10,4 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=<PASSWORD>
       - ASPNETCORE_Kestrel__Certificates__Default__Path=certs/bs-api-stage.pfx
     ports:
-      - "80:80"
       - "443:443"

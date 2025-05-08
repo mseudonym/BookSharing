@@ -4,8 +4,8 @@ namespace BS.Core.Services.Files;
 
 internal static class FilesProvider
 {
-    private const string EmailConfirmHtmlResourcePath = @"Files\Email\Confirm.html";
-    private const string ResetCodeHtmlResourcePath = @"Files\Email\PasswordResetCode.html";
+    private const string EmailConfirmHtmlResourcePath = "Files/Email/Confirm.html";
+    private const string ResetCodeHtmlResourcePath = "Files/Email/PasswordResetCode.html";
 
     public static string GetEmailConfirmHtml(string confirmationLink) =>
         ReadFile(EmailConfirmHtmlResourcePath)
