@@ -9,9 +9,16 @@ interface ButtonProps extends PropsWithChildren {
 }
 
 export const Button = ({ variant, onClick, disabled, children }: ButtonProps) => {
+  const mantineVariant = {
+    primary: 'filled',
+    fill: 'subtle',
+    border: 'outline',
+  }[variant];
+
   return (
     <MButton
       className={`${styles.button} ${styles[variant]}`}
+      variant={mantineVariant}
       onClick={onClick}
       disabled={disabled}
     >

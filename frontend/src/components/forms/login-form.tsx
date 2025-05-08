@@ -1,4 +1,5 @@
 import * as zod from 'zod';
+import _styles from '../../index.module.css';
 import { InputField } from '../inputs/input-field/input-field.tsx';
 import { Button } from '../buttons/button.tsx';
 import { useForm } from 'react-hook-form';
@@ -7,7 +8,8 @@ import { useMutation } from '@tanstack/react-query';
 import { postAuthLogin } from '../../generated-api/auth/auth.ts';
 import { saveToken } from '../../services/token.ts';
 import { checkProfileFilling } from '../../actions/user-actions.ts';
-import { REQUIRED_FIELD_TEXT } from '../../conts.ts';
+import { AppRoute, REQUIRED_FIELD_TEXT } from '../../conts.ts';
+import { Link } from 'react-router-dom';
 
 const FormSchema = zod.object({
   email: zod
@@ -47,8 +49,8 @@ export const LoginForm = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
 
       <InputField
-        label="Логин"
-        placeholder="Введите логин"
+        label="Почта"
+        placeholder="Введите почту"
         register={register('email')}
         error={errors?.email?.message}
       />
@@ -59,6 +61,8 @@ export const LoginForm = () => {
         register={register('password')}
         error={errors?.password?.message}
       />
+
+      <Link className={_styles.link} to={AppRoute.ForgotPassword}>Я не помню пароль</Link>
 
       <Button variant="primary" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
         Войти

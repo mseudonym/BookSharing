@@ -21,6 +21,7 @@ import { FriendsPage } from './pages/friends-page/friends-page.tsx';
 import { EmailConfirmationPage } from './pages/email-confirmation-page/email-confirmation-page.tsx';
 import { BookAdditionPage } from './pages/book-addition-page/book-addition-page.tsx';
 import { SearchFriendsPage } from './pages/search-friends-page/search-friends-page.tsx';
+import { theme } from './theme';
 
 export const router = createBrowserRouter([
   {
@@ -86,7 +87,7 @@ await checkAuth();
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <MantineProvider>
+      <MantineProvider theme={theme}>
         <RouterProvider router={router} />
       </MantineProvider>
     </QueryClientProvider>

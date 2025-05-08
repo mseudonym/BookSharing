@@ -12,6 +12,7 @@ export enum AppRoute {
   ProfileFilling = '/profile-filling',
   EmailConfirmation = '/email-confirmation',
   SearchFriends = '/search-friends',
+  ForgotPassword = '/forgot-password',
 }
 
 export enum FriendsTabs {
