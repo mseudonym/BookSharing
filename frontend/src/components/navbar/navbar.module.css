@@ -7,38 +7,23 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  z-index: 1;
 }
 
-.navbarList {
-  display: flex;
-  gap: 8px;
-}
-
-.navbarTab {
+.navbarLabel {
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 100%;
   width: 50px;
   height: 50px;
+  margin: 0 4px;
   padding: 0;
-  color: var(--gray-color);
-  transition: all 0.2s ease;
 }
 
-.navbarTab[data-active] {
-  background-color: var(--gray-50-color);
-  color: var(--black-color);
-}
-
-.navbarTab:hover {
-  background-color: var(--gray-50-color);
-  color: var(--black-color);
-}
 
 .navbarIndicator {
   background-color: var(--gray-50-color);
-  opacity: 0;
   animation: show 0.7s;
   animation-fill-mode: forwards;
 }
