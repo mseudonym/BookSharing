@@ -5,11 +5,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { postBooksAdd } from '../../generated-api/books/books';
-import { useNavigate } from 'react-router';
 import { InputCover } from '../inputs/input-cover/input-cover';
 import { InputField } from '../inputs/input-field/input-field';
 import { Button } from '@mantine/core';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '../../conts';
+import { router } from '../../main';
 
 const FormSchema = zod.object({
   title: zod
@@ -48,12 +48,10 @@ export const BookAdditionForm = () => {
     mode: 'onTouched',
   });
 
-  const navigate = useNavigate();
-
   const { mutateAsync: addBook } = useMutation({
     mutationFn: postBooksAdd,
     onSuccess: async (bookData) => {
-      navigate(AppRoute.Book.replace(':id', bookData.id!));
+      router.navigate(AppRoute.Book.replace(':id', bookData.id!));
     },
   });
 

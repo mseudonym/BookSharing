@@ -9,12 +9,12 @@ import {
   People1Icon24Regular,
   People1Icon24Solid
 } from '@skbkontur/icons';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { AppRoute } from '../../conts';
 import styles from './navbar.module.css';
+import { router } from '../../main';
 
 export const Navbar = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const navItems = [
@@ -41,7 +41,7 @@ export const Navbar = () => {
   ];
 
   const handleNavigate = (value: string) => {
-    navigate(value);
+    router.navigate(value);
   };
 
   return (

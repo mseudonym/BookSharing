@@ -21,75 +21,71 @@ import { FriendsPage } from './pages/friends-page/friends-page.tsx';
 import { EmailConfirmationPage } from './pages/email-confirmation-page/email-confirmation-page.tsx';
 import { BookAdditionPage } from './pages/book-addition-page/book-addition-page.tsx';
 import { SearchFriendsPage } from './pages/search-friends-page/search-friends-page.tsx';
-import { createTheme } from './theme';
-import { Layout } from './components/Layout.tsx';
-import { useColorScheme } from '@mantine/hooks';
+import { theme } from './theme';
+import { Layout } from './components/layout.tsx';
 import { Loading } from './components/loading/loading.tsx';
 
-const createAppRouter = () => {
-  return createBrowserRouter([
-    {
-      path: `${AppRoute.Root}`,
-      element: <WelcomePage />,
-    },
-    {
-      path: `${AppRoute.Register}`,
-      element: <RegistrationPage />,
-    },
-    {
-      path: `${AppRoute.Login}`,
-      element: <LoginPage />,
-    },
-    {
-      element: <Layout />,
-      children: [
-        {
-          path: `${AppRoute.Profile}`,
-          element: <ProfilePage />,
-        },
-        {
-          path: `${AppRoute.Shelf}`,
-          element: <ShelfPage />,
-        },
-        {
-          path: `${AppRoute.Friends}`,
-          element: <FriendsPage />,
-        },
-      ],
-    },
-    {
-      path: `${AppRoute.EmailConfirmation}`,
-      element: <EmailConfirmationPage />,
-    },
-    {
-      path: `${AppRoute.ProfileFilling}`,
-      element: <ProfileFillingPage />,
-    },
-    {
-      path: `${AppRoute.User}`,
-      element: <UserPage />,
-    },
-    {
-      path: `${AppRoute.Book}`,
-      element: <BookPage />,
-    },
-    {
-      path: `${AppRoute.AddBook}`,
-      element: <BookAdditionPage />,
-    },
-    {
-      path: `${AppRoute.SearchFriends}`,
-      element: <SearchFriendsPage />,
-    },
-    {
-      path: '*',
-      element: <ErrorPage />,
-    },
-  ]);
-};
+export const router = createBrowserRouter([
+  {
+    path: `${AppRoute.Root}`,
+    element: <WelcomePage />,
+  },
+  {
+    path: `${AppRoute.Register}`,
+    element: <RegistrationPage />,
+  },
+  {
+    path: `${AppRoute.Login}`,
+    element: <LoginPage />,
+  },
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: `${AppRoute.Profile}`,
+        element: <ProfilePage />,
+      },
+      {
+        path: `${AppRoute.Shelf}`,
+        element: <ShelfPage />,
+      },
+      {
+        path: `${AppRoute.Friends}`,
+        element: <FriendsPage />,
+      },
+    ],
+  },
+  {
+    path: `${AppRoute.EmailConfirmation}`,
+    element: <EmailConfirmationPage />,
+  },
+  {
+    path: `${AppRoute.ProfileFilling}`,
+    element: <ProfileFillingPage />,
+  },
+  {
+    path: `${AppRoute.User}`,
+    element: <UserPage />,
+  },
+  {
+    path: `${AppRoute.Book}`,
+    element: <BookPage />,
+  },
+  {
+    path: `${AppRoute.AddBook}`,
+    element: <BookAdditionPage />,
+  },
+  {
+    path: `${AppRoute.SearchFriends}`,
+    element: <SearchFriendsPage />,
+  },
+  {
+    path: '*',
+    element: <ErrorPage />,
+  },
+]);
 
 const AppWrapper = () => {
-  const [router] = React.useState(createAppRouter);
   const [isAuthChecked, setIsAuthChecked] = React.useState(false);
 
   React.useEffect(() => {
@@ -109,9 +105,8 @@ const AppWrapper = () => {
 };
 
 const App = () => {
-  const colorScheme = useColorScheme();
   return (
-    <MantineProvider theme={createTheme(colorScheme)}>
+    <MantineProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <AppWrapper />
       </QueryClientProvider>
