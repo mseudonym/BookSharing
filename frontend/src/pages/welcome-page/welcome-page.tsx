@@ -1,6 +1,6 @@
 import styles from './welcome-page.module.css';
 import _styles from '../../index.module.css';
-import { Button } from '../../components/buttons/button.tsx';
+import { Button } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import { AppRoute } from '../../conts.ts';
 import { Page } from '../../ui/page/page.tsx';

@@ -1,7 +1,6 @@
 import _styles from '../../index.module.css';
 import styles from './queue.module.css';
-import { Avatar, Flex } from '@mantine/core';
-import { Button } from '../buttons/button';
+import { Avatar, Flex, Button } from '@mantine/core';
 import { Link } from 'react-router';
 import { QueueModel } from '../../generated-api/model';
 import { ButtonIcon } from '../button-icon/button-icon';

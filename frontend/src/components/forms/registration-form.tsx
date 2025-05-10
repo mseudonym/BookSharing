@@ -1,6 +1,6 @@
 import * as zod from 'zod';
 import { InputField } from '../inputs/input-field/input-field.tsx';
-import { Button } from '../buttons/button.tsx';
+import { Button } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';

@@ -8,7 +8,7 @@ import { postBooksAdd } from '../../generated-api/books/books';
 import { useNavigate } from 'react-router';
 import { InputCover } from '../inputs/input-cover/input-cover';
 import { InputField } from '../inputs/input-field/input-field';
-import { Button } from '../buttons/button';
+import { Button } from '@mantine/core';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '../../conts';
 
 const FormSchema = zod.object({

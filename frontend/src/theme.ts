@@ -1,93 +1,160 @@
 import { MantineThemeOverride, MantineTheme } from '@mantine/core';
 
-export const theme: MantineThemeOverride = {
-  primaryColor: 'dark',
+declare module '@mantine/core' {
+  export interface MantineTheme {
+    colorScheme: 'light' | 'dark';
+    other: MantineThemeOther;
+  }
+
+  export interface MantineThemeOther {
+    colors: {
+      rainbow: string;
+      green: string;
+      red: string;
+      lightYellow: string;
+      lightBlue: string;
+      lightPink: string;
+      white: string;
+      white80: string;
+      lightBackground16: string;
+      lightBackground9: string;
+      lightBackground: string;
+      disabledText: string;
+      secondaryText: string;
+      primary: string;
+      black: string;
+    };
+  }
+}
+
+const lightThemeColors = {
   colors: {
-    dark: [
-      '#C1C2C5',
-      '#A6A7AB',
-      '#909296',
-      '#5C5F66',
-      '#373A40',
-      '#2C2E33',
-      '#25262B',
-      '#1A1B1E',
-      '#141517',
-      '#101113',
-    ],
+    rainbow: 'var(--rainbow-color)',
+    green: 'var(--green-color)',
+    red: 'var(--red-color)',
+    lightYellow: 'var(--light-yellow-color)',
+    lightBlue: 'var(--light-blue-color)',
+    lightPink: 'var(--light-pink-color)',
+    white: 'var(--white-color)',
+    white80: 'var(--white-80-color)',
+    lightBackground16: 'var(--light-background-16-color)',
+    lightBackground9: 'var(--light-background-9-color)',
+    lightBackground: 'var(--light-background-color)',
+    disabledText: 'var(--disabled-text-color)',
+    secondaryText: 'var(--secondary-text-color)',
+    primary: 'var(--primary-color)',
+    black: 'var(--black-color)',
+  }
+};
+
+const darkThemeColors = {
+  colors: {}
+};
+
+const getButtonStyles = (theme: MantineTheme) => ({
+  root: {
+    maxHeight: '50px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: theme.radius.md,
+    gap: theme.spacing.sm,
+    padding: `${theme.spacing.md} ${theme.spacing.lg}`,
+
+    '&[data-variant="filled"]': {
+      backgroundColor: theme.other.colors.primary,
+      color: theme.other.colors.white,
+      '&:hover': {
+        backgroundColor: theme.other.colors.black,
+        transform: 'translateY(-1px)'
+      },
+      '&:disabled': {
+        backgroundColor: theme.other.colors.lightBackground9,
+        color: theme.other.colors.disabledText,
+      }
+    },
+
+    '&[data-variant="white"]': {
+      backgroundColor: theme.other.colors.white,
+      color: theme.other.colors.primary,
+      '&:hover': {
+        backgroundColor: theme.other.colors.lightBackground,
+      },
+      '&:disabled': {
+        color: theme.other.colors.disabledText,
+      }
+    },
+
+    '&[data-variant="outline"]': {
+      backgroundColor: theme.other.colors.white,
+      border: `1px solid ${theme.other.colors.lightBackground16}`,
+      color: theme.other.colors.primary,
+      '&:hover': {
+        backgroundColor: theme.other.colors.lightBackground,
+      },
+      '&:disabled': {
+        color: theme.other.colors.disabledText,
+        backgroundColor: theme.other.colors.lightBackground,
+      }
+    },
+  }
+});
+
+const getActionIconStyles = (theme: MantineTheme) => ({
+  root: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '50px',
+    height: '50px',
+    borderRadius: '100%',
+    cursor: 'pointer',
+
+    '&[data-variant="transparent"]': {
+      backgroundColor: 'transparent',
+      color: theme.other.colors.primary,
+      '&:hover': {
+        color: theme.other.colors.black,
+      },
+      '&:disabled': {
+        color: theme.other.colors.disabledText,
+      }
+    },
+    '&[data-variant="white"]': {
+      backgroundColor: theme.other.colors.white,
+      color: theme.other.colors.primary,
+      '&:hover': {
+        backgroundColor: theme.other.colors.lightBackground,
+      },
+      '&:disabled': {
+        backgroundColor: theme.other.colors.lightBackground,
+        color: theme.other.colors.disabledText,
+      }
+    }
+  }
+});
+
+export const createTheme = (colorScheme: 'light' | 'dark'): MantineThemeOverride => ({
+  colorScheme,
+  other: colorScheme === 'dark' ? darkThemeColors : lightThemeColors,
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
   },
   components: {
     Button: {
+      styles: getButtonStyles,
       defaultProps: {
-        radius: 'md',
-      },
-      styles: (theme: MantineTheme) => ({
-        root: {
-          borderRadius: '16px',
-          minHeight: '50px',
-          width: '100%',
-          textAlign: 'center',
-          transition: '0.4s',
-          '&[data-variant="filled"]': {
-            backgroundColor: theme.black,
-            color: theme.white,
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.90)',
-            },
-            '&:disabled': {
-              backgroundColor: 'var(--gray-50-color)',
-              color: 'var(--light-gray-color)',
-            },
-          },
-          '&[data-variant="outline"]': {
-            backgroundColor: theme.white,
-            border: '1px solid var(--light-gray-color)',
-            color: theme.black,
-            '&:hover': {
-              color: 'black',
-              backgroundColor: '#f9f9f9',
-            },
-          },
-          '&[data-variant="subtle"]': {
-            backgroundColor: theme.white,
-            color: theme.black,
-            '&:hover': {
-              backgroundColor: '#f9f9f9',
-              color: 'black',
-            },
-            '&:disabled': {
-              color: 'var(--light-gray-color)',
-            },
-          },
-        },
-      }),
+        size: 'md',
+      }
     },
     ActionIcon: {
-      styles: (theme: MantineTheme) => ({
-        root: {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '50px',
-          height: '50px',
-          borderRadius: '100%',
-          cursor: 'pointer',
-          flexShrink: 0,
-          transition: '0.4s',
-          '&[data-variant="filled"]': {
-            backgroundColor: 'var(--white-80-color)',
-            '&:hover': {
-              backgroundColor: '#f9f9f9',
-            },
-          },
-          '&[data-variant="subtle"]': {
-            backgroundColor: 'transparent',
-            '&:hover': {
-              backgroundColor: 'var(--white-80-color)',
-            },
-          },
-        },
-      }),
+      styles: getActionIconStyles,
+      defaultProps: {
+        size: 'lg',
+      }
     },
   },
-}; 
+});

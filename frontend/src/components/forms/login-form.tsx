@@ -1,7 +1,6 @@
 import * as zod from 'zod';
 import _styles from '../../index.module.css';
 import { InputField } from '../inputs/input-field/input-field.tsx';
-import { Button } from '../buttons/button.tsx';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -10,6 +9,7 @@ import { saveToken } from '../../services/token.ts';
 import { checkProfileFilling } from '../../actions/user-actions.ts';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '../../conts.ts';
 import { Link } from 'react-router-dom';
+import { Button } from '@mantine/core';
 
 const FormSchema = zod.object({
   email: zod
@@ -26,7 +26,7 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isLoading },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
@@ -64,7 +64,7 @@ export const LoginForm = () => {
 
       <Link className={_styles.link} to={AppRoute.ForgotPassword}>Я не помню пароль</Link>
 
-      <Button variant="primary" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+      <Button variant="primary" disabled={!isValid} loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти
       </Button>
 
