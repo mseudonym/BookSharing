@@ -21,10 +21,10 @@ export const WelcomePage = () => {
             чтением!
           </p>
         </div>
-        <Button disabled variant="filled" onClick={() => router.navigate(AppRoute.Login)}>
+        <Button variant="filled" fullWidth onClick={() => router.navigate(AppRoute.Login)}>
           Войти
         </Button>
-        <Button variant="outline" onClick={() => router.navigate(AppRoute.Register)}>
+        <Button variant="outline" fullWidth onClick={() => router.navigate(AppRoute.Register)}>
           Зарегистрироваться
         </Button>
       </div>
