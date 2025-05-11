@@ -1,11 +1,11 @@
 import _styles from '../../index.module.css';
 import styles from './friend-card.module.css';
 import { UserProfile } from '../../generated-api/model';
-import { ButtonIcon } from '../button-icon/button-icon';
 import { getGetFriendsListQueryKey, getGetFriendsRequestsReceivedQueryKey, postFriendsRespondRequest } from '../../generated-api/friends/friends';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular';
 import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular';
+import { ActionIcon } from '@mantine/core';
 
 export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   const queryClient = useQueryClient();
@@ -44,12 +44,12 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
         </p>
       </div>
       <div style={{ display: 'flex' }}>
-        <ButtonIcon variant="flat" onClick={() => onSubmit(true)}>
+        <ActionIcon variant="transparent" onClick={() => onSubmit(true)}>
           <CheckAIcon24Regular className={styles.checkButton} />
-        </ButtonIcon>
-        <ButtonIcon variant="flat" onClick={() => onSubmit(false)}>
+        </ActionIcon>
+        <ActionIcon variant="transparent" onClick={() => onSubmit(false)}>
           <XIcon24Regular className={styles.crossButton} />
-        </ButtonIcon>
+        </ActionIcon>
       </div>
     </div>
   );

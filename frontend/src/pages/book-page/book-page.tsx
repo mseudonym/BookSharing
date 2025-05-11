@@ -1,9 +1,8 @@
 import _styles from '../../index.module.css';
 import styles from './book-page.module.css';
 import { Header } from '../../components/header/header.tsx';
-import { ButtonIcon } from '../../components/button-icon/button-icon';
 import { PageBackground } from '../../ui/page/page-background.tsx';
-import { Divider } from '@mantine/core';
+import { ActionIcon, Divider } from '@mantine/core';
 import { Queue } from '../../components/queue/queue.tsx';
 import { useParams } from 'react-router-dom';
 import { useGetBooksByIdBookId } from '../../generated-api/books/books.ts';
@@ -30,12 +29,12 @@ export const BookPage = () => {
   return (
     <PageBackground>
       <Header variant="auto" withPadding>
-        <ButtonIcon variant="flat" onClick={() => { window.history.back(); }}>
+        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
-        </ButtonIcon>
-        <ButtonIcon variant="flat">
+        </ActionIcon>
+        <ActionIcon variant="transparent">
           <UiMenuDots3HIcon24Regular />
-        </ButtonIcon>
+        </ActionIcon>
       </Header>
 
       <div className={styles.bookWrapper}>

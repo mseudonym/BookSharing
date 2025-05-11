@@ -1,13 +1,11 @@
 import styles from './welcome-page.module.css';
 import _styles from '../../index.module.css';
-import { Button } from '../../components/buttons/button.tsx';
-import { useNavigate } from 'react-router';
+import { Button } from '@mantine/core';
 import { AppRoute } from '../../conts.ts';
 import { Page } from '../../ui/page/page.tsx';
+import { router } from '../../main.tsx';
 
 export const WelcomePage = () => {
-  const navigate = useNavigate();
-
   return (
     <Page>
       <div className={styles.content}>
@@ -23,10 +21,10 @@ export const WelcomePage = () => {
             чтением!
           </p>
         </div>
-        <Button variant="primary" onClick={() => navigate(AppRoute.Login)}>
+        <Button variant="filled" fullWidth onClick={() => router.navigate(AppRoute.Login)}>
           Войти
         </Button>
-        <Button variant="border" onClick={() => navigate(AppRoute.Register)}>
+        <Button variant="outline" fullWidth onClick={() => router.navigate(AppRoute.Register)}>
           Зарегистрироваться
         </Button>
       </div>

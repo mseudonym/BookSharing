@@ -1,4 +1,3 @@
-import styles from './button-icon.module.css';
 import { ActionIcon } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 
@@ -8,10 +7,15 @@ interface ButtonIconProps extends PropsWithChildren {
 }
 
 export const ButtonIcon = ({ variant, onClick, children }: ButtonIconProps) => {
+  // Map our custom variants to Mantine variants
+  const mantineVariant = {
+    fill: 'filled',
+    flat: 'subtle',
+  }[variant];
+
   return (
     <ActionIcon
-      unstyled
-      className={`${styles.buttonIcon} ${styles[variant]}`}
+      variant={mantineVariant}
       onClick={onClick}
     >
       {children}
