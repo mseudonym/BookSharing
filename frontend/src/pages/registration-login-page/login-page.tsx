@@ -19,7 +19,7 @@ export const LoginPage = () => {
         <LoginForm />
 
         <Divider my="l" label="Или" />
-        <Button variant="border" onClick={async () => await router.navigate(AppRoute.Register)}>
+        <Button variant="outline" onClick={async () => await router.navigate(AppRoute.Register)}>
           Зарегистрироваться
         </Button>
       </div>

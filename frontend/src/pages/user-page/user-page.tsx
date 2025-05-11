@@ -7,11 +7,11 @@ import { PageBackground } from '../../ui/page/page-background';
 import { useGetBooksFriendBooks } from '../../generated-api/books/books';
 import { BookCard } from '../../components/book-card/book-card';
 import { Header } from '../../components/header/header';
-import { ButtonIcon } from '../../components/button-icon/button-icon';
 import { ErrorPage } from '../error-page/error-page';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
 import { EmptyState } from '../../components/empty-state/empty-state';
+import { ActionIcon } from '@mantine/core';
 
 export const UserPage = () => {
   const { username } = useParams();
@@ -29,12 +29,12 @@ export const UserPage = () => {
   return (
     <PageBackground>
       <Header variant="auto" withPadding>
-        <ButtonIcon variant="flat" onClick={() => { window.history.back(); }}>
+        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
-        </ButtonIcon>
-        <ButtonIcon variant="flat">
+        </ActionIcon>
+        <ActionIcon variant="transparent">
           <UiMenuDots3HIcon24Regular />
-        </ButtonIcon>
+        </ActionIcon>
       </Header>
       <div className={styles.userContent}>
         <img

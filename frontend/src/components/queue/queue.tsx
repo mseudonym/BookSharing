@@ -1,9 +1,8 @@
 import _styles from '../../index.module.css';
 import styles from './queue.module.css';
-import { Avatar, Flex, Button } from '@mantine/core';
+import { Avatar, Flex, Button, ActionIcon } from '@mantine/core';
 import { Link } from 'react-router';
 import { QueueModel } from '../../generated-api/model';
-import { ButtonIcon } from '../button-icon/button-icon';
 import { getGetUsersMeQueryKey, getUsersMe } from '../../generated-api/users/users';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getGetItemsByBookIdQueryKey } from '../../generated-api/items/items';
@@ -128,7 +127,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
         : (
             <div className={styles.buttonWrapper}>
               <Button variant="fill" disabled={!isUserFirst} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
-              <ButtonIcon variant="fill" onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular /></ButtonIcon>
+              <ActionIcon variant="white" onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular /></ActionIcon>
             </div>
           ))}
     </article>

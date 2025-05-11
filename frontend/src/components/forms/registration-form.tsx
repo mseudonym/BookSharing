@@ -88,7 +88,7 @@ export const RegistrationForm = () => {
         error={errors?.confirmPassword?.message}
       />
 
-      <Button variant="primary" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+      <Button fullWidth variant="filled" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
         Зарегистрироваться
       </Button>
 

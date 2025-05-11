@@ -64,7 +64,7 @@ export const LoginForm = () => {
 
       <Link className={_styles.link} to={AppRoute.ForgotPassword}>Я не помню пароль</Link>
 
-      <Button variant="primary" disabled={!isValid} loading={isLoading} onClick={handleSubmit(onSubmit)}>
+      <Button fullWidth variant="filled" disabled={!isValid} loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти
       </Button>
 

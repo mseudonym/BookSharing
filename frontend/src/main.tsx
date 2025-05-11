@@ -22,7 +22,7 @@ import { EmailConfirmationPage } from './pages/email-confirmation-page/email-con
 import { BookAdditionPage } from './pages/book-addition-page/book-addition-page.tsx';
 import { SearchFriendsPage } from './pages/search-friends-page/search-friends-page.tsx';
 import { theme } from './theme';
-import { Layout } from './components/layout.tsx';
+import { Layout } from './ui/layout.tsx';
 import { Loading } from './components/loading/loading.tsx';
 
 export const router = createBrowserRouter([
