@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import { postAuthResendConfirmationEmail } from '../../generated-api/auth/auth.ts';
 import { checkProfileFilling } from '../../actions/user-actions.ts';
 import { Header } from '../../components/header/header.tsx';
-import { ButtonIcon } from '../../components/button-icon/button-icon.tsx';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
+import { ActionIcon } from '@mantine/core';
 
 const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;
 
@@ -48,9 +48,9 @@ export const EmailConfirmationPage = () => {
     <Page>
       <div className={_styles.content}>
         <Header variant="left">
-          <ButtonIcon variant="flat" onClick={() => { window.history.back(); }}>
+          <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
             <ArrowALeftIcon24Regular />
-          </ButtonIcon>
+          </ActionIcon>
         </Header>
         <h1 className={`${_styles.title} ${_styles.textCenter}`}>
           Ожидаем подтверждение почты

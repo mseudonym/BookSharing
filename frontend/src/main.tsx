@@ -20,6 +20,10 @@ import { ShelfPage } from './pages/shelf-page/shelf-page.tsx';
 import { FriendsPage } from './pages/friends-page/friends-page.tsx';
 import { EmailConfirmationPage } from './pages/email-confirmation-page/email-confirmation-page.tsx';
 import { BookAdditionPage } from './pages/book-addition-page/book-addition-page.tsx';
+import { SearchFriendsPage } from './pages/search-friends-page/search-friends-page.tsx';
+import { theme } from './theme';
+import { Layout } from './ui/layout.tsx';
+import { Loading } from './components/loading/loading.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -35,8 +39,21 @@ export const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: `${AppRoute.Profile}`,
-    element: <ProfilePage />,
+    element: <Layout />,
+    children: [
+      {
+        path: `${AppRoute.Profile}`,
+        element: <ProfilePage />,
+      },
+      {
+        path: `${AppRoute.Shelf}`,
+        element: <ShelfPage />,
+      },
+      {
+        path: `${AppRoute.Friends}`,
+        element: <FriendsPage />,
+      },
+    ],
   },
   {
     path: `${AppRoute.EmailConfirmation}`,
@@ -45,14 +62,6 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.ProfileFilling}`,
     element: <ProfileFillingPage />,
-  },
-  {
-    path: `${AppRoute.Shelf}`,
-    element: <ShelfPage />,
-  },
-  {
-    path: `${AppRoute.Friends}`,
-    element: <FriendsPage />,
   },
   {
     path: `${AppRoute.User}`,
@@ -67,23 +76,50 @@ export const router = createBrowserRouter([
     element: <BookAdditionPage />,
   },
   {
+    path: `${AppRoute.SearchFriends}`,
+    element: <SearchFriendsPage />,
+  },
+  {
     path: '*',
     element: <ErrorPage />,
   },
 ]);
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
+const AppWrapper = () => {
+  const [isAuthChecked, setIsAuthChecked] = React.useState(false);
 
-await checkAuth();
+  React.useEffect(() => {
+    const initializeAuth = async () => {
+      await checkAuth();
+      setIsAuthChecked(true);
+    };
+
+    initializeAuth();
+  }, []);
+
+  if (!isAuthChecked) {
+    return <Loading />;
+  }
+
+  return <RouterProvider router={router} />;
+};
+
+const App = () => {
+  return (
+    <MantineProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <AppWrapper />
+      </QueryClientProvider>
+    </MantineProvider>
+  );
+};
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <MantineProvider>
-        <RouterProvider router={router} />
-      </MantineProvider>
-    </QueryClientProvider>
-  </React.StrictMode>,
+    <App />
+  </React.StrictMode>
 );

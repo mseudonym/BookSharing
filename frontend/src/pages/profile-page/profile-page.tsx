@@ -2,21 +2,19 @@ import _styles from '../../index.module.css';
 import styles from './profile-page.module.css';
 import { useGetUsersMe } from '../../generated-api/users/users.ts';
 import { Loading } from '../../components/loading/loading.tsx';
-import { Navbar } from '../../components/navbar/navbar.tsx';
 import { PageBackground } from '../../ui/page/page-background.tsx';
 import { useGetBooksMyBooks } from '../../generated-api/books/books.ts';
 import { BookCard } from '../../components/book-card/book-card.tsx';
-import { useNavigate } from 'react-router';
 import { Header } from '../../components/header/header.tsx';
-import { ButtonIcon } from '../../components/button-icon/button-icon.tsx';
 import { ErrorPage } from '../error-page/error-page.tsx';
 import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
 import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
+import { router } from '../../main.tsx';
+import { ActionIcon } from '@mantine/core';
 
 export const ProfilePage = () => {
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersMe();
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksMyBooks();
-  const navigate = useNavigate();
 
   if (isLoadingUser || isLoadingBooks) {
     return <Loading />;
@@ -29,9 +27,9 @@ export const ProfilePage = () => {
   return (
     <PageBackground>
       <Header variant="right" withPadding>
-        <ButtonIcon variant="flat">
+        <ActionIcon variant="transparent">
           <SettingsGearIcon24Regular />
-        </ButtonIcon>
+        </ActionIcon>
       </Header>
       <div className={styles.userContent}>
         <img
@@ -62,10 +60,9 @@ export const ProfilePage = () => {
         )}
       </div>
       <div className={styles.bookList}>
-        <button className={styles.addButton} onClick={() => navigate('/add-book')}><PlusIcon24Regular /></button>
+        <button className={styles.addButton} onClick={() => router.navigate('/add-book')}><PlusIcon24Regular /></button>
         {bookList?.map((book) => <BookCard {...book} key={book.id} />)}
       </div>
-      <Navbar />
     </PageBackground>
   );
 };

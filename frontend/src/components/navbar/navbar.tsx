@@ -1,15 +1,47 @@
-import styles from './navbar.module.css';
 import { SegmentedControl } from '@mantine/core';
+import {
+  BooksLibraryIcon24Regular,
+  BooksLibraryIcon24Solid,
+  People2Icon24Regular,
+  People2Icon24Solid,
+  FolderIcon24Regular,
+  FolderIcon24Solid,
+  People1Icon24Regular,
+  People1Icon24Solid
+} from '@skbkontur/icons';
+import { useLocation } from 'react-router-dom';
 import { AppRoute } from '../../conts';
-import { BooksLibraryIcon24Regular, People3Icon24Regular, FolderIcon24Regular, People1Icon24Regular } from '@skbkontur/icons';
-import { useLocation, useNavigate } from 'react-router';
+import styles from './navbar.module.css';
+import { router } from '../../main';
 
 export const Navbar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
-  const handleChange = (value: string) => {
-    navigate(value);
+  const navItems = [
+    {
+      value: AppRoute.Shelf,
+      iconRegular: <BooksLibraryIcon24Regular />,
+      iconSolid: <BooksLibraryIcon24Solid />,
+    },
+    {
+      value: AppRoute.Friends,
+      iconRegular: <People2Icon24Regular />,
+      iconSolid: <People2Icon24Solid />,
+    },
+    {
+      value: AppRoute.Storage,
+      iconRegular: <FolderIcon24Regular />,
+      iconSolid: <FolderIcon24Solid />,
+    },
+    {
+      value: AppRoute.Profile,
+      iconRegular: <People1Icon24Regular />,
+      iconSolid: <People1Icon24Solid />,
+    },
+  ];
+
+  const handleNavigate = (value: string) => {
+    router.navigate(value);
   };
 
   return (
@@ -17,38 +49,16 @@ export const Navbar = () => {
       size="md"
       withItemsBorders={false}
       radius="xl"
-      value={location.pathname}
-      onChange={handleChange}
-      data={[
-        {
-          value: `${AppRoute.Shelf}`,
-          label: (
-            <BooksLibraryIcon24Regular />
-          ),
-        },
-        {
-          value: `${AppRoute.Friends}`,
-          label: (
-            <People3Icon24Regular />
-          ),
-        },
-        {
-          value: `${AppRoute.Storage}`,
-          label: (
-            <FolderIcon24Regular />
-          ),
-        },
-        {
-          value: `${AppRoute.Profile}`,
-          label: (
-            <People1Icon24Regular />
-          ),
-        },
-      ]}
+      value={pathname}
+      onChange={handleNavigate}
+      data={navItems.map((item) => ({
+        value: item.value,
+        label: pathname === item.value ? item.iconSolid : item.iconRegular,
+      }))}
       classNames={{
-        root: `${styles.navbarRoot}`,
-        label: `${styles.navbarLabel}`,
-        indicator: `${styles.navbarIndicator}`,
+        root: styles.navbarRoot,
+        label: styles.navbarLabel,
+        indicator: styles.navbarIndicator,
       }}
     />
   );
