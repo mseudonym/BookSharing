@@ -15,6 +15,7 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g '/commitlint.js'"
     }
   },
+  
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@mantine/core": "^8.0.0",
