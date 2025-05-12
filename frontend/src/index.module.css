@@ -15,17 +15,6 @@
   text-align: center;
 }
 
-.content {
-  display: flex;
-  padding: 16px 0px 32px 0px;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  align-self: stretch;
-  background: white;
-  flex-grow: 1;
-}
-
 .textContainer {
   display: flex;
   gap: 8px;
@@ -64,9 +53,4 @@
 .link:hover::after {
   width: 100%;
   transition: .3s;
-}
-
-.error {
-  margin-top: 4px;
-  color: red;
 }

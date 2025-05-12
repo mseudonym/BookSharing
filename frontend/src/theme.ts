@@ -1,4 +1,5 @@
-import { ActionIcon, Button, createTheme, Input } from '@mantine/core';
+import { ActionIcon, Button, createTheme, Input, TextInput } from '@mantine/core';
+
 import classes from './components.module.css';
 
 declare module '@mantine/core' {
@@ -8,6 +9,7 @@ declare module '@mantine/core' {
 }
 
 export const theme = createTheme({
+  // Spacing system
   spacing: {
     xs: '4px',
     sm: '8px',
@@ -16,6 +18,27 @@ export const theme = createTheme({
     xl: '32px',
     'xxl': '64px'
   },
+
+  // Typography system
+  fontFamily: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+  fontSizes: {
+    xs: '14px',
+    sm: '16px',
+    md: '16px',
+    lg: '18px',
+    xl: '20px',
+  },
+
+  // Border radius system
+  radius: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
+  },
+
+  // Components configuration
   components: {
     Button: Button.extend({
       classNames: { root: classes.button },
@@ -32,7 +55,22 @@ export const theme = createTheme({
       }
     }),
     Input: Input.extend({
-      classNames: { input: classes.input },
+      classNames: {
+        wrapper: classes.inputWrapper, 
+        input: classes.input 
+      },
+      defaultProps: {
+        variant: 'default',
+        size: 'md',
+      }
+    }),
+    TextInput: TextInput.extend({
+      classNames: { 
+        root: classes.inputWrapper,
+        input: classes.input, 
+        label: classes.inputLabel, 
+        error: classes.inputError 
+      },
       defaultProps: {
         variant: 'default',
         size: 'md',

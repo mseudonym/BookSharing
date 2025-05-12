@@ -10,12 +10,6 @@
     "preview": "vite preview",
     "api-gen": "orval --config ./orval.config.ts"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g '/commitlint.js'"
-    }
-  },
-  
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@mantine/core": "^8.0.0",
@@ -40,8 +34,6 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.1",
-    "@eslint/js": "^9.26.0",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
@@ -55,7 +47,6 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "globals": "^15.15.0",
-    "husky": "^9.1.7",
     "orval": "^7.4.1",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.32.0",

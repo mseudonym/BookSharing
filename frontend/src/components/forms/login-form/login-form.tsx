@@ -1,19 +1,23 @@
-import * as zod from 'zod';
-import _styles from '../../index.module.css';
-import { InputField } from '../inputs/input-field/input-field.tsx';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, TextInput } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
-import { postAuthLogin } from '../../generated-api/auth/auth.ts';
-import { saveToken } from '../../services/token.ts';
-import { checkProfileFilling } from '../../actions/user-actions.ts';
-import { AppRoute, REQUIRED_FIELD_TEXT } from '../../conts.ts';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { Button } from '@mantine/core';
+import * as zod from 'zod';
+
+import styles from '~/components/forms/styles.module.css';
+import _styles from '~/index.module.css';
+
+import { checkProfileFilling } from '~/actions/user-actions';
+import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
+import { postAuthLogin } from '~/generated-api/auth/auth';
+import { saveToken } from '~/services/token';
 
 const FormSchema = zod.object({
   email: zod
     .string()
+    .email('Некорректный email')
     .nonempty(REQUIRED_FIELD_TEXT),
   password: zod
     .string()
@@ -26,7 +30,7 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isLoading },
+    formState: { errors, isLoading },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
@@ -46,25 +50,25 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
-      <InputField
+      <TextInput
         label="Почта"
         placeholder="Введите почту"
-        register={register('email')}
+        {...register('email')}
         error={errors?.email?.message}
       />
 
-      <InputField
+      <TextInput
         label="Пароль"
         placeholder="Введите пароль"
-        register={register('password')}
+        {...register('password')}
         error={errors?.password?.message}
       />
 
       <Link className={_styles.link} to={AppRoute.ForgotPassword}>Я не помню пароль</Link>
 
-      <Button fullWidth variant="filled" disabled={!isValid} loading={isLoading} onClick={handleSubmit(onSubmit)}>
+      <Button fullWidth variant="filled" loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти
       </Button>
 

@@ -36,7 +36,8 @@ module.exports = {
         }
       ],
       'pathGroupsExcludedImportTypes': ['react'],
-      'alphabetize': { 'order': 'asc', 'caseInsensitive': true }
+      'alphabetize': { 'order': 'asc', 'caseInsensitive': true },
+      'newlines-between': 'always'
     }]
   },
   settings: {

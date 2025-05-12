@@ -1,4 +1,5 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
+
 import styles from './page.module.css';
 
 export const PageBackground = ({ children }: PropsWithChildren) => {

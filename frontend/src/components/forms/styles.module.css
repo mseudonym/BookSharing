@@ -1,0 +1,7 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: var(--mantine-spacing-md);
+}

@@ -1,12 +1,15 @@
-import styles from './registration-login-page.module.css';
-import _styles from '../../index.module.css';
 import { Divider } from '@mantine/core';
 import { Button } from '@mantine/core';
-import { RegistrationForm } from '../../components/forms/registration-form.tsx';
-import { router } from '../../main.tsx';
-import { AppRoute } from '../../conts.ts';
-import { Logo } from '../../components/logo/logo.tsx';
-import { Page } from '../../ui/page/page.tsx';
+import React from 'react';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/registration-login/styles.module.css';
+
+import { RegistrationForm } from '~/components/forms/registration-form/registration-form';
+import { Logo } from '~/components/logo/logo';
+import { AppRoute } from '~/conts';
+import { router } from '~/main';
+import { Page } from '~/ui/page/page';
 
 export const RegistrationPage = () => {
   return (

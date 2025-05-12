@@ -1,13 +1,17 @@
-import * as zod from 'zod';
-import { InputField } from '../inputs/input-field/input-field.tsx';
-import { Button } from '@mantine/core';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, TextInput } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
-import { postAuthLogin, postAuthRegister } from '../../generated-api/auth/auth.ts';
-import { saveToken } from '../../services/token.ts';
-import { checkProfileFilling } from '../../actions/user-actions.ts';
-import { REQUIRED_FIELD_TEXT } from '../../conts.ts';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as zod from 'zod';
+
+import styles from '~/components/forms/styles.module.css';
+
+import { checkProfileFilling } from '~/actions/user-actions';
+import { REQUIRED_FIELD_TEXT } from '~/conts';
+import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
+import { saveToken } from '~/services/token';
+
 
 const FormSchema = zod.object({
   email: zod
@@ -15,7 +19,7 @@ const FormSchema = zod.object({
     .nonempty(REQUIRED_FIELD_TEXT),
   password: zod
     .string()
-    .min(6, 'Пароль должен быть не меньше 6-ти символов')
+    .min(12, 'Пароль должен быть не меньше 12-ти символов')
     .regex(/[0-9]+/, 'Пароль должен содержать минимум одну цифру')
     .regex(/[a-z]+/, 'Пароль должен содержать минимум одну строчную латинскую букву')
     .regex(/[A-Z]+/, 'Пароль должен содержать минимум одну заглавную латинскую букву')
@@ -40,7 +44,7 @@ export const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
@@ -65,30 +69,30 @@ export const RegistrationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
-      <InputField
+      <TextInput
         label="Почта"
         placeholder="Введите почту"
-        register={register('email')}
+        {...register('email')}
         error={errors?.email?.message}
       />
 
-      <InputField
+      <TextInput
         label="Пароль"
         placeholder="Введите пароль"
-        register={register('password')}
+        {...register('password')}
         error={errors?.password?.message}
       />
 
-      <InputField
+      <TextInput
         label="Пароль ещё раз"
-        placeholder="Повторите пароль"
-        register={register('confirmPassword')}
+        placeholder="Введите пароль повторно"
+        {...register('confirmPassword')}
         error={errors?.confirmPassword?.message}
       />
 
-      <Button fullWidth variant="filled" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+      <Button fullWidth variant="filled" onClick={handleSubmit(onSubmit)}>
         Зарегистрироваться
       </Button>
 
