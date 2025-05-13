@@ -151,3 +151,27 @@
   height: 40px;
   padding: 0;
 }
+
+/* Link styles */
+.anchor {
+  text-decoration: none !important;
+  transition: color var(--transition-duration) var(--transition-timing);
+}
+
+.anchor::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1.5px;
+  background: var(--black-color);
+  transition: .3s;
+}
+
+.anchor:hover {
+  color: var(--black-color);
+}
+
+.anchor:hover::after {
+  width: 100%;
+  transition: .3s;
+}
