@@ -8,6 +8,7 @@ import * as zod from 'zod';
 import styles from '~/components/forms/styles.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
+import { PasswordInput } from '~/components/inputs/password-input/password-input';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
 import { saveToken } from '~/services/token';
@@ -78,14 +79,14 @@ export const RegistrationForm = () => {
         error={errors?.email?.message}
       />
 
-      <TextInput
+      <PasswordInput
         label="Пароль"
         placeholder="Введите пароль"
         {...register('password')}
         error={errors?.password?.message}
       />
 
-      <TextInput
+      <PasswordInput
         label="Пароль ещё раз"
         placeholder="Введите пароль повторно"
         {...register('confirmPassword')}

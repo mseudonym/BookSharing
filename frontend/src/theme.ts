@@ -1,4 +1,4 @@
-import { ActionIcon, Button, createTheme, Input, TextInput } from '@mantine/core';
+import { ActionIcon, Button, createTheme, Input, PasswordInput, TextInput } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -63,6 +63,19 @@ export const theme = createTheme({
         variant: 'default',
         size: 'md',
       }
+    }),
+    PasswordInput: PasswordInput.extend({
+      classNames: {
+        root: classes.inputWrapper,
+        input: classes.input, 
+        label: classes.inputLabel, 
+        error: classes.inputError,
+        visibilityToggle: classes.visibilityToggle
+      },
+      defaultProps: {
+        variant: 'default',
+        size: 'md',
+      },
     }),
     TextInput: TextInput.extend({
       classNames: { 

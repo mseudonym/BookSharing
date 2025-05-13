@@ -103,7 +103,7 @@
   width: 100%;
   justify-content: center;
   align-items: center;
-  border-radius: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-spacing-xs);
   border: 1px solid var(--light-background-16-color);
   color: var(--primary-color);
   transition: all var(--transition-duration) var(--transition-timing);
@@ -119,6 +119,7 @@
 
   &[data-error] {
     border-color: var(--red-color);
+    --input-placeholder-color: var(--disabled-text-color) !important;
   }
 
   &:disabled {
@@ -143,4 +144,10 @@
 
 .inputError {
   color: var(--red-color);
+}
+
+.visibilityToggle {
+  width: 40px;
+  height: 40px;
+  padding: 0;
 }

@@ -10,6 +10,7 @@ import styles from '~/components/forms/styles.module.css';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
+import { PasswordInput } from '~/components/inputs/password-input/password-input';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin } from '~/generated-api/auth/auth';
 import { saveToken } from '~/services/token';
@@ -49,6 +50,8 @@ export const LoginForm = () => {
     await loginMutation({ email: data.email, password: data.password });
   };
 
+  console.log(errors.email?.message);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
@@ -59,7 +62,7 @@ export const LoginForm = () => {
         error={errors?.email?.message}
       />
 
-      <TextInput
+      <PasswordInput
         label="Пароль"
         placeholder="Введите пароль"
         {...register('password')}
