@@ -92,5 +92,5 @@ export const theme = createTheme({
     Anchor: Anchor.extend({
       classNames: { root: classes.anchor },
     }),
-  }
+  },
 });

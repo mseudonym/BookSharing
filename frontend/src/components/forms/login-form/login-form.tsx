@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextInput } from '@mantine/core';
+import { Anchor, Button, TextInput } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import * as zod from 'zod';
 
 import styles from '~/components/forms/styles.module.css';
@@ -69,7 +68,7 @@ export const LoginForm = () => {
         error={errors?.password?.message}
       />
 
-      <Link className={_styles.link} to={AppRoute.ForgotPassword}>Я не помню пароль</Link>
+      <Anchor className={_styles.textGray} href={AppRoute.ForgotPassword}>Я не помню пароль</Anchor>
 
       <Button fullWidth variant="filled" loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти
