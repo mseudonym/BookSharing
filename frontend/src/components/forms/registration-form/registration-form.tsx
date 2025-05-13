@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextInput } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
@@ -54,6 +56,28 @@ export const RegistrationForm = () => {
 
   const { mutateAsync: registerMutation } = useMutation({
     mutationFn: postAuthRegister,
+    onError: (error: AxiosError<{
+      errors: {
+        DuplicateUserName?: string[];
+        DuplicateEmail?: string[];
+      }
+    }>) => {
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        if (errorData.errors) {
+          const errorMessage = (errorData.errors.DuplicateEmail?.[0] ? 'Email уже занят' : '') || 
+                             (errorData.errors.DuplicateUserName?.[0] ? 'Имя пользователя уже занято' : '') || 
+                             'Произошла ошибка при регистрации';
+          
+          notifications.show({
+            title: 'Ошибка регистрации',
+            message: errorMessage,
+            color: 'var(--red-color)',
+
+          });
+        }
+      }
+    }
   });
 
   const { mutateAsync: loginMutation } = useMutation({
@@ -65,8 +89,12 @@ export const RegistrationForm = () => {
   });
 
   const onSubmit = async (data: IFormInput) => {
-    await registerMutation({ email: data.email, password: data.password })
-      .then(async () => await loginMutation({ email: data.email, password: data.password }));
+    try {
+      await registerMutation({ email: data.email, password: data.password })
+        .then(async () => await loginMutation({ email: data.email, password: data.password }));
+    } catch (error) {
+      // Общая ошибка будет обработана в onError мутации
+    }
   };
 
   return (
