@@ -9,7 +9,7 @@ import { RegistrationForm } from '~/components/forms/registration-form/registrat
 import { Logo } from '~/components/logo/logo';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { Page } from '~/ui/page/page';
+import { Page } from '~/ui/pages/page/page';
 
 export const RegistrationPage = () => {
   return (

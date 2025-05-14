@@ -1,8 +1,12 @@
-import styles from './profile-filling-page.module.css';
-import { Page } from '../../ui/page/page.tsx';
-import { Header } from '../../components/header/header.tsx';
-import _styles from '../../index.module.css';
-import { ProfileFillingForm } from '../../components/forms/profile-filling-form.tsx';
+import React from 'react';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/profile-filling-page/profile-filling-page.module.css';
+
+import { ProfileFillingForm } from '~/components/forms/profile-filling-form/profile-filling-form';
+import { Header } from '~/components/header/header';
+import { Page } from '~/ui/pages/page/page';
+
 
 export const ProfileFillingPage = () => {
   return (

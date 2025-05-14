@@ -1,18 +1,21 @@
-import _styles from '../../index.module.css';
-import styles from './shelf-page.module.css';
-import { BookCard } from '../../components/book-card/book-card';
-import { Header } from '../../components/header/header';
-import { useGetBooksAllFriendsBooks } from '../../generated-api/books/books';
-import { Page } from '../../ui/page/page';
-import { Loading } from '../../components/loading/loading';
-import { ErrorPage } from '../error-page/error-page';
-import { EmptyState } from '../../components/empty-state/empty-state';
+import { Loader } from '@mantine/core';
+import React from 'react';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/shelf-page/shelf-page.module.css';
+
+import { BookCard } from '~/components/book-card/book-card';
+import { EmptyState } from '~/components/empty-state/empty-state';
+import { Header } from '~/components/header/header';
+import { useGetBooksAllFriendsBooks } from '~/generated-api/books/books';
+import { ErrorPage } from '~/pages/error-page/error-page';
+import { Page } from '~/ui/pages/page/page';
 
 export const ShelfPage = () => {
   const { data: bookList, isLoading, isError } = useGetBooksAllFriendsBooks();
 
   if (isLoading) {
-    return <Loading />;
+    return <Loader />;
   }
 
   if (isError) {

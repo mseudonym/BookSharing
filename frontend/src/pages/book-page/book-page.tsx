@@ -1,17 +1,20 @@
-import _styles from '../../index.module.css';
-import styles from './book-page.module.css';
-import { Header } from '../../components/header/header.tsx';
-import { PageBackground } from '../../ui/page/page-background.tsx';
-import { ActionIcon, Divider } from '@mantine/core';
-import { Queue } from '../../components/queue/queue.tsx';
-import { useParams } from 'react-router-dom';
-import { useGetBooksByIdBookId } from '../../generated-api/books/books.ts';
-import { ErrorPage } from '../error-page/error-page.tsx';
-import { Loading } from '../../components/loading/loading.tsx';
-import { useGetItemsByBookId } from '../../generated-api/items/items.ts';
+import { ActionIcon, Divider, Loader } from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
-import { EmptyState } from '../../components/empty-state/empty-state.tsx';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/book-page/book-page.module.css';
+
+import { EmptyState } from '~/components/empty-state/empty-state';
+import { Header } from '~/components/header/header';
+import { Queue } from '~/components/queue/queue';
+import { useGetBooksByIdBookId } from '~/generated-api/books/books';
+import { useGetItemsByBookId } from '~/generated-api/items/items';
+import { ErrorPage } from '~/pages/error-page/error-page';
+import { PageWithBackground } from '~/ui/pages/page-with-background/page-with-background';
+
 
 export const BookPage = () => {
   const { id } = useParams();
@@ -19,7 +22,7 @@ export const BookPage = () => {
   const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsByBookId({ bookId: id });
 
   if (isLoadingBook || isLoadingQueues) {
-    return <Loading />;
+    return <Loader />;
   }
 
   if (isErrorBook || isErrorQueues || !book) {
@@ -27,7 +30,7 @@ export const BookPage = () => {
   }
 
   return (
-    <PageBackground>
+    <PageWithBackground>
       <Header variant="auto" withPadding>
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
@@ -65,15 +68,15 @@ export const BookPage = () => {
           <h1 className={`${_styles.title} ${_styles.titleWrapper}`}>Эта книга у ваших друзей</h1>
           {queueList == undefined || queueList.length == 0
             ? (
-                <EmptyState
-                  src="/queue-illustration.svg"
-                  alt="Queue is empty illustration"
-                  text="Очередей нет"
-                />
-              )
-            : queueList.map((queue) => <Queue {...queue} bookId={id!} />)}
+              <EmptyState
+                src="/queue-illustration.svg"
+                alt="Queue is empty illustration"
+                text="Очередей нет"
+              />
+            )
+            : queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
         </section>
       </div>
-    </PageBackground>
+    </PageWithBackground>
   );
 };

@@ -3,11 +3,11 @@ import { Button, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import styles from '~/components/forms/styles.module.css';
+import styles from '~/components/forms/forms.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
 import { PasswordInput } from '~/components/inputs/password-input/password-input';
@@ -73,12 +73,13 @@ export const RegistrationForm = () => {
             title: 'Ошибка регистрации',
             message: errorMessage,
             color: 'var(--red-color)',
-
           });
         }
       }
     }
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { mutateAsync: loginMutation } = useMutation({
     mutationFn: postAuthLogin,
@@ -90,10 +91,13 @@ export const RegistrationForm = () => {
 
   const onSubmit = async (data: IFormInput) => {
     try {
+      setIsLoading(true);
       await registerMutation({ email: data.email, password: data.password })
         .then(async () => await loginMutation({ email: data.email, password: data.password }));
     } catch (error) {
       // Общая ошибка будет обработана в onError мутации
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -121,7 +125,7 @@ export const RegistrationForm = () => {
         error={errors?.confirmPassword?.message}
       />
 
-      <Button fullWidth variant="filled" onClick={handleSubmit(onSubmit)}>
+      <Button fullWidth variant="filled" onClick={handleSubmit(onSubmit)} loading={isLoading}>
         Зарегистрироваться
       </Button>
 

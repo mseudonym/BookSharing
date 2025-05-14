@@ -1,15 +1,19 @@
-import _styles from '../../index.module.css';
-import styles from '/src/pages/book-page/book-page.module.css';
-import * as zod from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import { postBooksAdd } from '../../generated-api/books/books';
-import { InputCover } from '../inputs/input-cover/input-cover';
-import { InputField } from '../inputs/input-field/input-field';
 import { Button } from '@mantine/core';
-import { AppRoute, REQUIRED_FIELD_TEXT } from '../../conts';
-import { router } from '../../main';
+import { useMutation } from '@tanstack/react-query';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as zod from 'zod';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/book-page/book-page.module.css';
+
+import { InputCover } from '~/components/inputs/input-cover/input-cover';
+import { InputField } from '~/components/inputs/input-field/input-field';
+import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
+import { postBooksAdd } from '~/generated-api/books/books';
+import { router } from '~/main';
+
 
 const FormSchema = zod.object({
   title: zod
@@ -117,7 +121,7 @@ export const BookAdditionForm = () => {
             />
 
             <Button
-              variant="primary"
+              variant="filled"
               onClick={handleSubmit(onSubmit)}
               disabled={!isValid}
             >

@@ -1,6 +1,8 @@
+import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Navbar } from '../components/navbar/navbar';
-import { AppRoute } from '../conts';
+
+import { Navbar } from '~/components/navbar/navbar';
+import { AppRoute } from '~/conts';
 
 export const Layout = () => {
   const { pathname } = useLocation();

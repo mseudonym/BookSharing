@@ -2,12 +2,11 @@ import { Button } from '@mantine/core';
 import React from 'react';
 
 import _styles from '~/index.module.css';
-
-import styles from './welcome-page.module.css';
+import styles from '~/pages/welcome-page/welcome-page.module.css';
 
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { Page } from '~/ui/page/page';
+import { Page } from '~/ui/pages/page/page';
 
 
 export const WelcomePage = () => {

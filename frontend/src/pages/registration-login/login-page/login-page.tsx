@@ -8,7 +8,7 @@ import { LoginForm } from '~/components/forms/login-form/login-form';
 import { Logo } from '~/components/logo';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { Page } from '~/ui/page/page';
+import { Page } from '~/ui/pages/page/page';
 
 export const LoginPage = () => {
   return (

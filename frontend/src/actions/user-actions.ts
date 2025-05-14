@@ -1,9 +1,9 @@
-import { getUsersMe } from '../generated-api/users/users.ts';
 import axios, { AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import { router } from '../main.tsx';
-import { AppRoute } from '../conts.ts';
 import { UserData } from '../generated-api/model';
+import { getUsersMe } from '../generated-api/users/users';
+import { router } from '../main';
+import { AppRoute } from '~/conts';
 
 export const checkAuth = async () => {
   await getUsersMe()
@@ -13,8 +13,8 @@ export const checkAuth = async () => {
     .catch(async (error: Error | AxiosError) => {
       if (axios.isAxiosError(error)) {
         switch (error.status) {
-          case StatusCodes.UNAUTHORIZED:
-            await router.navigate(AppRoute.Root);
+        case StatusCodes.UNAUTHORIZED:
+          await router.navigate(AppRoute.Root);
         }
       }
     });

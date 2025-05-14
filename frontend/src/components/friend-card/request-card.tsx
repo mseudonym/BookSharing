@@ -1,11 +1,15 @@
-import _styles from '../../index.module.css';
-import styles from './friend-card.module.css';
-import { UserProfile } from '../../generated-api/model';
-import { getGetFriendsListQueryKey, getGetFriendsRequestsReceivedQueryKey, postFriendsRespondRequest } from '../../generated-api/friends/friends';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ActionIcon } from '@mantine/core';
 import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular';
 import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular';
-import { ActionIcon } from '@mantine/core';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React from 'react';
+
+import styles from '~/components/friend-card/friend-card.module.css';
+import _styles from '~/index.module.css';
+
+import { getGetFriendsListQueryKey, getGetFriendsRequestsReceivedQueryKey, postFriendsRespondRequest } from '~/generated-api/friends/friends';
+import { UserProfile } from '~/generated-api/model';
+
 
 export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   const queryClient = useQueryClient();

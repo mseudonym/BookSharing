@@ -5,7 +5,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import styles from '~/components/forms/styles.module.css';
+import styles from '~/components/forms/forms.module.css';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';

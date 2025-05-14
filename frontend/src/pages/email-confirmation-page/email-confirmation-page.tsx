@@ -1,13 +1,15 @@
-import _styles from '../../index.module.css';
-import { Page } from '../../ui/page/page.tsx';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { getGetUsersMeQueryKey, getUsersMe } from '../../generated-api/users/users.ts';
-import { useEffect, useState } from 'react';
-import { postAuthResendConfirmationEmail } from '../../generated-api/auth/auth.ts';
-import { checkProfileFilling } from '../../actions/user-actions.ts';
-import { Header } from '../../components/header/header.tsx';
+import { ActionIcon, Anchor } from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
-import { ActionIcon } from '@mantine/core';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+
+import _styles from '~/index.module.css';
+
+import { checkProfileFilling } from '~/actions/user-actions';
+import { Header } from '~/components/header/header';
+import { postAuthResendConfirmationEmail } from '~/generated-api/auth/auth';
+import { getGetUsersMeQueryKey, getUsersMe } from '~/generated-api/users/users';
+import { Page } from '~/ui/pages/page/page';
 
 const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;
 
@@ -46,37 +48,35 @@ export const EmailConfirmationPage = () => {
 
   return (
     <Page>
-      <div className={_styles.content}>
-        <Header variant="left">
-          <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-            <ArrowALeftIcon24Regular />
-          </ActionIcon>
-        </Header>
-        <h1 className={`${_styles.title} ${_styles.textCenter}`}>
+      <Header variant="left">
+        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
+          <ArrowALeftIcon24Regular />
+        </ActionIcon>
+      </Header>
+      <h1 className={`${_styles.title} ${_styles.textCenter}`}>
           Ожидаем подтверждение почты
-        </h1>
-        <p className={_styles.description}>
+      </h1>
+      <p className={_styles.description}>
           Чтобы это сделать, перейдите по ссылке, отправленной на почту.
           Если письма не видно — проверьте Спам, оно могло попасть туда.
-        </p>
-        <div>
-          <img
-            src="/mail.svg"
-            alt="Email confirmation illustration"
-          />
-        </div>
-        {seconds === 0
-          ? (
-              <p className={_styles.link} onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
-                Отправить письмо ещё раз
-              </p>
-            )
-          : (
-              <p className={_styles.description}>
-                {`Отправить письмо повторно можно через ${seconds} секунд.`}
-              </p>
-            )}
+      </p>
+      <div>
+        <img
+          src="/mail.svg"
+          alt="Email confirmation illustration"
+        />
       </div>
+      {seconds === 0
+        ? (
+          <Anchor onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
+            Отправить письмо ещё раз
+          </Anchor>
+        )
+        : (
+          <p className={_styles.description}>
+            {`Отправить письмо повторно можно через ${seconds} секунд.`}
+          </p>
+        )}
     </Page>
   );
 };

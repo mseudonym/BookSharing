@@ -24,8 +24,13 @@
     }
 
     &:disabled {
-      background-color: var(--light-background-9-color);
+      background-color: var(--light-gray-9-color);
       color: var(--disabled-text-color);
+    }
+
+    &[data-loading] {
+      background-color: var(--primary-color);
+      color: var(--white-color);
     }
   }
 
@@ -40,11 +45,16 @@
     &:disabled {
       color: var(--disabled-text-color);
     }
+
+    &[data-loading] {
+      background-color: var(--white-color);
+      color: var(--primary-color);
+    }
   }
 
   &[data-variant='outline'] {
     background-color: var(--white-color);
-    border: 1px solid var(--light-background-16-color);
+    border: 1px solid var(--light-gray-16-color);
     color: var(--primary-color);
 
     &:hover {
@@ -54,6 +64,11 @@
     &:disabled {
       color: var(--disabled-text-color);
       background-color: var(--light-background-color);
+    }
+
+    &[data-loading] {
+      background-color: var(--white-color);
+      color: var(--primary-color);
     }
   }
 }
@@ -104,7 +119,7 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--mantine-spacing-xs);
-  border: 1px solid var(--light-background-16-color);
+  border: 1px solid var(--light-gray-16-color);
   color: var(--primary-color);
   transition: all var(--transition-duration) var(--transition-timing);
 
@@ -174,4 +189,9 @@
 .anchor:hover::after {
   width: 100%;
   transition: .3s;
+}
+
+/* Loader styles */
+.loader {
+  color: var(--secondary-text-color);
 }

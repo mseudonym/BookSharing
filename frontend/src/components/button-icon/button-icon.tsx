@@ -1,10 +1,13 @@
 import { ActionIcon } from '@mantine/core';
+import React from 'react';
 import { PropsWithChildren } from 'react';
 
 interface ButtonIconProps extends PropsWithChildren {
   variant: 'fill' | 'flat';
   onClick?: () => void;
 }
+
+// Удалить
 
 export const ButtonIcon = ({ variant, onClick, children }: ButtonIconProps) => {
   // Map our custom variants to Mantine variants

@@ -1,0 +1,20 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  height: 100%;
+  padding-top: var(--mantine-spacing-md);
+  background: var(--rainbow-color);
+}
+
+.wrapper {
+  display: flex;
+  padding: var(--mantine-spacing-md);
+  flex-direction: column;
+  height: 100%;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-md);
+  align-self: stretch;
+  border-radius: var(--mantine-spacing-md) var(--mantine-spacing-md) 0 0;
+  background: var(--white-color);
+}

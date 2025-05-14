@@ -1,8 +1,11 @@
-import _styles from '../../index.module.css';
-import styles from './friend-card.module.css';
-import { UserProfile } from '../../generated-api/model';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../conts';
+
+import styles from '~/components/friend-card/friend-card.module.css';
+import _styles from '~/index.module.css';
+
+import { AppRoute } from '~/conts';
+import { UserProfile } from '~/generated-api/model';
 
 export const FriendCard = ({ lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   return (

@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import styles from './input-avatar.module.css';
-import _styles from '../../../index.module.css';
 import { clsx } from 'clsx';
+import { useEffect, useRef, useState } from 'react';
 import { Message, UseFormRegisterReturn } from 'react-hook-form';
+
+import _styles from '../../../index.module.css';
+
+import styles from './input-avatar.module.css';
 
 export interface InputAvatarProps {
   photoFile: File;
@@ -60,6 +62,7 @@ export const InputAvatar = ({ register, error, photoFile, onPhotoFileChange }: I
         hidden
         ref={avatarInputRef}
         type="file"
+        accept="image/jpeg"
         onChange={handleFileUpload}
       />
       <p className={_styles.error}>{error}</p>

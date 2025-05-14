@@ -1,23 +1,28 @@
-import _styles from '../../index.module.css';
-import styles from './profile-page.module.css';
-import { useGetUsersMe } from '../../generated-api/users/users.ts';
-import { Loading } from '../../components/loading/loading.tsx';
-import { PageBackground } from '../../ui/page/page-background.tsx';
-import { useGetBooksMyBooks } from '../../generated-api/books/books.ts';
-import { BookCard } from '../../components/book-card/book-card.tsx';
-import { Header } from '../../components/header/header.tsx';
-import { ErrorPage } from '../error-page/error-page.tsx';
-import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
+import { ActionIcon, Loader } from '@mantine/core';
 import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
-import { router } from '../../main.tsx';
-import { ActionIcon } from '@mantine/core';
+import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
+import React from 'react';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/profile-page/profile-page.module.css';
+
+import { BookCard } from '~/components/book-card/book-card';
+import { Header } from '~/components/header/header';
+import { useGetBooksMyBooks } from '~/generated-api/books/books';
+import { useGetUsersMe } from '~/generated-api/users/users';
+import { router } from '~/main';
+import { ErrorPage } from '~/pages/error-page/error-page';
+import { PageWithBackground } from '~/ui/pages/page-with-background/page-with-background';
+
+
+
 
 export const ProfilePage = () => {
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersMe();
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksMyBooks();
 
   if (isLoadingUser || isLoadingBooks) {
-    return <Loading />;
+    return <Loader />;
   }
 
   if (isErrorUser || isErrorBooks || !user) {
@@ -25,7 +30,7 @@ export const ProfilePage = () => {
   }
 
   return (
-    <PageBackground>
+    <PageWithBackground>
       <Header variant="right" withPadding>
         <ActionIcon variant="transparent">
           <SettingsGearIcon24Regular />
@@ -63,6 +68,6 @@ export const ProfilePage = () => {
         <button className={styles.addButton} onClick={() => router.navigate('/add-book')}><PlusIcon24Regular /></button>
         {bookList?.map((book) => <BookCard {...book} key={book.id} />)}
       </div>
-    </PageBackground>
+    </PageWithBackground>
   );
 };

@@ -1,5 +1,5 @@
 import _styles from '../../index.module.css';
-import { Page } from '../../ui/page/page';
+import { Page } from '../../ui/pages/page/page';
 
 export const ErrorPage = () => {
   return (
