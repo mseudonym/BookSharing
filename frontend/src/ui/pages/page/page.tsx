@@ -1,16 +1,28 @@
+import { AppShell } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import React, { PropsWithChildren } from 'react';
 
-import styles from '~/ui/pages/pages.module.css';
-
-import { PageWithBackground } from '~/ui/pages/page-with-background/page-with-background';
-
+import styles from '~/ui/pages/page/page.module.css';
 
 export const Page = ({ children }: PropsWithChildren) => {
+  const [opened] = useDisclosure();
+  
   return (
-    <PageWithBackground>
-      <div className={styles.wrapper}>
-        {children}
-      </div>
-    </PageWithBackground>
+    <AppShell
+      navbar={{
+        breakpoint: 'sm',
+        collapsed: { mobile: !opened },
+        width: 236,
+      }}
+      padding="var(--mantine-spacing-lg)"
+    >
+      <AppShell.Navbar>Navbar</AppShell.Navbar>
+
+      <AppShell.Main>
+        <div className={styles.page}>
+          {children}
+        </div>
+      </AppShell.Main>
+    </AppShell>
   );
 };

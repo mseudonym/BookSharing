@@ -4,6 +4,21 @@
   --transition-timing: ease-in-out;
 }
 
+/* AppShell styles */
+.appShell {
+  display: flex;
+}
+
+.main {
+  padding: 0;
+}
+
+.menu {
+  position: relative;
+  padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
+}
+
+
 /* Button styles */
 .button {
   display: flex;
@@ -171,6 +186,7 @@
 .anchor {
   text-decoration: none !important;
   transition: color var(--transition-duration) var(--transition-timing);
+  color: var(--primary-color);
 }
 
 .anchor::after {

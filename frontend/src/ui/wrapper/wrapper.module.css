@@ -1,12 +1,3 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  width: 360px;
-  height: 100%;
-  padding-top: var(--mantine-spacing-md);
-  background: var(--rainbow-color);
-}
-
 .wrapper {
   display: flex;
   padding: var(--mantine-spacing-md);

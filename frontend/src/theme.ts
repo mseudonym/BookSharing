@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Button, createTheme, Input, Loader, PasswordInput, TextInput } from '@mantine/core';
+import { ActionIcon, Anchor, AppShell, Button, createTheme, Input, Loader, PasswordInput, TextInput } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -40,6 +40,13 @@ export const theme = createTheme({
 
   // Components configuration
   components: {
+    AppShell: AppShell.extend({
+      classNames: {
+        root: classes.appShell,
+        main: classes.main,
+        navbar: classes.menu,
+      },
+    }),
     Button: Button.extend({
       classNames: { root: classes.button },
       defaultProps: {
