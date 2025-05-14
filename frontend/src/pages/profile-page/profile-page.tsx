@@ -1,4 +1,4 @@
-import { ActionIcon, Loader } from '@mantine/core';
+import { ActionIcon, Anchor, Loader, Title } from '@mantine/core';
 import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
 import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
 import React from 'react';
@@ -12,10 +12,7 @@ import { useGetBooksMyBooks } from '~/generated-api/books/books';
 import { useGetUsersMe } from '~/generated-api/users/users';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { PageWithBackground } from '~/ui/pages/page-with-background/page-with-background';
-
-
-
+import { Page } from '~/ui/pages/page';
 
 export const ProfilePage = () => {
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersMe();
@@ -30,7 +27,7 @@ export const ProfilePage = () => {
   }
 
   return (
-    <PageWithBackground>
+    <Page>
       <Header variant="right" withPadding>
         <ActionIcon variant="transparent">
           <SettingsGearIcon24Regular />
@@ -43,31 +40,26 @@ export const ProfilePage = () => {
           className={styles.avatar}
         />
         <div className={styles.userInfo}>
-          <h1 className={`${_styles.title} ${_styles.textCenter}`}>
+          <Title className={`${_styles.title} ${_styles.textCenter}`}>
             {user.firstName}
             {' '}
             {user.lastName}
-          </h1>
+          </Title>
           <p className={_styles.textGray}>
             @
             {user.username}
           </p>
         </div>
         {user.contactUrl && (
-          <a
-            href={user.contactUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={_styles.link}
-          >
+          <Anchor href={user.contactUrl}>
             Связаться
-          </a>
+          </Anchor>
         )}
       </div>
       <div className={styles.bookList}>
         <button className={styles.addButton} onClick={() => router.navigate('/add-book')}><PlusIcon24Regular /></button>
         {bookList?.map((book) => <BookCard {...book} key={book.id} />)}
       </div>
-    </PageWithBackground>
+    </Page>
   );
 };

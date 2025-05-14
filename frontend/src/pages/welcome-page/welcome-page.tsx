@@ -1,25 +1,26 @@
-import { Button } from '@mantine/core';
+import { Button, Title } from '@mantine/core';
 import React from 'react';
 
 import _styles from '~/index.module.css';
 import styles from '~/pages/welcome-page/welcome-page.module.css';
 
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { Page } from '~/ui/pages/page/page';
+import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
 
 
 export const WelcomePage = () => {
   return (
-    <Page>
-      <img
-        loading="lazy"
+    <PageWithWrapper alignWrapper="center">
+      <IllustrationWrapper
         src="/welcome-illustration.svg"
         alt="Welcome illustration"
+        size="big"
       />
       <div className={styles.textContainer}>
-        <h1 className={_styles.title}>Добро пожаловать!</h1>
-        <p className={_styles.description}>
+        <Title>Добро пожаловать!</Title>
+        <p className={`${_styles.textCenter} ${_styles.textGray}`}>
             Здесь вы можете делиться книгами со своей полки, а также бронировать книги друзей. Наслаждайтесь
             чтением!
         </p>
@@ -30,6 +31,6 @@ export const WelcomePage = () => {
       <Button variant="outline" fullWidth onClick={() => router.navigate(AppRoute.Register)}>
           Зарегистрироваться
       </Button>
-    </Page>
+    </PageWithWrapper>
   );
 };

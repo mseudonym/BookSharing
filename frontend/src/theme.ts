@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, AppShell, Button, createTheme, Input, Loader, PasswordInput, TextInput } from '@mantine/core';
+import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, PasswordInput, Textarea, TextInput } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -9,6 +9,21 @@ declare module '@mantine/core' {
 }
 
 export const theme = createTheme({
+  headings: {
+    fontFamily: 'Unbounded',
+    fontWeight: '400',
+    sizes: {
+      h1: {
+        fontSize: '22px',
+        lineHeight: '120%',
+      },
+      h2: {
+        fontSize: '18px',
+        lineHeight: '120%',
+      },
+    },
+  },
+
   // Spacing system
   spacing: {
     xs: '4px',
@@ -22,11 +37,8 @@ export const theme = createTheme({
   // Typography system
   fontFamily: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
   fontSizes: {
-    xs: '14px',
-    sm: '16px',
+    sm: '14px',
     md: '16px',
-    lg: '18px',
-    xl: '20px',
   },
 
   // Border radius system
@@ -96,6 +108,18 @@ export const theme = createTheme({
         size: 'md',
       },
     }),
+    Textarea: Textarea.extend({
+      classNames: {
+        root: classes.inputWrapper,
+        input: classes.input,
+        label: classes.inputLabel,
+        error: classes.inputError
+      },
+      defaultProps: {
+        variant: 'default',
+        size: 'md',
+      },
+    }),
     Anchor: Anchor.extend({
       classNames: { root: classes.anchor },
     }),
@@ -105,6 +129,12 @@ export const theme = createTheme({
         color: 'var(--primary-color)',
         variant: 'md'
       }
+    }),
+    Divider: Divider.extend({
+      classNames: { 
+        root: classes.divider, 
+        label: classes.dividerLabel 
+      },
     }),
   },
 });

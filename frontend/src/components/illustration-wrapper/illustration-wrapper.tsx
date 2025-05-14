@@ -12,12 +12,12 @@ interface IllustrationWrapperProps {
 
 export const IllustrationWrapper = ({ src, alt, text, size = 'small' }: IllustrationWrapperProps) => {
   return (
-    <div className={`${styles.illustrationWrapper} ${styles[size]}`}>
+    <div className={styles.illustrationWrapper}>
       <img
         loading="lazy"
         src={src}
         alt={alt}
-        className={styles.image}
+        className={`${styles.image} ${styles[size]}`}
       />
       {text && <p className={_styles.textCenter}>{text}</p>}
     </div>

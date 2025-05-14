@@ -21,3 +21,4 @@ export enum FriendsTabs {
 }
 
 export const REQUIRED_FIELD_TEXT = 'Обязательное поле';
+export const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;

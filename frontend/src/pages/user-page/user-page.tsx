@@ -8,12 +8,12 @@ import _styles from '~/index.module.css';
 import styles from '~/pages/profile-page/profile-page.module.css';
 
 import { BookCard } from '~/components/book-card/book-card';
-import { EmptyState } from '~/components/empty-state/empty-state';
 import { Header } from '~/components/header/header';
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { useGetBooksFriendBooks } from '~/generated-api/books/books';
 import { useGetUsersUsername } from '~/generated-api/users/users';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { PageWithBackground } from '~/ui/pages/page-with-background/page-with-background';
+import { Page } from '~/ui/pages/page';
 
 
 export const UserPage = () => {
@@ -30,7 +30,7 @@ export const UserPage = () => {
   }
 
   return (
-    <PageWithBackground>
+    <Page>
       <Header variant="auto" withPadding>
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
@@ -65,7 +65,7 @@ export const UserPage = () => {
       <div className={styles.bookLsist}>
         {bookList == undefined || bookList.length == 0
           ? (
-            <EmptyState
+            <IllustrationWrapper
               src="/profile-illustration.svg"
               alt="No books illustration"
               text="У твоего друга книг пока нет."
@@ -73,6 +73,6 @@ export const UserPage = () => {
           )
           : bookList?.map((book) => <BookCard {...book} key={book.id} />)}
       </div>
-    </PageWithBackground>
+    </Page>
   );
 };

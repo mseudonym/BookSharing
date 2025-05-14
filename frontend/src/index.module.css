@@ -1,37 +1,52 @@
-.title {
-  font-family: Unbounded;
-  font-size: 22px;
-}
-
-.titleWrapper {
-  padding: 0px 16px;
-}
-
-.description, .textGray {
+.textGray {
   color: var(--secondary-text-color);
 }
 
-.description, .textCenter {
+.textCenter {
   text-align: center;
-}
-
-.textContainer {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-content: start;
-  padding: 8px 0 16px;
 }
 
 .roundRect {
-  height: 32px;
-  border-radius: 16px 16px 0 0;
-  background: white;
+  height: var(--mantine-spacing-xl);
+  border-radius: var(--mantine-radius-md) var(--mantine-radius-md) 0 0;
+  background: var(--white-color);
   align-items: stretch;
   width: 100%;
-  margin-top: -32px;
+  margin-top: calc(var(--mantine-spacing-xl) * -1);
   z-index: 1;
+}
+
+.anchorGray {
+  color: var(--secondary-text-color) !important;
+
+  &:hover {
+    color: var(--primary-color) !important;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: var(--mantine-spacing-md);
+}
+
+.formCenter {
+  align-items: center;
+}
+
+.photoButton {
+  padding: 0 !important;
+  border: 2px dashed var(--light-gray-16-color) !important;
+  z-index: 2 !important;
+}
+
+.photoButtonChosen {
+  border: none !important;
+}
+
+.photoButtonImage {
+  height: 100% !important;
+  filter: brightness(84%) !important;
 }

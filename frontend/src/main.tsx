@@ -15,7 +15,7 @@ import { BookPage } from '~/pages/book-page/book-page';
 import { EmailConfirmationPage } from '~/pages/email-confirmation-page/email-confirmation-page';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { FriendsPage } from '~/pages/friends-page/friends-page';
-import { ProfileFillingPage } from '~/pages/profile-filling-page/profile-filling-page';
+import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage } from '~/pages/profile-page/profile-page';
 import { LoginPage } from '~/pages/registration-login';
 import { RegistrationPage } from '~/pages/registration-login/registration-page/registration-page';

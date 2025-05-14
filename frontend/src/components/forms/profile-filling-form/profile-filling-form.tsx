@@ -1,14 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, FileButton, TextInput } from '@mantine/core';
+import { BackgroundImage, Button, Center, FileButton, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { TechCamPhotoIcon24Regular } from '@skbkontur/icons';
+import { TechCamPhotoIcon24Regular, ToolPencilSquareIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import styles from '~/components/forms/forms.module.css';
+import styles from '~/components/forms/profile-filling-form/profile-filling-form.module.css';
+import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
@@ -29,7 +29,7 @@ const FormSchema = zod.object({
     .regex(/^[a-zA-Z0-9_]+$/, 'Никнейм может содержать только латинские буквы, цифры и нижние подчёркивания'),
   contactUrl: zod
     .string()
-    .url(),
+    .url('Ссылка должна быть валидной'),
   profilePhoto: zod
     .custom<File>()
     .refine((file) => file.size > 0, 'Файл не может быть пустым')
@@ -40,6 +40,9 @@ const FormSchema = zod.object({
 type IFormInput = zod.infer<typeof FormSchema>;
 
 export const ProfileFillingForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+
   const {
     setValue,
     register,
@@ -56,29 +59,12 @@ export const ProfileFillingForm = () => {
     onSuccess: async (userData) => {
       await checkProfileFilling(userData);
     },
-    onError: (error: AxiosError<{
-      errors: {
-        DuplicateUserName?: string[];
-      }
-    }>) => {
-      if (error.response?.status === 400) {
-        const errorData = error.response.data;
-        if (errorData.errors) {
-          const errorMessage = (errorData.errors.DuplicateUserName?.[0] ? 'Имя пользователя уже занято' : '') || 
-                             'Произошла ошибка при регистрации';
-          
-          notifications.show({
-            title: 'Ошибка регистрации',
-            message: errorMessage,
-            color: 'var(--red-color)',
-          });
-        }
-      }
-    },
   });
+
 
   const onSubmit = async (data: IFormInput) => {
     try {
+      setIsLoading(true);
       await fillProfile({
         FirstName: data.firstName,
         LastName: data.lastName,
@@ -87,25 +73,33 @@ export const ProfileFillingForm = () => {
         Username: data.username,
       });
     } catch (error) {
-      //
+      notifications.show({
+        title: 'Ошибка заполнения профиля',
+        message: undefined,
+        color: 'var(--red-color)',
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const [file, setFile] = useState<File | null>(null);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${_styles.form} ${_styles.formCenter}`}>
       <FileButton accept="image/jpeg" onChange={(file) => {
         setFile(file);
         if (file) setValue('profilePhoto', file);
       }}>
-        {(props) => <Button {...props} className={styles.photoButton}>
+        {(props) => <Button {...props} className={`${styles.avatarButton} ${_styles.photoButton} ${file && _styles.photoButtonChosen}`}>
           {file ? 
-            <img
+            <BackgroundImage
               src={URL.createObjectURL(file)}
-              alt=""
-              className={styles.imageCover}
-            /> : <TechCamPhotoIcon24Regular/>}
+              className={_styles.photoButtonImage}
+              style={{aspectRatio: 1}}>
+              <Center h="100%">
+                <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
+              </Center>
+            </BackgroundImage> 
+            : <TechCamPhotoIcon24Regular/>}
         </Button>}
       </FileButton>
 
@@ -141,6 +135,7 @@ export const ProfileFillingForm = () => {
         variant="filled"
         onClick={handleSubmit(onSubmit)}
         fullWidth
+        loading={isLoading}
       >
         Создать профиль
       </Button>

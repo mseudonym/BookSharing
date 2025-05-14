@@ -1,18 +1,18 @@
-import { ActionIcon, Loader, SegmentedControl } from '@mantine/core';
+import { ActionIcon, Loader, SegmentedControl, Title } from '@mantine/core';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import React, { useState } from 'react';
 
 import _styles from '~/index.module.css';
 import styles from '~/pages/friends-page/friends-page.module.css';
 
-import { EmptyState } from '~/components/empty-state/empty-state';
 import { FriendCard } from '~/components/friend-card/friend-card';
 import { RequestCard } from '~/components/friend-card/request-card';
 import { Header } from '~/components/header/header';
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { FriendsTabs } from '~/conts';
 import { useGetFriendsList, useGetFriendsRequestsReceived } from '~/generated-api/friends/friends';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { Page } from '~/ui/pages/page/page';
+import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
 
 export const FriendsPage = () => {
   const { data: friendList, isLoading: isLoadingFriends, isError: isErrorFriends } = useGetFriendsList();
@@ -32,9 +32,9 @@ export const FriendsPage = () => {
   }
 
   return (
-    <Page>
+    <PageWithWrapper>
       <Header variant="auto">
-        <h1 className={_styles.title}>Друзья</h1>
+        <Title className={_styles.title}>Друзья</Title>
         <ActionIcon variant="transparent">
           <SearchLoupeIcon24Regular />
         </ActionIcon>
@@ -56,7 +56,7 @@ export const FriendsPage = () => {
           <section className={styles.friendList}>
             {friendList == undefined || friendList.length == 0
               ? (
-                <EmptyState
+                <IllustrationWrapper
                   src="/friends-illustration.svg"
                   alt="No friends illustration"
                   text="Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху."
@@ -69,7 +69,7 @@ export const FriendsPage = () => {
           <section className={styles.friendList}>
             {requestList == undefined || requestList.length == 0
               ? (
-                <EmptyState
+                <IllustrationWrapper
                   src="/request-illustration.svg"
                   alt="No requests illustration"
                   text="Заявок пока нет, но можно кого-нибудь добавить самому."
@@ -79,6 +79,6 @@ export const FriendsPage = () => {
           </section>
 
         )}
-    </Page>
+    </PageWithWrapper>
   );
 };

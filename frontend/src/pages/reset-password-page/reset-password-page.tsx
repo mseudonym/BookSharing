@@ -1,5 +1,5 @@
 import { Header } from '../../components/header/header';
-import { Page } from '../../ui/pages/page/page';
+import { PageWithWrapper } from '../../ui/pages/page-with-wrapper/page-with-wrapper';
 
 export const ProfileFillingPage = () => {
   return ();

@@ -8,11 +8,11 @@
 }
 
 .small {
-  width: 200px;
+  max-width: 200px;
 }
 
 .big {
-  width: 328px;
+  max-width: 328px;
 }
 
 .image {

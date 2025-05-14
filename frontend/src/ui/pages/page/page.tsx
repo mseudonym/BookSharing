@@ -16,7 +16,11 @@ export const Page = ({ children }: PropsWithChildren) => {
       }}
       padding="var(--mantine-spacing-lg)"
     >
-      <AppShell.Navbar>Navbar</AppShell.Navbar>
+      {/* <AppShell.Navbar>
+      <AppShell.Navbar>
+        <Logo size="big" />
+      </AppShell.Navbar>
+      */}
 
       <AppShell.Main>
         <div className={styles.page}>
