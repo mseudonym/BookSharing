@@ -94,6 +94,10 @@ export const theme = createTheme({
     }),
     Loader: Loader.extend({
       classNames: { root: classes.loader },
+      defaultProps: {
+        color: 'var(--primary-color)',
+        variant: 'md'
+      }
     }),
   },
 });
