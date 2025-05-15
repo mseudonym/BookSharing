@@ -1,5 +1,5 @@
 .navbarRoot {
-  border: 1px solid var(--gray-80-color);
+  border: 1px solid var(--light-gray-16-color);
   background-color: var(--white-80-color);
   backdrop-filter: blur(8px);
   padding: 8px 4px;
@@ -23,7 +23,7 @@
 
 
 .navbarIndicator {
-  background-color: var(--gray-50-color);
+  background-color: var(--light-gray-9-color);
   animation: show 0.7s;
   animation-fill-mode: forwards;
 }

@@ -1,0 +1,1 @@
+export { IllustrationWrapper } from './illustration-wrapper';

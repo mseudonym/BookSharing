@@ -1,23 +1,25 @@
-import _styles from '../../index.module.css';
-import styles from './profile-page.module.css';
-import { useGetUsersMe } from '../../generated-api/users/users.ts';
-import { Loading } from '../../components/loading/loading.tsx';
-import { PageBackground } from '../../ui/page/page-background.tsx';
-import { useGetBooksMyBooks } from '../../generated-api/books/books.ts';
-import { BookCard } from '../../components/book-card/book-card.tsx';
-import { Header } from '../../components/header/header.tsx';
-import { ErrorPage } from '../error-page/error-page.tsx';
-import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
+import { ActionIcon, Anchor, Loader, Title } from '@mantine/core';
 import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
-import { router } from '../../main.tsx';
-import { ActionIcon } from '@mantine/core';
+import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
+import React from 'react';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/profile-page/profile-page.module.css';
+
+import { BookCard } from '~/components/book-card/book-card';
+import { Header } from '~/components/header/header';
+import { useGetBooksMyBooks } from '~/generated-api/books/books';
+import { useGetUsersMe } from '~/generated-api/users/users';
+import { router } from '~/main';
+import { ErrorPage } from '~/pages/error-page/error-page';
+import { Page } from '~/ui/pages/page';
 
 export const ProfilePage = () => {
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersMe();
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksMyBooks();
 
   if (isLoadingUser || isLoadingBooks) {
-    return <Loading />;
+    return <Loader />;
   }
 
   if (isErrorUser || isErrorBooks || !user) {
@@ -25,7 +27,7 @@ export const ProfilePage = () => {
   }
 
   return (
-    <PageBackground>
+    <Page>
       <Header variant="right" withPadding>
         <ActionIcon variant="transparent">
           <SettingsGearIcon24Regular />
@@ -38,31 +40,26 @@ export const ProfilePage = () => {
           className={styles.avatar}
         />
         <div className={styles.userInfo}>
-          <h1 className={`${_styles.title} ${_styles.textCenter}`}>
+          <Title className={`${_styles.title} ${_styles.textCenter}`}>
             {user.firstName}
             {' '}
             {user.lastName}
-          </h1>
+          </Title>
           <p className={_styles.textGray}>
             @
             {user.username}
           </p>
         </div>
         {user.contactUrl && (
-          <a
-            href={user.contactUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={_styles.link}
-          >
+          <Anchor href={user.contactUrl}>
             Связаться
-          </a>
+          </Anchor>
         )}
       </div>
       <div className={styles.bookList}>
         <button className={styles.addButton} onClick={() => router.navigate('/add-book')}><PlusIcon24Regular /></button>
         {bookList?.map((book) => <BookCard {...book} key={book.id} />)}
       </div>
-    </PageBackground>
+    </Page>
   );
 };

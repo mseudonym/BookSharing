@@ -1,33 +1,36 @@
-import styles from './welcome-page.module.css';
-import _styles from '../../index.module.css';
-import { Button } from '@mantine/core';
-import { AppRoute } from '../../conts.ts';
-import { Page } from '../../ui/page/page.tsx';
-import { router } from '../../main.tsx';
+import { Button, Title } from '@mantine/core';
+import React from 'react';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/welcome-page/welcome-page.module.css';
+
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
+import { AppRoute } from '~/conts';
+import { router } from '~/main';
+import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+
 
 export const WelcomePage = () => {
   return (
-    <Page>
-      <div className={styles.content}>
-        <img
-          loading="lazy"
-          src="/welcome-illustration.svg"
-          alt="Welcome illustration"
-        />
-        <div className={styles.textContainer}>
-          <h1 className={_styles.title}>Добро пожаловать!</h1>
-          <p className={_styles.description}>
+    <PageWithWrapper alignWrapper="center">
+      <IllustrationWrapper
+        src="/welcome-illustration.svg"
+        alt="Welcome illustration"
+        size="big"
+      />
+      <div className={styles.textContainer}>
+        <Title>Добро пожаловать!</Title>
+        <p className={`${_styles.textCenter} ${_styles.textGray}`}>
             Здесь вы можете делиться книгами со своей полки, а также бронировать книги друзей. Наслаждайтесь
             чтением!
-          </p>
-        </div>
-        <Button variant="filled" fullWidth onClick={() => router.navigate(AppRoute.Login)}>
-          Войти
-        </Button>
-        <Button variant="outline" fullWidth onClick={() => router.navigate(AppRoute.Register)}>
-          Зарегистрироваться
-        </Button>
+        </p>
       </div>
-    </Page>
+      <Button variant="filled" fullWidth onClick={() => router.navigate(AppRoute.Login)}>
+          Войти
+      </Button>
+      <Button variant="outline" fullWidth onClick={() => router.navigate(AppRoute.Register)}>
+          Зарегистрироваться
+      </Button>
+    </PageWithWrapper>
   );
 };

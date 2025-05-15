@@ -1,5 +1,6 @@
-import type { PropsWithChildren } from 'react';
-import styles from './header.module.css';
+import React, { PropsWithChildren } from 'react';
+
+import styles from '~/components/header/header.module.css';
 
 interface HeaderProps extends PropsWithChildren {
   variant: 'auto' | 'left' | 'right';

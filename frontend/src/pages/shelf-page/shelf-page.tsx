@@ -1,18 +1,21 @@
-import _styles from '../../index.module.css';
-import styles from './shelf-page.module.css';
-import { BookCard } from '../../components/book-card/book-card';
-import { Header } from '../../components/header/header';
-import { useGetBooksAllFriendsBooks } from '../../generated-api/books/books';
-import { Page } from '../../ui/page/page';
-import { Loading } from '../../components/loading/loading';
-import { ErrorPage } from '../error-page/error-page';
-import { EmptyState } from '../../components/empty-state/empty-state';
+import { Loader, Title } from '@mantine/core';
+import React from 'react';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/shelf-page/shelf-page.module.css';
+
+import { BookCard } from '~/components/book-card/book-card';
+import { Header } from '~/components/header/header';
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
+import { useGetBooksAllFriendsBooks } from '~/generated-api/books/books';
+import { ErrorPage } from '~/pages/error-page/error-page';
+import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
 
 export const ShelfPage = () => {
   const { data: bookList, isLoading, isError } = useGetBooksAllFriendsBooks();
 
   if (isLoading) {
-    return <Loading />;
+    return <Loader />;
   }
 
   if (isError) {
@@ -20,14 +23,14 @@ export const ShelfPage = () => {
   }
 
   return (
-    <Page>
+    <PageWithWrapper>
       <Header variant="left">
-        <h1 className={_styles.title}>Полка друзей</h1>
+        <Title className={_styles.title}>Полка друзей</Title>
       </Header>
       <section className={styles.bookList}>
         {bookList == undefined || bookList.length == 0
           ? (
-            <EmptyState
+            <IllustrationWrapper
               src="/shelf-illustration.svg"
               alt="Shelf is empty illustration"
               text="Добавьте друзей, чтобы увидеть книги, которые они выложили."
@@ -35,6 +38,6 @@ export const ShelfPage = () => {
           )
           : bookList.map((book) => <BookCard {...book} key={book.id} />)}
       </section>
-    </Page>
+    </PageWithWrapper>
   );
 };
