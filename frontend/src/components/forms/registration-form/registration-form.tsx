@@ -15,7 +15,6 @@ import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
 import { saveToken } from '~/services/token';
 
-
 const FormSchema = zod.object({
   email: zod
     .string()

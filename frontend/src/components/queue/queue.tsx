@@ -12,7 +12,7 @@ import { QueueModel } from '~/generated-api/model';
 import { postQueueItemIdBecomeHolder, postQueueItemIdEnqueue, postQueueItemIdLeaveQueue } from '~/generated-api/queue/queue';
 import { getGetUsersMeQueryKey, getUsersMe } from '~/generated-api/users/users';
 import { getNounForm } from '~/helpers/helpers';
-
+import { router } from '~/main';
 
 interface QueueProps extends QueueModel {
   bookId: string;
@@ -66,12 +66,12 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
             size={41}
           />
           <div className={styles.personInfo}>
-            <p className={styles.name}>
+            <span className={styles.name}>
               {owner.firstName}
               {' '}
               {owner.lastName}
-            </p>
-            <Anchor href={AppRoute.User.replace(':username', owner.username!)}>Перейти в профиль</Anchor>
+            </span>
+            <Anchor onClick={() => router.navigate(AppRoute.User.replace(':username', owner.username!))}>Перейти в профиль</Anchor>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
       <div className={styles.personWrapper}>
         <span className={_styles.textGray}>Текущий держатель</span>
         {holder == undefined
-          ? <p>Пока никого</p>
+          ? <span className={_styles.textGray}>Пока никого</span>
           : (
             <div className={styles.person}>
               <Avatar
@@ -88,11 +88,11 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
                 size={41}
               />
               <div className={styles.personInfo}>
-                <p className={styles.name}>
+                <span className={styles.name}>
                   {holder.firstName}
                   {' '}
                   {holder.lastName}
-                </p>
+                </span>
                 <Anchor href={AppRoute.User.replace(':username', holder.username!)}>Связаться</Anchor>
               </div>
             </div>
@@ -126,10 +126,10 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
         : <p className={_styles.textGray}>В данный момент вы читаете книгу.</p>}
 
       {!isUserHolder && (!isUserInQueue
-        ? <Button variant="fill" onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
+        ? <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
         : (
           <div className={styles.buttonWrapper}>
-            <Button variant="fill" disabled={!isUserFirst} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
+            <Button variant="white" fullWidth disabled={!isUserFirst} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
             <ActionIcon variant="white" onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular /></ActionIcon>
           </div>
         ))}

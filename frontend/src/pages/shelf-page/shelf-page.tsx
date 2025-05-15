@@ -9,7 +9,7 @@ import { Header } from '~/components/header/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { useGetBooksAllFriendsBooks } from '~/generated-api/books/books';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const ShelfPage = () => {
   const { data: bookList, isLoading, isError } = useGetBooksAllFriendsBooks();

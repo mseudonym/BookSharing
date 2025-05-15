@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BackgroundImage, Button, Center, FileButton, TextInput } from '@mantine/core';
+import { BackgroundImage, Button, Center, FileButton, Overlay, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { TechCamPhotoIcon24Regular, ToolPencilSquareIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
@@ -98,6 +98,7 @@ export const ProfileFillingForm = () => {
               <Center h="100%">
                 <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
               </Center>
+              <Overlay color="var(--light-gray-16-color)"/>
             </BackgroundImage> 
             : <TechCamPhotoIcon24Regular/>}
         </Button>}

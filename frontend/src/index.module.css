@@ -24,6 +24,13 @@
   }
 }
 
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -36,10 +43,15 @@
   align-items: center;
 }
 
+.formPadding {
+  padding: var(--mantine-spacing-md) 0px var(--mantine-spacing-xl) 0px;
+}
+
 .photoButton {
   padding: 0 !important;
   border: 2px dashed var(--light-gray-16-color) !important;
   z-index: 2 !important;
+  background: none !important;
 }
 
 .photoButtonChosen {
@@ -48,5 +60,4 @@
 
 .photoButtonImage {
   height: 100% !important;
-  filter: brightness(84%) !important;
 }

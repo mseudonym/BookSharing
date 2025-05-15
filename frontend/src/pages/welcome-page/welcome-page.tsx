@@ -2,13 +2,11 @@ import { Button, Title } from '@mantine/core';
 import React from 'react';
 
 import _styles from '~/index.module.css';
-import styles from '~/pages/welcome-page/welcome-page.module.css';
 
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
-
+import { PageWithWrapper } from '~/ui/pages';
 
 export const WelcomePage = () => {
   return (
@@ -18,7 +16,7 @@ export const WelcomePage = () => {
         alt="Welcome illustration"
         size="big"
       />
-      <div className={styles.textContainer}>
+      <div className={_styles.textContainer}>
         <Title>Добро пожаловать!</Title>
         <p className={`${_styles.textCenter} ${_styles.textGray}`}>
             Здесь вы можете делиться книгами со своей полки, а также бронировать книги друзей. Наслаждайтесь

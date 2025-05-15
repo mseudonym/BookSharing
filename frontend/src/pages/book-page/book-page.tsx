@@ -13,7 +13,7 @@ import { Queue } from '~/components/queue/queue';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
 import { useGetItemsByBookId } from '~/generated-api/items/items';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { Page } from '~/ui/pages/page';
+import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
 
@@ -41,33 +41,36 @@ export const BookPage = () => {
         </ActionIcon>
       </Header>
 
-      <Wrapper>
+      <Wrapper background='none' noPaddingHorizontal noGap>
         <div className={styles.bookCover}>
           <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
           <div className={_styles.roundRect} />
         </div>
-        <div className={_styles.content}>
+        <div className={styles.bookContent}>
           <div className={styles.bookInfo}>
             <div className={styles.bookHeader}>
               <div className={styles.bookExtra}>
-                <p className={_styles.textGray}>{book?.author}</p>
-                <p className={_styles.textGray}>/</p>
-                <p className={_styles.textGray}>
+                <span className={_styles.textGray}>{book?.author}</span>
+                <span className={_styles.textGray}>/</span>
+                <span className={_styles.textGray}>
                   {book.publicationYear}
                   {' '}
                 г.
-                </p>
+                </span>
               </div>
               <Title className={`${_styles.title} ${_styles.textCenter}`}>{book?.title}</Title>
             </div>
             <div className={styles.bookBlock}>
-              <p className={_styles.textGray}>Описание</p>
+              <span className={_styles.textGray}>Описание</span>
               <p>{book?.description}</p>
             </div>
+            <Divider my="l" />
           </div>
-          <Divider my="l" style={{ width: '90%' }} />
+          
           <section className={styles.queues}>
-            <Title>Эта книга у ваших друзей</Title>
+            <Header variant="left" withPadding>
+              <Title>Эта книга у ваших друзей</Title>
+            </Header>
             {queueList == undefined || queueList.length == 0
               ? (
                 <IllustrationWrapper

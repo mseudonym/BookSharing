@@ -11,10 +11,10 @@ import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { RESEND_CONFIRMATION_EMAIL_SECONDS } from '~/conts';
 import { postAuthResendConfirmationEmail } from '~/generated-api/auth/auth';
 import { getGetUsersMeQueryKey, getUsersMe } from '~/generated-api/users/users';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const EmailConfirmationPage = () => {
-  const [seconds, setSeconds] = useState<number>(3);
+  const [seconds, setSeconds] = useState<number>(RESEND_CONFIRMATION_EMAIL_SECONDS);
 
   const { mutateAsync: resendConfirmationEmail } = useMutation({
     mutationFn: postAuthResendConfirmationEmail,

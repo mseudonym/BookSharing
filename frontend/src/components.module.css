@@ -18,6 +18,10 @@
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
 }
 
+.title {
+  color: var(--primary-color);
+}
+
 
 /* Button styles */
 .button {
@@ -93,8 +97,8 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  width: 50px;
+  min-height: 50px;
+  min-width: 50px;
   border-radius: 100%;
   transition: all var(--transition-duration) var(--transition-timing);
 

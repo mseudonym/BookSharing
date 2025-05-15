@@ -7,7 +7,7 @@ import { LoginForm } from '~/components/forms/login-form/login-form';
 import { Logo } from '~/components/logo';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const LoginPage = () => {
   return (

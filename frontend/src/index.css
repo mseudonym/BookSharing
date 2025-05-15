@@ -31,6 +31,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   position: relative;
+  background-color: var(--light-background-color);
 }
 
 html,

@@ -5,7 +5,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import _styles from '~/index.module.css';
-import styles from '~/pages/profile-page/profile-page.module.css';
+import styles from '~/pages/profile-user/profile-user.module.css';
 
 import { BookCard } from '~/components/book-card/book-card';
 import { Header } from '~/components/header/header';
@@ -13,7 +13,7 @@ import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { useGetBooksFriendBooks } from '~/generated-api/books/books';
 import { useGetUsersUsername } from '~/generated-api/users/users';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { Page } from '~/ui/pages/page';
+import { Page } from '~/ui/pages';
 
 
 export const UserPage = () => {
@@ -62,7 +62,7 @@ export const UserPage = () => {
           </Anchor>
         )}
       </div>
-      <div className={styles.bookLsist}>
+      <div className={styles.bookList}>
         {bookList == undefined || bookList.length == 0
           ? (
             <IllustrationWrapper

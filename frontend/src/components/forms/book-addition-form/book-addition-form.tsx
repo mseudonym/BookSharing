@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BackgroundImage, Button, Center, FileButton, Textarea, TextInput } from '@mantine/core';
+import { BackgroundImage, Button, Center, FileButton, Overlay, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { ToolPencilSquareIcon24Regular, TechCamPhotoIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
@@ -101,6 +101,7 @@ export const BookAdditionForm = () => {
                 <Center h="100%">
                   <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
                 </Center>
+                <Overlay color="var(--light-gray-16-color)"/>
               </BackgroundImage> 
               : <TechCamPhotoIcon24Regular/>}
           </Button>}

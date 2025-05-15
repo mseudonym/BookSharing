@@ -5,10 +5,21 @@
   gap: var(--mantine-spacing-md);
   align-self: stretch;
   border-radius: var(--mantine-spacing-md) var(--mantine-spacing-md) 0 0;
+  padding: var(--mantine-spacing-md) var(--mantine-spacing-md) 0 var(--mantine-spacing-md);
 }
 
-.withPadding {
-  padding: var(--mantine-spacing-md);
+.noPaddingVertical {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.noPaddingHorizontal {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.noGap {
+  gap: 0;
 }
 
 .left {

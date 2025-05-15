@@ -12,7 +12,7 @@ import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { FriendsTabs } from '~/conts';
 import { useGetFriendsList, useGetFriendsRequestsReceived } from '~/generated-api/friends/friends';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const FriendsPage = () => {
   const { data: friendList, isLoading: isLoadingFriends, isError: isErrorFriends } = useGetFriendsList();

@@ -8,7 +8,7 @@ import { RegistrationForm } from '~/components/forms/registration-form/registrat
 import { Logo } from '~/components/logo/logo';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const RegistrationPage = () => {
   return (
