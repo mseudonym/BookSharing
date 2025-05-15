@@ -1,0 +1,57 @@
+stages:
+  - test
+  - build
+  - deploy
+
+test-backend:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:9.0
+  script:
+    - dotnet restore
+    - dotnet test BS.IntegrationTests/BS.IntegrationTests.csproj --no-build --verbosity normal
+
+variables:
+  BACK_IMAGE: "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
+
+build-backend:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t $BACK_IMAGE -f backend/Dockerfile .
+    - docker push $BACK_IMAGE
+
+deploy-backend-staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  environment:
+    name: staging
+  script:
+    - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
+    - kubectl create secret generic bs-cert \
+        --from-literal=cert-pass="$CERT_PASS" \
+        --from-file=bs-api-stage.pfx=bs-api-stage.pfx
+  variables:
+    ASPNETCORE_ENVIRONMENT: "Staging"
+  when: manual
+  only:
+    - branches
+    - tags
+
+deploy-backend-production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  environment:
+    name: production
+  script:
+    - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
+    - kubectl create secret generic bs-cert \
+        --from-literal=cert-pass="$CERT_PASS" \
+        --from-file=bs-api-stage.pfx=bs-api-stage.pfx
+  variables:
+    ASPNETCORE_ENVIRONMENT: "Production"
+  when: manual
+  only:
+    - main

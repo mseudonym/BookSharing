@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bs-api
+  labels:
+    app: bs-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bs-api
+  template:
+    metadata:
+      labels:
+        app: bs-api
+    spec:
+      containers:
+        - name: bs-api
+          image: cr.yandex/crpa2d789cn3jqj76is3/bs-api:latest # ← placeholder, перезаписывается через CI
+          ports:
+            - containerPort: 443
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Staging"
+            - name: ASPNETCORE_URLS
+              value: "https://+"
+            - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+              valueFrom:
+                secretKeyRef:
+                  name: bs-cert
+                  key: cert-pass
+            - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+              value: "/certs/bs-api-stage.pfx"
+          volumeMounts:
+            - name: cert-volume
+              mountPath: /certs
+              readOnly: true
+      volumes:
+        - name: cert-volume
+          secret:
+            secretName: bs-cert
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bs-api
+  labels:
+    app: bs-api
+spec:
+  selector:
+    app: bs-api
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 443
+  type: ClusterIP
