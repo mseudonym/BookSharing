@@ -1,20 +1,24 @@
-import styles from './profile-filling-page.module.css';
-import { Page } from '../../ui/page/page.tsx';
-import { Header } from '../../components/header/header.tsx';
-import _styles from '../../index.module.css';
-import { ProfileFillingForm } from '../../components/forms/profile-filling-form.tsx';
+import { ActionIcon, Title } from '@mantine/core';
+import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
+import React from 'react';
+
+import { ProfileFillingForm } from '~/components/forms/profile-filling-form/profile-filling-form';
+import { Header } from '~/components/header/header';
+import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+
 
 export const ProfileFillingPage = () => {
   return (
-    <Page>
-      <div className={styles.content}>
-        <Header variant="left">
-          <h1 className={_styles.title}>Создание профиля</h1>
-        </Header>
+    <PageWithWrapper>
+      <Header variant="left">
+        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
+          <ArrowALeftIcon24Regular />
+        </ActionIcon>
+        <Title order={2}>Создание профиля</Title>
+      </Header>
 
-        <ProfileFillingForm />
+      <ProfileFillingForm />
 
-      </div>
-    </Page>
+    </PageWithWrapper>
   );
 };

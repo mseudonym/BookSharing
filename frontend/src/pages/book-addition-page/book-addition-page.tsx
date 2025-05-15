@@ -1,18 +1,25 @@
-import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
-import { Header } from '../../components/header/header';
-import { PageBackground } from '../../ui/page/page-background';
-import { BookAdditionForm } from '../../components/forms/book-addition-form';
 import { ActionIcon } from '@mantine/core';
+import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
+import React from 'react';
+
+import { BookAdditionForm } from '~/components/forms/book-addition-form/book-addition-form';
+import { Header } from '~/components/header/header';
+import { Page } from '~/ui/pages/page';
+import { Wrapper } from '~/ui/wrapper';
 
 export const BookAdditionPage = () => {
   return (
-    <PageBackground>
+    <Page>
       <Header variant="left" withPadding>
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
       </Header>
-      <BookAdditionForm />
-    </PageBackground>
+
+      <Wrapper background="none" withPadding={false}>
+        <BookAdditionForm />
+      </Wrapper>
+
+    </Page>
   );
 };

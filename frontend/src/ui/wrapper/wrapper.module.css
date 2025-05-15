@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--mantine-spacing-md);
+  align-self: stretch;
+  border-radius: var(--mantine-spacing-md) var(--mantine-spacing-md) 0 0;
+}
+
+.withPadding {
+  padding: var(--mantine-spacing-md);
+}
+
+.left {
+  align-items: flex-start;
+}
+
+.center {
+  align-items: center;
+}
+
+.white {
+  background: var(--white-color);
+}
+
+.none {
+  background: none;
+}

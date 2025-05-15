@@ -20,4 +20,5 @@ export enum FriendsTabs {
   Requests = 'Заявки',
 }
 
-export const REQUIRED_FIELD_TEXT = 'Это поле нужно заполнить';
+export const REQUIRED_FIELD_TEXT = 'Обязательное поле';
+export const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;

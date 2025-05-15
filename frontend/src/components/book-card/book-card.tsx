@@ -1,8 +1,11 @@
-import _styles from '../../index.module.css';
-import styles from './book-card.module.css';
-import { BookModel } from '../../generated-api/model';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../conts';
+
+import styles from '~/components/book-card/book-card.module.css';
+import _styles from '~/index.module.css';
+
+import { AppRoute } from '~/conts';
+import { BookModel } from '~/generated-api/model';
 
 export const BookCard = ({ id, title, bookCoverUrl, author }: BookModel) => {
   return (

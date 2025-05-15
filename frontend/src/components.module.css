@@ -1,12 +1,34 @@
+/* Common variables */
+:root {
+  --transition-duration: 0.2s;
+  --transition-timing: ease-in-out;
+}
+
+/* AppShell styles */
+.appShell {
+  display: flex;
+}
+
+.main {
+  padding: 0;
+}
+
+.menu {
+  position: relative;
+  padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
+}
+
+
+/* Button styles */
 .button {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 16px;
-  gap: 8px;
-  padding: 0 var(--spacing-md);
+  border-radius: var(--mantine-spacing-md);
+  gap: var(--mantine-spacing-sm);
+  padding: 0 var(--mantine-spacing-lg);
   height: 50px;
-  transition: all 0.2s ease-in-out;
+  transition: all var(--transition-duration) var(--transition-timing);
 
   &[data-variant='filled'] {
     background-color: var(--primary-color);
@@ -17,8 +39,13 @@
     }
 
     &:disabled {
-      background-color: var(--light-background-9-color);
+      background-color: var(--light-gray-9-color);
       color: var(--disabled-text-color);
+    }
+
+    &[data-loading] {
+      background-color: var(--primary-color);
+      color: var(--white-color);
     }
   }
 
@@ -33,11 +60,16 @@
     &:disabled {
       color: var(--disabled-text-color);
     }
+
+    &[data-loading] {
+      background-color: var(--white-color);
+      color: var(--primary-color);
+    }
   }
 
   &[data-variant='outline'] {
     background-color: var(--white-color);
-    border: 1px solid var(--light-background-16-color);
+    border: 1px solid var(--light-gray-16-color);
     color: var(--primary-color);
 
     &:hover {
@@ -48,9 +80,15 @@
       color: var(--disabled-text-color);
       background-color: var(--light-background-color);
     }
+
+    &[data-loading] {
+      background-color: var(--white-color);
+      color: var(--primary-color);
+    }
   }
 }
 
+/* ActionIcon styles */
 .actionIcon {
   display: inline-flex;
   justify-content: center;
@@ -58,6 +96,7 @@
   height: 50px;
   width: 50px;
   border-radius: 100%;
+  transition: all var(--transition-duration) var(--transition-timing);
 
   &[data-variant='transparent'] {
     color: var(--primary-color);
@@ -85,4 +124,105 @@
       color: var(--disabled-text-color);
     }
   }
+}
+
+/* Input styles */
+.input {
+  display: flex;
+  min-height: 48px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--mantine-spacing-xs);
+  border: 1px solid var(--light-gray-16-color);
+  color: var(--primary-color);
+  transition: all var(--transition-duration) var(--transition-timing);
+
+  &::placeholder {
+    color: var(--disabled-text-color);
+  }
+
+  &:focus {
+    border-color: var(--black-color);
+    color: var(--primary-color);
+  }
+
+  &[data-error] {
+    border-color: var(--red-color);
+    --input-placeholder-color: var(--disabled-text-color) !important;
+  }
+
+  &:disabled {
+    background-color: var(--light-background-color);
+    color: var(--disabled-text-color);
+  }
+}
+
+.inputWrapper {
+  width: 100%;
+}
+
+.inputLabel, .inputError {
+  font-size: var(--mantine-font-size-md);
+  font-weight: var(--mantine-font-weight-sm);
+  line-height: var(--mantine-line-height-md);
+}
+
+.inputLabel {
+  color: var(--secondary-text-color);
+}
+
+.inputError {
+  color: var(--red-color);
+}
+
+.visibilityToggle {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+/* Link styles */
+.anchor {
+  text-decoration: none !important;
+  transition: color var(--transition-duration) var(--transition-timing);
+  color: var(--primary-color);
+}
+
+.anchor::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1.5px;
+  background: var(--black-color);
+  transition: .3s;
+}
+
+.anchor:hover {
+  color: var(--black-color);
+}
+
+.anchor:hover::after {
+  width: 100%;
+  transition: .3s;
+}
+
+/* Loader styles */
+.loader {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  --loader-color: var(--primary-color);
+}
+
+/* Divider styles */
+.divider {
+  align-self: stretch;
+  --divider-color: var(--light-gray-16-color);
+}
+
+.dividerLabel {
+  font-size: var(--mantine-font-size-sm);
+  color: var(--secondary-text-color);
 }

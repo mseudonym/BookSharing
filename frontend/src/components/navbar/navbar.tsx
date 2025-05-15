@@ -9,10 +9,13 @@ import {
   People1Icon24Regular,
   People1Icon24Solid
 } from '@skbkontur/icons';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { AppRoute } from '../../conts';
-import styles from './navbar.module.css';
-import { router } from '../../main';
+
+import styles from '~/components/navbar/navbar.module.css';
+
+import { AppRoute } from '~/conts';
+import { router } from '~/main';
 
 export const Navbar = () => {
   const { pathname } = useLocation();
