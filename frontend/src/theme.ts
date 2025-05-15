@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, PasswordInput, Textarea, TextInput, Title } from '@mantine/core';
+import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, PasswordInput, Textarea, TextInput, Title } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -75,6 +75,9 @@ export const theme = createTheme({
         variant: 'white',
         size: 'lg',
       }
+    }),
+    Menu: Menu.extend({
+      classNames: { dropdown: classes.menuDropdown, item: classes.menuItem },
     }),
     Input: Input.extend({
       classNames: {

@@ -21,7 +21,7 @@ export const checkAuth = async () => {
     });
 };
 
-export const checkProfileFilling = async (user?: UserData, redirectToDefault: boolean = true) => {
+export const checkProfileFilling = async (user?: UserData, redirectToDefault: boolean = false) => {
   if (user === undefined) {
     await checkAuth();
     return;

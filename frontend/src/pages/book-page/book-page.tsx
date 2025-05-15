@@ -1,4 +1,6 @@
-import { ActionIcon, Divider, Loader, Title } from '@mantine/core';
+import { ActionIcon, Divider, Loader, Menu, Modal, Title, Text, Group, Button } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
 import React from 'react';
@@ -16,11 +18,11 @@ import { ErrorPage } from '~/pages/error-page/error-page';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
-
 export const BookPage = () => {
   const { id } = useParams();
   const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
   const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsByBookId({ bookId: id });
+  const [opened, { open, close }] = useDisclosure(false);
 
   if (isLoadingBook || isLoadingQueues) {
     return <Loader />;
@@ -31,58 +33,82 @@ export const BookPage = () => {
   }
 
   return (
-    <Page>
-      <Header variant="auto" withPadding>
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
-        </ActionIcon>
-        <ActionIcon variant="transparent">
-          <UiMenuDots3HIcon24Regular />
-        </ActionIcon>
-      </Header>
+    <>
+      <Modal opened={opened} onClose={close} title="Удалить книгу с полки?" zIndex={300}>
+        <Text>Это также удалит все очереди за ней.</Text>
+        <Group mt="lg" justify="flex-end">
+          <Button variant="filled">
+              Да, удалить
+          </Button>
+          <Button  color="outline">
+              Нет, оставить
+          </Button>
+        </Group>
+      </Modal>
+      <Page>
+        <Header variant="auto" withPadding>
+          <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
+            <ArrowALeftIcon24Regular />
+          </ActionIcon>
 
-      <Wrapper background='none' noPaddingHorizontal noGap>
-        <div className={styles.bookCover}>
-          <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
-          <div className={_styles.roundRect} />
-        </div>
-        <div className={styles.bookContent}>
-          <div className={styles.bookInfo}>
-            <div className={styles.bookHeader}>
-              <div className={styles.bookExtra}>
-                <span className={_styles.textGray}>{book?.author}</span>
-                <span className={_styles.textGray}>/</span>
-                <span className={_styles.textGray}>
-                  {book.publicationYear}
-                  {' '}
-                г.
-                </span>
-              </div>
-              <Title className={`${_styles.title} ${_styles.textCenter}`}>{book?.title}</Title>
-            </div>
-            <div className={styles.bookBlock}>
-              <span className={_styles.textGray}>Описание</span>
-              <p>{book?.description}</p>
-            </div>
-            <Divider my="l" />
+          <Menu position='bottom-end' offset={-50}>
+            <Menu.Target>
+              <ActionIcon variant="transparent">
+                <UiMenuDots3HIcon24Regular />
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
+              Удалить книгу с полки
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+
+        </Header>
+
+        <Wrapper background='none' noPaddingHorizontal noGap>
+          <div className={styles.bookCover}>
+            <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
+            <div className={_styles.roundRect} />
           </div>
+          <div className={styles.bookContent}>
+            <div className={styles.bookInfo}>
+              <div className={styles.bookHeader}>
+                <div className={styles.bookExtra}>
+                  <span className={_styles.textGray}>{book?.author}</span>
+                  <span className={_styles.textGray}>/</span>
+                  <span className={_styles.textGray}>
+                    {book.publicationYear}
+                    {' '}
+                г.
+                  </span>
+                </div>
+                <Title className={`${_styles.title} ${_styles.textCenter}`}>{book?.title}</Title>
+              </div>
+              <div className={styles.bookBlock}>
+                <span className={_styles.textGray}>Описание</span>
+                <p>{book?.description}</p>
+              </div>
+              <Divider my="l" />
+            </div>
           
-          <section className={styles.queues}>
-            <Header variant="left" withPadding>
-              <Title>Эта книга у ваших друзей</Title>
-            </Header>
-            {queueList == undefined || queueList.length == 0
-              ? (
-                <IllustrationWrapper
-                  src="/queue-illustration.svg"
-                  alt="Queue is empty illustration"
-                  text="Очередей нет"
-                />
-              )
-              : queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
-          </section>
-        </div>
-      </Wrapper>
-    </Page>
+            <section className={styles.queues}>
+              <Header variant="left" withPadding>
+                <Title>Эта книга у ваших друзей</Title>
+              </Header>
+              {queueList == undefined || queueList.length == 0
+                ? (
+                  <IllustrationWrapper
+                    src="/queue-illustration.svg"
+                    alt="Queue is empty illustration"
+                    text="Очередей нет"
+                  />
+                )
+                : queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
+            </section>
+          </div>
+        </Wrapper>
+      </Page>
+    </>
   );
 };

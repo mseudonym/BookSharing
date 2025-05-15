@@ -7,17 +7,24 @@
 /* AppShell styles */
 .appShell {
   display: flex;
+  gap: 0;;
 }
 
 .main {
   padding: 0;
+  width: 100%;
+  max-width: 960px;
+  /*margin-right: auto;*/
+  margin: 0 auto;
 }
 
 .menu {
   position: relative;
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
+  margin-left: auto;
 }
 
+/* Title styles */
 .title {
   color: var(--primary-color);
 }
@@ -127,6 +134,32 @@
       background-color: var(--light-background-color);
       color: var(--disabled-text-color);
     }
+  }
+}
+
+/* Menu styles */
+.menuDropdown {
+  display: inline-flex;
+  padding: var(--mantine-spacing-xs);
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 8px;
+  background: var(--white-color);
+  color: var(--primary-color);
+  box-shadow: -2px 2px 20px 0px rgba(0, 0, 0, 0.16);
+}
+
+.menuItem {
+  display: flex;
+  padding: var(--mantine-spacing-sm);
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-spacing-sm);
+  transition: all var(--transition-duration) var(--transition-timing);
+
+  &:hover {
+    background-color: var(--light-background-color);
   }
 }
 

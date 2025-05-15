@@ -45,6 +45,7 @@ export const LoginForm = () => {
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
       await checkProfileFilling();
+      router.navigate(AppRoute.Shelf);
     },
   });
 
