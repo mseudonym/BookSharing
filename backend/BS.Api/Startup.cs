@@ -8,7 +8,11 @@ using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = builder.Configuration;
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile("appsettings.Development.json", optional: true)
+    .AddEnvironmentVariables("BS_API")
+    .Build();
 var environment = builder.Environment;
 
 builder.Services.AddLogging();
@@ -21,7 +25,7 @@ builder.Services.AddControllers();
 builder.Services.AddBsCors(environment);
 builder.Services.AddBsDbContext(configuration);
 builder.Services.AddBsCurrentUserService();
-builder.Services.AddBsServices(configuration);
+builder.Services.AddBsServices(configuration, builder.Environment);
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(BearerTokenDefaults.AuthenticationScheme);

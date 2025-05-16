@@ -14,10 +14,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddBsDbContext(builder.Configuration);
-builder.Services.AddBsServices(builder.Configuration);
+builder.Services.AddBsServices(builder.Configuration, builder.Environment);
 
 builder.Services.AddScoped<ICurrentUserService, EmptyUserService>();
-builder.Services.AddS3Client(builder.Configuration);
+builder.Services.AddS3Client(builder.Configuration, builder.Environment);
 builder.Services.AddScoped<IBookService, BookService>();
 
 var app = builder.Build();

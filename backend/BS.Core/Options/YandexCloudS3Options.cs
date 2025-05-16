@@ -12,4 +12,12 @@ public class YandexCloudS3Options
     public required string HighQualityProfilePhotoPath { get; set; }
     public required string LowQualityProfilePhotoPath { get; set; }
     public required string BookCoverPath { get; set; }
+
+    public void NormalizePaths(string environmentName)
+    {
+        OriginalQualityProfilePhotoPath = $"{environmentName}/{OriginalQualityProfilePhotoPath}";
+        HighQualityProfilePhotoPath = $"{environmentName}/{HighQualityProfilePhotoPath}";
+        LowQualityProfilePhotoPath = $"{environmentName}/{LowQualityProfilePhotoPath}";
+        BookCoverPath = $"{environmentName}/{BookCoverPath}";
+    }
 }

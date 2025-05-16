@@ -21,15 +21,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="appsettings.Staging.json" CopyToPublishDirectory="Always"/>
-        <None Include="appsettings.Production.json" CopyToPublishDirectory="Always"/>
+        <None Include="appsettings.json" CopyToPublishDirectory="Always"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="certs/bs-api-stage.pfx" CopyToPublishDirectory="Always"/>
-    </ItemGroup>
-
-    <ItemGroup>
+        <Content Include="..\..\.gitlab-ci.yml">
+          <Link>.gitlab-ci.yml</Link>
+        </Content>
         <Content Include="..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>

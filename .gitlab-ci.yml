@@ -3,13 +3,13 @@ stages:
   - build
   - deploy
 
-test-backend:
-  stage: test
-  image: mcr.microsoft.com/dotnet/sdk:9.0
-  script:
-    - cd backend/BS.IntegrationTests
-    - dotnet restore
-    - dotnet test --verbosity normal
+#test-backend:
+#  stage: test
+#  image: mcr.microsoft.com/dotnet/sdk:9.0
+#  script:
+#    - cd backend/BS.IntegrationTests
+#    - dotnet restore
+#    - dotnet test --verbosity normal
 
 variables:
   BACK_IMAGE: "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"

@@ -11,20 +11,23 @@ using BS.Core.Services.Queue;
 using BS.Core.Services.S3;
 using BS.Core.Services.User;
 using BS.Data.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace BS.Core;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddBsServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddBsServices(this IServiceCollection services, IConfiguration configuration,
+        IWebHostEnvironment environment)
     {
         services.AddEmailSender(configuration);
         services.AddCloudCredentials(configuration);
-        services.AddS3Client(configuration);
+        services.AddS3Client(configuration, environment);
         services.AddModelMappers();
         services.AddCoreServices();
 
@@ -55,9 +58,18 @@ public static class ServiceCollectionExtensions
             configuration.GetRequiredSection(YandexCloudCredentialsOptions.Section));
     }
 
-    public static void AddS3Client(this IServiceCollection services, IConfiguration configuration)
+    public static void AddS3Client(this IServiceCollection services, IConfiguration configuration,
+        IWebHostEnvironment environment)
     {
-        services.Configure<YandexCloudS3Options>(configuration.GetRequiredSection(YandexCloudS3Options.Section));
+        services.Configure<YandexCloudS3Options>(options =>
+        {
+            configuration.GetRequiredSection(YandexCloudS3Options.Section).Bind(options);
+            
+            var envPrefix = environment.IsDevelopment() ? "Staging" : environment.EnvironmentName;
+            
+            options.NormalizePaths(envPrefix);
+        });
+        
         services.AddSingleton<IAmazonS3>(sp =>
         {
             var yandexCloudCredentialsOptions = sp.GetRequiredService<IOptions<YandexCloudCredentialsOptions>>().Value;
