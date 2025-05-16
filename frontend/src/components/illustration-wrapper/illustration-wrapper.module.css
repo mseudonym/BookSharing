@@ -19,4 +19,5 @@
   width: 100%;
   height: auto;
   aspect-ratio: 1.2;
+  object-fit: contain;
 }

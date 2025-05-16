@@ -57,7 +57,7 @@ export const ProfileFillingForm = () => {
   const { mutateAsync: fillProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onSuccess: async (userData) => {
-      await checkProfileFilling(userData);
+      await checkProfileFilling(userData, true);
     },
   });
 

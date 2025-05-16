@@ -1,4 +1,4 @@
-import { Title } from '@mantine/core';
+import { Title, Text } from '@mantine/core';
 import React from 'react';
 
 import _styles from '~/index.module.css';
@@ -14,8 +14,8 @@ export const ErrorPage = () => {
         src='/error-illustration.svg'
         alt='Error illustration'/>
       <div className={_styles.textContainer}>
-        <Title textWrap='balance' className={_styles.textCenter}>Упс! Страница не найдена</Title>
-        <p className={`${_styles.textGray} ${_styles.textCenter}`}>Попробуйте вернуться назад или изменить запрос.</p>
+        <Title textWrap='balance' ta='center'>Упс! Страница не найдена</Title>
+        <Text ta='center' className={_styles.textGray}>Попробуйте вернуться назад или изменить запрос.</Text>
       </div>
     </PageWithWrapper>
   );

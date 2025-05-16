@@ -1,9 +1,5 @@
 .textGray {
-  color: var(--secondary-text-color);
-}
-
-.textCenter {
-  text-align: center;
+  color: var(--secondary-text-color) !important;
 }
 
 .roundRect {

@@ -7,13 +7,13 @@
 /* AppShell styles */
 .appShell {
   display: flex;
-  gap: 0;;
+  gap: 0;
 }
 
 .main {
   padding: 0;
   width: 100%;
-  max-width: 960px;
+  max-width: 360px;
   /*margin-right: auto;*/
   margin: 0 auto;
 }
@@ -24,11 +24,52 @@
   margin-left: auto;
 }
 
+/* Modal styles */
+.modal {
+  display: flex;
+  color: var(--primary-color);
+  border-radius: var(--mantine-spacing-md);
+}
+
+.modalContent {
+  padding: var(--mantine-spacing-md) var(--mantine-spacing-md) var(--mantine-spacing-lg) var(--mantine-spacing-md);
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+}
+
+.modalHeader {
+  padding: 0;
+  padding-bottom: var(--mantine-spacing-sm);
+}
+
+.modalBody {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+  overflow-y: auto;
+}
+
+.modalClose {
+  padding: var(--mantine-spacing-sm);
+  color: var(--primary-color)
+}
+
 /* Title styles */
 .title {
   color: var(--primary-color);
 }
 
+/* Text styles */
+.text {
+  color: var(--primary-color);
+  line-height: 120%;
+}
+
+/* Card styles */
+.card {
+  padding: 0;
+}
 
 /* Button styles */
 .button {
@@ -100,7 +141,7 @@
 }
 
 /* ActionIcon styles */
-.actionIcon {
+.actionIcon, .modalClose {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -246,10 +287,10 @@
 
 /* Loader styles */
 .loader {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   --loader-color: var(--primary-color);
 }
 
@@ -262,4 +303,34 @@
 .dividerLabel {
   font-size: var(--mantine-font-size-sm);
   color: var(--secondary-text-color);
+}
+
+/* Tabs styles */
+.tabsRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-md);
+}
+
+.tabsList {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-sm);
+}
+
+.tab {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-spacing-md);
+  border: 1px solid var(--light-gray-16-color);
+  transition: all var(--transition-duration) var(--transition-timing);
+
+  &[data-active] {
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+  }
 }

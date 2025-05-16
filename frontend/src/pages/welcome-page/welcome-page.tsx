@@ -1,4 +1,4 @@
-import { Button, Title } from '@mantine/core';
+import { Button, Text, Title } from '@mantine/core';
 import React from 'react';
 
 import _styles from '~/index.module.css';
@@ -18,10 +18,10 @@ export const WelcomePage = () => {
       />
       <div className={_styles.textContainer}>
         <Title>Добро пожаловать!</Title>
-        <p className={`${_styles.textCenter} ${_styles.textGray}`}>
+        <Text ta='center' className={_styles.textGray}>
             Здесь вы можете делиться книгами со своей полки, а также бронировать книги друзей. Наслаждайтесь
             чтением!
-        </p>
+        </Text>
       </div>
       <Button variant="filled" fullWidth onClick={() => router.navigate(AppRoute.Login)}>
           Войти

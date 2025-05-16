@@ -29,6 +29,7 @@
   gap: var(--mantine-spacing-md);
   align-self: stretch;
   flex-wrap: wrap;
+  padding-bottom: var(--mantine-spacing-xl);
 }
 
 .addBookButton {
@@ -41,5 +42,5 @@
 .avatar {
   width: 80px;
   height: 80px;
-  border-radius: 100%;
+  aspect-ratio: 1;
 }

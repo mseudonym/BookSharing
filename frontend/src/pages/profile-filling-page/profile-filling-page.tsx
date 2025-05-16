@@ -2,8 +2,8 @@ import { ActionIcon, Title } from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
 import React from 'react';
 
-import { ProfileFillingForm } from '~/components/forms/profile-filling-form/profile-filling-form';
-import { Header } from '~/components/header/header';
+import { ProfileFillingForm } from '~/components/forms';
+import { Header } from '~/components/header';
 import { PageWithWrapper } from '~/ui/pages';
 
 

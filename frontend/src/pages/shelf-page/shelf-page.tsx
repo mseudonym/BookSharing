@@ -1,11 +1,10 @@
 import { Loader, Title } from '@mantine/core';
 import React from 'react';
 
-import _styles from '~/index.module.css';
 import styles from '~/pages/shelf-page/shelf-page.module.css';
 
 import { BookCard } from '~/components/book-card/book-card';
-import { Header } from '~/components/header/header';
+import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { useGetBooksAllFriendsBooks } from '~/generated-api/books/books';
 import { ErrorPage } from '~/pages/error-page/error-page';
@@ -25,7 +24,7 @@ export const ShelfPage = () => {
   return (
     <PageWithWrapper>
       <Header variant="left">
-        <Title className={_styles.title}>Полка друзей</Title>
+        <Title>Полка друзей</Title>
       </Header>
       <section className={styles.bookList}>
         {bookList == undefined || bookList.length == 0

@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, PasswordInput, Textarea, TextInput, Title } from '@mantine/core';
+import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -50,6 +50,10 @@ export const theme = createTheme({
     xl: '32px',
   },
 
+  breakpoints: {
+    md: '768px',
+  },
+
   // Components configuration
   components: {
     AppShell: AppShell.extend({
@@ -59,8 +63,30 @@ export const theme = createTheme({
         navbar: classes.menu,
       },
     }),
+    Modal: Modal.extend({
+      classNames: {
+        root: classes.modal,
+        header: classes.modalHeader,
+        body: classes.modalBody,
+        content: classes.modalContent,
+        close: classes.modalClose,
+      },
+      styles: (theme) => ({
+        title: {
+          ...theme.headings?.sizes?.h2,
+          fontWeight: theme.headings?.fontWeight,
+          fontFamily: theme.headings?.fontFamily,
+        },
+      }),
+    }),
     Title: Title.extend({
       classNames: { root: classes.title },
+    }),
+    Text: Text.extend({
+      classNames: { root: classes.text },
+    }),
+    Card: Card.extend({
+      classNames: { root: classes.card },
     }),
     Button: Button.extend({
       classNames: { root: classes.button },
@@ -140,6 +166,13 @@ export const theme = createTheme({
       classNames: { 
         root: classes.divider, 
         label: classes.dividerLabel 
+      },
+    }),
+    Tabs: Tabs.extend({
+      classNames: {
+        root: classes.tabsRoot,
+        list: classes.tabsList,
+        tab: classes.tab
       },
     }),
   },

@@ -2,8 +2,8 @@ import { ActionIcon, Title } from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
 import React from 'react';
 
-import { ForgotPasswordForm } from '~/components/forms/forgot-password-form/forgot-password-form';
-import { Header } from '~/components/header/header';
+import { ForgotPasswordForm } from '~/components/forms';
+import { Header } from '~/components/header';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const ForgotPasswordPage = () => {

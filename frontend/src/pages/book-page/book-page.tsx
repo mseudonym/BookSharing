@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Loader, Menu, Modal, Title, Text, Group, Button } from '@mantine/core';
+import { ActionIcon, Divider, Loader, Menu, Modal, Title, Text, Button, Flex, Image } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import _styles from '~/index.module.css';
 import styles from '~/pages/book-page/book-page.module.css';
 
-import { Header } from '~/components/header/header';
+import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { Queue } from '~/components/queue/queue';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
@@ -24,6 +24,13 @@ export const BookPage = () => {
   const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsByBookId({ bookId: id });
   const [opened, { open, close }] = useDisclosure(false);
 
+  /* const { mutateAsync: deleteBook } = useMutation({
+    mutationFn: deleteBooksByIdBookId,
+    onSuccess: async () => {
+      router.navigate(AppRoute.Profile);
+    },
+  }); */
+
   if (isLoadingBook || isLoadingQueues) {
     return <Loader />;
   }
@@ -34,16 +41,21 @@ export const BookPage = () => {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Удалить книгу с полки?" zIndex={300}>
-        <Text>Это также удалит все очереди за ней.</Text>
-        <Group mt="lg" justify="flex-end">
-          <Button variant="filled">
+      <Modal opened={opened} onClose={close} title="Удалить книгу?" centered>
+        <Text className={_styles.textGray}>Это также удалит все очереди за ней.</Text>
+        <Flex
+          justify="flex-start"
+          align="center"
+          direction="row"
+          gap="var(--mantine-spacing-sm)"
+        >
+          <Button variant="filled" >
               Да, удалить
           </Button>
-          <Button  color="outline">
+          <Button  color="outline" onClick={close}>
               Нет, оставить
           </Button>
-        </Group>
+        </Flex>
       </Modal>
       <Page>
         <Header variant="auto" withPadding>
@@ -68,26 +80,26 @@ export const BookPage = () => {
 
         <Wrapper background='none' noPaddingHorizontal noGap>
           <div className={styles.bookCover}>
-            <img className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
+            <Image className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
             <div className={_styles.roundRect} />
           </div>
           <div className={styles.bookContent}>
             <div className={styles.bookInfo}>
               <div className={styles.bookHeader}>
                 <div className={styles.bookExtra}>
-                  <span className={_styles.textGray}>{book?.author}</span>
-                  <span className={_styles.textGray}>/</span>
-                  <span className={_styles.textGray}>
+                  <Text span className={_styles.textGray}>{book?.author}</Text>
+                  <Text span className={_styles.textGray}>/</Text>
+                  <Text span className={_styles.textGray}>
                     {book.publicationYear}
                     {' '}
                 г.
-                  </span>
+                  </Text>
                 </div>
-                <Title className={`${_styles.title} ${_styles.textCenter}`}>{book?.title}</Title>
+                <Title ta='center'>{book?.title}</Title>
               </div>
               <div className={styles.bookBlock}>
-                <span className={_styles.textGray}>Описание</span>
-                <p>{book?.description}</p>
+                <Text span className={_styles.textGray}>Описание</Text>
+                <Text>{book?.description}</Text>
               </div>
               <Divider my="l" />
             </div>

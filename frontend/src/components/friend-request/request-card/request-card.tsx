@@ -1,10 +1,10 @@
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Avatar, Card, Flex, Text } from '@mantine/core';
 import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular';
 import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 
-import styles from '~/components/friend-card/friend-card.module.css';
+import styles from '~/components/friend-request/friend-request.module.css';
 import _styles from '~/index.module.css';
 
 import { getGetFriendsListQueryKey, getGetFriendsRequestsReceivedQueryKey, postFriendsRespondRequest } from '~/generated-api/friends/friends';
@@ -29,32 +29,31 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
   };
 
   return (
-    <div className={styles.friendCard}>
-      <img
-        loading="lazy"
+    <Card className={styles.friendCard}>
+      <Avatar
         src={lowQualityPhotoUrl ?? '/default-profile.png'}
         className={styles.avatar}
         alt={`Avatar image for ${username}`}
       />
-      <div className={styles.userInfo}>
-        <p>
+      <Flex direction='column' gap='xs'>
+        <Text>
           {firstName}
           {' '}
           {lastName}
-        </p>
-        <p className={_styles.textGray}>
+        </Text>
+        <Text span className={_styles.textGray}>
           @
           {username}
-        </p>
-      </div>
-      <div style={{ display: 'flex' }}>
+        </Text>
+      </Flex>
+      <Flex>
         <ActionIcon variant="transparent" onClick={() => onSubmit(true)}>
           <CheckAIcon24Regular className={styles.checkButton} />
         </ActionIcon>
         <ActionIcon variant="transparent" onClick={() => onSubmit(false)}>
           <XIcon24Regular className={styles.crossButton} />
         </ActionIcon>
-      </div>
-    </div>
+      </Flex>
+    </Card>
   );
 };

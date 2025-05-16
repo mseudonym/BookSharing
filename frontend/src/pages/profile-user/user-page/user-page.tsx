@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Loader } from '@mantine/core';
+import { ActionIcon, Anchor, Loader, Title, Text, Avatar } from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
 import React from 'react';
@@ -8,12 +8,13 @@ import _styles from '~/index.module.css';
 import styles from '~/pages/profile-user/profile-user.module.css';
 
 import { BookCard } from '~/components/book-card/book-card';
-import { Header } from '~/components/header/header';
+import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { useGetBooksFriendBooks } from '~/generated-api/books/books';
 import { useGetUsersUsername } from '~/generated-api/users/users';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { Page } from '~/ui/pages';
+import { Wrapper } from '~/ui/wrapper/wrapper';
 
 
 export const UserPage = () => {
@@ -40,21 +41,21 @@ export const UserPage = () => {
         </ActionIcon>
       </Header>
       <div className={styles.userContent}>
-        <img
+        <Avatar
           src={user.highQualityPhotoUrl || '/default-profile.png'}
           alt="Avatar"
           className={styles.avatar}
         />
         <div className={styles.userInfo}>
-          <h1 className={`${_styles.title} ${_styles.textCenter}`}>
+          <Title order={2} ta='center'>
             {user.firstName}
             {' '}
             {user.lastName}
-          </h1>
-          <p className={_styles.textGray}>
+          </Title>
+          <Text span className={_styles.textGray}>
             @
             {user.username}
-          </p>
+          </Text>
         </div>
         {user.contactUrl && (
           <Anchor href={user.contactUrl}>
@@ -62,17 +63,20 @@ export const UserPage = () => {
           </Anchor>
         )}
       </div>
-      <div className={styles.bookList}>
-        {bookList == undefined || bookList.length == 0
-          ? (
-            <IllustrationWrapper
-              src="/profile-illustration.svg"
-              alt="No books illustration"
-              text="У твоего друга книг пока нет."
-            />
-          )
-          : bookList?.map((book) => <BookCard {...book} key={book.id} />)}
-      </div>
+      <Wrapper>
+        <Title order={2}>Книги для обмена</Title>
+        <div className={styles.bookList}>
+          {bookList == undefined || bookList.length == 0
+            ? (
+              <IllustrationWrapper
+                src="/profile-illustration.svg"
+                alt="No books illustration"
+                text="У твоего друга книг пока нет."
+              />
+            )
+            : bookList?.map((book) => <BookCard {...book} key={book.id} />)}
+        </div>
+      </Wrapper>
     </Page>
   );
 };

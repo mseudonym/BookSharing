@@ -16,8 +16,8 @@ import { BookAdditionPage } from '~/pages/book-addition-page';
 import { BookPage } from '~/pages/book-page';
 import { EmailConfirmationPage } from '~/pages/email-confirmation-page';
 import { ErrorPage } from '~/pages/error-page';
-import { ForgotPasswordPage } from '~/pages/forgot-password-page/forgot-password-page';
-import { FriendsPage } from '~/pages/friends-page/friends-page';
+import { ForgotPasswordPage } from '~/pages/forgot-password-page';
+import { FriendsPage } from '~/pages/friends-page';
 import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
@@ -25,7 +25,7 @@ import { SearchFriendsPage } from '~/pages/search-friends-page/search-friends-pa
 import { ShelfPage } from '~/pages/shelf-page/shelf-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
-import { Layout } from '~/ui/layout/layout';
+import { Layout } from '~/ui/layout';
 
 export const router = createBrowserRouter([
   {

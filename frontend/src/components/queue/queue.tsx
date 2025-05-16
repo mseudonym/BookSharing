@@ -1,4 +1,4 @@
-import { Avatar, Flex, Button, ActionIcon, Anchor } from '@mantine/core';
+import { Avatar, Flex, Button, ActionIcon, Anchor, Text } from '@mantine/core';
 import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons/icons/ArrowUiAuthLogoutIcon';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
@@ -57,60 +57,60 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
 
   return (
     <article className={`${styles.queue} ${isUserInQueue && styles.backgroundBlue} ${isUserHolder && styles.backgroundPink}`}>
-      <div className={styles.personWrapper}>
-        <span className={_styles.textGray}>Владелец</span>
-        <div className={styles.person}>
+      <Flex direction='column' gap='sm'>
+        <Text span className={_styles.textGray}>Владелец</Text>
+        <Flex gap='md'>
           <Avatar
             src={owner.lowQualityPhotoUrl ?? '/default-profile.png'}
             radius="xl"
             size={41}
           />
-          <div className={styles.personInfo}>
-            <span className={styles.name}>
+          <Flex direction='column' gap='xs'>
+            <Text span className={styles.name}>
               {owner.firstName}
               {' '}
               {owner.lastName}
-            </span>
-            <Anchor onClick={() => router.navigate(AppRoute.User.replace(':username', owner.username!))}>Перейти в профиль</Anchor>
-          </div>
-        </div>
-      </div>
+            </Text>
+            <Anchor style={{ alignSelf: 'flex-start' }}  onClick={() => router.navigate(AppRoute.User.replace(':username', owner.username!))}>Перейти в профиль</Anchor>
+          </Flex>
+        </Flex>
+      </Flex>
 
-      <div className={styles.personWrapper}>
-        <span className={_styles.textGray}>Текущий держатель</span>
+      <Flex direction='column' gap='sm'>
+        <Text span className={_styles.textGray}>Текущий держатель</Text>
         {holder == undefined
-          ? <span className={_styles.textGray}>Пока никого</span>
+          ? <Text span className={_styles.textGray}>Пока никого</Text>
           : (
-            <div className={styles.person}>
+            <Flex gap='md'>
               <Avatar
                 src={holder.lowQualityPhotoUrl ?? '/default-profile.png'}
                 radius="xl"
                 size={41}
               />
-              <div className={styles.personInfo}>
-                <span className={styles.name}>
+              <Flex direction='column' gap='xs'>
+                <Text span className={styles.name}>
                   {holder.firstName}
                   {' '}
                   {holder.lastName}
-                </span>
-                <Anchor href={AppRoute.User.replace(':username', holder.username!)}>Связаться</Anchor>
-              </div>
-            </div>
+                </Text>
+                <Anchor style={{ alignSelf: 'flex-start' }} href={AppRoute.User.replace(':username', holder.username!)}>Связаться</Anchor>
+              </Flex>
+            </Flex>
           )}
-      </div>
+      </Flex>
 
       {!isUserHolder
         ? (queue == undefined || queue.length == 0
-          ? <p className={_styles.textGray}>Пока что никого нет в очереди, но вы можете быть первым.</p>
+          ? <Text className={_styles.textGray}>Пока что никого нет в очереди, но вы можете быть первым.</Text>
           : (
             <Flex gap={4} direction="column">
-              <span className={_styles.textGray}>
+              <Text span className={_styles.textGray}>
                 {queue.length}
                 {' '}
                 {getNounForm(queue.length, 'человек', 'человека', 'человек')}
                 {' '}
                     в очереди
-              </span>
+              </Text>
               <Avatar.Group>
                 {queue.map((avatar, index) => (
                   <Avatar
@@ -123,15 +123,15 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
               </Avatar.Group>
             </Flex>
           ))
-        : <p className={_styles.textGray}>В данный момент вы читаете книгу.</p>}
+        : <Text className={_styles.textGray}>В данный момент вы читаете книгу.</Text>}
 
       {!isUserHolder && (!isUserInQueue
         ? <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
         : (
-          <div className={styles.buttonWrapper}>
+          <Flex gap='sm' className={styles.buttonWrapper}>
             <Button variant="white" fullWidth disabled={!isUserFirst} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
             <ActionIcon variant="white" onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular /></ActionIcon>
-          </div>
+          </Flex>
         ))}
     </article>
   );

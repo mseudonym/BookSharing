@@ -10,10 +10,9 @@ import * as zod from 'zod';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { PasswordInput } from '~/components/inputs/password-input/password-input';
-import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
+import { PasswordInput } from '~/components/inputs/password-input';
+import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
-import { router } from '~/main';
 import { saveToken } from '~/services/token';
 
 const FormSchema = zod.object({
@@ -86,7 +85,6 @@ export const RegistrationForm = () => {
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
       await checkProfileFilling();
-      router.navigate(AppRoute.Shelf);
     },
   });
 

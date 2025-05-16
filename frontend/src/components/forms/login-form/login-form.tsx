@@ -9,7 +9,7 @@ import * as zod from 'zod';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { PasswordInput } from '~/components/inputs/password-input/password-input';
+import { PasswordInput } from '~/components/inputs/password-input';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin } from '~/generated-api/auth/auth';
 import { router } from '~/main';

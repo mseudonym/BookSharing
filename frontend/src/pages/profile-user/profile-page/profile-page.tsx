@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Button, Loader, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Avatar, Button, Text, Loader, Title } from '@mantine/core';
 import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
 import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
 import React from 'react';
@@ -7,7 +7,7 @@ import _styles from '~/index.module.css';
 import styles from '~/pages/profile-user/profile-user.module.css';
 
 import { BookCard } from '~/components/book-card/book-card';
-import { Header } from '~/components/header/header';
+import { Header } from '~/components/header';
 import { AppRoute } from '~/conts';
 import { useGetBooksMyBooks } from '~/generated-api/books/books';
 import { useGetUsersMe } from '~/generated-api/users/users';
@@ -36,22 +36,22 @@ export const ProfilePage = () => {
         </ActionIcon>
       </Header>
       <div className={styles.userContent}>
-        <img
+        <Avatar
           src={user.photoUrl || '/default-profile.png'}
           alt="Avatar"
           className={styles.avatar}
         />
         <div className={styles.userInfoActions}>
           <div className={styles.userInfo}>
-            <Title className={`${_styles.title} ${_styles.textCenter}`}>
+            <Title ta='center'>
               {user.firstName}
               {' '}
               {user.lastName}
             </Title>
-            <p className={_styles.textGray}>
+            <Text span className={_styles.textGray}>
             @
               {user.username}
-            </p>
+            </Text>
           </div>
           {user.contactUrl && (
             <Anchor href={user.contactUrl}>
