@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
+import styles from '~/components/forms/forms.module.css';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
@@ -65,7 +66,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={_styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
       <TextInput
         label="Почта"

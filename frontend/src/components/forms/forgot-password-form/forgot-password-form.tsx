@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import _styles from '~/index.module.css';
+import styles from '~/components/forms/forms.module.css';
 
 import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthForgotPassword } from '~/generated-api/auth/auth';
@@ -60,7 +60,7 @@ export const ForgotPasswordForm = () => {
   };
   
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`${_styles.form} ${_styles.formPadding}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formPadding}`}>
       <TextInput
         label="Почта"
         placeholder="Введите почту"

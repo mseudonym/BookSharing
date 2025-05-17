@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs } from '@mantine/core';
+import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -51,7 +51,7 @@ export const theme = createTheme({
   },
 
   breakpoints: {
-    md: '768px',
+    tablet: '768px',
   },
 
   // Components configuration
@@ -173,6 +173,12 @@ export const theme = createTheme({
         root: classes.tabsRoot,
         list: classes.tabsList,
         tab: classes.tab
+      },
+    }),
+    Badge: Badge.extend({
+      classNames: { 
+        root: classes.badge, 
+        label: classes.badgeLabel
       },
     }),
   },

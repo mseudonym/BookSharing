@@ -81,7 +81,7 @@ export const BookPage = () => {
         <Wrapper background='none' noPaddingHorizontal noGap>
           <div className={styles.bookCover}>
             <Image className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
-            <div className={_styles.roundRect} />
+            <div className={styles.roundRect} />
           </div>
           <div className={styles.bookContent}>
             <div className={styles.bookInfo}>

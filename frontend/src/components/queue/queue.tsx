@@ -1,4 +1,4 @@
-import { Avatar, Flex, Button, ActionIcon, Anchor, Text } from '@mantine/core';
+import { Avatar, Flex, Button, ActionIcon, Anchor, Text, Card } from '@mantine/core';
 import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons/icons/ArrowUiAuthLogoutIcon';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
@@ -48,7 +48,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
   });
 
   if (queue == undefined || owner == undefined) {
-    return <p>Нет очередей</p>;
+    return <Text span>Нет очередей</Text>;
   }
 
   const isUserInQueue: boolean = queue.find((element) => element.id == userData?.id) !== undefined;
@@ -56,7 +56,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
   const isUserHolder: boolean = userData?.username === holder?.username;
 
   return (
-    <article className={`${styles.queue} ${isUserInQueue && styles.backgroundBlue} ${isUserHolder && styles.backgroundPink}`}>
+    <Card className={`${styles.queue} ${isUserInQueue && styles.backgroundBlue} ${isUserHolder && styles.backgroundPink}`}>
       <Flex direction='column' gap='sm'>
         <Text span className={_styles.textGray}>Владелец</Text>
         <Flex gap='md'>
@@ -133,6 +133,6 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
             <ActionIcon variant="white" onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular /></ActionIcon>
           </Flex>
         ))}
-    </article>
+    </Card>
   );
 };

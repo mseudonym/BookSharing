@@ -62,7 +62,7 @@
 
 /* Text styles */
 .text {
-  color: var(--primary-color);
+  color: var(--primary-color);  
   line-height: 120%;
 }
 
@@ -333,4 +333,17 @@
     background-color: var(--primary-color);
     color: var(--white-color);
   }
+}
+
+.badge {
+  padding: 0px var(--mantine-spacing-xs);
+  gap: var(--mantine-spacing-xs);
+  border-radius: var(--mantine-spacing-md);
+  color: var(--white-color);
+  background: var(--red-color);
+}
+
+.badgeLabel {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 600;
 }

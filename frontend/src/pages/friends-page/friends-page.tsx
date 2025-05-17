@@ -1,4 +1,4 @@
-import { ActionIcon, Loader, SimpleGrid, Tabs, Title } from '@mantine/core';
+import { ActionIcon, Badge, Loader, SimpleGrid, Tabs, Title } from '@mantine/core';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import React from 'react';
 
@@ -34,7 +34,10 @@ export const FriendsPage = () => {
       <Tabs defaultValue={FriendsTabs.MyFriends} variant='pills'>
         <Tabs.List>
           <Tabs.Tab value={FriendsTabs.MyFriends}>Мои друзья</Tabs.Tab>
-          <Tabs.Tab value={FriendsTabs.Requests}>Запросы</Tabs.Tab>
+          <Tabs.Tab value={FriendsTabs.Requests} 
+            rightSection={requestList  && requestList.length > 0 && <Badge>{requestList.length}</Badge>}>
+                Запросы
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value={FriendsTabs.MyFriends}>
