@@ -26,7 +26,9 @@ build-backend:
 
 deploy-backend-staging:
   stage: deploy
-  image: bitnami/kubectl:1.27.3-debian-11-r0
+  image: 
+    name: bitnami/kubectl:latest
+    entrypoint: [ "" ]
   environment:
     name: staging
   script:
@@ -43,7 +45,9 @@ deploy-backend-staging:
 
 deploy-backend-production:
   stage: deploy
-  image: bitnami/kubectl:1.27.3-debian-11-r0
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [ "" ]
   environment:
     name: production
   script:
