@@ -33,6 +33,16 @@ deploy-backend-staging:
     name: staging
   script:
     - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
+    
+    # Декодируем base64 kubeconfig в файл
+    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
+    # Указываем kubectl использовать этот конфиг
+    - export KUBECONFIG=$PWD/kubeconfig
+
+    # Проверяем подключение
+    - kubectl cluster-info
+    - kubectl get nodes
+
     - |
       kubectl create secret generic bs-cert \
         --from-literal=cert-pass="$CERT_PASS" \
