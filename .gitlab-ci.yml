@@ -12,7 +12,7 @@ stages:
 #    - dotnet test --verbosity normal
 
 variables:
-  BACK_IMAGE: "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
+  BS_API_IMAGE: "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
 
 build-backend:
   stage: build
@@ -21,8 +21,8 @@ build-backend:
     - docker:dind
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build -t $BACK_IMAGE -f backend/Dockerfile .
-    - docker push $BACK_IMAGE
+    - docker build -t $BS_API_IMAGE -f backend/BS.Api/Dockerfile .
+    - docker push $BS_API_IMAGE
 
 deploy-backend-staging:
   stage: deploy
