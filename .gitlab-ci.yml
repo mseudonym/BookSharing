@@ -33,7 +33,8 @@ deploy-backend-staging:
     name: staging
   script:
     - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
-    - kubectl create secret generic bs-cert \
+    - |
+      kubectl create secret generic bs-cert \
         --from-literal=cert-pass="$CERT_PASS" \
         --from-file=bs-api-stage.pfx=bs-api-stage.pfx
   variables:
@@ -52,7 +53,8 @@ deploy-backend-production:
     name: production
   script:
     - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
-    - kubectl create secret generic bs-cert \
+    - |
+      kubectl create secret generic bs-cert \
         --from-literal=cert-pass="$CERT_PASS" \
         --from-file=bs-api-stage.pfx=bs-api-stage.pfx
   variables:
