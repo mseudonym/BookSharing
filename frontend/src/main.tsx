@@ -22,7 +22,7 @@ import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
 import { SearchFriendsPage } from '~/pages/search-friends-page/search-friends-page';
-import { ShelfPage } from '~/pages/shelf-page/shelf-page';
+import { ShelfPage } from '~/pages/shelf-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';

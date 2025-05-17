@@ -77,7 +77,6 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--mantine-spacing-md);
-  gap: var(--mantine-spacing-sm);
   padding: 0 var(--mantine-spacing-lg);
   height: 50px;
   transition: all var(--transition-duration) var(--transition-timing);
@@ -140,8 +139,13 @@
   }
 }
 
+.buttonInner {
+  display: flex;
+  gap: var(--mantine-spacing-sm);
+}
+
 /* ActionIcon styles */
-.actionIcon, .modalClose {
+.actionIcon, .modalClose, .notificationClose {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -188,7 +192,7 @@
   border-radius: 8px;
   background: var(--white-color);
   color: var(--primary-color);
-  box-shadow: -2px 2px 20px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--shadow);
 }
 
 .menuItem {
@@ -208,6 +212,8 @@
 .input {
   display: flex;
   min-height: 48px;
+  padding-left: var(--mantine-spacing-sm);
+  padding-right: var(--mantine-spacing-sm);
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -291,7 +297,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  --loader-color: var(--primary-color);
+  --loader-color: var(--primary-color) !important;
 }
 
 /* Divider styles */
@@ -311,6 +317,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--mantine-spacing-md);
+  align-self: stretch;
 }
 
 .tabsList {
@@ -335,6 +342,11 @@
   }
 }
 
+.tabsPanel {
+  align-self: stretch;
+}
+
+/* Badge styles */
 .badge {
   padding: 0px var(--mantine-spacing-xs);
   gap: var(--mantine-spacing-xs);
@@ -346,4 +358,16 @@
 .badgeLabel {
   font-size: var(--mantine-font-size-sm);
   font-weight: 600;
+}
+
+/* Notification styles */
+.notification {
+  font-size: var(--mantine-font-size-md);
+  background-color: var(--white-color);
+  color: var(--primary-color);
+  box-shadow: var(--shadow);
+}
+
+.notificationDescription {
+  color: var(--secondary-text-color);
 }

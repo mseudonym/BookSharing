@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge } from '@mantine/core';
+import { ActionIcon, Notification, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -19,6 +19,10 @@ export const theme = createTheme({
       },
       h2: {
         fontSize: '18px',
+        lineHeight: '120%',
+      },
+      h3: {
+        fontSize: '16px',
         lineHeight: '120%',
       },
     },
@@ -89,7 +93,7 @@ export const theme = createTheme({
       classNames: { root: classes.card },
     }),
     Button: Button.extend({
-      classNames: { root: classes.button },
+      classNames: { root: classes.button, inner: classes.buttonInner },
       defaultProps: {
         variant: 'outline',
         size: 'md',
@@ -172,7 +176,8 @@ export const theme = createTheme({
       classNames: {
         root: classes.tabsRoot,
         list: classes.tabsList,
-        tab: classes.tab
+        tab: classes.tab,
+        panel: classes.tabsPanel,
       },
     }),
     Badge: Badge.extend({
@@ -180,6 +185,19 @@ export const theme = createTheme({
         root: classes.badge, 
         label: classes.badgeLabel
       },
+    }),
+    Notification: Notification.extend({
+      classNames: {
+        root: classes.notification,
+        description: classes.notificationDescription,
+      },
+      styles: (theme) => ({
+        title: {
+          ...theme.headings?.sizes?.h3,
+          fontWeight: theme.headings?.fontWeight,
+          fontFamily: theme.headings?.fontFamily,
+        },
+      }),
     }),
   },
 });

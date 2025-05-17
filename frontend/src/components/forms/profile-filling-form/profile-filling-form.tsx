@@ -60,7 +60,6 @@ export const ProfileFillingForm = () => {
     },
   });
 
-
   const onSubmit = async (data: IFormInput) => {
     try {
       setIsLoading(true);

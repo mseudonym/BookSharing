@@ -1,4 +1,4 @@
-import { Avatar, Card, Flex, Text } from '@mantine/core';
+import { Avatar, Card, Text } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/components/friend-request/friend-request.module.css';
@@ -10,23 +10,25 @@ import { router } from '~/main';
 
 export const FriendCard = ({ lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   return (
-    <Card className={styles.friendCard} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
-      <Avatar
-        src={lowQualityPhotoUrl ?? '/default-profile.png'}
-        className={styles.avatar}
-        alt={`Avatar image for ${username}`}
-      />
-      <Flex direction='column' gap='xs'>
-        <Text>
-          {firstName}
-          {' '}
-          {lastName}
-        </Text>
-        <Text span className={_styles.textGray}>
+    <Card className={styles.friendCard}>
+      <div className={styles.person} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
+        <Avatar
+          src={lowQualityPhotoUrl ?? '/default-profile.png'}
+          className={styles.avatar}
+          alt={`Avatar image for ${username}`}
+        />
+        <div className={styles.personInfo}>
+          <Text>
+            {firstName}
+            {' '}
+            {lastName}
+          </Text>
+          <Text span className={_styles.textGray}>
           @
-          {username}
-        </Text>
-      </Flex>
+            {username}
+          </Text>
+        </div>
+      </div>
     </Card>
   );
 };

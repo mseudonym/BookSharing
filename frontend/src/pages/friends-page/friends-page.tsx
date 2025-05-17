@@ -5,8 +5,9 @@ import React from 'react';
 import { FriendCard, RequestCard } from '~/components/friend-request';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
-import { FriendsTabs } from '~/conts';
+import { AppRoute, FriendsTabs } from '~/conts';
 import { useGetFriendsList, useGetFriendsRequestsReceived } from '~/generated-api/friends/friends';
+import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { PageWithWrapper } from '~/ui/pages';
 
@@ -26,7 +27,7 @@ export const FriendsPage = () => {
     <PageWithWrapper>
       <Header variant="auto">
         <Title>Друзья</Title>
-        <ActionIcon variant="transparent">
+        <ActionIcon variant="transparent" onClick={() => { router.navigate(AppRoute.SearchFriends); }}>
           <SearchLoupeIcon24Regular />
         </ActionIcon>
       </Header>
