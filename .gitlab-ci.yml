@@ -12,7 +12,7 @@ stages:
 #    - dotnet test --verbosity normal
 
 variables:
-  BS_API_IMAGE: "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
+  BS_API_IMAGE: "$CI_REGISTRY_IMAGE/bs-api:$CI_COMMIT_SHORT_SHA"
 
 build-backend:
   stage: build
@@ -26,7 +26,7 @@ build-backend:
 
 deploy-backend-staging:
   stage: deploy
-  image: bitnami/kubectl:latest
+  image: bitnami/kubectl:1.27.3-debian-11-r0
   environment:
     name: staging
   script:
@@ -43,7 +43,7 @@ deploy-backend-staging:
 
 deploy-backend-production:
   stage: deploy
-  image: bitnami/kubectl:latest
+  image: bitnami/kubectl:1.27.3-debian-11-r0
   environment:
     name: production
   script:
