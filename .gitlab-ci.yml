@@ -42,6 +42,8 @@ staging-deploy-backend:
     - kubectl create secret generic bs-cert --from-literal=cert-pass="$CERT_PASS" --from-file=bs-api-stage.pfx=bs-api-stage.pfx
     
     - kubectl apply -f k8s/staging-backend-deployment.yaml
+    - kubectl set image deployment/staging-bs-api staging-bs-api=$BS_API_IMAGE
+
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
   when: manual

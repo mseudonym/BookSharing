@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: staging-bs-api
-          image: placeholder # ← placeholder, перезаписывается через CI
+          image: override # перезаписать в CI
           ports:
             - containerPort: 443
           env:
