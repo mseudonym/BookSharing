@@ -27,6 +27,7 @@ build-backend:
 
 staging-deploy-backend:
   stage: staging
+  name: "deploy-backend"
   image: 
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
@@ -39,7 +40,7 @@ staging-deploy-backend:
     - export KUBECONFIG=$PWD/kubeconfig
 
     - kubectl delete secret bs-cert --ignore-not-found
-      kubectl create secret generic bs-cert --from-literal=cert-pass="$CERT_PASS" --from-file=bs-api-stage.pfx=bs-api-stage.pfx
+    - kubectl create secret generic bs-cert --from-literal=cert-pass="$CERT_PASS" --from-file=bs-api-stage.pfx=bs-api-stage.pfx
     
     - kubectl apply -f staging-backend-deployment.yaml
   variables:
@@ -51,6 +52,7 @@ staging-deploy-backend:
 
 production-deploy-backend:
   stage: production
+  name: deploy-backend
   image:
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
