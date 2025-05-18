@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bs-api
+  name: staging-bs-api
   labels:
-    app: bs-api
+    app: staging-bs-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bs-api
+      app: staging-bs-api
   template:
     metadata:
       labels:
-        app: bs-api
+        app: staging-bs-api
     spec:
       containers:
-        - name: bs-api
-          image: cr.yandex/crpa2d789cn3jqj76is3/bs-api:latest # ← placeholder, перезаписывается через CI
+        - name: staging-bs-api
+          image: placeholder # ← placeholder, перезаписывается через CI
           ports:
             - containerPort: 443
           env:
@@ -43,12 +43,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bs-api
+  name: staging-bs-api
   labels:
-    app: bs-api
+    app: staging-bs-api
 spec:
   selector:
-    app: bs-api
+    app: staging-bs-api
   ports:
     - protocol: TCP
       port: 443

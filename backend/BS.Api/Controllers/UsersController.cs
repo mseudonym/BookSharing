@@ -30,7 +30,7 @@ public class UsersController : Controller
     }
 
     [HttpGet("search/{usernamePrefix}")]
-    public async Task<ActionResult<UserProfile>> GetUsers([FromRoute] string usernamePrefix)
+    public async Task<ActionResult<UserProfile[]>> GetUsers([FromRoute] string usernamePrefix)
     {
         var users = await _userService.SearchByUsernamePrefix(usernamePrefix);
 

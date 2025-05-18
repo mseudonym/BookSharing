@@ -1,7 +1,8 @@
 stages:
   - test
   - build
-  - deploy
+  - staging
+  - production
 
 #test-backend:
 #  stage: test
@@ -24,8 +25,8 @@ build-backend:
     - docker build -t $BS_API_IMAGE -f backend/BS.Api/Dockerfile backend/
     - docker push $BS_API_IMAGE
 
-deploy-backend-staging:
-  stage: deploy
+staging-deploy-backend:
+  stage: staging
   image: 
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
@@ -34,19 +35,13 @@ deploy-backend-staging:
   script:
     - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
     
-    # Декодируем base64 kubeconfig в файл
     - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
-    # Указываем kubectl использовать этот конфиг
     - export KUBECONFIG=$PWD/kubeconfig
 
-    # Проверяем подключение
-    - kubectl cluster-info
-    - kubectl get nodes
-
-    - |
-      kubectl create secret generic bs-cert \
-        --from-literal=cert-pass="$CERT_PASS" \
-        --from-file=bs-api-stage.pfx=bs-api-stage.pfx
+    - kubectl delete secret bs-cert --ignore-not-found
+      kubectl create secret generic bs-cert --from-literal=cert-pass="$CERT_PASS" --from-file=bs-api-stage.pfx=bs-api-stage.pfx
+    
+    - kubectl apply -f staging-backend-deployment.yaml
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
   when: manual
@@ -54,8 +49,8 @@ deploy-backend-staging:
     - branches
     - tags
 
-deploy-backend-production:
-  stage: deploy
+production-deploy-backend:
+  stage: production
   image:
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
@@ -67,6 +62,7 @@ deploy-backend-production:
       kubectl create secret generic bs-cert \
         --from-literal=cert-pass="$CERT_PASS" \
         --from-file=bs-api-stage.pfx=bs-api-stage.pfx
+    - kubectl apply -f production-backend-deployment.yaml
   variables:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
