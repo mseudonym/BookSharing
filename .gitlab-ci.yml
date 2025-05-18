@@ -27,7 +27,6 @@ build-backend:
 
 staging-deploy-backend:
   stage: staging
-  name: "deploy-backend"
   image: 
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
