@@ -51,7 +51,6 @@ staging-deploy-backend:
 
 production-deploy-backend:
   stage: production
-  name: deploy-backend
   image:
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
