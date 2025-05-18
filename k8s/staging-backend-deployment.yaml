@@ -20,27 +20,12 @@ spec:
         - name: staging-bs-api
           image: override # перезаписать в CI
           ports:
-            - containerPort: 443
+            - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Staging"
             - name: ASPNETCORE_URLS
-              value: "https://+"
-#            - name: ASPNETCORE_Kestrel__Certificates__Default__Password
-#              valueFrom:
-#                secretKeyRef:
-#                  name: bs-cert
-#                  key: cert-pass
-#            - name: ASPNETCORE_Kestrel__Certificates__Default__Path
-#              value: "/certs/bs-api-stage.pfx"
-#          volumeMounts:
-#            - name: cert-volume
-#              mountPath: /certs
-#              readOnly: true
-#      volumes:
-#        - name: cert-volume
-#          secret:
-#            secretName: bs-cert
+              value: "http://+:80"
 ---
 apiVersion: v1
 kind: Service
@@ -54,5 +39,5 @@ spec:
   ports:
     - protocol: TCP
       port: 443
-      targetPort: 443
+      targetPort: 80
   type: ClusterIP
