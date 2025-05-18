@@ -41,7 +41,7 @@ staging-deploy-backend:
     - kubectl delete secret bs-cert --ignore-not-found
     - kubectl create secret generic bs-cert --from-literal=cert-pass="$CERT_PASS" --from-file=bs-api-stage.pfx=bs-api-stage.pfx
     
-    - kubectl apply -f staging-backend-deployment.yaml
+    - kubectl apply -f k8s/staging-backend-deployment.yaml
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
   when: manual
@@ -62,7 +62,7 @@ production-deploy-backend:
       kubectl create secret generic bs-cert \
         --from-literal=cert-pass="$CERT_PASS" \
         --from-file=bs-api-stage.pfx=bs-api-stage.pfx
-    - kubectl apply -f production-backend-deployment.yaml
+    - kubectl apply -f k8s/production-backend-deployment.yaml
   variables:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
