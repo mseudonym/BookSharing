@@ -8,6 +8,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { EmailSettingsPage } from './pages/settings/email-settings-page/email-settings-page';
+import { PasswordSettingsPage } from './pages/settings/password-settings-page/password-settings-page';
+
 import { checkAuth } from '~/actions/user-actions';
 import { AppRoute } from '~/conts';
 import { BookAdditionPage } from '~/pages/book-addition-page';
@@ -96,6 +99,14 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.ProfileSettings}`,
     element: <ProfileSettingsPage />,
+  },
+  {
+    path: `${AppRoute.EmailSettings}`,
+    element: <EmailSettingsPage />,
+  },
+  {
+    path: `${AppRoute.PasswordSettings}`,
+    element: <PasswordSettingsPage />,
   },
   {
     path: '*',
