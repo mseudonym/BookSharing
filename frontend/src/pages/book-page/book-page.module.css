@@ -28,11 +28,14 @@
 .bookInfo {
   display: flex;
   max-width: 600px;
+  width: 100%;
   padding: 0px var(--mantine-spacing-md);
   flex-direction: column;
   align-items: center;
   gap: var(--mantine-spacing-md);
   align-self: stretch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .bookHeader {
@@ -61,25 +64,35 @@
 .queues {
   display: flex;
   max-width: 600px;
+  width: 100%;
   padding-top: var(--mantine-spacing-sm);
   flex-direction: column;
   align-items: center;
   gap: var(--mantine-spacing-md);
   align-self: stretch;
-}
-
-.bookCoverButton {
-  width: 156px !important;
-  height: 225px !important;
-  border-radius: var(--mantine-radius-sm) !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .actions {
   display: flex;
   max-width: 600px;
+  width: 100%;
   padding: 0px var(--mantine-spacing-md);
   flex-direction: column;
   align-items: center;
   gap: var(--mantine-spacing-md);
   align-self: stretch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.roundRect {
+  height: var(--mantine-spacing-xl);
+  border-radius: var(--mantine-radius-md) var(--mantine-radius-md) 0 0;
+  background: var(--white-color);
+  align-items: stretch;
+  width: 100%;
+  margin-top: calc(var(--mantine-spacing-xl) * -1);
+  z-index: 1;
 }

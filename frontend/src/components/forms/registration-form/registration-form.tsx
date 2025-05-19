@@ -7,14 +7,13 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import _styles from '~/index.module.css';
+import styles from '~/components/forms/forms.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { PasswordInput } from '~/components/inputs/password-input/password-input';
+import { PasswordInput } from '~/components/inputs/password-input';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
 import { saveToken } from '~/services/token';
-
 
 const FormSchema = zod.object({
   email: zod
@@ -102,7 +101,7 @@ export const RegistrationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={_styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
       <TextInput
         label="Почта"

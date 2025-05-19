@@ -1,21 +1,19 @@
-import { Divider, Button, Title } from '@mantine/core';
+import { Divider, Button, Title, Flex } from '@mantine/core';
 import React from 'react';
 
-import styles from '~/pages/registration-login/styles.module.css';
-
-import { LoginForm } from '~/components/forms/login-form/login-form';
+import { LoginForm } from '~/components/forms';
 import { Logo } from '~/components/logo';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const LoginPage = () => {
   return (
     <PageWithWrapper alignWrapper="center">
-      <div className={styles.header}>
+      <Flex direction='column' align='center' gap='lg'>
         <Logo />
-        <Title>Вход</Title>
-      </div>
+        <Title ta='center'>Вход</Title>
+      </Flex>
 
       <LoginForm />
 

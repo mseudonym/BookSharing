@@ -7,17 +7,69 @@
 /* AppShell styles */
 .appShell {
   display: flex;
+  gap: 0;
 }
 
 .main {
   padding: 0;
+  width: 100%;
+  max-width: 360px;
+  /*margin-right: auto;*/
+  margin: 0 auto;
 }
 
 .menu {
   position: relative;
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
+  margin-left: auto;
 }
 
+/* Modal styles */
+.modal {
+  display: flex;
+  color: var(--primary-color);
+  border-radius: var(--mantine-spacing-md);
+}
+
+.modalContent {
+  padding: var(--mantine-spacing-md) var(--mantine-spacing-md) var(--mantine-spacing-lg) var(--mantine-spacing-md);
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+}
+
+.modalHeader {
+  padding: 0;
+  padding-bottom: var(--mantine-spacing-sm);
+}
+
+.modalBody {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+  overflow-y: auto;
+}
+
+.modalClose {
+  padding: var(--mantine-spacing-sm);
+  color: var(--primary-color)
+}
+
+/* Title styles */
+.title {
+  color: var(--primary-color);
+}
+
+/* Text styles */
+.text {
+  color: var(--primary-color);  
+  line-height: 120%;
+}
+
+/* Card styles */
+.card {
+  padding: 0;
+}
 
 /* Button styles */
 .button {
@@ -25,7 +77,6 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--mantine-spacing-md);
-  gap: var(--mantine-spacing-sm);
   padding: 0 var(--mantine-spacing-lg);
   height: 50px;
   transition: all var(--transition-duration) var(--transition-timing);
@@ -88,13 +139,18 @@
   }
 }
 
+.buttonInner {
+  display: flex;
+  gap: var(--mantine-spacing-sm);
+}
+
 /* ActionIcon styles */
-.actionIcon {
+.actionIcon, .modalClose, .notificationClose {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  width: 50px;
+  min-height: 50px;
+  min-width: 50px;
   border-radius: 100%;
   transition: all var(--transition-duration) var(--transition-timing);
 
@@ -126,10 +182,38 @@
   }
 }
 
+/* Menu styles */
+.menuDropdown {
+  display: inline-flex;
+  padding: var(--mantine-spacing-xs);
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 8px;
+  background: var(--white-color);
+  color: var(--primary-color);
+  box-shadow: var(--shadow);
+}
+
+.menuItem {
+  display: flex;
+  padding: var(--mantine-spacing-sm);
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-spacing-sm);
+  transition: all var(--transition-duration) var(--transition-timing);
+
+  &:hover {
+    background-color: var(--light-background-color);
+  }
+}
+
 /* Input styles */
 .input {
   display: flex;
   min-height: 48px;
+  padding-left: var(--mantine-spacing-sm);
+  padding-right: var(--mantine-spacing-sm);
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -209,11 +293,11 @@
 
 /* Loader styles */
 .loader {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  --loader-color: var(--primary-color);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  --loader-color: var(--primary-color) !important;
 }
 
 /* Divider styles */
@@ -224,5 +308,66 @@
 
 .dividerLabel {
   font-size: var(--mantine-font-size-sm);
+  color: var(--secondary-text-color);
+}
+
+/* Tabs styles */
+.tabsRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-md);
+  align-self: stretch;
+}
+
+.tabsList {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-sm);
+}
+
+.tab {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-spacing-md);
+  border: 1px solid var(--light-gray-16-color);
+  transition: all var(--transition-duration) var(--transition-timing);
+
+  &[data-active] {
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+  }
+}
+
+.tabsPanel {
+  align-self: stretch;
+}
+
+/* Badge styles */
+.badge {
+  padding: 0px var(--mantine-spacing-xs);
+  gap: var(--mantine-spacing-xs);
+  border-radius: var(--mantine-spacing-md);
+  color: var(--white-color);
+  background: var(--red-color);
+}
+
+.badgeLabel {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 600;
+}
+
+/* Notification styles */
+.notification {
+  font-size: var(--mantine-font-size-md);
+  background-color: var(--white-color);
+  color: var(--primary-color);
+  box-shadow: var(--shadow);
+}
+
+.notificationDescription {
   color: var(--secondary-text-color);
 }

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BackgroundImage, Button, Center, FileButton, TextInput } from '@mantine/core';
+import { BackgroundImage, Button, Center, FileButton, Overlay, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { TechCamPhotoIcon24Regular, ToolPencilSquareIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
@@ -7,8 +7,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import styles from '~/components/forms/profile-filling-form/profile-filling-form.module.css';
-import _styles from '~/index.module.css';
+import styles from '~/components/forms/forms.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
@@ -57,10 +56,9 @@ export const ProfileFillingForm = () => {
   const { mutateAsync: fillProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onSuccess: async (userData) => {
-      await checkProfileFilling(userData);
+      await checkProfileFilling(userData, true);
     },
   });
-
 
   const onSubmit = async (data: IFormInput) => {
     try {
@@ -84,20 +82,21 @@ export const ProfileFillingForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`${_styles.form} ${_styles.formCenter}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
       <FileButton accept="image/jpeg" onChange={(file) => {
         setFile(file);
         if (file) setValue('profilePhoto', file);
       }}>
-        {(props) => <Button {...props} className={`${styles.avatarButton} ${_styles.photoButton} ${file && _styles.photoButtonChosen}`}>
+        {(props) => <Button {...props} className={`${styles.avatarButton} ${styles.photoButton} ${file && styles.photoButtonChosen}`}>
           {file ? 
             <BackgroundImage
               src={URL.createObjectURL(file)}
-              className={_styles.photoButtonImage}
+              className={styles.photoButtonImage}
               style={{aspectRatio: 1}}>
               <Center h="100%">
                 <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
               </Center>
+              <Overlay color="var(--light-gray-16-color)"/>
             </BackgroundImage> 
             : <TechCamPhotoIcon24Regular/>}
         </Button>}

@@ -1,7 +1,7 @@
+import { Image, Text } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/components/illustration-wrapper/illustration-wrapper.module.css';
-import _styles from '~/index.module.css';
 
 interface IllustrationWrapperProps {
   src: string;
@@ -13,13 +13,13 @@ interface IllustrationWrapperProps {
 export const IllustrationWrapper = ({ src, alt, text, size = 'small' }: IllustrationWrapperProps) => {
   return (
     <div className={styles.illustrationWrapper}>
-      <img
+      <Image
         loading="lazy"
         src={src}
         alt={alt}
         className={`${styles.image} ${styles[size]}`}
       />
-      {text && <p className={_styles.textCenter}>{text}</p>}
+      {text && <Text ta='center'>{text}</Text>}
     </div>
   );
 };

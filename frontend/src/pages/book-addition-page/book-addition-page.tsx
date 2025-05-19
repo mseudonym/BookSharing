@@ -1,10 +1,10 @@
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Title } from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import React from 'react';
 
-import { BookAdditionForm } from '~/components/forms/book-addition-form/book-addition-form';
-import { Header } from '~/components/header/header';
-import { Page } from '~/ui/pages/page';
+import { BookAdditionForm } from '~/components/forms';
+import { Header } from '~/components/header';
+import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
 export const BookAdditionPage = () => {
@@ -14,9 +14,10 @@ export const BookAdditionPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
+        <Title order={2}>Добавление книги вручную</Title>
       </Header>
 
-      <Wrapper background="none" withPadding={false}>
+      <Wrapper background="none" noPaddingHorizontal>
         <BookAdditionForm />
       </Wrapper>
 

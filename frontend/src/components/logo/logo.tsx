@@ -1,3 +1,4 @@
+import { Image } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/components/logo/logo.module.css';
@@ -9,6 +10,6 @@ type LogoProps = {
 export const Logo = ({ size = 'small' }: LogoProps) => {
   const src = size === 'big' ? '/logo-big.svg' : '/logo-small.svg';
   return (
-    <img loading="lazy" src={src} alt="Logo application" className={styles[size]} />
+    <Image loading="lazy" src={src} alt="Logo application" className={styles[size]} />
   );
 };

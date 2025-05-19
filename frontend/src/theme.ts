@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, PasswordInput, Textarea, TextInput } from '@mantine/core';
+import { ActionIcon, Notification, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -19,6 +19,10 @@ export const theme = createTheme({
       },
       h2: {
         fontSize: '18px',
+        lineHeight: '120%',
+      },
+      h3: {
+        fontSize: '16px',
         lineHeight: '120%',
       },
     },
@@ -50,6 +54,10 @@ export const theme = createTheme({
     xl: '32px',
   },
 
+  breakpoints: {
+    tablet: '768px',
+  },
+
   // Components configuration
   components: {
     AppShell: AppShell.extend({
@@ -59,8 +67,33 @@ export const theme = createTheme({
         navbar: classes.menu,
       },
     }),
+    Modal: Modal.extend({
+      classNames: {
+        root: classes.modal,
+        header: classes.modalHeader,
+        body: classes.modalBody,
+        content: classes.modalContent,
+        close: classes.modalClose,
+      },
+      styles: (theme) => ({
+        title: {
+          ...theme.headings?.sizes?.h2,
+          fontWeight: theme.headings?.fontWeight,
+          fontFamily: theme.headings?.fontFamily,
+        },
+      }),
+    }),
+    Title: Title.extend({
+      classNames: { root: classes.title },
+    }),
+    Text: Text.extend({
+      classNames: { root: classes.text },
+    }),
+    Card: Card.extend({
+      classNames: { root: classes.card },
+    }),
     Button: Button.extend({
-      classNames: { root: classes.button },
+      classNames: { root: classes.button, inner: classes.buttonInner },
       defaultProps: {
         variant: 'outline',
         size: 'md',
@@ -72,6 +105,9 @@ export const theme = createTheme({
         variant: 'white',
         size: 'lg',
       }
+    }),
+    Menu: Menu.extend({
+      classNames: { dropdown: classes.menuDropdown, item: classes.menuItem },
     }),
     Input: Input.extend({
       classNames: {
@@ -135,6 +171,33 @@ export const theme = createTheme({
         root: classes.divider, 
         label: classes.dividerLabel 
       },
+    }),
+    Tabs: Tabs.extend({
+      classNames: {
+        root: classes.tabsRoot,
+        list: classes.tabsList,
+        tab: classes.tab,
+        panel: classes.tabsPanel,
+      },
+    }),
+    Badge: Badge.extend({
+      classNames: { 
+        root: classes.badge, 
+        label: classes.badgeLabel
+      },
+    }),
+    Notification: Notification.extend({
+      classNames: {
+        root: classes.notification,
+        description: classes.notificationDescription,
+      },
+      styles: (theme) => ({
+        title: {
+          ...theme.headings?.sizes?.h3,
+          fontWeight: theme.headings?.fontWeight,
+          fontFamily: theme.headings?.fontFamily,
+        },
+      }),
     }),
   },
 });

@@ -4,6 +4,8 @@ import React, { PropsWithChildren } from 'react';
 
 import styles from '~/ui/pages/page/page.module.css';
 
+//import { Logo } from '~/components/logo';
+
 export const Page = ({ children }: PropsWithChildren) => {
   const [opened] = useDisclosure();
   
@@ -14,13 +16,11 @@ export const Page = ({ children }: PropsWithChildren) => {
         collapsed: { mobile: !opened },
         width: 236,
       }}
-      padding="var(--mantine-spacing-lg)"
-    >
+      padding="var(--mantine-spacing-lg)">
+
       {/* <AppShell.Navbar>
-      <AppShell.Navbar>
         <Logo size="big" />
-      </AppShell.Navbar>
-      */}
+      </AppShell.Navbar> */}
 
       <AppShell.Main>
         <div className={styles.page}>

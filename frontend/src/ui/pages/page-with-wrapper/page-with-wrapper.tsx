@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 
-import { Page } from '~/ui/pages/page';
+import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
 type PageWithWrapperProps = {

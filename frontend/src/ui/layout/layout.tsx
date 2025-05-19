@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { Navbar } from '~/components/navbar/navbar';
+import { Navbar } from '~/components/navbar';
 import { AppRoute } from '~/conts';
 
 export const Layout = () => {

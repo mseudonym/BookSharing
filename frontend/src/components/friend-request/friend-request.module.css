@@ -1,0 +1,37 @@
+.friendCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  align-self: stretch;
+  cursor: pointer;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 0 0;
+}
+
+.personInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--mantine-spacing-xs);
+  flex-grow: 1;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  aspect-ratio: 1;
+}
+
+.checkButton {
+  color: var(--green-color);
+}
+
+.crossButton {
+  color: var(--red-color);
+}

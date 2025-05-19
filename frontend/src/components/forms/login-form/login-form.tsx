@@ -6,12 +6,14 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
+import styles from '~/components/forms/forms.module.css';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { PasswordInput } from '~/components/inputs/password-input/password-input';
+import { PasswordInput } from '~/components/inputs/password-input';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin } from '~/generated-api/auth/auth';
+import { router } from '~/main';
 import { saveToken } from '~/services/token';
 
 const FormSchema = zod.object({
@@ -44,6 +46,7 @@ export const LoginForm = () => {
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
       await checkProfileFilling();
+      router.navigate(AppRoute.Shelf);
     },
   });
 
@@ -63,7 +66,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={_styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
       <TextInput
         label="Почта"
@@ -79,7 +82,7 @@ export const LoginForm = () => {
         error={errors?.password?.message}
       />
 
-      <Anchor className={_styles.anchorGray} href={AppRoute.ForgotPassword}>Я не помню пароль</Anchor>
+      <Anchor className={_styles.anchorGray} onClick={() => router.navigate(AppRoute.ForgotPassword)}>Я не помню пароль</Anchor>
 
       <Button fullWidth variant="filled" loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти

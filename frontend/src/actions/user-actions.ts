@@ -1,9 +1,10 @@
 import axios, { AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import { UserData } from '../generated-api/model';
-import { getUsersMe } from '../generated-api/users/users';
-import { router } from '../main';
+
 import { AppRoute } from '~/conts';
+import { UserData } from '~/generated-api/model';
+import { getUsersMe } from '~/generated-api/users/users';
+import { router } from '~/main';
 
 export const checkAuth = async () => {
   await getUsersMe()
@@ -20,7 +21,7 @@ export const checkAuth = async () => {
     });
 };
 
-export const checkProfileFilling = async (user?: UserData, redirectToDefault: boolean = true) => {
+export const checkProfileFilling = async (user?: UserData, redirectToDefault: boolean = false) => {
   if (user === undefined) {
     await checkAuth();
     return;
