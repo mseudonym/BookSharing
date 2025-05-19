@@ -1,41 +1,47 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staging-bs-api
+  name: bs-api
   labels:
-    app: staging-bs-api
+    app: bs-api
+    environment: ${ENVIRONMENT}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: staging-bs-api
+      app: bs-api
+      environment: ${ENVIRONMENT}
   template:
     metadata:
       labels:
-        app: staging-bs-api
+        app: bs-api
+        environment: ${ENVIRONMENT}
     spec:
       imagePullSecrets:
         - name: gitlab-registry-secret
       containers:
-        - name: staging-bs-api
-          image: override # перезаписать в CI
+        - name: bs-api
+          image: "${BS_API_IMAGE}"
           ports:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: "Staging"
+              value: "${ASPNETCORE_ENVIRONMENT}"
             - name: ASPNETCORE_URLS
               value: "http://+:80"
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: staging-bs-api
+  name: bs-api
   labels:
-    app: staging-bs-api
+    app: bs-api
+    environment: ${ENVIRONMENT}
 spec:
   selector:
-    app: staging-bs-api
+    app: bs-api
+    environment: ${ENVIRONMENT}
   ports:
     - protocol: TCP
       port: 80

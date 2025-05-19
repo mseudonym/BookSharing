@@ -33,40 +33,36 @@ staging-deploy-backend:
   environment:
     name: staging
   script:
-    - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
-    
     - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
     - export KUBECONFIG=$PWD/kubeconfig
 
-    - kubectl delete secret bs-cert --ignore-not-found
-    - kubectl create secret generic bs-cert --from-literal=cert-pass="$CERT_PASS" --from-file=bs-api-stage.pfx=bs-api-stage.pfx
-    
-    - kubectl apply -f k8s/staging-backend-deployment.yaml
-    - kubectl set image deployment/staging-bs-api staging-bs-api=$BS_API_IMAGE
+    - envsubst < k8s/backend-deployment.yaml | kubectl apply -f -
 
   variables:
+    ENVIRONMENT: staging
     ASPNETCORE_ENVIRONMENT: "Staging"
+    
   when: manual
   only:
     - branches
     - tags
 
-production-deploy-backend:
-  stage: production
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: [ "" ]
-  environment:
-    name: production
-  script:
-    - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
-    - |
-      kubectl create secret generic bs-cert \
-        --from-literal=cert-pass="$CERT_PASS" \
-        --from-file=bs-api-stage.pfx=bs-api-stage.pfx
-    - kubectl apply -f k8s/production-backend-deployment.yaml
-  variables:
-    ASPNETCORE_ENVIRONMENT: "Production"
-  when: manual
-  only:
-    - main
+#production-deploy-backend:
+#  stage: production
+#  image:
+#    name: bitnami/kubectl:latest
+#    entrypoint: [ "" ]
+#  environment:
+#    name: production
+#  script:
+#    - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
+#    - |
+#      kubectl create secret generic bs-cert \
+#        --from-literal=cert-pass="$CERT_PASS" \
+#        --from-file=bs-api-stage.pfx=bs-api-stage.pfx
+#    - kubectl apply -f k8s/backend-deployment.yaml
+#  variables:
+#    ASPNETCORE_ENVIRONMENT: "Production"
+#  when: manual
+#  only:
+#    - main

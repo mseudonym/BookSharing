@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
         - api.staging.book-sharing.ru
-      secretName: bs-tls-secret
+      secretName: bs-staging-tls-secret
   rules:
     - host: api.staging.book-sharing.ru
       http:
