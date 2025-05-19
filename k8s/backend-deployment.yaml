@@ -4,18 +4,15 @@ metadata:
   name: bs-api
   labels:
     app: bs-api
-    environment: ${ENVIRONMENT}
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: bs-api
-      environment: ${ENVIRONMENT}
   template:
     metadata:
       labels:
         app: bs-api
-        environment: ${ENVIRONMENT}
     spec:
       imagePullSecrets:
         - name: gitlab-registry-secret
@@ -40,11 +37,9 @@ metadata:
   name: bs-api
   labels:
     app: bs-api
-    environment: ${ENVIRONMENT}
 spec:
   selector:
     app: bs-api
-    environment: ${ENVIRONMENT}
   ports:
     - protocol: TCP
       port: 80
