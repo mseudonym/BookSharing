@@ -1,0 +1,46 @@
+.userContent {
+  display: flex;
+  padding: 0 var(--mantine-spacing-md) var(--mantine-spacing-lg) var(--mantine-spacing-md);
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  align-self: stretch;
+}
+
+.userInfoActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  align-self: stretch;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+}
+
+.bookList {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: var(--mantine-spacing-md);
+  align-self: stretch;
+  flex-wrap: wrap;
+  padding-bottom: var(--mantine-spacing-xl);
+}
+
+.addBookButton {
+  width: 99px !important;
+  height: 140px !important;
+  border-radius: var(--mantine-radius-sm) !important;
+  border: 2px dashed var(--light-gray-16-color) !important;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  aspect-ratio: 1;
+}

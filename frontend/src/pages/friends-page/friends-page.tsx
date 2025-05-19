@@ -1,27 +1,19 @@
-import { ActionIcon, Loader, SegmentedControl, Title } from '@mantine/core';
+import { ActionIcon, Badge, Loader, SimpleGrid, Tabs, Title } from '@mantine/core';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
-import React, { useState } from 'react';
+import React from 'react';
 
-import _styles from '~/index.module.css';
-import styles from '~/pages/friends-page/friends-page.module.css';
-
-import { FriendCard } from '~/components/friend-card/friend-card';
-import { RequestCard } from '~/components/friend-card/request-card';
-import { Header } from '~/components/header/header';
+import { FriendCard, RequestCard } from '~/components/friend-request';
+import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
-import { FriendsTabs } from '~/conts';
+import { AppRoute, FriendsTabs } from '~/conts';
 import { useGetFriendsList, useGetFriendsRequestsReceived } from '~/generated-api/friends/friends';
+import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const FriendsPage = () => {
   const { data: friendList, isLoading: isLoadingFriends, isError: isErrorFriends } = useGetFriendsList();
   const { data: requestList, isLoading: isLoadingRequests, isError: isErrorRequests } = useGetFriendsRequestsReceived();
-  const [activeTab, setActiveTab] = useState<string>(FriendsTabs.MyFriends);
-
-  const handleTabChange = (value: string) => {
-    setActiveTab(value);
-  };
 
   if (isLoadingFriends || isLoadingRequests) {
     return <Loader />;
@@ -34,26 +26,28 @@ export const FriendsPage = () => {
   return (
     <PageWithWrapper>
       <Header variant="auto">
-        <Title className={_styles.title}>Друзья</Title>
-        <ActionIcon variant="transparent">
+        <Title>Друзья</Title>
+        <ActionIcon variant="transparent" onClick={() => { router.navigate(AppRoute.SearchFriends); }}>
           <SearchLoupeIcon24Regular />
         </ActionIcon>
       </Header>
 
-      <SegmentedControl
-        data={[FriendsTabs.MyFriends, FriendsTabs.Requests]}
-        value={activeTab}
-        onChange={handleTabChange}
-        classNames={{
-          root: `${styles.tabsRoot}`,
-          label: `${styles.tabsLabel}`,
-          indicator: `${styles.tabsIndicator}`,
-        }}
-      />
+      <Tabs defaultValue={FriendsTabs.MyFriends} variant='pills'>
+        <Tabs.List>
+          <Tabs.Tab value={FriendsTabs.MyFriends}>Мои друзья</Tabs.Tab>
+          <Tabs.Tab value={FriendsTabs.Requests} 
+            rightSection={requestList  && requestList.length > 0 && <Badge>{requestList.length}</Badge>}>
+                Запросы
+          </Tabs.Tab>
+        </Tabs.List>
 
-      {activeTab == FriendsTabs.MyFriends
-        ? (
-          <section className={styles.friendList}>
+        <Tabs.Panel value={FriendsTabs.MyFriends}>
+          <SimpleGrid
+          // Поправить
+            cols={{ base: 1 }}
+            spacing={{ base: 'md' }}
+            verticalSpacing={{ base: 'md' }}
+          >
             {friendList == undefined || friendList.length == 0
               ? (
                 <IllustrationWrapper
@@ -63,10 +57,15 @@ export const FriendsPage = () => {
                 />
               )
               : friendList.map((friend) => <FriendCard {...friend} key={friend.id} />)}
-          </section>
-        )
-        : (
-          <section className={styles.friendList}>
+          </SimpleGrid>
+        </Tabs.Panel>
+
+        <Tabs.Panel value={FriendsTabs.Requests}>
+          <SimpleGrid
+            cols={{ base: 1 }}
+            spacing={{ base: 'md', md: 'xl' }}
+            verticalSpacing={{ base: 'md', md: 'xl' }}
+          >
             {requestList == undefined || requestList.length == 0
               ? (
                 <IllustrationWrapper
@@ -76,9 +75,9 @@ export const FriendsPage = () => {
                 />
               )
               : requestList.map((person) => <RequestCard {...person} key={person.id} />)}
-          </section>
-
-        )}
+          </SimpleGrid>
+        </Tabs.Panel>
+      </Tabs>
     </PageWithWrapper>
   );
 };

@@ -1,0 +1,217 @@
+import { ActionIcon, Anchor, Loader, Title, Text, Avatar, Button, Flex, Modal, Menu } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import { CheckAIcon24Regular, People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
+import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
+import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
+import { useMutation } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import _styles from '~/index.module.css';
+import styles from '~/pages/profile-user/profile-user.module.css';
+
+import { BookCard } from '~/components/book-card/book-card';
+import { Header } from '~/components/header';
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
+import { AppRoute } from '~/conts';
+import { useGetBooksFriendBooks } from '~/generated-api/books/books';
+import {  deleteFriendsDelete, postFriendsRespondRequest } from '~/generated-api/friends/friends';
+import { postFriendsSendRequest } from '~/generated-api/friends/friends';
+import { FriendshipStatus } from '~/generated-api/model';
+import { useGetUsersUsername } from '~/generated-api/users/users';
+import { router } from '~/main';
+import { ErrorPage } from '~/pages/error-page/error-page';
+import { Page } from '~/ui/pages';
+import { Wrapper } from '~/ui/wrapper/wrapper';
+
+export const UserPage = () => {
+  const { username } = useParams();
+  const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersUsername(username!);
+  
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksFriendBooks(
+    { friendId: user?.id },
+    { query: { enabled: user?.friendshipStatus === FriendshipStatus.Friend } }
+  );
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { mutateAsync: sendRequest } = useMutation({
+    mutationFn: postFriendsSendRequest,
+    onSuccess: async () => {
+      notifications.show({
+        title: 'Запрос в друзья отправлен',
+        message: undefined,
+        color: 'var(--green-color)',
+      });
+    },
+  });
+
+  const { mutateAsync: respondRequest } = useMutation({
+    mutationFn: postFriendsRespondRequest,
+    onSuccess: async ({ friendshipStatus }) => {
+      notifications.show({
+        title: friendshipStatus == FriendshipStatus.Friend ? 'Заявка принята' : 'Заявка отклонена',
+        message: undefined,
+        color: friendshipStatus == FriendshipStatus.Friend ? 'var(--green-color)' : 'var(--red-color)',
+      });
+    },
+  });
+
+  const { mutateAsync: deleteFriend } = useMutation({
+    mutationFn: deleteFriendsDelete,
+    onSuccess: async () => {
+      router.navigate(AppRoute.Friends);
+
+      notifications.show({
+        title: 'Друг удален',
+        message: undefined,
+        color: 'var(--green-color)',
+      });
+    },
+  });
+
+  const onDeleteFriend = async () => {
+    setIsLoading(true);
+    await deleteFriend({ personToDeleteId: user?.id });
+    setIsLoading(false);
+  };
+
+  const onSentRequest = async () => {
+    setIsLoading(true);
+    await sendRequest({ personToSendId: user?.id });
+    setIsLoading(false);
+  };
+
+  const onRespondRequest = async ({ isAccepted }: { isAccepted: boolean }) => {
+    setIsLoading(true);
+    await respondRequest({ personToRespondId: user?.id, isAccepted });
+    setIsLoading(false);
+  };
+
+  if (isLoadingUser || isLoadingBooks || isLoading) {
+    return <Loader />;
+  }
+
+  if (isErrorUser || isErrorBooks || !user) {
+    return <ErrorPage />;
+  }
+
+  return (
+    <>
+      <Modal opened={opened} onClose={close} title="Удалить из друзей?" centered>
+        <Text className={_styles.textGray}>Человек удалится из всех ваших очередей, а вы будете удалены из всех очередей человека.</Text>
+        <Flex
+          justify="flex-start"
+          align="center"
+          direction="row"
+          gap="var(--mantine-spacing-sm)"
+        >
+          <Button variant="filled" onClick={onDeleteFriend} loading={isLoading}>
+          Да, удалить
+          </Button>
+          <Button  color="outline" onClick={close}>
+          Нет, оставить
+          </Button>
+        </Flex>
+      </Modal>
+
+      <Page>
+        <Header variant="auto" withPadding>
+          <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
+            <ArrowALeftIcon24Regular />
+          </ActionIcon>
+
+          {user.friendshipStatus == FriendshipStatus.Friend && (
+            <Menu position='bottom-end' offset={-50}>
+              <Menu.Target>
+                <ActionIcon variant="transparent">
+                  <UiMenuDots3HIcon24Regular />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
+                  Удалить из друзей
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          )}
+
+        </Header>
+        <div className={styles.userContent}>
+          <Avatar
+            src={user.highQualityPhotoUrl || '/default-profile.png'}
+            alt="Avatar"
+            className={styles.avatar}
+          />
+          <div className={styles.userInfo}>
+            <Title ta='center'>
+              {user.firstName}
+              {' '}
+              {user.lastName}
+            </Title>
+            <Text span className={_styles.textGray}>
+            @
+              {user.username}
+            </Text>
+          </div>
+
+          {user.friendshipStatus == FriendshipStatus.None && (
+            <Button fullWidth variant='white' leftSection={<People1PlusIcon24Regular />} onClick={onSentRequest}>
+            Добавить в друзья
+            </Button>
+          )}
+
+          {user.friendshipStatus == FriendshipStatus.OutcomeRequest && (
+            <Button fullWidth variant='white' leftSection={<XIcon24Regular/>} onClick={() => onRespondRequest({ isAccepted: false })}>
+            Отменить заявку
+            </Button>
+          )}
+
+          {user.friendshipStatus == FriendshipStatus.IncomeRequest && (
+            <Flex gap='sm' style={{alignSelf: 'stretch'}}>
+              <Button fullWidth variant='white' leftSection={<CheckAIcon24Regular color='var(--green-color)' />} onClick={() => onRespondRequest({ isAccepted: true })}>
+              Принять заявку
+              </Button>
+              <ActionIcon variant="white" onClick={() => onRespondRequest({ isAccepted: false })}>
+                <XIcon24Regular color='var(--red-color)' />
+              </ActionIcon>
+            </Flex>
+          )}
+
+          {user.friendshipStatus == FriendshipStatus.Friend && user.contactUrl && (
+            <Anchor href={user.contactUrl}>
+            Связаться
+            </Anchor>
+          )}
+
+        </div>
+        <Wrapper>
+          <Title order={2}>Книги для обмена</Title>
+
+          <div className={styles.bookList}>
+            {user.friendshipStatus == FriendshipStatus.Friend ? (
+              bookList == undefined || bookList.length == 0
+                ? (
+                  <IllustrationWrapper
+                    src="/profile-illustration.svg"
+                    alt="No books illustration"
+                    text="У твоего друга книг пока нет."
+                  />
+                )
+                : bookList?.map((book) => <BookCard {...book} key={book.id} />)
+            ) : (
+              <IllustrationWrapper
+                src="/profile-illustration.svg"
+                alt="No available books illustration"
+                text="Книги скрыты. Добавьте человека в друзья, чтобы их увидеть."
+              />
+            )}
+          </div>
+        </Wrapper>
+      </Page>
+    </>
+  );
+};

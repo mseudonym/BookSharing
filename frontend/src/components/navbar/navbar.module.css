@@ -21,7 +21,6 @@
   padding: 0;
 }
 
-
 .navbarIndicator {
   background-color: var(--light-gray-9-color);
   animation: show 0.7s;

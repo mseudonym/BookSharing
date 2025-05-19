@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Title }  from '@mantine/core';
+import { ActionIcon, Anchor, Text, Title }  from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
@@ -6,15 +6,15 @@ import React, { useEffect, useState } from 'react';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { Header } from '~/components/header/header';
+import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { RESEND_CONFIRMATION_EMAIL_SECONDS } from '~/conts';
 import { postAuthResendConfirmationEmail } from '~/generated-api/auth/auth';
 import { getGetUsersMeQueryKey, getUsersMe } from '~/generated-api/users/users';
-import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper';
+import { PageWithWrapper } from '~/ui/pages';
 
 export const EmailConfirmationPage = () => {
-  const [seconds, setSeconds] = useState<number>(3);
+  const [seconds, setSeconds] = useState<number>(RESEND_CONFIRMATION_EMAIL_SECONDS);
 
   const { mutateAsync: resendConfirmationEmail } = useMutation({
     mutationFn: postAuthResendConfirmationEmail,
@@ -53,12 +53,12 @@ export const EmailConfirmationPage = () => {
           <ArrowALeftIcon24Regular />
         </ActionIcon>
       </Header>
-      <Title className={_styles.textCenter}>
+      <Title ta='center'>
           Ожидаем подтверждение почты
       </Title>
-      <p className={`${_styles.textGray} ${_styles.textCenter}`}>
+      <Text ta='center' className={_styles.textGray}>
           Чтобы это сделать, перейдите по ссылке, отправленной на почту.
-      </p>
+      </Text>
       <IllustrationWrapper
         src="/mail.svg"
         alt="Email confirmation illustration"
@@ -70,9 +70,9 @@ export const EmailConfirmationPage = () => {
           </Anchor>
         )
         : (
-          <p className={`${_styles.textGray} ${_styles.textCenter}`}>
+          <Text ta='center' className={_styles.textGray}>
             {`Отправить письмо повторно можно через ${seconds} секунд.`}
-          </p>
+          </Text>
         )}
     </PageWithWrapper>
   );

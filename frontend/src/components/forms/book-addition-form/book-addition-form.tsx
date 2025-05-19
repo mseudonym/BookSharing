@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BackgroundImage, Button, Center, FileButton, Textarea, TextInput } from '@mantine/core';
+import { BackgroundImage, Button, Center, FileButton, Overlay, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { ToolPencilSquareIcon24Regular, TechCamPhotoIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
-import _styles from '~/index.module.css';
+import f_styles from '~/components/forms/forms.module.css';
 import styles from '~/pages/book-page/book-page.module.css';
 
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
@@ -86,26 +86,27 @@ export const BookAdditionForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={_styles.form} style={{gap: 0}}>
+    <form onSubmit={handleSubmit(onSubmit)} className={f_styles.form} style={{gap: 0}}>
       <div className={styles.bookCover}>
         <FileButton accept="image/jpeg" onChange={(file) => {
           setFile(file);
           if (file) setValue('bookCover', file);
         }}>
-          {(props) => <Button {...props} className={`${styles.bookCoverButton} ${_styles.photoButton} ${file && _styles.photoButtonChosen}`}>
+          {(props) => <Button {...props} className={`${f_styles.bookCoverButton} ${f_styles.photoButton} ${file && f_styles.photoButtonChosen}`}>
             {file ? 
               <BackgroundImage
                 src={URL.createObjectURL(file)}
-                className={_styles.photoButtonImage}
+                className={f_styles.photoButtonImage}
                 style={{aspectRatio: 0.7}}>
                 <Center h="100%">
                   <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
                 </Center>
+                <Overlay color="var(--light-gray-16-color)"/>
               </BackgroundImage> 
               : <TechCamPhotoIcon24Regular/>}
           </Button>}
         </FileButton>
-        <div className={_styles.roundRect} />
+        <div className={styles.roundRect} />
       </div>
       <div className={styles.bookContent}>
         <div className={styles.actions}>
