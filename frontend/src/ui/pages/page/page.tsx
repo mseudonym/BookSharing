@@ -4,9 +4,15 @@ import React, { PropsWithChildren } from 'react';
 
 import styles from '~/ui/pages/page/page.module.css';
 
+import { BackgroundColor } from '~/types';
+
 //import { Logo } from '~/components/logo';
 
-export const Page = ({ children }: PropsWithChildren) => {
+type PageProps = {
+  backgroundColor?: BackgroundColor;
+}
+
+export const Page = ({ children, backgroundColor = 'rainbow' }: PropsWithChildren<PageProps>) => {
   const [opened] = useDisclosure();
   
   return (
@@ -23,7 +29,7 @@ export const Page = ({ children }: PropsWithChildren) => {
       </AppShell.Navbar> */}
 
       <AppShell.Main>
-        <div className={styles.page}>
+        <div className={`${styles.page} ${styles[backgroundColor]}`}>
           {children}
         </div>
       </AppShell.Main>

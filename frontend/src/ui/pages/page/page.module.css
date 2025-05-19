@@ -3,5 +3,13 @@
   flex-direction: column;
   height: 100%;
   padding-top: var(--mantine-spacing-md);
+}
+
+.rainbow {
   background: var(--rainbow-color);
+}
+
+.white {
+  background: var(--white-color);
+  padding-top: 0;
 }

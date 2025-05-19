@@ -10,7 +10,7 @@ import * as zod from 'zod';
 import styles from '~/components/forms/forms.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { PasswordInput } from '~/components/inputs/password-input';
+import { PasswordInput } from '~/components/custom-mantine';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
 import { saveToken } from '~/services/token';

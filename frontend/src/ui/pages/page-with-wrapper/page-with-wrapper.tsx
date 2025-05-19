@@ -1,15 +1,17 @@
 import React, { PropsWithChildren } from 'react';
 
+import { BackgroundColor, WrapperAlign } from '~/types';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
 type PageWithWrapperProps = {
-  alignWrapper?: 'left' | 'center';
+  backgroundColor?: BackgroundColor;
+  alignWrapper?: WrapperAlign;
 }
 
-export const PageWithWrapper = ({ children, alignWrapper = 'left' }: PropsWithChildren<PageWithWrapperProps>) => {
+export const PageWithWrapper = ({ children, alignWrapper = 'left', backgroundColor = 'rainbow' }: PropsWithChildren<PageWithWrapperProps>) => {
   return (
-    <Page>
+    <Page backgroundColor={backgroundColor}>
       <Wrapper align={alignWrapper}>
         {children}
       </Wrapper>

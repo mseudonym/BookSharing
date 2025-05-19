@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BackgroundImage, Button, Center, FileButton, Overlay, Textarea, TextInput } from '@mantine/core';
+import { Button, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { ToolPencilSquareIcon24Regular, TechCamPhotoIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,6 +9,7 @@ import * as zod from 'zod';
 import f_styles from '~/components/forms/forms.module.css';
 import styles from '~/pages/book-page/book-page.module.css';
 
+import { FileButton } from '~/components/custom-mantine';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postBooksAdd } from '~/generated-api/books/books';
 import { router } from '~/main';
@@ -35,20 +35,21 @@ const FormSchema = zod.object({
     .string()
     .nonempty(REQUIRED_FIELD_TEXT),
   bookCover: zod
-    .any()
-    .refine((file) => file.type == 'image/jpg'),
+    .custom<File>()
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
 
 export const BookAdditionForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+
   const {
-    setValue,
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    setError,
+    clearErrors,
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
@@ -88,24 +89,18 @@ export const BookAdditionForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={f_styles.form} style={{gap: 0}}>
       <div className={styles.bookCover}>
-        <FileButton accept="image/jpeg" onChange={(file) => {
-          setFile(file);
-          if (file) setValue('bookCover', file);
-        }}>
-          {(props) => <Button {...props} className={`${f_styles.bookCoverButton} ${f_styles.photoButton} ${file && f_styles.photoButtonChosen}`}>
-            {file ? 
-              <BackgroundImage
-                src={URL.createObjectURL(file)}
-                className={f_styles.photoButtonImage}
-                style={{aspectRatio: 0.7}}>
-                <Center h="100%">
-                  <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
-                </Center>
-                <Overlay color="var(--light-gray-16-color)"/>
-              </BackgroundImage> 
-              : <TechCamPhotoIcon24Regular/>}
-          </Button>}
-        </FileButton>
+        <FileButton 
+          name="bookCover" 
+          type="book" 
+          error={errors?.bookCover?.message}
+          setValue={setValue}
+          setError={setError}
+          clearErrors={clearErrors}
+          validateFile={(file) => {
+            const result = FormSchema.shape.bookCover.safeParse(file);
+            return result.success;
+          }}
+        />
         <div className={styles.roundRect} />
       </div>
       <div className={styles.bookContent}>

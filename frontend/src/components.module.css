@@ -55,6 +55,15 @@
   color: var(--primary-color)
 }
 
+.modalOverlay {
+  background-color: var(--light-gray-16-color);
+}
+
+/* Overlay styles */
+.overlay {
+  background-color: var(--light-gray-16-color);
+}
+
 /* Title styles */
 .title {
   color: var(--primary-color);
@@ -153,6 +162,10 @@
   min-width: 50px;
   border-radius: 100%;
   transition: all var(--transition-duration) var(--transition-timing);
+
+  &[data-loading] {
+    color: var(--primary-color);
+  }
 
   &[data-variant='transparent'] {
     color: var(--primary-color);
@@ -297,7 +310,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  --loader-color: var(--primary-color) !important;
 }
 
 /* Divider styles */

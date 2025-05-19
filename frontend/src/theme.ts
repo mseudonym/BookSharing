@@ -1,4 +1,4 @@
-import { ActionIcon, Notification, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge } from '@mantine/core';
+import { ActionIcon, Notification, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge, Overlay } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -74,6 +74,7 @@ export const theme = createTheme({
         body: classes.modalBody,
         content: classes.modalContent,
         close: classes.modalClose,
+        overlay: classes.modalOverlay,
       },
       styles: (theme) => ({
         title: {
@@ -82,6 +83,9 @@ export const theme = createTheme({
           fontFamily: theme.headings?.fontFamily,
         },
       }),
+    }),
+    Overlay: Overlay.extend({
+      classNames: { root: classes.overlay },
     }),
     Title: Title.extend({
       classNames: { root: classes.title },

@@ -2,7 +2,7 @@ import { PasswordInput as MantinePasswordInput, PasswordInputProps } from '@mant
 import { EyeClosedIcon20Regular, EyeOpenIcon20Regular } from '@skbkontur/icons';
 import React from 'react';
 
-import styles from '~/components/inputs/password-input/password-input.module.css';
+import styles from '~/components/custom-mantine/password-input/password-input.module.css';
 
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>((props, ref) => {
   const { label, placeholder, error, ...rest } = props;

@@ -43,4 +43,5 @@
   width: 80px;
   height: 80px;
   aspect-ratio: 1;
+  object-fit: cover;
 }

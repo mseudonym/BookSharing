@@ -8,8 +8,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { WelcomePage } from './pages/welcome-page';
-
 import { checkAuth } from '~/actions/user-actions';
 import { AppRoute } from '~/conts';
 import { BookAdditionPage } from '~/pages/book-addition-page';
@@ -22,7 +20,9 @@ import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
 import { SearchFriendsPage } from '~/pages/search-friends-page/search-friends-page';
+import { SettingsPage, SecuritySettingsPage, ProfileSettingsPage } from '~/pages/settings';
 import { ShelfPage } from '~/pages/shelf-page';
+import { WelcomePage } from '~/pages/welcome-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';
@@ -84,6 +84,18 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.SearchFriends}`,
     element: <SearchFriendsPage />,
+  },
+  {
+    path: `${AppRoute.Settings}`,
+    element: <SettingsPage />,
+  },
+  {
+    path: `${AppRoute.SecuritySettings}`,
+    element: <SecuritySettingsPage />,
+  },
+  {
+    path: `${AppRoute.ProfileSettings}`,
+    element: <ProfileSettingsPage />,
   },
   {
     path: '*',

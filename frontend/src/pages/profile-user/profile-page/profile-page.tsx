@@ -31,7 +31,7 @@ export const ProfilePage = () => {
   return (
     <Page>
       <Header variant="right" withPadding>
-        <ActionIcon variant="transparent">
+        <ActionIcon variant="transparent" onClick={() => router.navigate(AppRoute.Settings)}>
           <SettingsGearIcon24Regular />
         </ActionIcon>
       </Header>
