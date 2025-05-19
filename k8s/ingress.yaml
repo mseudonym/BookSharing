@@ -6,12 +6,13 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
-        - api.staging.book-sharing.local
+        - api.staging.book-sharing.ru
       secretName: bs-tls-secret
   rules:
-    - host: api.staging.book-sharing.local
+    - host: api.staging.book-sharing.ru
       http:
         paths:
           - path: /
@@ -20,4 +21,4 @@ spec:
               service:
                 name: staging-bs-api
                 port:
-                  number: 443
+                  number: 80
