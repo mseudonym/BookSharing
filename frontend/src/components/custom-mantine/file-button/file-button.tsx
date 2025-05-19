@@ -5,6 +5,9 @@ import { UseFormClearErrors, UseFormSetError, UseFormSetValue, FieldValues, Path
 
 import styles from '~/components/custom-mantine/file-button/file-button.module.css';
 
+const DEFAULT_PROFILE_IMAGE = '/default-profile.png';
+const DEFAULT_BOOK_COVER = '/default-book-cover.png';
+
 type FileButtonProps<T extends FieldValues> = {
   name: Path<T>;
   type: 'avatar' | 'book';
@@ -32,9 +35,11 @@ export const FileButton = <T extends FieldValues>({
   validateFile
 }: FileButtonProps<T>) => {
   const [file, setFile] = useState<File | null>(null);
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   const handleFileChange = (file: File | null) => {
     setFile(file);
+    setIsInitialRender(false);
     
     if (!file) {
       clearErrors?.(name);
@@ -52,6 +57,8 @@ export const FileButton = <T extends FieldValues>({
     clearErrors?.(name);
     setValue(name, file as PathValue<T, Path<T>>);
   };
+  
+  const defaultImage = type === 'avatar' ? DEFAULT_PROFILE_IMAGE : DEFAULT_BOOK_COVER;
   
   return (
     <>
@@ -81,7 +88,17 @@ export const FileButton = <T extends FieldValues>({
                   </Center>
                   <Overlay/>
                 </BackgroundImage>
-                : <TechCamPhotoIcon24Regular/>}
+                : isInitialRender ? 
+                  <TechCamPhotoIcon24Regular/>
+                  : <BackgroundImage
+                    src={defaultImage}
+                    className={styles.photoButtonImage}
+                    style={{aspectRatio}}>
+                    <Center h="100%">
+                      <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
+                    </Center>
+                    <Overlay color="var(--light-gray-16-color)"/>
+                  </BackgroundImage>}
           </Button>
         )}
       </MantineFileButton>

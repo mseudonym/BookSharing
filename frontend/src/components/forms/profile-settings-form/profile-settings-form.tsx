@@ -49,8 +49,8 @@ export const ProfileSettingsForm = () => {
         FirstName: data.firstName,
         LastName: data.lastName,
         ContactUrl: data.contactUrl,
-        PhotoFile: data.profilePhoto,
         Username: data.username,
+        ...(data.profilePhoto && { PhotoFile: data.profilePhoto }),
       });
     } catch (error) {
       notifications.show({
