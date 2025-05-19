@@ -36,7 +36,7 @@ staging-deploy-backend:
     - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
     - export KUBECONFIG=$PWD/kubeconfig
 
-    - envsubst < k8s/backend-deployment.yaml | kubectl apply n staging -f -
+    - envsubst < k8s/backend-deployment.yaml | kubectl apply -n staging -f -
 
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
