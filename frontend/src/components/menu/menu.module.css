@@ -1,0 +1,37 @@
+.menuRoot {
+  background: none;
+  gap: var(--mantine-spacing-sm);
+}
+
+.menuLabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50px;
+  gap: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-lg) var(--mantine-spacing-md);
+  color: var(--primary-color);
+}
+
+.menuIndicator {
+  background-color: var(--light-gray-9-color);
+  animation: show 0.7s;
+  animation-fill-mode: forwards;
+  box-shadow: none;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

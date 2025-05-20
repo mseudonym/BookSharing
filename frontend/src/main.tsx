@@ -1,7 +1,7 @@
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import './index.css';
-import { Loader, MantineProvider } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
@@ -115,21 +115,13 @@ export const router = createBrowserRouter([
 ]);
 
 const AppWrapper = () => {
-  const [isAuthChecked, setIsAuthChecked] = React.useState(false);
-
   React.useEffect(() => {
     const initializeAuth = async () => {
       await checkAuth();
-      setIsAuthChecked(true);
     };
 
     initializeAuth();
   }, []);
-
-  if (!isAuthChecked) {
-    return <Loader />;
-  }
-
   return <RouterProvider router={router} />;
 };
 

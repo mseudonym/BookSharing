@@ -7,11 +7,12 @@ import { Wrapper } from '~/ui/wrapper';
 type PageWithWrapperProps = {
   backgroundColor?: BackgroundColor;
   alignWrapper?: WrapperAlign;
+  showMenu?: boolean;
 }
 
-export const PageWithWrapper = ({ children, alignWrapper = 'left', backgroundColor = 'rainbow' }: PropsWithChildren<PageWithWrapperProps>) => {
+export const PageWithWrapper = ({ children, alignWrapper = 'left', backgroundColor = 'rainbow', showMenu = true }: PropsWithChildren<PageWithWrapperProps>) => {
   return (
-    <Page backgroundColor={backgroundColor}>
+    <Page backgroundColor={backgroundColor} showMenu={showMenu}>
       <Wrapper align={alignWrapper}>
         {children}
       </Wrapper>

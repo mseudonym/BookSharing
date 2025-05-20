@@ -14,25 +14,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
   width: 50px;
   height: 50px;
   margin: 0 4px;
   padding: 0;
+  color: var(--primary-color);
 }
 
 .navbarIndicator {
   background-color: var(--light-gray-9-color);
-  animation: show 0.7s;
-  animation-fill-mode: forwards;
 }
 
-@keyframes show {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
+@media (min-width: 768px) {
+  .navbarRoot {
+    display: none;
   }
 }

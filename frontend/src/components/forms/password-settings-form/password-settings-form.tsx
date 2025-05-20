@@ -5,10 +5,10 @@ import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
-import { PasswordInput } from '~/components/custom-mantine';
 
 import styles from '~/components/forms/forms.module.css';
 
+import { PasswordInput } from '~/components/custom-mantine';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postUsersEditProfile } from '~/generated-api/users/users';
 

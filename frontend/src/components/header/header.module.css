@@ -24,3 +24,10 @@
 .padding {
   padding: 0 var(--mantine-spacing-md);
 }
+
+@media (min-width: 768px) {
+  .hideOnDesktop {
+    display: none;
+  }
+}
+

@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Loader, Title, Text, Avatar, Button, Flex, Modal, Menu } from '@mantine/core';
+import { ActionIcon, Anchor, Title, Text, Avatar, Button, Flex, Modal, Menu } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { CheckAIcon24Regular, People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
@@ -22,6 +22,7 @@ import { FriendshipStatus } from '~/generated-api/model';
 import { useGetUsersUsername } from '~/generated-api/users/users';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
+import { LoadingPage } from '~/pages/loading-page';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper/wrapper';
 
@@ -92,7 +93,7 @@ export const UserPage = () => {
   };
 
   if (isLoadingUser || isLoadingBooks || isLoading) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   if (isErrorUser || isErrorBooks || !user) {
@@ -119,7 +120,7 @@ export const UserPage = () => {
       </Modal>
 
       <Page>
-        <Header variant="auto" withPadding>
+        <Header variant="auto" withPadding hideOnDesktop>
           <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
             <ArrowALeftIcon24Regular />
           </ActionIcon>
@@ -146,47 +147,48 @@ export const UserPage = () => {
             alt="Avatar"
             className={styles.avatar}
           />
-          <div className={styles.userInfo}>
-            <Title ta='center'>
-              {user.firstName}
-              {' '}
-              {user.lastName}
-            </Title>
-            <Text span className={_styles.textGray}>
+          <div className={styles.userInfoAction}>
+            <div className={styles.userInfo}>
+              <Title className={styles.userTitle}>
+                {user.firstName}
+                {' '}
+                {user.lastName}
+              </Title>
+              <Text span className={`${_styles.textGray} ${styles.userName}`}>
             @
-              {user.username}
-            </Text>
-          </div>
+                {user.username}
+              </Text>
+            </div>
 
-          {user.friendshipStatus == FriendshipStatus.None && (
-            <Button fullWidth variant='white' leftSection={<People1PlusIcon24Regular />} onClick={onSentRequest}>
+            {user.friendshipStatus == FriendshipStatus.None && (
+              <Button fullWidth variant='white' leftSection={<People1PlusIcon24Regular />} onClick={onSentRequest}>
             Добавить в друзья
-            </Button>
-          )}
-
-          {user.friendshipStatus == FriendshipStatus.OutcomeRequest && (
-            <Button fullWidth variant='white' leftSection={<XIcon24Regular/>} onClick={() => onRespondRequest({ isAccepted: false })}>
-            Отменить заявку
-            </Button>
-          )}
-
-          {user.friendshipStatus == FriendshipStatus.IncomeRequest && (
-            <Flex gap='sm' style={{alignSelf: 'stretch'}}>
-              <Button fullWidth variant='white' leftSection={<CheckAIcon24Regular color='var(--green-color)' />} onClick={() => onRespondRequest({ isAccepted: true })}>
-              Принять заявку
               </Button>
-              <ActionIcon variant="white" onClick={() => onRespondRequest({ isAccepted: false })}>
-                <XIcon24Regular color='var(--red-color)' />
-              </ActionIcon>
-            </Flex>
-          )}
+            )}
 
-          {user.friendshipStatus == FriendshipStatus.Friend && user.contactUrl && (
-            <Anchor href={user.contactUrl}>
+            {user.friendshipStatus == FriendshipStatus.OutcomeRequest && (
+              <Button fullWidth variant='white' leftSection={<XIcon24Regular/>} onClick={() => onRespondRequest({ isAccepted: false })}>
+            Отменить заявку
+              </Button>
+            )}
+
+            {user.friendshipStatus == FriendshipStatus.IncomeRequest && (
+              <Flex gap='sm' style={{alignSelf: 'stretch'}}>
+                <Button fullWidth variant='white' leftSection={<CheckAIcon24Regular color='var(--green-color)' />} onClick={() => onRespondRequest({ isAccepted: true })}>
+              Принять заявку
+                </Button>
+                <ActionIcon variant="white" onClick={() => onRespondRequest({ isAccepted: false })}>
+                  <XIcon24Regular color='var(--red-color)' />
+                </ActionIcon>
+              </Flex>
+            )}
+
+            {user.friendshipStatus == FriendshipStatus.Friend && user.contactUrl && (
+              <Anchor href={user.contactUrl}>
             Связаться
-            </Anchor>
-          )}
-
+              </Anchor>
+            )}
+          </div>
         </div>
         <Wrapper>
           <Title order={2}>Книги для обмена</Title>

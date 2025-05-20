@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Loader, Menu, Modal, Title, Text, Button, Flex, Image } from '@mantine/core';
+import { ActionIcon, Divider, Menu, Modal, Title, Text, Button, Flex, Image } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
@@ -15,6 +15,7 @@ import { Queue } from '~/components/queue/queue';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
 import { useGetItemsByBookId } from '~/generated-api/items/items';
 import { ErrorPage } from '~/pages/error-page/error-page';
+import { LoadingPage } from '~/pages/loading-page';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
@@ -32,7 +33,7 @@ export const BookPage = () => {
   }); */
 
   if (isLoadingBook || isLoadingQueues) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   if (isErrorBook || isErrorQueues || !book) {
@@ -58,7 +59,7 @@ export const BookPage = () => {
         </Flex>
       </Modal>
       <Page>
-        <Header variant="auto" withPadding>
+        <Header variant="auto" withPadding hideOnDesktop>
           <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
             <ArrowALeftIcon24Regular />
           </ActionIcon>
@@ -78,11 +79,12 @@ export const BookPage = () => {
 
         </Header>
 
-        <Wrapper background='none' noPaddingHorizontal noGap>
+        <Wrapper background='none' noPaddingHorizontal noGap className={styles.bookWrapper}>
           <div className={styles.bookCover}>
-            <Image className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
+            <Image className={styles.bookImage} src={book.bookCoverUrl} />
             <div className={styles.roundRect} />
           </div>
+          <Image className={styles.bookImageDesktop} src={book.bookCoverUrl} />
           <div className={styles.bookContent}>
             <div className={styles.bookInfo}>
               <div className={styles.bookHeader}>
@@ -119,6 +121,18 @@ export const BookPage = () => {
                 : queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
             </section>
           </div>
+          <Menu position='bottom-end' offset={-50}>
+            <Menu.Target>
+              <ActionIcon variant="transparent" className={styles.menuDesctopButton}>
+                <UiMenuDots3HIcon24Regular />
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
+              Удалить книгу с полки
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </Wrapper>
       </Page>
     </>

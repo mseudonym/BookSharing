@@ -8,7 +8,7 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const ErrorPage = () => {
   return (
-    <PageWithWrapper alignWrapper='center'>
+    <PageWithWrapper alignWrapper='center' showMenu={false}>
       <IllustrationWrapper
         size='big'
         src='/error-illustration.svg'

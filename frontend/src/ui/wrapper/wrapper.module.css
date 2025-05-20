@@ -5,7 +5,7 @@
   gap: var(--mantine-spacing-md);
   align-self: stretch;
   border-radius: var(--mantine-spacing-md) var(--mantine-spacing-md) 0 0;
-  padding: var(--mantine-spacing-md) var(--mantine-spacing-md) 0 var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-md);
 }
 
 .noPaddingVertical {
@@ -36,4 +36,11 @@
 
 .none {
   background: none;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    padding: var(--mantine-spacing-xl);
+    padding-top: 0;
+  }
 }

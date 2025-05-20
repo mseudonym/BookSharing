@@ -11,17 +11,24 @@
 }
 
 .main {
+  display: flex;
   padding: 0;
   width: 100%;
-  max-width: 360px;
-  /*margin-right: auto;*/
+  max-width: 960px;
   margin: 0 auto;
 }
 
+@media (min-width: 768px) {
+  .main {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
 .menu {
-  position: relative;
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
   margin-left: auto;
+  gap: var(--mantine-spacing-lg);
 }
 
 /* Modal styles */

@@ -15,14 +15,23 @@
   gap: var(--mantine-spacing-lg);
   align-self: stretch;
   background: var(--white-color);
+  min-width: 260px;
 }
 
 .bookImage {
   width: 156px;
-  height: 225px;
   border-radius: 8px;
   z-index: 2;
   object-fit: cover;
+  aspect-ratio: 0.69;
+}
+
+.bookImageDesktop {
+  display: none;
+  border-radius: 8px;
+  object-fit: cover;
+  min-width: 80px;
+  max-width: 250px;
 }
 
 .bookInfo {
@@ -95,4 +104,35 @@
   width: 100%;
   margin-top: calc(var(--mantine-spacing-xl) * -1);
   z-index: 1;
+}
+
+.menuDesctopButton {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .bookCover {
+    display: none;
+  }
+
+  .bookWrapper {
+    flex-direction: row !important;
+    gap: var(--mantine-spacing-xl) !important;
+  }
+
+  .bookImageDesktop {
+    display: block;
+  }
+
+  .bookInfo {
+    padding: 0;
+  }
+
+  .bookHeader {
+    align-items: flex-start;
+  }
+
+  .menuDesctopButton {
+    display: block;
+  }
 }

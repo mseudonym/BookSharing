@@ -47,7 +47,7 @@ export const EmailConfirmationPage = () => {
   }, [userData]);
 
   return (
-    <PageWithWrapper alignWrapper="center">
+    <PageWithWrapper alignWrapper="center" showMenu={false}>
       <Header variant="left">
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />

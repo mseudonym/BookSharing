@@ -35,7 +35,7 @@ export const theme = createTheme({
     md: '16px',
     lg: '24px',
     xl: '32px',
-    'xxl': '64px'
+    xxl: '64px'
   },
 
   // Typography system
@@ -43,6 +43,7 @@ export const theme = createTheme({
   fontSizes: {
     sm: '14px',
     md: '16px',
+    lg: '18px',
   },
 
   // Border radius system
@@ -52,6 +53,7 @@ export const theme = createTheme({
     md: '16px',
     lg: '24px',
     xl: '32px',
+
   },
 
   breakpoints: {

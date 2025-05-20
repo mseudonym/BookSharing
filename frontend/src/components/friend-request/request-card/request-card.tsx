@@ -53,7 +53,7 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
           </Text>
         </div>
       </div>
-      {isLoading ? <Loader /> : (
+      {isLoading ? <LoadingPage /> : (
         <Flex>
           <ActionIcon variant="transparent" onClick={() => onSubmit(true)}>
             <CheckAIcon24Regular className={styles.checkButton} />

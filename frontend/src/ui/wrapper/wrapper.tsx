@@ -10,16 +10,18 @@ type WrapperProps = {
   noPaddingHorizontal?: boolean;
   noPaddingVertical?: boolean;
   noGap?: boolean;
+  className?: string;
 }
 
-export const Wrapper = ({ children, align = 'left', background = 'white', noPaddingHorizontal = false, noPaddingVertical = false, noGap = false }: PropsWithChildren<WrapperProps>) => {
+export const Wrapper = ({ children, align = 'left', background = 'white', noPaddingHorizontal = false, noPaddingVertical = false, noGap = false, className }: PropsWithChildren<WrapperProps>) => {
   return (
     <div className={`${styles.wrapper} 
       ${styles[align]} 
       ${styles[background]} 
       ${noPaddingHorizontal && styles.noPaddingHorizontal} 
       ${noPaddingVertical && styles.noPaddingVertical}
-      ${noGap && styles.noGap}`}>
+      ${noGap && styles.noGap}
+      ${className || ''}`}>
       {children}
     </div>
   );

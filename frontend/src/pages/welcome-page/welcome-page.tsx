@@ -10,7 +10,7 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const WelcomePage = () => {
   return (
-    <PageWithWrapper alignWrapper="center">
+    <PageWithWrapper alignWrapper="center" showMenu={false}>
       <IllustrationWrapper
         src="/welcome-illustration.svg"
         alt="Welcome illustration"
