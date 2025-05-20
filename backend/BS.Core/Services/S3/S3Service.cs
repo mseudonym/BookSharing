@@ -33,7 +33,7 @@ public class S3Service : IS3Service
     public string GetProfilePhotoUrl(Guid userId, PhotoQuality quality)
     {
         var keyById = $"{userId.ToString()}{PngFormat.FileExtension}";
-        var objectKey = GetPhotoPath(keyById, _options.ProfilePhoto, quality);
+        var objectKey = GetPhotoPath(keyById, _options.ProfilePhotos, quality);
 
         return GeneratePreSignedUrl(objectKey);
     }
@@ -41,16 +41,16 @@ public class S3Service : IS3Service
     public string GetBookCoverUrl(Guid bookId, PhotoQuality quality)
     {
         var fileName = $"{bookId.ToString()}{PngFormat.FileExtension}";
-        var objectKey = GetPhotoPath(fileName, _options.BookCover, quality);
+        var objectKey = GetPhotoPath(fileName, _options.BookCovers, quality);
 
         return GeneratePreSignedUrl(objectKey);
     }
 
     public async Task<Result<string>> UploadProfilePhotoAsync(PhotoFileModel model) =>
-        await UploadAsync(model, await _currentUserService.GetIdAsync(), _options.ProfilePhoto);
+        await UploadAsync(model, await _currentUserService.GetIdAsync(), _options.ProfilePhotos);
 
     public async Task<Result<string>> UploadBookCoverAsync(PhotoFileModel model, Guid bookId) =>
-        await UploadAsync(model, bookId, _options.BookCover);
+        await UploadAsync(model, bookId, _options.BookCovers);
 
     private async Task<Result<string>> UploadAsync(PhotoFileModel model, Guid entityId, string category)
     {
