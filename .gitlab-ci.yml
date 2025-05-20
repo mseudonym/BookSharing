@@ -37,7 +37,7 @@ staging-deploy-backend:
   - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig && export KUBECONFIG=$PWD/kubeconfig
 
   - echo "Применяем ingress..."
-  - envsubst < k8s/staging-ingress.yaml.tpl | kubectl apply -n staging -f -
+  - envsubst < k8s/staging-ingress.yaml | kubectl apply -n staging -f -
 
   - echo "Генерируем и применяем секреты..."
   - envsubst < k8s/bs-api-secrets.yaml | kubectl apply -n staging -f -
