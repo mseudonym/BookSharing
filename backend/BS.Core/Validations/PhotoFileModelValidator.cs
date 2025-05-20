@@ -12,7 +12,7 @@ public class PhotoFileModelValidator : AbstractValidator<PhotoFileModel>
             .Equal(PngFormat.ContentType)
             .WithMessage($"File type must be {PngFormat.ContentType}");
 
-        RuleFor(model => model.FileExtension)
+        RuleFor(model => model.FileExtension.ToLower())
             .Equal(PngFormat.FileExtension)
             .WithMessage($"File extension must be {PngFormat.FileExtension}");
     }

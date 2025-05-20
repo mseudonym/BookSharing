@@ -19,19 +19,17 @@ public interface IS3Service
 
     /// <summary>
     ///     Метод не знает о существования объекта в S3 storage, а просто возвращает pre signed URL на фото профиля
-    ///     в высоком разрешении
     /// </summary>
     /// <param name="userId">Id человека на фото профиля которого нужна ссылка</param>
-    public string GetHighQualityProfilePhotoUrlAsync(Guid userId);
-
+    /// <param name="quality">Разрешение изображения</param>
+    public string GetProfilePhotoUrl(Guid userId, PhotoQuality quality);
+    
     /// <summary>
-    ///     Метод не знает о существования объекта в S3 storage, а просто возвращает pre signed URL на фото профиля
-    ///     в высоком разрешении
+    ///     Метод не знает о существования объекта в S3 storage, а просто возвращает pre signed URL на обложку книги
     /// </summary>
-    /// <param name="userId">Id человека на фото профиля которого нужна ссылка</param>
-    public string GetLowQualityProfilePhotoUrlAsync(Guid userId);
-
+    /// <param name="bookId">Id книги на обложку которой нужна ссылка</param>
+    /// <param name="quality">Разрешение изображения</param>
+    public string GetBookCoverUrl(Guid bookId, PhotoQuality quality);
     public Task<Result<string>> UploadBookCoverAsync(PhotoFileModel file, Guid bookId);
     public Task<Result> DeleteBookCoverAsync(Guid bookId);
-    public string GetBookCoverUrl(Guid bookId);
 }

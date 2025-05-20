@@ -7,17 +7,7 @@ public class YandexCloudS3Options
     public required string Url { get; set; }
     public required string PhotosBucketName { get; set; }
     public required int ExpireDurationInHours { get; set; }
-
-    public required string OriginalQualityProfilePhotoPath { get; set; }
-    public required string HighQualityProfilePhotoPath { get; set; }
-    public required string LowQualityProfilePhotoPath { get; set; }
-    public required string BookCoverPath { get; set; }
-
-    public void NormalizePaths(string environmentName)
-    {
-        OriginalQualityProfilePhotoPath = $"{environmentName}/{OriginalQualityProfilePhotoPath}";
-        HighQualityProfilePhotoPath = $"{environmentName}/{HighQualityProfilePhotoPath}";
-        LowQualityProfilePhotoPath = $"{environmentName}/{LowQualityProfilePhotoPath}";
-        BookCoverPath = $"{environmentName}/{BookCoverPath}";
-    }
+    
+    public required string ProfilePhoto { get; set; }
+    public required string BookCover { get; set; }
 }

@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace BS.Core;
@@ -61,14 +60,7 @@ public static class ServiceCollectionExtensions
     public static void AddS3Client(this IServiceCollection services, IConfiguration configuration,
         IWebHostEnvironment environment)
     {
-        services.Configure<YandexCloudS3Options>(options =>
-        {
-            configuration.GetRequiredSection(YandexCloudS3Options.Section).Bind(options);
-            
-            var envPrefix = environment.IsDevelopment() ? "Staging" : environment.EnvironmentName;
-            
-            options.NormalizePaths(envPrefix);
-        });
+        services.Configure<YandexCloudS3Options>(configuration.GetRequiredSection(YandexCloudS3Options.Section));
         
         services.AddSingleton<IAmazonS3>(sp =>
         {

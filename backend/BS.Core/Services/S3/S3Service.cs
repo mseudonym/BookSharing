@@ -25,48 +25,42 @@ public class S3Service : IS3Service
         _options = ycS3Options.Value;
     }
 
-    public async Task<Result<string>> UploadProfilePhotoAsync(PhotoFileModel model)
-    {
-        var currentUserId = await _currentUserService.GetIdAsync();
-
-        var objectKey =
-            $"{_options.OriginalQualityProfilePhotoPath}/{currentUserId.ToString()}{model.FileExtension.ToLower()}";
-
-        var putObjectRequest = new PutObjectRequest
-        {
-            BucketName = _options.PhotosBucketName,
-            Key = objectKey,
-            InputStream = model.Stream,
-            ContentType = model.ContentType,
-        };
-        var response = await _s3Client.PutObjectAsync(putObjectRequest);
-        if (response.HttpStatusCode == HttpStatusCode.OK) return Result.Ok(GeneratePreSignedUrl(objectKey));
-
-        return Result.Fail("Failed to upload profile photo");
-    }
-
     public Task<Result> DeleteProfilePhotoAsync(Guid userId)
     {
         throw new NotImplementedException();
     }
 
-    public string GetHighQualityProfilePhotoUrlAsync(Guid userId)
+    public string GetProfilePhotoUrl(Guid userId, PhotoQuality quality)
     {
-        var objectKey = $"{_options.HighQualityProfilePhotoPath}/{userId.ToString()}{PngFormat.FileExtension}";
+        var keyById = $"{userId.ToString()}{PngFormat.FileExtension}";
+        var objectKey = GetPhotoPath(keyById, _options.ProfilePhoto, quality);
 
         return GeneratePreSignedUrl(objectKey);
     }
 
-    public string GetLowQualityProfilePhotoUrlAsync(Guid userId)
+    public string GetBookCoverUrl(Guid bookId, PhotoQuality quality)
     {
-        var objectKey = $"{_options.LowQualityProfilePhotoPath}/{userId.ToString()}{PngFormat.FileExtension}";
+        var fileName = $"{bookId.ToString()}{PngFormat.FileExtension}";
+        var objectKey = GetPhotoPath(fileName, _options.BookCover, quality);
 
         return GeneratePreSignedUrl(objectKey);
     }
 
-    public async Task<Result<string>> UploadBookCoverAsync(PhotoFileModel model, Guid bookId)
+    public async Task<Result<string>> UploadProfilePhotoAsync(PhotoFileModel model) =>
+        await UploadAsync(model, await _currentUserService.GetIdAsync(), _options.ProfilePhoto);
+
+    public async Task<Result<string>> UploadBookCoverAsync(PhotoFileModel model, Guid bookId) =>
+        await UploadAsync(model, bookId, _options.BookCover);
+
+    private async Task<Result<string>> UploadAsync(PhotoFileModel model, Guid entityId, string category)
     {
-        var objectKey = $"{_options.BookCoverPath}/{bookId.ToString()}{model.FileExtension}";
+        if (model.FileExtension.ToLower() is not (".jpg" or ".jpeg"))
+        {
+            return Result.Fail("File extension must be .jpg or .jpeg");
+        }
+        
+        var fileName = $"{entityId}{PngFormat.FileExtension}";
+        var objectKey = GetPhotoPath(fileName, category, PhotoQuality.Original);
 
         var putObjectRequest = new PutObjectRequest
         {
@@ -75,6 +69,7 @@ public class S3Service : IS3Service
             InputStream = model.Stream,
             ContentType = model.ContentType,
         };
+        
         var response = await _s3Client.PutObjectAsync(putObjectRequest);
         if (response.HttpStatusCode == HttpStatusCode.OK) return Result.Ok(GeneratePreSignedUrl(objectKey));
 
@@ -84,13 +79,6 @@ public class S3Service : IS3Service
     public Task<Result> DeleteBookCoverAsync(Guid bookId)
     {
         throw new NotImplementedException();
-    }
-
-    public string GetBookCoverUrl(Guid bookId)
-    {
-        var objectKey = $"{_options.BookCoverPath}/{bookId.ToString()}{PngFormat.FileExtension}";
-
-        return GeneratePreSignedUrl(objectKey);
     }
 
     private string GeneratePreSignedUrl(string objectKey)
@@ -104,5 +92,14 @@ public class S3Service : IS3Service
         };
 
         return _s3Client.GetPreSignedURL(request);
+    }
+
+    private string GetPhotoPath(string fileName, string category, PhotoQuality quality)
+    {
+        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+        env = env == "Development" ? "Staging" : env;
+
+        return $"{env}/{quality:G}/{category}/{fileName}";
     }
 }
