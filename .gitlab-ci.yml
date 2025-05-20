@@ -33,10 +33,17 @@ staging-deploy-backend:
   environment:
     name: staging
   script:
-    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
-    - export KUBECONFIG=$PWD/kubeconfig
+  - echo "Применяем конфиг подключения к кластеру K8S..."
+  - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig && export KUBECONFIG=$PWD/kubeconfig
 
-    - envsubst < k8s/backend-deployment.yaml | kubectl apply -n staging -f -
+  - echo "Применяем ingress..."
+  - envsubst < k8s/staging-ingress.yaml.tpl | kubectl apply -n staging -f -
+
+  - echo "Генерируем и применяем секреты..."
+  - envsubst < k8s/bs-api-secrets.yaml | kubectl apply -n staging -f -
+
+  - echo "Применяем Deployment..."
+  - envsubst < k8s/backend-deployment.yaml | kubectl apply -n staging -f -
 
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
