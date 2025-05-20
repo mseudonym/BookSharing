@@ -33,15 +33,15 @@ staging-deploy-backend:
   environment:
     name: staging
   script:
-    - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
-    
-    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
-    - export KUBECONFIG=$PWD/kubeconfig
-
-    - kubectl delete secret bs-cert --ignore-not-found
-    - kubectl create secret generic bs-cert --from-literal=cert-pass="$CERT_PASS" --from-file=bs-api-stage.pfx=bs-api-stage.pfx
-    
-    - kubectl apply -f staging-backend-deployment.yaml
+  - echo "Применяем конфиг подключения к кластеру K8S..."
+  - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig && export KUBECONFIG=$PWD/kubeconfig
+  - echo "Применяем ingress..."
+  - envsubst < k8s/staging-ingress.yaml | kubectl apply -n staging -f -
+  - echo "Генерируем и применяем секреты..."
+  - envsubst < k8s/bs-api-secrets.yaml | kubectl apply -n staging -f -
+  - echo "Применяем Deployment..."
+  - envsubst < k8s/backend-deployment.yaml | kubectl apply -n staging -f -
+  - kubectl rollout restart deployment bs-api -n staging
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
   when: manual
@@ -51,21 +51,24 @@ staging-deploy-backend:
 
 production-deploy-backend:
   stage: production
-  name: deploy-backend
   image:
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
   environment:
     name: production
   script:
-    - echo "$BS_API_PFX_BASE64" | base64 -d > bs-api-stage.pfx
-    - |
-      kubectl create secret generic bs-cert \
-        --from-literal=cert-pass="$CERT_PASS" \
-        --from-file=bs-api-stage.pfx=bs-api-stage.pfx
-    - kubectl apply -f production-backend-deployment.yaml
+    - echo "Применяем конфиг подключения к кластеру K8S..."
+    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig && export KUBECONFIG=$PWD/kubeconfig
+    - echo "Применяем ingress..."
+    - envsubst < k8s/production-ingress.yaml | kubectl apply -n production -f -
+    - echo "Генерируем и применяем секреты..."
+    - envsubst < k8s/bs-api-secrets.yaml | kubectl apply -n production -f -
+    - echo "Применяем Deployment..."
+    - envsubst < k8s/backend-deployment.yaml | kubectl apply -n production -f -
+    - kubectl rollout restart deployment bs-api -n production
   variables:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
   only:
-    - main
+    - branches
+    - tags

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bs-api
+  labels:
+    app: bs-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bs-api
+  template:
+    metadata:
+      labels:
+        app: bs-api
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+      containers:
+        - name: bs-api
+          image: "${BS_API_IMAGE}"
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "${ASPNETCORE_ENVIRONMENT}"
+            - name: ASPNETCORE_URLS
+              value: "http://+:80"
+          envFrom:
+            - secretRef:
+                name: bs-api-secrets
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bs-api
+  labels:
+    app: bs-api
+spec:
+  selector:
+    app: bs-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
