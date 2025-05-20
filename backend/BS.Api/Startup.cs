@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false)
     .AddJsonFile("appsettings.Development.json", optional: true)
-    .AddEnvironmentVariables("BS_API")
+    .AddEnvironmentVariables("BS_API__")
     .Build();
 var environment = builder.Environment;
 
