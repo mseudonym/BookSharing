@@ -44,6 +44,8 @@ staging-deploy-backend:
 
   - echo "Применяем Deployment..."
   - envsubst < k8s/backend-deployment.yaml | kubectl apply -n staging -f -
+  - kubectl rollout restart deployment bs-api -n staging
+
 
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
