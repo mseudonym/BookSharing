@@ -16,8 +16,9 @@
 
 .book {
   width: 156px !important;
-  height: 225px !important;
   border-radius: var(--mantine-radius-sm) !important;
+  aspect-ratio: 0.69 !important;
+  height: auto !important;
 }
 
 .avatar {
@@ -25,4 +26,13 @@
   height: 120px !important;
   border-radius: 100% !important;
   aspect-ratio: 1 !important;
+}
+
+@media (min-width: 768px) {
+  .book {
+    object-fit: cover !important;
+    min-width: 80px !important;
+    max-width: 250px !important;
+    width: 100% !important;
+  }
 }

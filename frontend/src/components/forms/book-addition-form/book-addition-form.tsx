@@ -87,7 +87,7 @@ export const BookAdditionForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={f_styles.form} style={{gap: 0}}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${f_styles.form} ${f_styles.bookAddForm}`}>
       <div className={styles.bookCover}>
         <FileButton 
           name="bookCover" 
@@ -103,7 +103,21 @@ export const BookAdditionForm = () => {
         />
         <div className={styles.roundRect} />
       </div>
-      <div className={styles.bookContent}>
+      <div className={`${styles.bookContent} ${f_styles.bookContentAddition}`}>
+        <FileButton 
+          name="bookCover" 
+          type="book"
+          className={f_styles.desktopFileButton}
+          error={errors?.bookCover?.message}
+          setValue={setValue}
+          setError={setError}
+          clearErrors={clearErrors}
+          validateFile={(file) => {
+            const result = FormSchema.shape.bookCover.safeParse(file);
+            return result.success;
+          }}
+        />
+
         <div className={styles.actions}>
           <TextInput
             label="Название"

@@ -19,7 +19,7 @@ export const IllustrationWrapper = ({ src, alt, text, size = 'small' }: Illustra
         alt={alt}
         className={`${styles.image} ${styles[size]}`}
       />
-      {text && <Text ta='center'>{text}</Text>}
+      {text && <Text ta='center' className={styles.text}>{text}</Text>}
     </div>
   );
 };

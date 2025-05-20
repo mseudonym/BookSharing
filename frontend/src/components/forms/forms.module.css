@@ -13,3 +13,22 @@
 .formPadding {
   padding: var(--mantine-spacing-md) 0px var(--mantine-spacing-xl) 0px;
 }
+
+.desktopFileButton {
+  display: none !important;
+}
+
+.bookAddForm {
+  gap: 0;
+}
+
+@media (min-width: 768px) {
+  .desktopFileButton {
+    display: block !important;
+  }
+
+  .bookContentAddition {
+    align-items: flex-start !important;
+    flex-direction: row !important;
+  }
+}

@@ -20,6 +20,7 @@ type FileButtonProps<T extends FieldValues> = {
   accept?: string;
   aspectRatio?: number;
   validateFile?: (file: File) => boolean;
+  className?: string;
 }
 
 export const FileButton = <T extends FieldValues>({ 
@@ -32,7 +33,8 @@ export const FileButton = <T extends FieldValues>({
   error,
   accept = 'image/jpeg',
   aspectRatio = type === 'avatar' ? 1 : 0.7,
-  validateFile
+  validateFile,
+  className
 }: FileButtonProps<T>) => {
   const [file, setFile] = useState<File | null>(null);
   const [isInitialRender, setIsInitialRender] = useState(true);
@@ -66,7 +68,7 @@ export const FileButton = <T extends FieldValues>({
         {(props) => (
           <Button 
             {...props} 
-            className={`${styles[type]} ${styles.photoButton} ${(photoUrl || file) && styles.photoButtonChosen}`}
+            className={`${styles[type]} ${styles.photoButton} ${(photoUrl || file) && styles.photoButtonChosen} ${className || ''}`}
           >
             {file ? 
               <BackgroundImage
