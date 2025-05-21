@@ -19,27 +19,32 @@ generate-swagger:
   artifacts:
     paths:
       - swagger.json
+    expire_in: 1h
 
 generate-orval:
   stage: generate
   image: node:18
-  dependencies:
-    - generate-swagger
+  needs:
+    - job: generate-swagger
+      artifacts: true
   rules:
     - changes:
         - backend/BS.Api/**/*
   script:
-    - npm ci
-    - npx orval --input swagger.json --output src/api
+    - cd frontend
+    - mv ../swagger.json ./swagger.json
+    - npx orval@7.9.0 --config ./orval.config.ts
   artifacts:
     paths:
-      - src/api
+      - frontend/src/generated-api
+    expire_in: 1h
 
 commit-generated-client:
   stage: generate
   image: alpine:latest
-  dependencies:
-    - generate-orval
+  needs:
+    - job: generate-orval
+      artifacts: true
   before_script:
     - apk add --no-cache git
   rules:
@@ -51,7 +56,7 @@ commit-generated-client:
     - git fetch origin $CI_COMMIT_REF_NAME
     - git checkout $CI_COMMIT_REF_NAME
     - git pull origin $CI_COMMIT_REF_NAME
-    - git add src/api
+    - git add frontend/src/generated-api
     - |
       if git diff --cached --quiet; then
         echo "🔍 No changes in generated API client — skipping commit."
