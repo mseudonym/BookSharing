@@ -15,7 +15,7 @@ generate-swagger:
     - dotnet build backend/BS.Api/BS.Api.csproj -c Release
     - dotnet tool install --global Swashbuckle.AspNetCore.Cli
     - export PATH="$PATH:/root/.dotnet/tools"
-    - dotnet swagger tofile --output swagger.json ./backend/BS.Api/bin/Release/net9.0/BS.Api.dll v1
+    - swagger tofile --output swagger.json ./backend/BS.Api/bin/Release/net9.0/BS.Api.dll v1
   artifacts:
     paths:
       - swagger.json
