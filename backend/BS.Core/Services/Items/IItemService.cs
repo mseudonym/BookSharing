@@ -10,4 +10,5 @@ public interface IItemService
     public Task<Result<FriendItemInfo[]>> GetItemsCurrentUserHoldAsync();
     public Task<Result<QueueModel[]>> GetAllQueuesOfBook(Guid bookId);
     public Task<Result> AddToMyShelf(Guid bookId);
+    public Task<Result> RemoveFromMyShelf(Guid bookId);
 }

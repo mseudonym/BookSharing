@@ -45,4 +45,11 @@ public class ItemsController : Controller
         var result = await _itemsService.AddToMyShelf(bookId);
         return result.IsFailed ? MapResult(result) : Ok();
     }
+    
+    [HttpDelete("removeFromMyShelf")]
+    public async Task<IActionResult> RemoveBookFromMyShelf(Guid bookId)
+    {
+        var result = await _itemsService.RemoveFromMyShelf(bookId);
+        return result.IsFailed ? MapResult(result) : Ok();
+    }
 }

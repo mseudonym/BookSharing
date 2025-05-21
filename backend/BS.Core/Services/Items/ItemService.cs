@@ -116,6 +116,19 @@ public class ItemService : IItemService
         return Result.Ok();
     }
 
+    public async Task<Result> RemoveFromMyShelf(Guid bookId)
+    {
+        var currentUserId = await _currentUserService.GetIdAsync();
+
+        await _dbContext.Items
+            .Where(item => item.BookId == bookId && item.OwnerId == currentUserId)
+            .ExecuteDeleteAsync();
+        
+        await _dbContext.SaveChangesAsync();
+        
+        return Result.Ok();
+    }
+
     private string GetUserContact(Guid? id)
     {
         if (id == null)
