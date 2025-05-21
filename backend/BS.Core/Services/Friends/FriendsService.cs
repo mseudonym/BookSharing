@@ -86,6 +86,33 @@ public class FriendsService : IFriendsService
         return Result.Ok(_userMapper.ToUserProfile(friend, FriendshipStatus.OutcomeRequest));
     }
 
+    public async Task<Result<UserProfile>> CancelFriendRequestAsync(Guid personId)
+    {
+        var currentUserId = await _currentUserService.GetIdAsync();
+        var currentUser = await _dbContext.Users
+            .Where(u => u.Id == currentUserId)
+            .Include(u => u.SentFriendRequests)
+            .FirstAsync();
+
+        var person = await _dbContext.Users
+            .Where(u => u.Id == personId)
+            .Include(u => u.ReceivedFriendRequests)
+            .FirstOrDefaultAsync();
+
+        if (person is null) return Result.Fail(new PersonNotFoundError(personId));
+
+        if (currentUser.SentFriendRequests.All(u => u.Id != person.Id))
+            return Result.Fail(new OperationAlreadyApplied("You don't have requests to this user"));
+
+
+        currentUser.SentFriendRequests.Remove(person);
+        person.ReceivedFriendRequests.Remove(currentUser);
+        
+        await _dbContext.SaveChangesAsync();
+
+        return Result.Ok();
+    }
+
     public async Task<Result<UserProfile>> RespondToFriendRequestAsync(Guid personId, bool isAccepted)
     {
         var currentUserId = await _currentUserService.GetIdAsync();

@@ -36,6 +36,16 @@ public class FriendsController : Controller
 
         return Ok();
     }
+    
+    [HttpPost("cancelRequest")]
+    public async Task<ActionResult<UserProfile>> CancelFriendRequest([FromQuery] Guid person)
+    {
+        var sendRequestResult = await _friendsService.CancelFriendRequestAsync(person);
+
+        if (sendRequestResult.IsFailed) return MapResult(sendRequestResult);
+
+        return Ok();
+    }
 
     [HttpPost("respondRequest")]
     public async Task<ActionResult<UserProfile>> RespondToFriendRequest(
