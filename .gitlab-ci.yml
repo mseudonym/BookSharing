@@ -1,8 +1,7 @@
 stages:
   - test
   - build
-  - staging
-  - production
+  - deploy
 
 #test-backend:
 #  stage: test
@@ -26,7 +25,7 @@ build-backend:
     - docker push $BS_API_IMAGE
 
 staging-deploy-backend:
-  stage: staging
+  stage: deploy
   image: 
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
@@ -47,10 +46,9 @@ staging-deploy-backend:
   when: manual
   only:
     - branches
-    - tags
 
 production-deploy-backend:
-  stage: production
+  stage: deploy
   image:
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
@@ -70,5 +68,4 @@ production-deploy-backend:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
   only:
-    - branches
-    - tags
+    - master
