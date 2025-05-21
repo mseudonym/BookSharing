@@ -45,7 +45,7 @@ public static class ErrorStatusCodeMapper
             _ when result.HasError<PersonIsNotYourFriendError>() => new ObjectResult(result.ErrorsToString())
                 { StatusCode = 403 },
 
-            // 500
+            // 500 
             _ => new ObjectResult(result.ErrorsToString())
                 { StatusCode = 500 },
         };
