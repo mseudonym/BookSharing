@@ -9,12 +9,10 @@ public class ProfileModelValidator : AbstractValidator<EditProfileModel>
     public ProfileModelValidator()
     {
         RuleFor(model => model.FirstName)
-            .NotNull()
             .NotEmpty()
             .MaximumLength(FirstNameMaxLength);
 
         RuleFor(model => model.LastName)
-            .NotNull()
             .NotEmpty()
             .MaximumLength(LastNameMaxLength);
 
@@ -22,7 +20,6 @@ public class ProfileModelValidator : AbstractValidator<EditProfileModel>
             .SetValidator(new UsernameValidator());
 
         RuleFor(model => model.ContactUrl)
-            .NotNull()
             .NotEmpty()
             .MaximumLength(ContactUrlMaxLength)
             .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _))

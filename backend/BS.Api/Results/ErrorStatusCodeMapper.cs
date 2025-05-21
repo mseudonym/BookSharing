@@ -10,6 +10,13 @@ public static class ErrorStatusCodeMapper
 {
     public static ObjectResult MapResult(ResultBase result)
     {
+        var errorDictionary = result.Errors
+            .GroupBy(e => e.GetType().Name)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(e => e.Message).ToArray()
+            );
+        
         return result switch
         {
             // 400
@@ -18,8 +25,10 @@ public static class ErrorStatusCodeMapper
                    result.HasError<BookDeleteError>() ||
                    result.HasError<ModelValidationError>() ||
                    result.HasError<FriendNotFoundError>() ||
-                   result.HasError<UsernameSearchPrefixTooShortError>()
-                => new BadRequestObjectResult(result.ErrorsToString()),
+                   result.HasError<UsernameSearchPrefixTooShortError>() ||
+                   result.HasError<UsernameAlreadyTakenError>() ||
+                   result.HasError<BookAlreadyAddedError>()
+                => new BadRequestObjectResult(TypedResults.ValidationProblem(errorDictionary)),
 
             // 200
             _ when result.HasError<OperationAlreadyApplied>()
@@ -31,11 +40,6 @@ public static class ErrorStatusCodeMapper
                    result.HasError<BookNotFoundByIsbnError>() ||
                    result.HasError<BookNotFoundByIdError>()
                 => new NotFoundObjectResult(result.ErrorsToString()),
-
-            // 409
-            _ when result.HasError<BookAlreadyAddedError>() ||
-                   result.HasError<UsernameAlreadyTakenError>()
-                => new ConflictObjectResult(result.ErrorsToString()),
 
             // 403
             _ when result.HasError<PersonIsNotYourFriendError>() => new ObjectResult(result.ErrorsToString())
