@@ -50,6 +50,8 @@ public class UsersController : Controller
     }
 
     [HttpPost("editProfile")]
+    [ProducesResponseType(typeof(UserData), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<UserData>> EditProfile([FromForm] EditProfileRequest request)
     {
         var model = new EditProfileModel
