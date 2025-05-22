@@ -122,7 +122,7 @@ internal class UserService : IUserService
         var setUserNameResult = await _userManager.SetUserNameAsync(currentUser, newUsername);
         if (!setUserNameResult.Succeeded)
         {
-            return Result.Fail("Failed to set username");;
+            return Result.Fail("Failed to set username");
         }
 
         // Сохраняем изменения (обычно SetUserNameAsync это уже делает, но если нет)
