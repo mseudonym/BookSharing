@@ -1,0 +1,28 @@
+﻿apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: bs-postgres
+  namespace: default
+spec:
+  teamId: acid
+  volume:
+    size: 20Gi
+    storageClass: yc-network-ssd
+  numberOfInstances: 1
+  postgresql:
+    version: "17"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+  users:
+    bs-admin:
+      - superuser
+      - createdb
+  databases:
+    staging: bs-admin
+    production: bs-admin
+  enableLogicalBackup: false
