@@ -44,8 +44,8 @@ export const ProfileFillingForm = () => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.problemDetails?.errors) {
-          const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0] ? 'Имя пользователя уже занято' : '') || 
-                             'Произошла ошибка при заполнении профиля';
+          const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0] && 'Имя пользователя уже занято' ) || 
+                             undefined;
           
           notifications.show({
             title: 'Ошибка заполнения профиля',

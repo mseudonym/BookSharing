@@ -20,8 +20,6 @@ import { Wrapper } from '~/ui/wrapper';
 export const ProfilePage = () => {
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersMe();
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksMyBooks();
-  
-  console.log(user?.photoUrl);
 
   if (isLoadingUser || isLoadingBooks) {
     return <LoadingPage />;

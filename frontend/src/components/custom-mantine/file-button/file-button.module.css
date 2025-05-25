@@ -28,6 +28,10 @@
   aspect-ratio: 1 !important;
 }
 
+.errorText {
+  z-index: 2;
+}
+
 @media (min-width: 768px) {
   .book {
     object-fit: cover !important;

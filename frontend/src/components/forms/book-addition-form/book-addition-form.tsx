@@ -64,10 +64,12 @@ export const BookAdditionForm = () => {
 
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
-      const firstErrorElement = document.querySelector('[data-error]');
+      const firstErrorField = Object.keys(errors)[0];
+      const firstErrorElement = firstErrorField === 'bookCover' 
+        ? document.querySelector('.bookCover')
+        : document.querySelector(`input[name="${firstErrorField}"], textarea[name="${firstErrorField}"]`);
       if (firstErrorElement) {
-        console.log(firstErrorElement);
-        firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   }, [errors]);
@@ -82,12 +84,12 @@ export const BookAdditionForm = () => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.errors) {
-          const errorMessage = (errorData.errors.ModelValidationError?.[0] ? 'ISBN неправильного формата' : '') || 
-                             'Произошла ошибка при добавлении книги';
+          const errorMessage = (errorData.errors.ModelValidationError?.[0] && 'ISBN неправильного формата') || 
+                             undefined;
           
           notifications.show({
-            title: errorMessage,
-            message: undefined,
+            title: 'Ошибка при добавлении книги',
+            message: errorMessage,
             color: 'var(--red-color)',
           });
         }
@@ -129,10 +131,10 @@ export const BookAdditionForm = () => {
             const result = FormSchema.shape.bookCover.safeParse(file);
             return result.success;
           }}
-          data-error={errors?.bookCover?.message ? true : undefined}
         />
-        <div className={styles.roundRect} />
+        <div className={`${styles.roundRect} ${errors?.bookCover ? styles.roundRectWithError : ''}`} />
       </div>
+
       <div className={`${styles.bookContent} ${f_styles.bookContentAddition}`}>
         <FileButton 
           name="bookCover" 
@@ -146,7 +148,6 @@ export const BookAdditionForm = () => {
             const result = FormSchema.shape.bookCover.safeParse(file);
             return result.success;
           }}
-          data-error={errors?.bookCover?.message ? true : undefined}
         />
 
         <div className={styles.actions}>
@@ -155,7 +156,6 @@ export const BookAdditionForm = () => {
             placeholder="Введите название книги"
             {...register('title')}
             error={errors?.title?.message}
-            data-error={errors?.title?.message ? true : undefined}
           />
 
           <Textarea
@@ -165,7 +165,6 @@ export const BookAdditionForm = () => {
             error={errors?.description?.message}
             autosize
             minRows={2}
-            data-error={errors?.description?.message ? true : undefined}
           />
 
           <TextInput
@@ -173,7 +172,6 @@ export const BookAdditionForm = () => {
             placeholder="Введите автора книги"
             {...register('author')}
             error={errors?.author?.message}
-            data-error={errors?.author?.message ? true : undefined}
           />
 
           <TextInput
@@ -182,7 +180,6 @@ export const BookAdditionForm = () => {
             {...register('year')}
             error={errors?.year?.message}
             type="number"
-            data-error={errors?.year?.message ? true : undefined}
           />
 
           <TextInput
@@ -190,14 +187,12 @@ export const BookAdditionForm = () => {
             placeholder="Введите ISBN книги"
             {...register('isbn')}
             error={errors?.isbn?.message}
-            data-error={errors?.isbn?.message ? true : undefined}
           />
           <TextInput
             label="Язык"
             placeholder="Введите язык книги"
             {...register('language')}
             error={errors?.language?.message}
-            data-error={errors?.language?.message ? true : undefined}
           />
 
           <Button
@@ -205,7 +200,7 @@ export const BookAdditionForm = () => {
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             fullWidth>
-          Добавить книгу
+            Добавить книгу
           </Button>
         </div>
       </div>

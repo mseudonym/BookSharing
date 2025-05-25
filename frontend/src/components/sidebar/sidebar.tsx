@@ -16,13 +16,13 @@ import {
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import styles from '~/components/menu/menu.module.css';
+import styles from '~/components/sidebar/sidebar.module.css';
 
 import { Logo } from '~/components/logo';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
 
-const allMenuItems = [
+const allSidebarItems = [
   {
     value: AppRoute.Shelf,
     label: 'Полка друзей',
@@ -61,7 +61,7 @@ const allMenuItems = [
   },
 ];
 
-export const Menu = () => {
+export const Sidebar = () => {
   const { pathname } = useLocation();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
@@ -73,8 +73,8 @@ export const Menu = () => {
     router.navigate(value);
   };
   
-  const mainItems = allMenuItems.slice(0, 4);
-  const footerItems = allMenuItems.slice(4);
+  const mainItems = allSidebarItems.slice(0, 4);
+  const footerItems = allSidebarItems.slice(4);
 
   const menuData = [
     ...mainItems.map((item) => ({

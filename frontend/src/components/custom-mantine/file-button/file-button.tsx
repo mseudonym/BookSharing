@@ -1,4 +1,4 @@
-import { Button, BackgroundImage, Center, Overlay, FileButton as MantineFileButton, Text } from '@mantine/core';
+import { Button, BackgroundImage, Center, Overlay, FileButton as MantineFileButton, Text, Flex } from '@mantine/core';
 import { ToolPencilSquareIcon24Regular, TechCamPhotoIcon24Regular } from '@skbkontur/icons';
 import React, { useState } from 'react';
 import { UseFormClearErrors, UseFormSetError, UseFormSetValue, FieldValues, Path, PathValue, FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
@@ -63,12 +63,12 @@ export const FileButton = <T extends FieldValues>({
   const defaultImage = type === 'avatar' ? DEFAULT_PROFILE_IMAGE : DEFAULT_BOOK_COVER;
   
   return (
-    <>
+    <Flex gap="sm" className={className} direction="column" align="center">
       <MantineFileButton accept={accept} onChange={handleFileChange}>
         {(props) => (
           <Button 
             {...props} 
-            className={`${styles[type]} ${styles.photoButton} ${(photoUrl || file) && styles.photoButtonChosen} ${className || ''}`}
+            className={`${styles[type]} ${styles.photoButton} ${(photoUrl || file) && styles.photoButtonChosen}`}
           >
             {file ? 
               <BackgroundImage
@@ -105,10 +105,10 @@ export const FileButton = <T extends FieldValues>({
         )}
       </MantineFileButton>
       {error && (
-        <Text span ta="center" c="var(--red-color)">
+        <Text span ta="center" c="var(--red-color)" className={styles.errorText}>
           {typeof error === 'string' ? error : (error as { message: string }).message}
         </Text>
       )}
-    </>
+    </Flex>
   );
 };
