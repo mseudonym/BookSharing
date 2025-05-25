@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
@@ -33,6 +34,27 @@ export const ProfileFillingForm = () => {
 
   const { mutateAsync: fillProfile } = useMutation({
     mutationFn: postUsersEditProfile,
+    onError: (error: AxiosError<{
+      problemDetails: {
+        errors: {
+          UsernameAlreadyTakenError?: string[];
+        }
+      }
+    }>) => {
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        if (errorData.problemDetails?.errors) {
+          const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0] ? 'Имя пользователя уже занято' : '') || 
+                             'Произошла ошибка при заполнении профиля';
+          
+          notifications.show({
+            title: 'Ошибка заполнения профиля',
+            message: errorMessage,
+            color: 'var(--red-color)',
+          });
+        }
+      }
+    },
     onSuccess: async (userData) => {
       await checkProfileFilling(userData, true);
     },
@@ -47,12 +69,6 @@ export const ProfileFillingForm = () => {
         ContactUrl: data.contactUrl,
         PhotoFile: data.profilePhoto,
         Username: data.username,
-      });
-    } catch (error) {
-      notifications.show({
-        title: 'Ошибка заполнения профиля',
-        message: undefined,
-        color: 'var(--red-color)',
       });
     } finally {
       setIsLoading(false);

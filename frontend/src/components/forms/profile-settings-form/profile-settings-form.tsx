@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
@@ -10,17 +11,20 @@ import styles from '~/components/forms/forms.module.css';
 
 import { FileButton } from '~/components/custom-mantine';
 import { ProfileFormSchema } from '~/conts';
-import { postUsersEditProfile, useGetUsersMe } from '~/generated-api/users/users';
+import { getGetUsersMeQueryKey, postUsersEditProfile, useGetUsersMe } from '~/generated-api/users/users';
+import { LoadingPage } from '~/pages/loading-page';
 
 type IFormInput = zod.infer<typeof ProfileFormSchema>;
 
 export const ProfileSettingsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { data } = useGetUsersMe();
+  const { data, isLoading: isLoadingData } = useGetUsersMe();
+  const queryClient = useQueryClient();
 
   const {
     setValue,
     register,
+    reset,
     handleSubmit,
     setError,
     clearErrors,
@@ -28,17 +32,52 @@ export const ProfileSettingsForm = () => {
   } = useForm<IFormInput>({
     resolver: zodResolver(ProfileFormSchema),
     reValidateMode: 'onChange',
-    mode: 'onTouched',
+    mode: 'onTouched'
   });
+
+  React.useEffect(() => {
+    if (data) {
+      reset({
+        firstName: data.firstName ?? '',
+        lastName: data.lastName ?? '',
+        username: data.username ?? '',
+        contactUrl: data.contactUrl ?? ''
+      });
+    }
+  }, [data, reset]);
 
   const { mutateAsync: updateProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: getGetUsersMeQueryKey()});
+
       notifications.show({
         title: 'Профиль обновлен',
         message: undefined,
         color: 'var(--green-color)',
       });
+    },
+
+    onError: (error: AxiosError<{
+      problemDetails: {
+        errors: {
+          UsernameAlreadyTakenError?: string[];
+        }
+      }
+    }>) => {
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        if (errorData.problemDetails.errors) {
+          const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0] 
+            && 'Никнейм уже занят') || undefined;
+          
+          notifications.show({
+            title: 'Ошибка сохранения', 
+            message: errorMessage,
+            color: 'var(--red-color)',
+          });
+        }
+      }
     }
   });
 
@@ -50,18 +89,16 @@ export const ProfileSettingsForm = () => {
         LastName: data.lastName,
         ContactUrl: data.contactUrl,
         Username: data.username,
-        ...(data.profilePhoto && { PhotoFile: data.profilePhoto }),
-      });
-    } catch (error) {
-      notifications.show({
-        title: 'Ошибка сохранения',
-        message: undefined,
-        color: 'var(--red-color)',
+        PhotoFile: data.profilePhoto,
       });
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (isLoadingData) {
+    return <LoadingPage />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
@@ -84,7 +121,6 @@ export const ProfileSettingsForm = () => {
         placeholder="Введите имя"
         {...register('firstName')}
         error={errors?.firstName?.message}
-        defaultValue={data?.firstName ?? ''}
       />
   
       <TextInput
@@ -92,7 +128,6 @@ export const ProfileSettingsForm = () => {
         placeholder="Введите фамилию"
         {...register('lastName')}
         error={errors?.lastName?.message}
-        defaultValue={data?.lastName ?? ''}
       />
   
       <TextInput
@@ -100,7 +135,6 @@ export const ProfileSettingsForm = () => {
         placeholder="Введите никнейм"
         {...register('username')}
         error={errors?.username?.message}
-        defaultValue={data?.username ?? ''}
       />
   
       <TextInput
@@ -108,7 +142,6 @@ export const ProfileSettingsForm = () => {
         placeholder="Введите ссылку для связи"
         {...register('contactUrl')}
         error={errors?.contactUrl?.message}
-        defaultValue={data?.contactUrl ?? ''}
       />
   
       <Button

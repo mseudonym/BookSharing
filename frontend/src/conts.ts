@@ -48,5 +48,4 @@ export const ProfileFormSchema = zod.object({
     .url('Ссылка должна быть валидной'),
   profilePhoto: zod
     .custom<File>()
-    .optional()
 });

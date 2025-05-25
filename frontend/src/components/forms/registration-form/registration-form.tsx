@@ -57,7 +57,6 @@ export const RegistrationForm = () => {
     mutationFn: postAuthRegister,
     onError: (error: AxiosError<{
       errors: {
-        DuplicateUserName?: string[];
         DuplicateEmail?: string[];
       }
     }>) => {
@@ -65,7 +64,6 @@ export const RegistrationForm = () => {
         const errorData = error.response.data;
         if (errorData.errors) {
           const errorMessage = (errorData.errors.DuplicateEmail?.[0] ? 'Email уже занят' : '') || 
-                             (errorData.errors.DuplicateUserName?.[0] ? 'Имя пользователя уже занято' : '') || 
                              'Произошла ошибка при регистрации';
           
           notifications.show({

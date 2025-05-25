@@ -24,6 +24,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  DeleteItemsRemoveFromMyShelfParams,
   FriendItemInfo,
   GetItemsByBookIdParams,
   MyItemInfo,
@@ -337,6 +338,62 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getPostItemsAddToMyShelfMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    export const deleteItemsRemoveFromMyShelf = (
+    params?: DeleteItemsRemoveFromMyShelfParams,
+ options?: SecondParameter<typeof api>,) => {
+      
+      
+      return api<void>(
+      {url: `/Items/removeFromMyShelf`, method: 'DELETE',
+        params
+    },
+      options);
+    }
+  
+
+
+export const getDeleteItemsRemoveFromMyShelfMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItemsRemoveFromMyShelf>>, TError,{params?: DeleteItemsRemoveFromMyShelfParams}, TContext>, request?: SecondParameter<typeof api>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteItemsRemoveFromMyShelf>>, TError,{params?: DeleteItemsRemoveFromMyShelfParams}, TContext> => {
+
+const mutationKey = ['deleteItemsRemoveFromMyShelf'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteItemsRemoveFromMyShelf>>, {params?: DeleteItemsRemoveFromMyShelfParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  deleteItemsRemoveFromMyShelf(params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteItemsRemoveFromMyShelfMutationResult = NonNullable<Awaited<ReturnType<typeof deleteItemsRemoveFromMyShelf>>>
+    
+    export type DeleteItemsRemoveFromMyShelfMutationError = ErrorType<unknown>
+
+    export const useDeleteItemsRemoveFromMyShelf = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteItemsRemoveFromMyShelf>>, TError,{params?: DeleteItemsRemoveFromMyShelfParams}, TContext>, request?: SecondParameter<typeof api>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteItemsRemoveFromMyShelf>>,
+        TError,
+        {params?: DeleteItemsRemoveFromMyShelfParams},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteItemsRemoveFromMyShelfMutationOptions(options);
 
       return useMutation(mutationOptions , queryClient);
     }

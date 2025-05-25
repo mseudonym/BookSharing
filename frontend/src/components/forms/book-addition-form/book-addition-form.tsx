@@ -2,7 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { AxiosError } from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
@@ -35,7 +36,12 @@ const FormSchema = zod.object({
     .string()
     .nonempty(REQUIRED_FIELD_TEXT),
   bookCover: zod
-    .custom<File>()
+    .custom<File>((data) => {
+      if (data instanceof File) {
+        return true;
+      }
+      return false;
+    }, 'Фото не может быть пустым')
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
@@ -56,8 +62,37 @@ export const BookAdditionForm = () => {
     mode: 'onTouched',
   });
 
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      const firstErrorElement = document.querySelector('[data-error]');
+      if (firstErrorElement) {
+        console.log(firstErrorElement);
+        firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [errors]);
+
   const { mutateAsync: addBook } = useMutation({
     mutationFn: postBooksAdd,
+    onError: (error: AxiosError<{
+      errors: {
+        ModelValidationError?: string[];
+      }
+    }>) => {
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        if (errorData.errors) {
+          const errorMessage = (errorData.errors.ModelValidationError?.[0] ? 'ISBN неправильного формата' : '') || 
+                             'Произошла ошибка при добавлении книги';
+          
+          notifications.show({
+            title: errorMessage,
+            message: undefined,
+            color: 'var(--red-color)',
+          });
+        }
+      }
+    },
     onSuccess: async (bookData) => {
       router.navigate(AppRoute.Book.replace(':id', bookData.id!));
     },
@@ -74,12 +109,6 @@ export const BookAdditionForm = () => {
         Language: data.language,
         PublicationYear: data.year,
         Isbn: data.isbn,
-      });
-    } catch (error) {
-      notifications.show({
-        title: 'Ошибка добавления книги',
-        message: undefined,
-        color: 'var(--red-color)',
       });
     } finally {
       setIsLoading(false);
@@ -100,6 +129,7 @@ export const BookAdditionForm = () => {
             const result = FormSchema.shape.bookCover.safeParse(file);
             return result.success;
           }}
+          data-error={errors?.bookCover?.message ? true : undefined}
         />
         <div className={styles.roundRect} />
       </div>
@@ -116,6 +146,7 @@ export const BookAdditionForm = () => {
             const result = FormSchema.shape.bookCover.safeParse(file);
             return result.success;
           }}
+          data-error={errors?.bookCover?.message ? true : undefined}
         />
 
         <div className={styles.actions}>
@@ -124,6 +155,7 @@ export const BookAdditionForm = () => {
             placeholder="Введите название книги"
             {...register('title')}
             error={errors?.title?.message}
+            data-error={errors?.title?.message ? true : undefined}
           />
 
           <Textarea
@@ -133,6 +165,7 @@ export const BookAdditionForm = () => {
             error={errors?.description?.message}
             autosize
             minRows={2}
+            data-error={errors?.description?.message ? true : undefined}
           />
 
           <TextInput
@@ -140,6 +173,7 @@ export const BookAdditionForm = () => {
             placeholder="Введите автора книги"
             {...register('author')}
             error={errors?.author?.message}
+            data-error={errors?.author?.message ? true : undefined}
           />
 
           <TextInput
@@ -148,6 +182,7 @@ export const BookAdditionForm = () => {
             {...register('year')}
             error={errors?.year?.message}
             type="number"
+            data-error={errors?.year?.message ? true : undefined}
           />
 
           <TextInput
@@ -155,12 +190,14 @@ export const BookAdditionForm = () => {
             placeholder="Введите ISBN книги"
             {...register('isbn')}
             error={errors?.isbn?.message}
+            data-error={errors?.isbn?.message ? true : undefined}
           />
           <TextInput
             label="Язык"
             placeholder="Введите язык книги"
             {...register('language')}
             error={errors?.language?.message}
+            data-error={errors?.language?.message ? true : undefined}
           />
 
           <Button

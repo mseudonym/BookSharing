@@ -1,4 +1,5 @@
-import { Card, Avatar, ActionIcon, Text } from '@mantine/core';
+import { Card, Avatar, ActionIcon, Text, Button, Flex, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { CheckAIcon24Regular, People1PlusIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
@@ -8,13 +9,14 @@ import styles from '~/components/friend-request/friend-request.module.css';
 import _styles from '~/index.module.css';
 
 import { AppRoute } from '~/conts';
-import { postFriendsRespondRequest, postFriendsSendRequest } from '~/generated-api/friends/friends';
+import { postFriendsCancelRequest, postFriendsRespondRequest, postFriendsSendRequest } from '~/generated-api/friends/friends';
 import { FriendshipStatus, UserProfile } from '~/generated-api/model';
 import { router } from '~/main';
 
 export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, lastName, friendshipStatus }: UserProfile) => {
   const [localStatus, setLocalStatus] = useState<FriendshipStatus>(friendshipStatus ?? FriendshipStatus.None);
   const [isLoading, setIsLoading] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const { mutateAsync: sendRequest } = useMutation({
     mutationFn: postFriendsSendRequest,
@@ -23,6 +25,19 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
       
       notifications.show({
         title: 'Запрос в друзья отправлен',
+        message: undefined,
+        color: 'var(--green-color)',
+      });
+    },
+  });
+
+  const { mutateAsync: removeRequest } = useMutation({
+    mutationFn: postFriendsCancelRequest,
+    onSuccess: async () => {
+      setLocalStatus(FriendshipStatus.None);
+      
+      notifications.show({
+        title: 'Запрос в друзья отменен',
         message: undefined,
         color: 'var(--green-color)',
       });
@@ -54,7 +69,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
   const onRemoveRequest = async () => {
     setIsLoading(true);
     try {
-      await respondRequest({ personToRespondId: id, isAccepted: false });
+      await removeRequest({ person: id });
     } finally {
       setIsLoading(false);
     }
@@ -70,42 +85,62 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
   };
 
   return (
-    <Card className={styles.friendCard}>
-      <div className={styles.person} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
-        <Avatar
-          src={lowQualityPhotoUrl ?? '/default-profile.png'}
-          className={styles.avatar}
-          alt={`Avatar image for ${username}`}
-        />
-        <div className={styles.personInfo}>
-          <Text>
-            {firstName}
-            {' '}
-            {lastName}
-          </Text>
-          <Text span className={_styles.textGray}>
+    <>
+      <Modal opened={opened} onClose={close} title="Отменить заявку?" centered>
+        <Flex
+          justify="flex-start"
+          align="center"
+          direction="row"
+          gap="var(--mantine-spacing-sm)"
+        >
+          <Button variant="filled" onClick={onRemoveRequest}>
+              Да, отменить
+          </Button>
+          <Button  color="outline" onClick={close}>
+              Нет, оставить заявку
+          </Button>
+        </Flex>
+      </Modal>
+
+      <Card className={styles.friendCard}>
+        <div className={styles.person} 
+          onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
+          <Avatar
+            src={lowQualityPhotoUrl ?? '/default-profile.png'}
+            className={styles.avatar}
+            alt={`Avatar image for ${username}`}
+          />
+          <div className={styles.personInfo}>
+            <Text>
+              {firstName}
+              {' '}
+              {lastName}
+            </Text>
+            <Text span className={_styles.textGray}>
           @
-            {username}
-          </Text>
+              {username}
+            </Text>
+          </div>
         </div>
-      </div>
-      {localStatus == FriendshipStatus.OutcomeRequest && (
-        <ActionIcon variant="transparent" onClick={onRemoveRequest} loading={isLoading}>
-          <XIcon24Regular />
-        </ActionIcon>
-      )}
 
-      {localStatus == FriendshipStatus.IncomeRequest && (
-        <ActionIcon variant="transparent" onClick={onRespondRequest} loading={isLoading}>
-          <CheckAIcon24Regular />
-        </ActionIcon>
-      )}
+        {localStatus == FriendshipStatus.OutcomeRequest && (
+          <ActionIcon variant="transparent" onClick={open} loading={isLoading}>
+            <XIcon24Regular />
+          </ActionIcon>
+        )}
 
-      {localStatus == FriendshipStatus.None && (
-        <ActionIcon variant="transparent" onClick={onSentRequest} loading={isLoading}>
-          <People1PlusIcon24Regular />
-        </ActionIcon>
-      )}
-    </Card>
+        {localStatus == FriendshipStatus.IncomeRequest && (
+          <ActionIcon variant="transparent" onClick={onRespondRequest} loading={isLoading}>
+            <CheckAIcon24Regular />
+          </ActionIcon>
+        )}
+
+        {localStatus == FriendshipStatus.None && (
+          <ActionIcon variant="transparent" onClick={onSentRequest} loading={isLoading}>
+            <People1PlusIcon24Regular />
+          </ActionIcon>
+        )}
+      </Card>
+    </>
   );
 };

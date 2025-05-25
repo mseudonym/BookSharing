@@ -3,6 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
+import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -12,8 +13,10 @@ import styles from '~/pages/book-page/book-page.module.css';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { Queue } from '~/components/queue/queue';
+import { AppRoute } from '~/conts';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
-import { useGetItemsByBookId } from '~/generated-api/items/items';
+import { deleteItemsRemoveFromMyShelf, useGetItemsByBookId } from '~/generated-api/items/items';
+import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { LoadingPage } from '~/pages/loading-page';
 import { Page } from '~/ui/pages';
@@ -25,12 +28,16 @@ export const BookPage = () => {
   const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsByBookId({ bookId: id });
   const [opened, { open, close }] = useDisclosure(false);
 
-  /* const { mutateAsync: deleteBook } = useMutation({
-    mutationFn: deleteBooksByIdBookId,
+  const { mutateAsync: deleteBook } = useMutation({
+    mutationFn: deleteItemsRemoveFromMyShelf,
     onSuccess: async () => {
       router.navigate(AppRoute.Profile);
     },
-  }); */
+  });
+
+  const onDeleteBook = () => {
+    deleteBook({ bookId: id! });
+  };
 
   if (isLoadingBook || isLoadingQueues) {
     return <LoadingPage />;
@@ -50,7 +57,7 @@ export const BookPage = () => {
           direction="row"
           gap="var(--mantine-spacing-sm)"
         >
-          <Button variant="filled" >
+          <Button variant="filled" onClick={onDeleteBook}>
               Да, удалить
           </Button>
           <Button  color="outline" onClick={close}>
