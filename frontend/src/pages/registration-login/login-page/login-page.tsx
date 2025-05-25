@@ -11,7 +11,7 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const LoginPage = () => {
   return (
-    <PageWithWrapper alignWrapper="center" showMenu={false}>
+    <PageWithWrapper alignWrapper="center" withoutMenu>
       <Flex direction='column' align='center' gap='lg' className={styles.head}>
         <Logo />
         <Title ta='center'>Вход</Title>

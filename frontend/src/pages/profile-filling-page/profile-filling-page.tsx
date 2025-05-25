@@ -9,7 +9,7 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const ProfileFillingPage = () => {
   return (
-    <PageWithWrapper showMenu={false}>
+    <PageWithWrapper withoutMenu>
       <Header variant="left">
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />

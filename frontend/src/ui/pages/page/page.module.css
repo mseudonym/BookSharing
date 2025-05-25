@@ -1,6 +1,7 @@
 .page {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   height: 100%;
   padding-top: var(--mantine-spacing-md);
   width: 100%;
@@ -15,31 +16,11 @@
   padding-top: 0;
 }
 
-.menu {
-  display: none;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-}
-
 @media (min-width: 768px) {
   .page {
     padding-top: var(--mantine-spacing-xxl);
     background: var(--white-color);
     border-radius: 0 var(--mantine-radius-sm) 0 0;
-  }
-
-  .menu {
-    display: flex;
-    border-radius: var(--mantine-radius-sm) 0 0 0;
-    flex-direction: column;
-    height: 100vh;
-    position: sticky;
-    top: 0;
-  }
-
-  .mainWithoutMenu {
-    margin: 0 auto !important;
   }
   
   .pageWithoutMenu {

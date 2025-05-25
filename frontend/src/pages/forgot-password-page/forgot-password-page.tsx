@@ -8,7 +8,7 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const ForgotPasswordPage = () => {
   return (
-    <PageWithWrapper showMenu={false}>
+    <PageWithWrapper withoutMenu>
       <Header variant='left'>
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />

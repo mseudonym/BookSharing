@@ -26,9 +26,20 @@
 }
 
 .menu {
+  display: none;
+  height: 100vh;
+  position: sticky;
+  top: 0;
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
   margin-left: auto;
   gap: var(--mantine-spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .menu {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 /* Modal styles */

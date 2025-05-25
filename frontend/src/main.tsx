@@ -44,6 +44,18 @@ export const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
+    path: `${AppRoute.EmailConfirmation}`,
+    element: <EmailConfirmationPage />,
+  },
+  {
+    path: `${AppRoute.ForgotPassword}`,
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: `${AppRoute.ProfileFilling}`,
+    element: <ProfileFillingPage />,
+  },
+  {
     element: <Layout />,
     children: [
       {
@@ -58,55 +70,43 @@ export const router = createBrowserRouter([
         path: `${AppRoute.Friends}`,
         element: <FriendsPage />,
       },
+      {
+        path: `${AppRoute.User}`,
+        element: <UserPage />,
+      },
+      {
+        path: `${AppRoute.Book}`,
+        element: <BookPage />,
+      },
+      {
+        path: `${AppRoute.AddBook}`,
+        element: <BookAdditionPage />,
+      },
+      {
+        path: `${AppRoute.SearchFriends}`,
+        element: <SearchFriendsPage />,
+      },
+      {
+        path: `${AppRoute.Settings}`,
+        element: <SettingsPage />,
+      },
+      {
+        path: `${AppRoute.SecuritySettings}`,
+        element: <SecuritySettingsPage />,
+      },
+      {
+        path: `${AppRoute.ProfileSettings}`,
+        element: <ProfileSettingsPage />,
+      },
+      {
+        path: `${AppRoute.EmailSettings}`,
+        element: <EmailSettingsPage />,
+      },
+      {
+        path: `${AppRoute.PasswordSettings}`,
+        element: <PasswordSettingsPage />,
+      },
     ],
-  },
-  {
-    path: `${AppRoute.EmailConfirmation}`,
-    element: <EmailConfirmationPage />,
-  },
-  {
-    path: `${AppRoute.ForgotPassword}`,
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: `${AppRoute.ProfileFilling}`,
-    element: <ProfileFillingPage />,
-  },
-  {
-    path: `${AppRoute.User}`,
-    element: <UserPage />,
-  },
-  {
-    path: `${AppRoute.Book}`,
-    element: <BookPage />,
-  },
-  {
-    path: `${AppRoute.AddBook}`,
-    element: <BookAdditionPage />,
-  },
-  {
-    path: `${AppRoute.SearchFriends}`,
-    element: <SearchFriendsPage />,
-  },
-  {
-    path: `${AppRoute.Settings}`,
-    element: <SettingsPage />,
-  },
-  {
-    path: `${AppRoute.SecuritySettings}`,
-    element: <SecuritySettingsPage />,
-  },
-  {
-    path: `${AppRoute.ProfileSettings}`,
-    element: <ProfileSettingsPage />,
-  },
-  {
-    path: `${AppRoute.EmailSettings}`,
-    element: <EmailSettingsPage />,
-  },
-  {
-    path: `${AppRoute.PasswordSettings}`,
-    element: <PasswordSettingsPage />,
   },
   {
     path: '*',
