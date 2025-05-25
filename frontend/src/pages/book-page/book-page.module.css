@@ -107,8 +107,12 @@
   z-index: 1;
 }
 
-.menuDesctopButton {
-  display: none;
+.menuDesktopButton {
+  display: none !important;
+}
+
+.bookWrapper {
+  padding-bottom: 0 !important;
 }
 
 @media (min-width: 768px) {
@@ -133,8 +137,8 @@
     align-items: flex-start;
   }
 
-  .menuDesctopButton {
-    display: block;
+  .menuDesktopButton {
+    display: block !important;
   }
 
   .actions {

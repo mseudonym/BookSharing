@@ -130,7 +130,7 @@ export const BookPage = () => {
           </div>
           <Menu position='bottom-end' offset={-50}>
             <Menu.Target>
-              <ActionIcon variant="transparent" className={styles.menuDesctopButton}>
+              <ActionIcon variant="transparent" className={styles.menuDesktopButton}>
                 <UiMenuDots3HIcon24Regular />
               </ActionIcon>
             </Menu.Target>
