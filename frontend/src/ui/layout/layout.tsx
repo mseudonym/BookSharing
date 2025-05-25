@@ -2,7 +2,6 @@ import { AppShell } from '@mantine/core';
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { Logo } from '~/components/logo';
 import { Menu } from '~/components/menu/menu';
 import { Navbar } from '~/components/navbar';
 import { AppRoute } from '~/conts';
@@ -24,11 +23,7 @@ export const Layout = () => {
       navbar={{ width: 236, breakpoint: 'sm'}}
     >
       
-      <AppShell.Navbar>
-        <Logo size='big'/>
-        <Menu />
-      </AppShell.Navbar>  
-
+      <Menu />
       {shouldShowNavbar && <Navbar />}
 
       <AppShell.Main>

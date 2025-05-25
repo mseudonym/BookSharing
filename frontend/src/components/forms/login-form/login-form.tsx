@@ -48,18 +48,20 @@ export const LoginForm = () => {
       await checkProfileFilling();
       router.navigate(AppRoute.Shelf);
     },
+
+    onError: () => {
+      notifications.show({
+        title: 'Ошибка входа',
+        message: 'Неправильная почта или пароль',
+        color: 'var(--red-color)',
+      });
+    },
   });
 
   const onSubmit = async (data: IFormInput) => {
     try {
       setIsLoading(true);
       await loginMutation({ email: data.email, password: data.password });
-    } catch (error) {
-      notifications.show({
-        title: 'Ошибка входа',
-        message: undefined,
-        color: 'var(--red-color)',
-      });
     } finally {
       setIsLoading(false);
     }

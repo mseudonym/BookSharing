@@ -1,6 +1,11 @@
+.menu {
+  border-radius: var(--mantine-radius-sm) 0 0 0;
+}
+
 .menuRoot {
   background: none;
   gap: var(--mantine-spacing-sm);
+  height: 100%;
 }
 
 .menuLabel {
@@ -11,6 +16,14 @@
   gap: var(--mantine-spacing-sm);
   padding: var(--mantine-spacing-lg) var(--mantine-spacing-md);
   color: var(--primary-color);
+}
+
+.menuControl {
+  max-height: 50px;
+}
+
+.menuControl:nth-child(5) {
+  margin-bottom: auto;
 }
 
 .menuIndicator {
@@ -24,4 +37,12 @@
   display: flex;
   align-items: center;
   gap: var(--mantine-spacing-sm);
+}
+
+.menuDivider {
+  height: 100%;
+  width: 0px;
+  background-color: var(--mantine-color-gray-3);
+  margin: 0;
+  pointer-events: none;
 }

@@ -91,8 +91,6 @@ export const RegistrationForm = () => {
       setIsLoading(true);
       await registerMutation({ email: data.email, password: data.password })
         .then(async () => await loginMutation({ email: data.email, password: data.password }));
-    } catch (error) {
-      // Общая ошибка будет обработана в onError мутации
     } finally {
       setIsLoading(false);
     }
