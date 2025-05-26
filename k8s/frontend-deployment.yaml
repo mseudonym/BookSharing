@@ -18,6 +18,7 @@ spec:
         - name: gitlab-registry-secret
       containers:
         - name: bs-app
+          image: "${BS_APP_IMAGE}"
           ports:
             - containerPort: 80
           resources:

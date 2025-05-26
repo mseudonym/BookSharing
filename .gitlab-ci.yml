@@ -74,7 +74,7 @@ staging-deploy-frontend:
     - envsubst < k8s/staging-ingress.yaml | kubectl apply -n staging -f -
     - echo "Применяем Deployment..."
     - envsubst < k8s/frontend-deployment.yaml | kubectl apply -n staging -f -
-    - kubectl rollout restart deployment bs-frontend -n staging
+    - kubectl rollout restart deployment bs-app -n staging
   when: manual
   only:
     - branches
