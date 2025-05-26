@@ -63,7 +63,7 @@ export const FileButton = <T extends FieldValues>({
   const defaultImage = type === 'avatar' ? DEFAULT_PROFILE_IMAGE : DEFAULT_BOOK_COVER;
   
   return (
-    <Flex gap="sm" className={className} direction="column" align="center">
+    <Flex gap="sm" className={`${className} ${styles.fileButtonWrapper}`} direction="column" align="center">
       <MantineFileButton accept={accept} onChange={handleFileChange}>
         {(props) => (
           <Button 

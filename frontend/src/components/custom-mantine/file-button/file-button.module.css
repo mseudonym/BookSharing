@@ -1,3 +1,7 @@
+.fileButtonWrapper {
+  width: 100%;
+}
+
 .photoButton {
   padding: 0 !important;
   border: 2px dashed var(--light-gray-16-color) !important;

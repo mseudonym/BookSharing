@@ -140,7 +140,7 @@ export const BookAdditionForm = () => {
         <FileButton 
           name="bookCover" 
           type="book"
-          className={f_styles.desktopFileButton}
+          className={`${styles.bookImageDesktop}`}
           error={errors?.bookCover?.message}
           setValue={setValue}
           setError={setError}
