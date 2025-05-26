@@ -80,7 +80,7 @@ export const Sidebar = () => {
     ...mainItems.map((item) => ({
       ...item,
       label: (
-        <div className={styles.menuItem}>
+        <div className={`${styles.menuItem} ${item.value == AppRoute.Profile ? styles.profileMenuItem : ''}`}>
           {pathname === item.value ? item.iconSolid : item.iconRegular}
           {item.label}
         </div>
@@ -125,7 +125,7 @@ export const Sidebar = () => {
         opened={isNotificationsOpen}
         onClose={() => setIsNotificationsOpen(false)}
         title="Уведомления"
-        position="right"
+        position="left"
         size="md"
       >
         {/* Здесь будет содержимое уведомлений */}

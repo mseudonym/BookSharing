@@ -16,6 +16,13 @@ import { postBooksAdd } from '~/generated-api/books/books';
 import { router } from '~/main';
 
 const FormSchema = zod.object({
+  bookCover: zod
+    .custom<File>((data) => {
+      if (data instanceof File) {
+        return true;
+      }
+      return false;
+    }, 'Фото не может быть пустым'),
   title: zod
     .string()
     .nonempty(REQUIRED_FIELD_TEXT),
@@ -34,14 +41,7 @@ const FormSchema = zod.object({
     .lte(new Date().getFullYear(), 'Год не может быть в будущем'),
   isbn: zod
     .string()
-    .nonempty(REQUIRED_FIELD_TEXT),
-  bookCover: zod
-    .custom<File>((data) => {
-      if (data instanceof File) {
-        return true;
-      }
-      return false;
-    }, 'Фото не может быть пустым')
+    .nonempty(REQUIRED_FIELD_TEXT)
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
@@ -65,9 +65,8 @@ export const BookAdditionForm = () => {
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       const firstErrorField = Object.keys(errors)[0];
-      const firstErrorElement = firstErrorField === 'bookCover' 
-        ? document.querySelector('.bookCover')
-        : document.querySelector(`input[name="${firstErrorField}"], textarea[name="${firstErrorField}"]`);
+      const firstErrorElement = document.querySelector(`input[name="${firstErrorField}"], textarea[name="${firstErrorField}"]`);
+
       if (firstErrorElement) {
         firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -79,12 +78,14 @@ export const BookAdditionForm = () => {
     onError: (error: AxiosError<{
       errors: {
         ModelValidationError?: string[];
+        BookAlreadyAddedError?: string[];
       }
     }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.errors) {
           const errorMessage = (errorData.errors.ModelValidationError?.[0] && 'ISBN неправильного формата') || 
+                             (errorData.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') || 
                              undefined;
           
           notifications.show({

@@ -22,7 +22,7 @@
   max-height: 50px;
 }
 
-.menuControl:nth-child(5) {
+.menuControl:has(input[value="/profile"]) {
   margin-bottom: auto;
 }
 

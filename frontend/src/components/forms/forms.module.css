@@ -4,6 +4,7 @@
   align-items: flex-start;
   align-self: stretch;
   gap: var(--mantine-spacing-md);
+  transition: height 0.2s ease;
 }
 
 .formCenter {
