@@ -18,6 +18,8 @@ variables:
 build-backend:
   stage: build
   image: docker:latest
+  environment:
+    name: $CI_ENVIRONMENT_NAME
   services:
     - docker:dind
   script:
@@ -28,6 +30,8 @@ build-backend:
 build-frontend:
   stage: build
   image: docker:latest
+  environment:
+    name: $CI_ENVIRONMENT_NAME
   services:
     - docker:dind
   script:
