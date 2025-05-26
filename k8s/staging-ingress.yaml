@@ -10,6 +10,9 @@ spec:
     - hosts:
         - api.staging.book-sharing.ru
       secretName: bs-tls-cert
+    - hosts:
+        - staging.book-sharing.ru
+      secretName: bs-tls-cert
   rules:
     - host: api.staging.book-sharing.ru
       http:
@@ -19,5 +22,15 @@ spec:
             backend:
               service:
                 name: bs-api
+                port:
+                  number: 80
+    - host: staging.book-sharing.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bs-app
                 port:
                   number: 80
