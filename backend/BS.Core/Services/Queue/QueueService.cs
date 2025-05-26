@@ -1,7 +1,4 @@
 using BS.Core.Errors.Queue;
-using BS.Core.Models.Mapping;
-using BS.Core.Models.Queue;
-using BS.Core.Models.User;
 using BS.Core.Services.User;
 using BS.Data.Context;
 using BS.Data.Entities;
@@ -14,46 +11,14 @@ public class QueueService : IQueueService
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
-    private readonly UserMapper _userMapper;
 
-    public QueueService(
-        BookSharingContext dbContext,
-        ICurrentUserService currentUserService,
-        UserMapper userMapper)
+    public QueueService(BookSharingContext dbContext, ICurrentUserService currentUserService)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
-        _userMapper = userMapper;
     }
-
-    public async Task<Result<QueueModel>> GetQueueAsync(Guid itemId)
-    {
-        //TODO: Проверять на то, что мы в друзьях у держателя
-        var item = await _dbContext.Items.FindAsync(itemId);
-        if (item == null) return Result.Fail<QueueModel>("Item not found");
-        var queueItemEntities = await GetQueueItemEntitiesAsync(itemId);
-
-        var forcedFirstInQueueByUser = queueItemEntities.FirstOrDefault(queueItem => queueItem.IsForcedFirstByOwner);
-        var resultQueue = queueItemEntities
-            .Where(itemEntity => !itemEntity.IsForcedFirstByOwner)
-            .Select(itemEntity => _userMapper.ToQueueUser(itemEntity.User))
-            .ToList();
-        if (forcedFirstInQueueByUser != null)
-            resultQueue.Insert(0, _userMapper.ToQueueUser(forcedFirstInQueueByUser.User));
-
-        var owner = await _dbContext.Users.FirstAsync(user => user.Id == item.OwnerId);
-        var holder = await _dbContext.Users.FirstAsync(user => user.Id == item.HolderId);
-
-        return Result.Ok(new QueueModel
-        {
-            ItemId = itemId,
-            Holder = _userMapper.ToUserProfile(holder, FriendshipStatus.None),
-            Owner = _userMapper.ToUserProfile(owner, FriendshipStatus.None),
-            Queue = resultQueue,
-        });
-    }
-
-    public async Task<Result<QueueModel>> EnqueueAsync(Guid itemId, bool isForcesFirstByOwner = false)
+    
+    public async Task<Result> EnqueueAsync(Guid itemId, bool isForcesFirstByOwner = false)
     {
         var currentUserId = await _currentUserService.GetIdAsync();
         if (await _dbContext.QueueItems.AnyAsync(item => item.ItemId == itemId && item.UserId == currentUserId))
@@ -72,7 +37,7 @@ public class QueueService : IQueueService
 
         await _dbContext.SaveChangesAsync();
 
-        return await GetQueueAsync(itemId);
+        return Result.Ok();
     }
 
     public async Task<Result> LeaveQueueAsync(Guid itemId)
@@ -89,7 +54,12 @@ public class QueueService : IQueueService
         var item = await _dbContext.Items.FindAsync(itemId);
         if (item == null) return Result.Fail("Item not found");
 
-        var queueItemEntities = await GetQueueItemEntitiesAsync(itemId);
+        var queueItemEntities = await _dbContext.QueueItems
+            .Where(queueItem => queueItem.ItemId == itemId)
+            .Include(queueItem => queueItem.User)
+            .OrderBy(queueItem => queueItem.EnqueueTimeUtc)
+            .ToArrayAsync();
+        
         if (queueItemEntities.Length == 0) return Result.Fail("Queue is empty");
 
         var firstInQueue = queueItemEntities.First();
@@ -111,11 +81,4 @@ public class QueueService : IQueueService
 
         return false;
     }
-
-    private async Task<QueueItemEntity[]> GetQueueItemEntitiesAsync(Guid itemId) =>
-        await _dbContext.QueueItems
-            .Where(queueItem => queueItem.ItemId == itemId)
-            .Include(item => item.User)
-            .OrderBy(queueItem => queueItem.EnqueueTimeUtc)
-            .ToArrayAsync();
 }

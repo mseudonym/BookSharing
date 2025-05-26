@@ -53,10 +53,8 @@ public class UserMapper
         };
     }
 
-    public QueueUser? ToQueueUser(UserEntity? userEntity)
+    public QueueUser ToQueueUser(UserEntity userEntity)
     {
-        if (userEntity == null)
-            return null;
         return new QueueUser
         {
             Id = userEntity.Id,

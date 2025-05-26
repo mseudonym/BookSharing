@@ -32,10 +32,17 @@ public class ItemsController : Controller
         return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
 
-    [HttpGet("byBookId")]
-    public async Task<ActionResult<QueueModel[]>> GetAllQueuesOfBook(Guid bookId)
+    [HttpGet("friendsByBook")]
+    public async Task<ActionResult<ItemModel[]>> GetFriendsItemsByBook(Guid bookId)
     {
-        var result = await _itemsService.GetAllQueuesOfBook(bookId);
+        var result = await _itemsService.GetFriendItemsByBook(bookId);
+        return result.IsFailed ? MapResult(result) : Ok(result.Value);
+    }
+    
+    [HttpGet("myByBook")]
+    public async Task<ActionResult<ItemModel?>> GetBookItems(Guid bookId)
+    {
+        var result = await _itemsService.GetMyItemByBook(bookId);
         return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
 

@@ -1,4 +1,3 @@
-using BS.Core.Models.Queue;
 using BS.Core.Services.Queue;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +16,11 @@ public class QueueController : Controller
         _queueService = queueService;
     }
 
-    [HttpGet("{itemId:guid}/getQueue")]
-    public async Task<ActionResult<QueueModel>> GetQueue(Guid itemId)
-    {
-        var queueResult = await _queueService.GetQueueAsync(itemId);
-        return Ok(queueResult.Value);
-    }
-
     [HttpPost("{itemId:guid}/enqueue")]
     public async Task<IActionResult> Enqueue(Guid itemId, [FromQuery] bool isForcedByOwner = false)
     {
         var enqueueResult = await _queueService.EnqueueAsync(itemId, isForcedByOwner);
-        return enqueueResult.IsFailed ? MapResult(enqueueResult) : Ok(enqueueResult.Value);
+        return enqueueResult.IsFailed ? MapResult(enqueueResult) : Ok();
     }
 
     [HttpPost("{itemId:guid}/leaveQueue")]
