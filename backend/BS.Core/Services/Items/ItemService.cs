@@ -54,7 +54,7 @@ public class ItemService : IItemService
             ItemId = itemId,
             Holder = _userMapper.ToUserProfile(holder, FriendshipStatus.None),
             Owner = _userMapper.ToUserProfile(owner, FriendshipStatus.None),
-            Queue = resultQueue,
+            Queue = resultQueue.ToArray(),
         });
     }
 
