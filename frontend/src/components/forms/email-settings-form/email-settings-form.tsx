@@ -64,8 +64,8 @@ export const EmailSettingsForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
       <TextInput
-        label="Почта"
-        placeholder="Введите почту"
+        label="Новая почта"
+        placeholder="Введите новую почту"
         {...register('email')}
         error={errors?.email?.message}
       />

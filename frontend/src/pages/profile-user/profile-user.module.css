@@ -62,6 +62,10 @@
   display: none !important;
 }
 
+.userRespondActions {
+  align-self: stretch;
+}
+
 @media (min-width: 768px) {
   .profileHeader {
     display: none;
@@ -110,5 +114,9 @@
 
   .menuDesktopButton {
     display: block !important;
+  }
+
+  .userRespondActions {
+    align-self: flex-start;
   }
 }

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import _styles from '~/index.module.css';
 import styles from '~/pages/email-confirmation-page/email-confirmation.module.css';
 
-import { checkProfileFilling, checkAuth } from '~/actions/user-actions';
+import { checkProfileFilling } from '~/actions/user-actions';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { RESEND_CONFIRMATION_EMAIL_SECONDS } from '~/conts';
@@ -15,10 +15,6 @@ import { getGetUsersMeQueryKey, getUsersMe } from '~/generated-api/users/users';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const EmailConfirmationPage = () => {
-  useEffect(() => {
-    checkAuth(true);
-  }, []);
-
   const [seconds, setSeconds] = useState<number>(RESEND_CONFIRMATION_EMAIL_SECONDS);
 
   const { mutateAsync: resendConfirmationEmail } = useMutation({

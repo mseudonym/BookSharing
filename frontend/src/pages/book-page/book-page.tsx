@@ -72,7 +72,7 @@ export const BookPage = () => {
             <ArrowALeftIcon24Regular />
           </ActionIcon>
 
-          <Menu position='bottom-end' offset={-50}>
+          {ownerQueue && <Menu position='bottom-end' offset={-50}>
             <Menu.Target>
               <ActionIcon variant="transparent">
                 <UiMenuDots3HIcon24Regular />
@@ -83,7 +83,7 @@ export const BookPage = () => {
               Удалить книгу с полки
               </Menu.Item>
             </Menu.Dropdown>
-          </Menu>
+          </Menu>}
 
         </Header>
 
@@ -143,7 +143,7 @@ export const BookPage = () => {
               </section>
             }
           </div>
-          <Menu position='bottom-end' offset={-50}>
+          {ownerQueue && <Menu position='bottom-end' offset={-50}>
             <Menu.Target>
               <ActionIcon variant="transparent" className={styles.menuDesktopButton}>
                 <UiMenuDots3HIcon24Regular />
@@ -154,7 +154,7 @@ export const BookPage = () => {
               Удалить книгу с полки
               </Menu.Item>
             </Menu.Dropdown>
-          </Menu>
+          </Menu>}
         </Wrapper>
       </Page>
     </>

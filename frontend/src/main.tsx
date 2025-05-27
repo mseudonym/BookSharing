@@ -10,8 +10,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { EmailSettingsPage } from './pages/settings/email-settings-page/email-settings-page';
 import { PasswordSettingsPage } from './pages/settings/password-settings-page/password-settings-page';
+import { PrivateRoute } from './ui/private-route';
+import { PublicRoute } from './ui/public-route';
 
-import { checkAuth } from '~/actions/user-actions';
 import { AppRoute } from '~/conts';
 import { BookAdditionPage } from '~/pages/book-addition-page';
 import { BookPage } from '~/pages/book-page';
@@ -32,79 +33,89 @@ import { Layout } from '~/ui/layout';
 
 export const router = createBrowserRouter([
   {
-    path: `${AppRoute.Root}`,
-    element: <WelcomePage />,
-  },
-  {
-    path: `${AppRoute.Register}`,
-    element: <RegistrationPage />,
-  },
-  {
-    path: `${AppRoute.Login}`,
-    element: <LoginPage />,
+    element: <PublicRoute />,
+    children: [
+      {
+        path: `${AppRoute.Root}`,
+        element: <WelcomePage />,
+      },
+      {
+        path: `${AppRoute.Register}`,
+        element: <RegistrationPage />,
+      },
+      {
+        path: `${AppRoute.Login}`,
+        element: <LoginPage />,
+      },
+      {
+        path: `${AppRoute.ForgotPassword}`,
+        element: <ForgotPasswordPage />,
+      },
+    ],
   },
   {
     path: `${AppRoute.EmailConfirmation}`,
     element: <EmailConfirmationPage />,
   },
   {
-    path: `${AppRoute.ForgotPassword}`,
-    element: <ForgotPasswordPage />,
-  },
-  {
     path: `${AppRoute.ProfileFilling}`,
     element: <ProfileFillingPage />,
   },
   {
-    element: <Layout />,
+    element: <PrivateRoute />,
     children: [
       {
-        path: `${AppRoute.Profile}`,
-        element: <ProfilePage />,
-      },
-      {
-        path: `${AppRoute.Shelf}`,
-        element: <ShelfPage />,
-      },
-      {
-        path: `${AppRoute.Friends}`,
-        element: <FriendsPage />,
-      },
-      {
-        path: `${AppRoute.User}`,
-        element: <UserPage />,
-      },
-      {
-        path: `${AppRoute.Book}`,
-        element: <BookPage />,
-      },
-      {
-        path: `${AppRoute.AddBook}`,
-        element: <BookAdditionPage />,
-      },
-      {
-        path: `${AppRoute.SearchFriends}`,
-        element: <SearchFriendsPage />,
-      },
-      {
-        path: `${AppRoute.Settings}`,
-        element: <SettingsPage />,
-      },
-      {
-        path: `${AppRoute.SecuritySettings}`,
-        element: <SecuritySettingsPage />,
-      },
-      {
-        path: `${AppRoute.ProfileSettings}`,
-        element: <ProfileSettingsPage />,
-      },
-      {
-        path: `${AppRoute.EmailSettings}`,
-        element: <EmailSettingsPage />,
-      },
-      {
-        path: `${AppRoute.PasswordSettings}`,
-        element: <PasswordSettingsPage />,
+        element: <Layout />,
+        children: [
+          {
+            path: `${AppRoute.Profile}`,
+            element: <ProfilePage />,
+          },
+          {
+            path: `${AppRoute.Shelf}`,
+            element: <ShelfPage />,
+          },
+          {
+            path: `${AppRoute.Friends}`,
+            element: <FriendsPage />,
+          },
+          {
+            path: `${AppRoute.User}`,
+            element: <UserPage />,
+          },
+          {
+            path: `${AppRoute.Book}`,
+            element: <BookPage />,
+          },
+          {
+            path: `${AppRoute.AddBook}`,
+            element: <BookAdditionPage />,
+          },
+          {
+            path: `${AppRoute.SearchFriends}`,
+            element: <SearchFriendsPage />,
+          },
+          {
+            path: `${AppRoute.Settings}`,
+            element: <SettingsPage />,
+          },
+          {
+            path: `${AppRoute.SecuritySettings}`,
+            element: <SecuritySettingsPage />,
+          },
+          {
+            path: `${AppRoute.ProfileSettings}`,
+            element: <ProfileSettingsPage />,
+          },
+          {
+            path: `${AppRoute.EmailSettings}`,
+            element: <EmailSettingsPage />,
+          },
+          {
+            path: `${AppRoute.PasswordSettings}`,
+            element: <PasswordSettingsPage />,
+          },
+        ],
       },
     ],
   },
@@ -114,23 +125,12 @@ export const router = createBrowserRouter([
   },
 ]);
 
-const AppWrapper = () => {
-  React.useEffect(() => {
-    const initializeAuth = async () => {
-      await checkAuth(false);
-    };
-
-    initializeAuth();
-  }, []);
-  return <RouterProvider router={router} />;
-};
-
 const App = () => {
   return (
     <MantineProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Notifications />
-        <AppWrapper />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </MantineProvider>
   );
