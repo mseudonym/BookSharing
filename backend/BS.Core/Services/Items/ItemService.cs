@@ -2,7 +2,7 @@ using BS.Core.Extensions;
 using BS.Core.Models.Items;
 using BS.Core.Models.Mapping;
 using BS.Core.Models.Queue;
-using BS.Core.Services.Queue;
+using BS.Core.Models.User;
 using BS.Core.Services.User;
 using BS.Data.Context;
 using BS.Data.Entities;
@@ -16,16 +16,46 @@ public class ItemService : IItemService
     private readonly BookMapper _bookMapper;
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
-    private readonly IQueueService _queueService;
+    private readonly UserMapper _userMapper;
 
-
-    public ItemService(BookSharingContext dbContext, ICurrentUserService currentUserService, IQueueService queueService,
-        BookMapper bookMapper)
+    public ItemService(BookSharingContext dbContext, ICurrentUserService currentUserService,
+        BookMapper bookMapper, UserMapper userMapper)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
         _bookMapper = bookMapper;
-        _queueService = queueService;
+        _userMapper = userMapper;
+    }
+
+    public async Task<Result<ItemModel>> GetItemAsync(Guid itemId)
+    {
+        //TODO: Проверять на то, что мы в друзьях у держателя
+        var item = await _dbContext.Items.FindAsync(itemId);
+        if (item == null) return Result.Fail<ItemModel>("Item not found");
+        var queueItemEntities = await _dbContext.QueueItems
+            .Where(queueItem => queueItem.ItemId == itemId)
+            .Include(queueItem => queueItem.User)
+            .OrderBy(queueItem => queueItem.EnqueueTimeUtc)
+            .ToArrayAsync();
+
+        var forcedFirstInQueueByUser = queueItemEntities.FirstOrDefault(queueItem => queueItem.IsForcedFirstByOwner);
+        var resultQueue = queueItemEntities
+            .Where(itemEntity => !itemEntity.IsForcedFirstByOwner)
+            .Select(itemEntity => _userMapper.ToQueueUser(itemEntity.User))
+            .ToList();
+        if (forcedFirstInQueueByUser != null)
+            resultQueue.Insert(0, _userMapper.ToQueueUser(forcedFirstInQueueByUser.User));
+
+        var owner = await _dbContext.Users.FirstAsync(user => user.Id == item.OwnerId);
+        var holder = await _dbContext.Users.FirstAsync(user => user.Id == item.HolderId);
+
+        return Result.Ok(new ItemModel
+        {
+            ItemId = itemId,
+            Holder = _userMapper.ToUserProfile(holder, FriendshipStatus.None),
+            Owner = _userMapper.ToUserProfile(owner, FriendshipStatus.None),
+            Queue = resultQueue.ToArray(),
+        });
     }
 
     public async Task<Result<MyItemInfo[]>> GetMyItemsWithHolderAsync()
@@ -75,7 +105,23 @@ public class ItemService : IItemService
         return await resultFromQueues.Concat(resultFromItemsIHold).WhenAllAsync();
     }
 
-    public async Task<Result<QueueModel[]>> GetAllQueuesOfBook(Guid bookId)
+    public async Task<Result<ItemModel?>> GetMyItemByBook(Guid bookId)
+    {
+        var currentUserId = await _currentUserService.GetIdAsync();
+        var currentUserItem = await _dbContext.Items
+            .Where(item => item.BookId == bookId)
+            .Where(item => item.OwnerId == currentUserId)
+            .FirstOrDefaultAsync();
+
+        if (currentUserItem is null)
+            return Result.Ok<ItemModel?>(null);
+
+        var item = await GetItemAsync(currentUserItem.Id);
+
+        return Result.Ok<ItemModel?>(item.Value);
+    }
+
+    public async Task<Result<ItemModel[]>> GetFriendItemsByBook(Guid bookId)
     {
         var currentUserId = await _currentUserService.GetIdAsync();
         var currentUser = await _dbContext.Users
@@ -90,7 +136,7 @@ public class ItemService : IItemService
             .ToArray();
 
         var queuesInItems = allFriendsItemsWithThisBook
-            .Select(item => _queueService.GetQueueAsync(item.Id).GetAwaiter().GetResult().Value)
+            .Select(item => GetItemAsync(item.Id).GetAwaiter().GetResult().Value)
             .ToArray();
 
         return queuesInItems;
@@ -110,6 +156,19 @@ public class ItemService : IItemService
                 CreatedUtc = DateTime.UtcNow,
             }
         );
+
+        await _dbContext.SaveChangesAsync();
+
+        return Result.Ok();
+    }
+
+    public async Task<Result> RemoveFromMyShelf(Guid bookId)
+    {
+        var currentUserId = await _currentUserService.GetIdAsync();
+
+        await _dbContext.Items
+            .Where(item => item.BookId == bookId && item.OwnerId == currentUserId)
+            .ExecuteDeleteAsync();
 
         await _dbContext.SaveChangesAsync();
 

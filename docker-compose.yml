@@ -11,3 +11,14 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=certs/bs-api-stage.pfx
     ports:
       - "443:443"
+  bs-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:80"
+    container_name: frontend
+    restart: unless-stopped

@@ -1,3 +1,4 @@
+using BS.Core.Models.S3;
 using BS.Core.Models.User;
 using BS.Core.Services.S3;
 using BS.Data.Entities;
@@ -26,7 +27,7 @@ public class UserMapper
             LastName = userEntity.LastName,
             ContactUrl = userEntity.ContactUrl,
             PhotoUrl = userEntity.IsProfilePhotoUploaded
-                ? _s3Service.GetHighQualityProfilePhotoUrlAsync(userEntity.Id)
+                ? _s3Service.GetProfilePhotoUrl(userEntity.Id, PhotoQuality.High)
                 : "",
         };
 
@@ -44,24 +45,22 @@ public class UserMapper
             LastName = person.LastName ?? "",
             ContactUrl = friendshipStatus == FriendshipStatus.Friend ? person.ContactUrl : null,
             HighQualityPhotoUrl = person.IsProfilePhotoUploaded
-                ? _s3Service.GetHighQualityProfilePhotoUrlAsync(person.Id)
+                ? _s3Service.GetProfilePhotoUrl(person.Id, PhotoQuality.High)
                 : "",
             LowQualityPhotoUrl = person.IsProfilePhotoUploaded
-                ? _s3Service.GetLowQualityProfilePhotoUrlAsync(person.Id)
+                ? _s3Service.GetProfilePhotoUrl(person.Id, PhotoQuality.Low)
                 : "",
         };
     }
 
-    public QueueUser? ToQueueUser(UserEntity? userEntity)
+    public QueueUser ToQueueUser(UserEntity userEntity)
     {
-        if (userEntity == null)
-            return null;
         return new QueueUser
         {
             Id = userEntity.Id,
             Username = userEntity.UserName ?? "",
             LowQualityPhotoUrl = userEntity.IsProfilePhotoUploaded
-                ? _s3Service.GetLowQualityProfilePhotoUrlAsync(userEntity.Id)
+                ? _s3Service.GetProfilePhotoUrl(userEntity.Id, PhotoQuality.Low)
                 : null,
         };
     }

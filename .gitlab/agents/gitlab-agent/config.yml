@@ -1,0 +1,5 @@
+gitops:
+  manifest_projects:
+    - id: booksharing/booksharingapp
+      paths:
+        - glob: "k8s/**/*.yaml"

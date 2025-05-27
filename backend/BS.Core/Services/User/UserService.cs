@@ -41,6 +41,8 @@ internal class UserService : IUserService
 
     public async Task<Result<UserData>> EditUserProfile(EditProfileModel model)
     {
+        var errors = new List<IError>();
+
         var currentUserId = await _currentUserService.GetIdAsync();
         var currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
 
@@ -48,14 +50,22 @@ internal class UserService : IUserService
         if (!validationResult.IsValid)
             return Result.Fail<UserData>(new ModelValidationError(validationResult.ErrorsToString()));
 
-        if (model.Photo != null)
+        if (model.Photo is not null)
         {
             var uploadResult = await _s3Service.UploadProfilePhotoAsync(model.Photo);
+            if (uploadResult.IsFailed)
+                errors.AddRange(uploadResult.Errors);
+            else
+                currentUser.IsProfilePhotoUploaded = true;
+        }
 
-            if (uploadResult.IsFailed) return Result.Fail<UserData>(uploadResult.Errors);
-
-            currentUser.IsProfilePhotoUploaded = true;
-            await _dbContext.SaveChangesAsync();
+        if (model.Username != null)
+        {
+            var editUsernameResult = await EditUsername(model.Username);
+            if (editUsernameResult.IsFailed)
+            {
+                errors.AddRange(editUsernameResult.Errors);
+            }
         }
 
         currentUser.FirstName = string.IsNullOrEmpty(model.FirstName) ? currentUser.FirstName : model.FirstName;
@@ -65,11 +75,11 @@ internal class UserService : IUserService
 
         await _dbContext.SaveChangesAsync();
 
-        if (model.Username != null) await EditUsername(model.Username);
-
         currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
 
-        return Result.Ok(_userMapper.ToUserData(currentUser));
+        return errors.Any()
+            ? Result.Fail<UserData>(errors)
+            : Result.Ok(_userMapper.ToUserData(currentUser));
     }
 
     public async Task<Result<UserProfile[]>> SearchByUsernamePrefix(string usernamePrefix)
@@ -103,14 +113,26 @@ internal class UserService : IUserService
 
         var currentUserId = await _currentUserService.GetIdAsync();
         var currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
+        
+        var existingUser = await _userManager.FindByNameAsync(newUsername);
+        if (existingUser != null && existingUser.Id != currentUser.Id)
+            return Result.Fail(new UsernameAlreadyTakenError(newUsername));
 
-        var setUsernameResult = await _userManager.SetUserNameAsync(currentUser, newUsername);
-        if (!setUsernameResult.Succeeded) return Result.Fail<string>(new UsernameAlreadyTakenError(newUsername));
+        // Обновляем username
+        var setUserNameResult = await _userManager.SetUserNameAsync(currentUser, newUsername);
+        if (!setUserNameResult.Succeeded)
+        {
+            return Result.Fail("Failed to set username");
+        }
 
-        currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
-        if (currentUser.UserName != newUsername) return Result.Fail<string>("Failed changing username");
+        // Сохраняем изменения (обычно SetUserNameAsync это уже делает, но если нет)
+        var updateResult = await _userManager.UpdateAsync(currentUser);
+        if (!updateResult.Succeeded)
+        {
+            return Result.Fail("Failed to update username");
+        }
 
-        return Result.Ok(currentUser.UserName);
+        return Result.Ok();
     }
 
     public async Task<Result<UserData>> GetCurrentUser()
