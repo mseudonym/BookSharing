@@ -1,4 +1,4 @@
-import { ActionIcon, Notification, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge } from '@mantine/core';
+import { ActionIcon, Notification, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge, Overlay } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -35,7 +35,7 @@ export const theme = createTheme({
     md: '16px',
     lg: '24px',
     xl: '32px',
-    'xxl': '64px'
+    xxl: '64px'
   },
 
   // Typography system
@@ -43,6 +43,7 @@ export const theme = createTheme({
   fontSizes: {
     sm: '14px',
     md: '16px',
+    lg: '18px',
   },
 
   // Border radius system
@@ -52,6 +53,7 @@ export const theme = createTheme({
     md: '16px',
     lg: '24px',
     xl: '32px',
+
   },
 
   breakpoints: {
@@ -74,6 +76,7 @@ export const theme = createTheme({
         body: classes.modalBody,
         content: classes.modalContent,
         close: classes.modalClose,
+        overlay: classes.modalOverlay,
       },
       styles: (theme) => ({
         title: {
@@ -82,6 +85,9 @@ export const theme = createTheme({
           fontFamily: theme.headings?.fontFamily,
         },
       }),
+    }),
+    Overlay: Overlay.extend({
+      classNames: { root: classes.overlay },
     }),
     Title: Title.extend({
       classNames: { root: classes.title },
@@ -97,14 +103,28 @@ export const theme = createTheme({
       defaultProps: {
         variant: 'outline',
         size: 'md',
-      }
+        loaderProps: {
+          color: 'var(--button-loader-color)',
+        },
+        styles: () => ({
+          root: {
+            '--button-loader-color': 'var(--primary-color)',
+            '&[data-variant="filled"]': {
+              '--button-loader-color': 'var(--white-color)',
+            },
+          },
+        }),
+      },
     }),
     ActionIcon: ActionIcon.extend({
       classNames: { root: classes.actionIcon },
       defaultProps: {
         variant: 'white',
         size: 'lg',
-      }
+        loaderProps: {
+          color: 'var(--primary-color)',
+        },
+      },
     }),
     Menu: Menu.extend({
       classNames: { dropdown: classes.menuDropdown, item: classes.menuItem },

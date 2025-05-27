@@ -26,7 +26,8 @@ import type {
 import type {
   PostUsersEditProfileBody,
   UserData,
-  UserProfile
+  UserProfile,
+  ValidationProblemDetails
 } from '.././model';
 
 import { api } from '../../services/api';
@@ -312,7 +313,7 @@ if(postUsersEditProfileBody.PhotoFile !== undefined) {
   
 
 
-export const getPostUsersEditProfileMutationOptions = <TError = ErrorType<unknown>,
+export const getPostUsersEditProfileMutationOptions = <TError = ErrorType<ValidationProblemDetails>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUsersEditProfile>>, TError,{data: BodyType<PostUsersEditProfileBody>}, TContext>, request?: SecondParameter<typeof api>}
 ): UseMutationOptions<Awaited<ReturnType<typeof postUsersEditProfile>>, TError,{data: BodyType<PostUsersEditProfileBody>}, TContext> => {
 
@@ -339,9 +340,9 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type PostUsersEditProfileMutationResult = NonNullable<Awaited<ReturnType<typeof postUsersEditProfile>>>
     export type PostUsersEditProfileMutationBody = BodyType<PostUsersEditProfileBody>
-    export type PostUsersEditProfileMutationError = ErrorType<unknown>
+    export type PostUsersEditProfileMutationError = ErrorType<ValidationProblemDetails>
 
-    export const usePostUsersEditProfile = <TError = ErrorType<unknown>,
+    export const usePostUsersEditProfile = <TError = ErrorType<ValidationProblemDetails>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUsersEditProfile>>, TError,{data: BodyType<PostUsersEditProfileBody>}, TContext>, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postUsersEditProfile>>,

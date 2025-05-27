@@ -15,14 +15,23 @@
   gap: var(--mantine-spacing-lg);
   align-self: stretch;
   background: var(--white-color);
+  min-width: 260px;
 }
 
 .bookImage {
   width: 156px;
-  height: 225px;
   border-radius: 8px;
   z-index: 2;
   object-fit: cover;
+  aspect-ratio: 0.69;
+}
+
+.bookImageDesktop {
+  display: none;
+  border-radius: 8px;
+  object-fit: cover;
+  min-width: 80px;
+  max-width: 250px;
 }
 
 .bookInfo {
@@ -77,6 +86,7 @@
 .actions {
   display: flex;
   max-width: 600px;
+  min-width: 300px;
   width: 100%;
   padding: 0px var(--mantine-spacing-md);
   flex-direction: column;
@@ -95,4 +105,54 @@
   width: 100%;
   margin-top: calc(var(--mantine-spacing-xl) * -1);
   z-index: 1;
+  transition: height 0.2s ease;
+}
+
+.roundRectWithError {
+  height: calc(var(--mantine-spacing-xl) + var(--mantine-spacing-lg));
+  margin-top: calc((var(--mantine-spacing-xl) + var(--mantine-spacing-lg)) * -1);
+}
+
+.menuDesktopButton {
+  display: none !important;
+}
+
+.bookWrapper {
+  padding-bottom: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .bookCover {
+    display: none;
+  }
+
+  .bookWrapper {
+    flex-direction: row !important;
+    gap: var(--mantine-spacing-xl) !important;
+  }
+
+  .bookImageDesktop {
+    display: block;
+  }
+
+  .bookInfo {
+    padding: 0;
+  }
+
+  .bookHeader {
+    align-items: flex-start;
+  }
+
+  .menuDesktopButton {
+    display: block !important;
+  }
+
+  .actions {
+    padding: 0;
+    margin: 0;
+  }
+
+  .queueTitle {
+    padding: 0 !important;
+  }
 }

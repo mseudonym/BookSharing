@@ -1,7 +1,32 @@
 .page {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   height: 100%;
   padding-top: var(--mantine-spacing-md);
+  width: 100%;
+}
+
+.rainbow {
   background: var(--rainbow-color);
+}
+
+.white {
+  background: var(--white-color);
+  padding-top: 0;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-top: var(--mantine-spacing-xxl);
+    background: var(--white-color);
+    border-radius: 0 var(--mantine-radius-sm) 0 0;
+  }
+  
+  .pageWithoutMenu {
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: var(--mantine-radius-sm);
+    flex-grow: 1;
+  }
 }

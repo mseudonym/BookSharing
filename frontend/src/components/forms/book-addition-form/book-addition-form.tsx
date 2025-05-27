@@ -1,20 +1,28 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BackgroundImage, Button, Center, FileButton, Overlay, Textarea, TextInput } from '@mantine/core';
+import { Button, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { ToolPencilSquareIcon24Regular, TechCamPhotoIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { AxiosError } from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
 import f_styles from '~/components/forms/forms.module.css';
 import styles from '~/pages/book-page/book-page.module.css';
 
+import { FileButton } from '~/components/custom-mantine';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postBooksAdd } from '~/generated-api/books/books';
 import { router } from '~/main';
 
 const FormSchema = zod.object({
+  bookCover: zod
+    .custom<File>((data) => {
+      if (data instanceof File) {
+        return true;
+      }
+      return false;
+    }, 'Фото не может быть пустым'),
   title: zod
     .string()
     .nonempty(REQUIRED_FIELD_TEXT),
@@ -33,30 +41,61 @@ const FormSchema = zod.object({
     .lte(new Date().getFullYear(), 'Год не может быть в будущем'),
   isbn: zod
     .string()
-    .nonempty(REQUIRED_FIELD_TEXT),
-  bookCover: zod
-    .any()
-    .refine((file) => file.type == 'image/jpg'),
+    .nonempty(REQUIRED_FIELD_TEXT)
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
 
 export const BookAdditionForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+
   const {
-    setValue,
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    setError,
+    clearErrors,
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
     mode: 'onTouched',
   });
 
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      const firstErrorField = Object.keys(errors)[0];
+      const firstErrorElement = document.querySelector(`input[name="${firstErrorField}"], textarea[name="${firstErrorField}"]`);
+
+      if (firstErrorElement) {
+        firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [errors]);
+
   const { mutateAsync: addBook } = useMutation({
     mutationFn: postBooksAdd,
+    onError: (error: AxiosError<{
+      errors: {
+        ModelValidationError?: string[];
+        BookAlreadyAddedError?: string[];
+      }
+    }>) => {
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        if (errorData.errors) {
+          const errorMessage = (errorData.errors.ModelValidationError?.[0] && 'ISBN неправильного формата') || 
+                             (errorData.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') || 
+                             undefined;
+          
+          notifications.show({
+            title: 'Ошибка при добавлении книги',
+            message: errorMessage,
+            color: 'var(--red-color)',
+          });
+        }
+      }
+    },
     onSuccess: async (bookData) => {
       router.navigate(AppRoute.Book.replace(':id', bookData.id!));
     },
@@ -74,41 +113,44 @@ export const BookAdditionForm = () => {
         PublicationYear: data.year,
         Isbn: data.isbn,
       });
-    } catch (error) {
-      notifications.show({
-        title: 'Ошибка добавления книги',
-        message: undefined,
-        color: 'var(--red-color)',
-      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={f_styles.form} style={{gap: 0}}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${f_styles.form} ${f_styles.bookAddForm}`}>
       <div className={styles.bookCover}>
-        <FileButton accept="image/jpeg" onChange={(file) => {
-          setFile(file);
-          if (file) setValue('bookCover', file);
-        }}>
-          {(props) => <Button {...props} className={`${f_styles.bookCoverButton} ${f_styles.photoButton} ${file && f_styles.photoButtonChosen}`}>
-            {file ? 
-              <BackgroundImage
-                src={URL.createObjectURL(file)}
-                className={f_styles.photoButtonImage}
-                style={{aspectRatio: 0.7}}>
-                <Center h="100%">
-                  <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
-                </Center>
-                <Overlay color="var(--light-gray-16-color)"/>
-              </BackgroundImage> 
-              : <TechCamPhotoIcon24Regular/>}
-          </Button>}
-        </FileButton>
-        <div className={styles.roundRect} />
+        <FileButton 
+          name="bookCover" 
+          type="book" 
+          error={errors?.bookCover?.message}
+          setValue={setValue}
+          setError={setError}
+          clearErrors={clearErrors}
+          validateFile={(file) => {
+            const result = FormSchema.shape.bookCover.safeParse(file);
+            return result.success;
+          }}
+        />
+        <div className={`${styles.roundRect} ${errors?.bookCover ? styles.roundRectWithError : ''}`} />
       </div>
-      <div className={styles.bookContent}>
+
+      <div className={`${styles.bookContent} ${f_styles.bookContentAddition}`}>
+        <FileButton 
+          name="bookCover" 
+          type="book"
+          className={`${styles.bookImageDesktop}`}
+          error={errors?.bookCover?.message}
+          setValue={setValue}
+          setError={setError}
+          clearErrors={clearErrors}
+          validateFile={(file) => {
+            const result = FormSchema.shape.bookCover.safeParse(file);
+            return result.success;
+          }}
+        />
+
         <div className={styles.actions}>
           <TextInput
             label="Название"
@@ -159,7 +201,7 @@ export const BookAdditionForm = () => {
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             fullWidth>
-          Добавить книгу
+            Добавить книгу
           </Button>
         </div>
       </div>

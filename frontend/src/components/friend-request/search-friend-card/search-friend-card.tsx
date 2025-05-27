@@ -8,7 +8,7 @@ import styles from '~/components/friend-request/friend-request.module.css';
 import _styles from '~/index.module.css';
 
 import { AppRoute } from '~/conts';
-import { postFriendsRespondRequest, postFriendsSendRequest } from '~/generated-api/friends/friends';
+import { postFriendsCancelRequest, postFriendsRespondRequest, postFriendsSendRequest } from '~/generated-api/friends/friends';
 import { FriendshipStatus, UserProfile } from '~/generated-api/model';
 import { router } from '~/main';
 
@@ -29,6 +29,19 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
     },
   });
 
+  const { mutateAsync: removeRequest } = useMutation({
+    mutationFn: postFriendsCancelRequest,
+    onSuccess: async () => {
+      setLocalStatus(FriendshipStatus.None);
+      
+      notifications.show({
+        title: 'Запрос в друзья отменен',
+        message: undefined,
+        color: 'var(--green-color)',
+      });
+    },
+  });
+
   const { mutateAsync: respondRequest } = useMutation({
     mutationFn: postFriendsRespondRequest,
     onSuccess: async ({ friendshipStatus }) => {
@@ -37,7 +50,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
       notifications.show({
         title: friendshipStatus == FriendshipStatus.Friend ? 'Заявка принята' : 'Заявка отклонена',
         message: undefined,
-        color: friendshipStatus == FriendshipStatus.Friend ? 'var(--green-color)' : 'var(--red-color)',
+        color: 'var(--green-color)',
       });
     },
   });
@@ -54,7 +67,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
   const onRemoveRequest = async () => {
     setIsLoading(true);
     try {
-      await respondRequest({ personToRespondId: id, isAccepted: false });
+      await removeRequest({ person: id });
     } finally {
       setIsLoading(false);
     }
@@ -71,9 +84,10 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
 
   return (
     <Card className={styles.friendCard}>
-      <div className={styles.person} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
+      <div className={styles.person} 
+        onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
         <Avatar
-          src={lowQualityPhotoUrl ?? '/default-profile.png'}
+          src={lowQualityPhotoUrl || '/default-profile.png'}
           className={styles.avatar}
           alt={`Avatar image for ${username}`}
         />
@@ -89,6 +103,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
           </Text>
         </div>
       </div>
+
       {localStatus == FriendshipStatus.OutcomeRequest && (
         <ActionIcon variant="transparent" onClick={onRemoveRequest} loading={isLoading}>
           <XIcon24Regular />

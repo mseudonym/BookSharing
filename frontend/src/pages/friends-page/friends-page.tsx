@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Loader, SimpleGrid, Tabs, Title } from '@mantine/core';
+import { ActionIcon, Badge, SimpleGrid, Tabs, Title } from '@mantine/core';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import React from 'react';
 
@@ -9,6 +9,7 @@ import { AppRoute, FriendsTabs } from '~/conts';
 import { useGetFriendsList, useGetFriendsRequestsReceived } from '~/generated-api/friends/friends';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
+import { LoadingPage } from '~/pages/loading-page';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const FriendsPage = () => {
@@ -16,7 +17,7 @@ export const FriendsPage = () => {
   const { data: requestList, isLoading: isLoadingRequests, isError: isErrorRequests } = useGetFriendsRequestsReceived();
 
   if (isLoadingFriends || isLoadingRequests) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   if (isErrorFriends || isErrorRequests) {
@@ -43,9 +44,8 @@ export const FriendsPage = () => {
 
         <Tabs.Panel value={FriendsTabs.MyFriends}>
           <SimpleGrid
-          // Поправить
-            cols={{ base: 1 }}
-            spacing={{ base: 'md' }}
+            cols={{ base: 1, md: 2 }}
+            spacing={{ base: 'md',  }}
             verticalSpacing={{ base: 'md' }}
           >
             {friendList == undefined || friendList.length == 0

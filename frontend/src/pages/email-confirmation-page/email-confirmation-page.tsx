@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import _styles from '~/index.module.css';
 
-import { checkProfileFilling } from '~/actions/user-actions';
+import { checkProfileFilling, redirectIfAuth } from '~/actions/user-actions';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { RESEND_CONFIRMATION_EMAIL_SECONDS } from '~/conts';
@@ -14,6 +14,10 @@ import { getGetUsersMeQueryKey, getUsersMe } from '~/generated-api/users/users';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const EmailConfirmationPage = () => {
+  useEffect(() => {
+    redirectIfAuth();
+  }, []);
+
   const [seconds, setSeconds] = useState<number>(RESEND_CONFIRMATION_EMAIL_SECONDS);
 
   const { mutateAsync: resendConfirmationEmail } = useMutation({
@@ -42,12 +46,12 @@ export const EmailConfirmationPage = () => {
 
   useEffect(() => {
     if (userData?.isEmailConfirm) {
-      checkProfileFilling(userData).then();
+      checkProfileFilling(userData, true);
     }
   }, [userData]);
 
   return (
-    <PageWithWrapper alignWrapper="center">
+    <PageWithWrapper alignWrapper="center" withoutMenu>
       <Header variant="left">
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />

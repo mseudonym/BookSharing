@@ -1,6 +1,5 @@
 .header {
   display: flex;
-  min-height: 50px;
   align-items: center;
   align-self: stretch;
 }
@@ -21,6 +20,13 @@
   gap: var(--mantine-spacing-sm);
 }
 
-.padding {
+.withPadding {
   padding: 0 var(--mantine-spacing-md);
 }
+
+@media (min-width: 768px) {
+  .hideOnDesktop {
+    display: none;
+  }
+}
+

@@ -7,7 +7,7 @@
   align-self: stretch;
 }
 
-.userInfoActions {
+.userInfoAction {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +22,18 @@
   align-self: stretch;
 }
 
+.userTitle {
+  text-align: center;
+}
+
+.userName {
+  font-size: var(--mantine-font-size-lg);
+}
+
+.userLink {
+  align-self: center !important;
+}
+
 .bookList {
   display: flex;
   align-items: flex-start;
@@ -33,7 +45,7 @@
 }
 
 .addBookButton {
-  width: 99px !important;
+  width: 98px !important;
   height: 140px !important;
   border-radius: var(--mantine-radius-sm) !important;
   border: 2px dashed var(--light-gray-16-color) !important;
@@ -43,4 +55,60 @@
   width: 80px;
   height: 80px;
   aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.menuDesktopButton {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .profileHeader {
+    display: none;
+  }
+
+  .userContent {
+    flex-direction: row;
+    gap: var(--mantine-spacing-xl);
+    padding-bottom: var(--mantine-spacing-xl);
+    padding-left: var(--mantine-spacing-xl);
+    padding-right: var(--mantine-spacing-xl);
+    align-items: flex-start;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .addBookButton {
+    width: 120px !important;
+    height: 171px !important;
+  }
+
+  .userInfoAction {
+    align-items: flex-start;
+    margin: auto 0;
+    flex-grow: 1;
+  }
+
+  .userInfo {
+    align-items: flex-start;
+  }
+
+  .bookList {
+    gap: var(--mantine-spacing-xl);
+  }
+
+  .userTitle {
+    text-align: left;
+  }
+
+  .userLink {
+    align-self: flex-start !important;
+  }
+
+  .menuDesktopButton {
+    display: block !important;
+  }
 }

@@ -11,17 +11,35 @@
 }
 
 .main {
+  display: flex;
   padding: 0;
   width: 100%;
-  max-width: 360px;
-  /*margin-right: auto;*/
+  max-width: 960px;
   margin: 0 auto;
 }
 
+@media (min-width: 768px) {
+  .main {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
 .menu {
-  position: relative;
+  display: none;
+  height: 100vh;
+  position: sticky;
+  top: 0;
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
   margin-left: auto;
+  gap: var(--mantine-spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .menu {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 /* Modal styles */
@@ -53,6 +71,15 @@
 .modalClose {
   padding: var(--mantine-spacing-sm);
   color: var(--primary-color)
+}
+
+.modalOverlay {
+  background-color: var(--light-gray-16-color);
+}
+
+/* Overlay styles */
+.overlay {
+  background-color: var(--light-gray-16-color);
 }
 
 /* Title styles */
@@ -93,11 +120,6 @@
       background-color: var(--light-gray-9-color);
       color: var(--disabled-text-color);
     }
-
-    &[data-loading] {
-      background-color: var(--primary-color);
-      color: var(--white-color);
-    }
   }
 
   &[data-variant='white'] {
@@ -110,11 +132,6 @@
 
     &:disabled {
       color: var(--disabled-text-color);
-    }
-
-    &[data-loading] {
-      background-color: var(--white-color);
-      color: var(--primary-color);
     }
   }
 
@@ -130,11 +147,6 @@
     &:disabled {
       color: var(--disabled-text-color);
       background-color: var(--light-background-color);
-    }
-
-    &[data-loading] {
-      background-color: var(--white-color);
-      color: var(--primary-color);
     }
   }
 }
@@ -153,6 +165,10 @@
   min-width: 50px;
   border-radius: 100%;
   transition: all var(--transition-duration) var(--transition-timing);
+
+  &[data-loading] {
+    color: var(--primary-color);
+  }
 
   &[data-variant='transparent'] {
     color: var(--primary-color);
@@ -271,6 +287,8 @@
   text-decoration: none !important;
   transition: color var(--transition-duration) var(--transition-timing);
   color: var(--primary-color);
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .anchor::after {
@@ -297,7 +315,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  --loader-color: var(--primary-color) !important;
 }
 
 /* Divider styles */
