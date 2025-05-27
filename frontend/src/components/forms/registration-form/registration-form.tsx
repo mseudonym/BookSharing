@@ -10,7 +10,7 @@ import * as zod from 'zod';
 import styles from '~/components/forms/forms.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { PasswordInput } from '~/components/inputs/password-input';
+import { PasswordInput } from '~/components/custom-mantine';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
 import { saveToken } from '~/services/token';
@@ -57,15 +57,14 @@ export const RegistrationForm = () => {
     mutationFn: postAuthRegister,
     onError: (error: AxiosError<{
       errors: {
-        DuplicateUserName?: string[];
         DuplicateEmail?: string[];
       }
     }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.errors) {
-          const errorMessage = (errorData.errors.DuplicateEmail?.[0] ? 'Email уже занят' : '') || 
-                             'Произошла ошибка при регистрации';
+          const errorMessage = (errorData.errors.DuplicateEmail?.[0] && 'Email уже занят') || 
+                             undefined;
           
           notifications.show({
             title: 'Ошибка регистрации',
@@ -92,8 +91,6 @@ export const RegistrationForm = () => {
       setIsLoading(true);
       await registerMutation({ email: data.email, password: data.password })
         .then(async () => await loginMutation({ email: data.email, password: data.password }));
-    } catch (error) {
-      // Общая ошибка будет обработана в onError мутации
     } finally {
       setIsLoading(false);
     }

@@ -4,6 +4,7 @@
   align-items: flex-start;
   align-self: stretch;
   gap: var(--mantine-spacing-md);
+  transition: height 0.2s ease;
 }
 
 .formCenter {
@@ -14,29 +15,21 @@
   padding: var(--mantine-spacing-md) 0px var(--mantine-spacing-xl) 0px;
 }
 
-.photoButton {
-  padding: 0 !important;
-  border: 2px dashed var(--light-gray-16-color) !important;
-  z-index: 2 !important;
-  background: none !important;
+.desktopFileButton {
+  display: none !important;
 }
 
-.photoButtonChosen {
-  border: none !important;
+.bookAddForm {
+  gap: 0;
 }
 
-.photoButtonImage {
-  height: 100% !important;
-}
+@media (min-width: 768px) {
+  .desktopFileButton {
+    display: block !important;
+  }
 
-.bookCoverButton {
-  width: 156px !important;
-  height: 225px !important;
-  border-radius: var(--mantine-radius-sm) !important;
-}
-
-.avatarButton {
-  width: 120px !important;
-  height: 120px !important;
-  border-radius: 100% !important;
+  .bookContentAddition {
+    align-items: flex-start !important;
+    flex-direction: row !important;
+  }
 }

@@ -1,8 +1,9 @@
-import { ActionIcon, Divider, Loader, Menu, Modal, Title, Text, Button, Flex, Image } from '@mantine/core';
+import { ActionIcon, Divider, Menu, Modal, Title, Text, Button, Flex, Image } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
+import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -12,27 +13,35 @@ import styles from '~/pages/book-page/book-page.module.css';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { Queue } from '~/components/queue/queue';
+import { AppRoute } from '~/conts';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
-import { useGetItemsByBookId } from '~/generated-api/items/items';
+import { deleteItemsRemoveFromMyShelf, useGetItemsFriendsByBook, useGetItemsMyByBook } from '~/generated-api/items/items';
+import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
+import { LoadingPage } from '~/pages/loading-page';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
 export const BookPage = () => {
   const { id } = useParams();
   const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
-  const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsByBookId({ bookId: id });
+  const {data: ownerQueue} = useGetItemsMyByBook({ bookId: id });
+  const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsFriendsByBook({ bookId: id });
   const [opened, { open, close }] = useDisclosure(false);
 
-  /* const { mutateAsync: deleteBook } = useMutation({
-    mutationFn: deleteBooksByIdBookId,
+  const { mutateAsync: deleteBook } = useMutation({
+    mutationFn: deleteItemsRemoveFromMyShelf,
     onSuccess: async () => {
       router.navigate(AppRoute.Profile);
     },
-  }); */
+  });
+
+  const onDeleteBook = () => {
+    deleteBook({ bookId: id! });
+  };
 
   if (isLoadingBook || isLoadingQueues) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   if (isErrorBook || isErrorQueues || !book) {
@@ -49,7 +58,7 @@ export const BookPage = () => {
           direction="row"
           gap="var(--mantine-spacing-sm)"
         >
-          <Button variant="filled" >
+          <Button variant="filled" onClick={onDeleteBook}>
               Да, удалить
           </Button>
           <Button  color="outline" onClick={close}>
@@ -58,7 +67,7 @@ export const BookPage = () => {
         </Flex>
       </Modal>
       <Page>
-        <Header variant="auto" withPadding>
+        <Header variant="auto" withPadding hideOnDesktop>
           <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
             <ArrowALeftIcon24Regular />
           </ActionIcon>
@@ -78,11 +87,12 @@ export const BookPage = () => {
 
         </Header>
 
-        <Wrapper background='none' noPaddingHorizontal noGap>
+        <Wrapper background='none' noPaddingHorizontal noGap className={styles.bookWrapper}>
           <div className={styles.bookCover}>
-            <Image className={styles.bookImage} src={book.isPhotoUploaded! ? book.bookCoverUrl! : '/default-book-cover.png'} />
+            <Image className={styles.bookImage} src={book.bookCoverUrl} />
             <div className={styles.roundRect} />
           </div>
+          <Image className={styles.bookImageDesktop} src={book.bookCoverUrl} />
           <div className={styles.bookContent}>
             <div className={styles.bookInfo}>
               <div className={styles.bookHeader}>
@@ -104,21 +114,47 @@ export const BookPage = () => {
               <Divider my="l" />
             </div>
           
+            {ownerQueue && 
             <section className={styles.queues}>
-              <Header variant="left" withPadding>
-                <Title>Эта книга у ваших друзей</Title>
+              <Header className={styles.queueTitle} variant="left" withPadding>
+                <Title>Эта книга у ваc</Title>
               </Header>
-              {queueList == undefined || queueList.length == 0
-                ? (
-                  <IllustrationWrapper
-                    src="/queue-illustration.svg"
-                    alt="Queue is empty illustration"
-                    text="Очередей нет"
-                  />
-                )
-                : queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
+              <Queue {...ownerQueue} bookId={id!} key={id!} />
+              <Divider my="l" />
             </section>
+            }
+
+            {queueList == undefined || queueList.length == 0 ?
+              <section className={styles.queues}>
+                <Header className={styles.queueTitle} variant="left" withPadding>
+                  <Title>Этой книги нет у ваших друзей</Title>
+                </Header>
+                <IllustrationWrapper
+                  src="/queue-illustration.svg"
+                  alt="Queue is empty illustration"
+                />
+              </section>
+              :
+              <section className={styles.queues}>
+                <Header className={styles.queueTitle} variant="left" withPadding>
+                  <Title>Эта книга у ваших друзей</Title>
+                </Header>
+                {queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
+              </section>
+            }
           </div>
+          <Menu position='bottom-end' offset={-50}>
+            <Menu.Target>
+              <ActionIcon variant="transparent" className={styles.menuDesktopButton}>
+                <UiMenuDots3HIcon24Regular />
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
+              Удалить книгу с полки
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </Wrapper>
       </Page>
     </>

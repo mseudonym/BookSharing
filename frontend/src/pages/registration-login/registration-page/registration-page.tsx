@@ -1,7 +1,10 @@
 import { Divider, Flex, Title } from '@mantine/core';
 import { Button } from '@mantine/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import styles from '~/pages/registration-login/registration-login.module.css';
+
+import { redirectIfAuth } from '~/actions';
 import { RegistrationForm } from '~/components/forms';
 import { Logo } from '~/components/logo/logo';
 import { AppRoute } from '~/conts';
@@ -9,9 +12,13 @@ import { router } from '~/main';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const RegistrationPage = () => {
+  useEffect(() => {
+    redirectIfAuth();
+  }, []);
+
   return (
-    <PageWithWrapper alignWrapper="center">
-      <Flex direction='column' align='center' gap='lg'>
+    <PageWithWrapper alignWrapper="center" withoutMenu>
+      <Flex direction='column' align='center' gap='lg' className={styles.head}>
         <Logo />
         <Title ta='center'>Регистрация</Title>
       </Flex>

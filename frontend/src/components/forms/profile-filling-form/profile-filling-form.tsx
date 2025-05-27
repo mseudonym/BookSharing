@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BackgroundImage, Button, Center, FileButton, Overlay, TextInput } from '@mantine/core';
+import { Button, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { TechCamPhotoIcon24Regular, ToolPencilSquareIcon24Regular } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
@@ -10,51 +10,51 @@ import * as zod from 'zod';
 import styles from '~/components/forms/forms.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { REQUIRED_FIELD_TEXT } from '~/conts';
+import { FileButton } from '~/components/custom-mantine';
+import { ProfileFormSchema } from '~/conts';
 import { postUsersEditProfile } from '~/generated-api/users/users';
 
-const FormSchema = zod.object({
-  firstName: zod
-    .string()
-    .nonempty(REQUIRED_FIELD_TEXT),
-  lastName: zod
-    .string()
-    .nonempty(REQUIRED_FIELD_TEXT),
-  username: zod
-    .string()
-    .nonempty(REQUIRED_FIELD_TEXT)
-    .min(5, 'Никнейм не может быть короче 5-ти символов')
-    .max(20, 'Никнейм не может быть длиннее 20-ти символов')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Никнейм может содержать только латинские буквы, цифры и нижние подчёркивания'),
-  contactUrl: zod
-    .string()
-    .url('Ссылка должна быть валидной'),
-  profilePhoto: zod
-    .custom<File>()
-    .refine((file) => file.size > 0, 'Файл не может быть пустым')
-    .refine((file) => file.type === 'image/jpeg', 'Файл должен быть изображением')
-    .refine((file) => file.size < 1024 * 1024, 'Файл не может быть больше 1MB'),
-});
-
-type IFormInput = zod.infer<typeof FormSchema>;
+type IFormInput = zod.infer<typeof ProfileFormSchema>;
 
 export const ProfileFillingForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
 
   const {
     setValue,
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<IFormInput>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(ProfileFormSchema),
     reValidateMode: 'onChange',
     mode: 'onTouched',
   });
 
   const { mutateAsync: fillProfile } = useMutation({
     mutationFn: postUsersEditProfile,
+    onError: (error: AxiosError<{
+      problemDetails: {
+        errors: {
+          UsernameAlreadyTakenError?: string[];
+        }
+      }
+    }>) => {
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        if (errorData.problemDetails?.errors) {
+          const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0] && 'Имя пользователя уже занято' ) || 
+                             undefined;
+          
+          notifications.show({
+            title: 'Ошибка заполнения профиля',
+            message: errorMessage,
+            color: 'var(--red-color)',
+          });
+        }
+      }
+    },
     onSuccess: async (userData) => {
       await checkProfileFilling(userData, true);
     },
@@ -70,12 +70,6 @@ export const ProfileFillingForm = () => {
         PhotoFile: data.profilePhoto,
         Username: data.username,
       });
-    } catch (error) {
-      notifications.show({
-        title: 'Ошибка заполнения профиля',
-        message: undefined,
-        color: 'var(--red-color)',
-      });
     } finally {
       setIsLoading(false);
     }
@@ -83,24 +77,18 @@ export const ProfileFillingForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
-      <FileButton accept="image/jpeg" onChange={(file) => {
-        setFile(file);
-        if (file) setValue('profilePhoto', file);
-      }}>
-        {(props) => <Button {...props} className={`${styles.avatarButton} ${styles.photoButton} ${file && styles.photoButtonChosen}`}>
-          {file ? 
-            <BackgroundImage
-              src={URL.createObjectURL(file)}
-              className={styles.photoButtonImage}
-              style={{aspectRatio: 1}}>
-              <Center h="100%">
-                <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
-              </Center>
-              <Overlay color="var(--light-gray-16-color)"/>
-            </BackgroundImage> 
-            : <TechCamPhotoIcon24Regular/>}
-        </Button>}
-      </FileButton>
+      <FileButton 
+        name="profilePhoto" 
+        type="avatar" 
+        error={errors?.profilePhoto?.message}
+        setValue={setValue}
+        setError={setError}
+        clearErrors={clearErrors}
+        validateFile={(file) => {
+          const result = ProfileFormSchema.shape.profilePhoto.safeParse(file);
+          return result.success;
+        }}
+      />
 
       <TextInput
         label="Имя"
@@ -132,7 +120,7 @@ export const ProfileFillingForm = () => {
 
       <Button
         variant="filled"
-        onClick={handleSubmit(onSubmit)}
+        type="submit"
         fullWidth
         loading={isLoading}
       >

@@ -1,32 +1,18 @@
-import { AppShell } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import React, { PropsWithChildren } from 'react';
 
 import styles from '~/ui/pages/page/page.module.css';
 
-//import { Logo } from '~/components/logo';
+import { BackgroundColor } from '~/types';
 
-export const Page = ({ children }: PropsWithChildren) => {
-  const [opened] = useDisclosure();
-  
+type PageProps = {
+  backgroundColor?: BackgroundColor;
+  withoutMenu?: boolean;
+}
+
+export const Page = ({ children, backgroundColor = 'rainbow', withoutMenu = false}: PropsWithChildren<PageProps>) => {  
   return (
-    <AppShell
-      navbar={{
-        breakpoint: 'sm',
-        collapsed: { mobile: !opened },
-        width: 236,
-      }}
-      padding="var(--mantine-spacing-lg)">
-
-      {/* <AppShell.Navbar>
-        <Logo size="big" />
-      </AppShell.Navbar> */}
-
-      <AppShell.Main>
-        <div className={styles.page}>
-          {children}
-        </div>
-      </AppShell.Main>
-    </AppShell>
+    <div className={`${styles.page} ${styles[backgroundColor]} ${withoutMenu && styles.pageWithoutMenu}`}>
+      {children}
+    </div>
   );
 };

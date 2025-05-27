@@ -1,4 +1,4 @@
-import { Loader, Title } from '@mantine/core';
+import { Title } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/pages/shelf-page/shelf-page.module.css';
@@ -8,13 +8,14 @@ import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { useGetBooksAllFriendsBooks } from '~/generated-api/books/books';
 import { ErrorPage } from '~/pages/error-page/error-page';
+import { LoadingPage } from '~/pages/loading-page';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const ShelfPage = () => {
   const { data: bookList, isLoading, isError } = useGetBooksAllFriendsBooks();
 
   if (isLoading) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   if (isError) {

@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
@@ -10,7 +10,7 @@ import styles from '~/components/forms/forms.module.css';
 import _styles from '~/index.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
-import { PasswordInput } from '~/components/inputs/password-input';
+import { PasswordInput } from '~/components/custom-mantine';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin } from '~/generated-api/auth/auth';
 import { router } from '~/main';
@@ -45,8 +45,16 @@ export const LoginForm = () => {
     mutationFn: postAuthLogin,
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
-      await checkProfileFilling();
-      router.navigate(AppRoute.Shelf);
+      await checkProfileFilling(undefined, true);
+      // router.navigate(AppRoute.Shelf);
+    },
+
+    onError: () => {
+      notifications.show({
+        title: 'Ошибка входа',
+        message: 'Неправильная почта или пароль',
+        color: 'var(--red-color)',
+      });
     },
   });
 
@@ -54,12 +62,6 @@ export const LoginForm = () => {
     try {
       setIsLoading(true);
       await loginMutation({ email: data.email, password: data.password });
-    } catch (error) {
-      notifications.show({
-        title: 'Ошибка входа',
-        message: undefined,
-        color: 'var(--red-color)',
-      });
     } finally {
       setIsLoading(false);
     }

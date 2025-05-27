@@ -5,27 +5,17 @@
  * OpenAPI spec version: v1
  */
 import {
-  useMutation,
-  useQuery
+  useMutation
 } from '@tanstack/react-query';
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
   MutationFunction,
   QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult,
-  UseQueryOptions,
-  UseQueryResult
+  UseMutationResult
 } from '@tanstack/react-query';
 
 import type {
-  PostQueueItemIdEnqueueParams,
-  QueueModel
+  PostQueueItemIdEnqueueParams
 } from '.././model';
 
 import { api } from '../../services/api';
@@ -33,87 +23,6 @@ import type { ErrorType } from '../../services/api';
 
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
-
-
-
-export const getQueueItemIdGetQueue = (
-    itemId: string,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
-) => {
-      
-      
-      return api<QueueModel>(
-      {url: `/Queue/${itemId}/getQueue`, method: 'GET', signal
-    },
-      options);
-    }
-  
-
-export const getGetQueueItemIdGetQueueQueryKey = (itemId: string,) => {
-    return [`/Queue/${itemId}/getQueue`] as const;
-    }
-
-    
-export const getGetQueueItemIdGetQueueQueryOptions = <TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>, request?: SecondParameter<typeof api>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetQueueItemIdGetQueueQueryKey(itemId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>> = ({ signal }) => getQueueItemIdGetQueue(itemId, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(itemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetQueueItemIdGetQueueQueryResult = NonNullable<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>>
-export type GetQueueItemIdGetQueueQueryError = ErrorType<unknown>
-
-
-export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getQueueItemIdGetQueue>>,
-          TError,
-          Awaited<ReturnType<typeof getQueueItemIdGetQueue>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getQueueItemIdGetQueue>>,
-          TError,
-          Awaited<ReturnType<typeof getQueueItemIdGetQueue>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetQueueItemIdGetQueue<TData = Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError = ErrorType<unknown>>(
- itemId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getQueueItemIdGetQueue>>, TError, TData>>, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetQueueItemIdGetQueueQueryOptions(itemId,options)
-
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
 
 
 

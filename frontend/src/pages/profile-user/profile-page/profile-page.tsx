@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Avatar, Button, Text, Loader, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Avatar, Button, Text, Title } from '@mantine/core';
 import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
 import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIcon';
 import React from 'react';
@@ -13,6 +13,7 @@ import { useGetBooksMyBooks } from '~/generated-api/books/books';
 import { useGetUsersMe } from '~/generated-api/users/users';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
+import { LoadingPage } from '~/pages/loading-page';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
@@ -21,7 +22,7 @@ export const ProfilePage = () => {
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksMyBooks();
 
   if (isLoadingUser || isLoadingBooks) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   if (isErrorUser || isErrorBooks || !user) {
@@ -30,8 +31,8 @@ export const ProfilePage = () => {
 
   return (
     <Page>
-      <Header variant="right" withPadding>
-        <ActionIcon variant="transparent">
+      <Header variant="right" withPadding hideOnDesktop>
+        <ActionIcon variant="transparent" onClick={() => router.navigate(AppRoute.Settings)}>
           <SettingsGearIcon24Regular />
         </ActionIcon>
       </Header>
@@ -41,20 +42,20 @@ export const ProfilePage = () => {
           alt="Avatar"
           className={styles.avatar}
         />
-        <div className={styles.userInfoActions}>
+        <div className={styles.userInfoAction}>
           <div className={styles.userInfo}>
-            <Title ta='center'>
+            <Title className={styles.userTitle}>
               {user.firstName}
               {' '}
               {user.lastName}
             </Title>
-            <Text span className={_styles.textGray}>
+            <Text span className={`${_styles.textGray} ${styles.userName}`}>
             @
               {user.username}
             </Text>
           </div>
           {user.contactUrl && (
-            <Anchor href={user.contactUrl}>
+            <Anchor href={user.contactUrl} className={styles.userLink}>
             Связаться
             </Anchor>
           )}

@@ -13,3 +13,9 @@
   border-radius: var(--mantine-radius-sm);
   object-fit: cover;
 }
+
+@media (min-width: 768px) {
+  .bookCard {
+    width: 120px;
+  }
+}

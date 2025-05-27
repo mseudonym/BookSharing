@@ -25,6 +25,7 @@ import type {
 
 import type {
   DeleteFriendsDeleteParams,
+  PostFriendsCancelRequestParams,
   PostFriendsRespondRequestParams,
   PostFriendsSendRequestParams,
   UserProfile
@@ -173,6 +174,63 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getPostFriendsSendRequestMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    export const postFriendsCancelRequest = (
+    params?: PostFriendsCancelRequestParams,
+ options?: SecondParameter<typeof api>,signal?: AbortSignal
+) => {
+      
+      
+      return api<UserProfile>(
+      {url: `/Friends/cancelRequest`, method: 'POST',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+export const getPostFriendsCancelRequestMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postFriendsCancelRequest>>, TError,{params?: PostFriendsCancelRequestParams}, TContext>, request?: SecondParameter<typeof api>}
+): UseMutationOptions<Awaited<ReturnType<typeof postFriendsCancelRequest>>, TError,{params?: PostFriendsCancelRequestParams}, TContext> => {
+
+const mutationKey = ['postFriendsCancelRequest'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postFriendsCancelRequest>>, {params?: PostFriendsCancelRequestParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  postFriendsCancelRequest(params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostFriendsCancelRequestMutationResult = NonNullable<Awaited<ReturnType<typeof postFriendsCancelRequest>>>
+    
+    export type PostFriendsCancelRequestMutationError = ErrorType<unknown>
+
+    export const usePostFriendsCancelRequest = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postFriendsCancelRequest>>, TError,{params?: PostFriendsCancelRequestParams}, TContext>, request?: SecondParameter<typeof api>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postFriendsCancelRequest>>,
+        TError,
+        {params?: PostFriendsCancelRequestParams},
+        TContext
+      > => {
+
+      const mutationOptions = getPostFriendsCancelRequestMutationOptions(options);
 
       return useMutation(mutationOptions , queryClient);
     }

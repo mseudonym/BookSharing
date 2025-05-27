@@ -1,7 +1,9 @@
+import { AppShell } from '@mantine/core';
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { Navbar } from '~/components/navbar';
+import { Sidebar } from '~/components/sidebar';
 import { AppRoute } from '~/conts';
 
 export const Layout = () => {
@@ -17,9 +19,16 @@ export const Layout = () => {
   const shouldShowNavbar = showNavbarRoutes.includes(pathname as AppRoute);
 
   return (
-    <>
+    <AppShell
+      navbar={{ width: 236, breakpoint: 'sm'}}
+    >
+      
+      <Sidebar />
       {shouldShowNavbar && <Navbar />}
-      <Outlet />
-    </>
+
+      <AppShell.Main>
+        <Outlet />
+      </AppShell.Main>
+    </AppShell>
   );
 };

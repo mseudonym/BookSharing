@@ -10,7 +10,7 @@
 .person {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--mantine-spacing-sm);
   flex: 1 0 0;
 }
 
@@ -34,4 +34,15 @@
 
 .crossButton {
   color: var(--red-color);
+}
+
+@media (min-width: 768px) {
+  .person {
+    gap: var(--mantine-spacing-md);
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
 }

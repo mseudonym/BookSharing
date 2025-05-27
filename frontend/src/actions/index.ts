@@ -1,1 +1,1 @@
-export { checkAuth, checkProfileFilling } from './user-actions';
+export { checkAuth, redirectIfAuth, checkProfileFilling } from './user-actions';
