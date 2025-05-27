@@ -43,39 +43,40 @@ export const FriendsPage = () => {
         </Tabs.List>
 
         <Tabs.Panel value={FriendsTabs.MyFriends}>
-          <SimpleGrid
-            cols={{ base: 1, md: 2 }}
-            spacing={{ base: 'md',  }}
-            verticalSpacing={{ base: 'md' }}
-          >
-            {friendList == undefined || friendList.length == 0
-              ? (
-                <IllustrationWrapper
-                  src="/friends-illustration.svg"
-                  alt="No friends illustration"
-                  text="Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху."
-                />
-              )
-              : friendList.map((friend) => <FriendCard {...friend} key={friend.id} />)}
-          </SimpleGrid>
+          {friendList == undefined || friendList.length == 0 ? 
+            (
+              <IllustrationWrapper
+                src="/friends-illustration.svg"
+                alt="No friends illustration"
+                text="Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху."
+              />
+            ) :
+            <SimpleGrid
+              cols={{ base: 1, md: 2 }}
+              spacing={{ base: 'md',  }}
+              verticalSpacing={{ base: 'md' }}
+            >
+              {friendList.map((friend) => <FriendCard {...friend} key={friend.id} />)}
+            </SimpleGrid>
+          }
         </Tabs.Panel>
 
         <Tabs.Panel value={FriendsTabs.Requests}>
-          <SimpleGrid
-            cols={{ base: 1 }}
-            spacing={{ base: 'md', md: 'xl' }}
-            verticalSpacing={{ base: 'md', md: 'xl' }}
-          >
-            {requestList == undefined || requestList.length == 0
-              ? (
-                <IllustrationWrapper
-                  src="/request-illustration.svg"
-                  alt="No requests illustration"
-                  text="Заявок пока нет, но можно кого-нибудь добавить самому."
-                />
-              )
-              : requestList.map((person) => <RequestCard {...person} key={person.id} />)}
-          </SimpleGrid>
+          {requestList == undefined || requestList.length == 0 ?
+            (
+              <IllustrationWrapper
+                src="/request-illustration.svg"
+                alt="No requests illustration"
+                text="Заявок пока нет, но можно кого-нибудь добавить самому."
+              />) :
+            <SimpleGrid
+              cols={{ base: 1 }}
+              spacing={{ base: 'md', md: 'xl' }}
+              verticalSpacing={{ base: 'md', md: 'xl' }}
+            >
+              {requestList.map((person) => <RequestCard {...person} key={person.id} />)}
+            </SimpleGrid>
+          }
         </Tabs.Panel>
       </Tabs>
     </PageWithWrapper>

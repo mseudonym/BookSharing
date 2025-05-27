@@ -76,16 +76,18 @@ export const BookAdditionForm = () => {
   const { mutateAsync: addBook } = useMutation({
     mutationFn: postBooksAdd,
     onError: (error: AxiosError<{
+      problemDetails: {
       errors: {
         ModelValidationError?: string[];
-        BookAlreadyAddedError?: string[];
+          BookAlreadyAddedError?: string[];
+        }
       }
     }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
-        if (errorData.errors) {
-          const errorMessage = (errorData.errors.ModelValidationError?.[0] && 'ISBN неправильного формата') || 
-                             (errorData.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') || 
+        if (errorData.problemDetails?.errors) {
+          const errorMessage = (errorData.problemDetails.errors.ModelValidationError?.[0] && 'ISBN неправильного формата') || 
+                             (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') || 
                              undefined;
           
           notifications.show({

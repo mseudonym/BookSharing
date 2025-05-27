@@ -4,8 +4,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 
 import _styles from '~/index.module.css';
+import styles from '~/pages/email-confirmation-page/email-confirmation.module.css';
 
-import { checkProfileFilling, redirectIfAuth } from '~/actions/user-actions';
+import { checkProfileFilling, checkAuth } from '~/actions/user-actions';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { RESEND_CONFIRMATION_EMAIL_SECONDS } from '~/conts';
@@ -15,7 +16,7 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const EmailConfirmationPage = () => {
   useEffect(() => {
-    redirectIfAuth();
+    checkAuth(true);
   }, []);
 
   const [seconds, setSeconds] = useState<number>(RESEND_CONFIRMATION_EMAIL_SECONDS);
@@ -69,7 +70,7 @@ export const EmailConfirmationPage = () => {
       />
       {seconds === 0
         ? (
-          <Anchor className={_styles.anchorGray} onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
+          <Anchor className={`${_styles.anchorGray} ${styles.link}`} onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
             Отправить письмо ещё раз
           </Anchor>
         )

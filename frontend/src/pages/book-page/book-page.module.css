@@ -126,6 +126,10 @@
     display: none;
   }
 
+  .bookContent {
+    padding: 0;
+  }
+
   .bookWrapper {
     flex-direction: row !important;
     gap: var(--mantine-spacing-xl) !important;
