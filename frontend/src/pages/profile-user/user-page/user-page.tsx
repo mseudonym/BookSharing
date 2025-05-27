@@ -172,6 +172,7 @@ export const UserPage = () => {
             alt="Avatar"
             className={styles.avatar}
           />
+          
           <div className={styles.userInfoAction}>
             <div className={styles.userInfo}>
               <Title className={styles.userTitle}>
