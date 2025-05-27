@@ -21,6 +21,9 @@ spec:
           image: "${BS_APP_IMAGE}"
           ports:
             - containerPort: 80
+          env:
+            - name: BS_APP_API_BASE_URL
+              value: "${BS_API_BASE_URL}"
           readinessProbe:
             httpGet:
               path: /

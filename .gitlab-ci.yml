@@ -18,8 +18,6 @@ variables:
 build-backend:
   stage: build
   image: docker:latest
-  environment:
-    name: $CI_ENVIRONMENT_NAME
   services:
     - docker:dind
   script:
@@ -30,17 +28,12 @@ build-backend:
 build-frontend:
   stage: build
   image: docker:latest
-  environment:
-    name: $CI_ENVIRONMENT_NAME
   services:
     - docker:dind
   script:
-    - echo "BS_API_BASE_URL=$BS_API_BASE_URL"
-
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build --build-arg BS_API_BASE_URL="$BS_API_BASE_URL" -t $BS_APP_IMAGE -f frontend/Dockerfile frontend/
+    - docker build -t $BS_APP_IMAGE -f frontend/Dockerfile frontend/
     - docker push $BS_APP_IMAGE
-
 
 staging-deploy-backend:
   stage: deploy
@@ -107,4 +100,4 @@ production-deploy-backend:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
   only:
-    - master
+    - main
