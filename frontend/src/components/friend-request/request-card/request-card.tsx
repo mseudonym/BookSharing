@@ -1,4 +1,5 @@
-import { ActionIcon, Avatar, Card, Flex, Loader, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Card, Flex, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular';
 import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -12,10 +13,10 @@ import { getGetFriendsListQueryKey, getGetFriendsRequestsReceivedQueryKey, postF
 import { UserProfile } from '~/generated-api/model';
 import { router } from '~/main';
 
-
 export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   const queryClient = useQueryClient();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingAccept, setIsLoadingAccept] = useState(false);
+  const [isLoadingReject, setIsLoadingReject] = useState(false);
 
   const { mutateAsync: sendAnswer } = useMutation({
     mutationFn: postFriendsRespondRequest,
@@ -24,20 +25,36 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
       if (answer?.isAccepted) {
         await queryClient.invalidateQueries({ queryKey: getGetFriendsListQueryKey() });
       }
+
+      notifications.show({
+        title: answer?.isAccepted ? 'Запрос в друзья принят' : 'Запрос в друзья отклонен',
+        message: undefined,
+        color: 'var(--red-color)',
+      });
     },
   });
 
   const onSubmit = async (isAccepted: boolean) => {
-    setIsLoading(true);
     sendAnswer({ isAccepted, personToRespondId: id });
-    setIsLoading(false);
+  };
+
+  const onAccept = async () => {
+    setIsLoadingAccept(true);
+    onSubmit(true);
+    setIsLoadingAccept(false);
+  };
+
+  const onReject = async () => {
+    setIsLoadingReject(true);
+    onSubmit(false);
+    setIsLoadingReject(false);
   };
 
   return (
     <Card className={styles.friendCard}>
       <div className={styles.person} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
         <Avatar
-          src={lowQualityPhotoUrl ?? '/default-profile.png'}
+          src={lowQualityPhotoUrl || '/default-profile.png'}
           className={styles.avatar}
           alt={`Avatar image for ${username}`}
         />
@@ -53,16 +70,14 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
           </Text>
         </div>
       </div>
-      {isLoading ? <LoadingPage /> : (
-        <Flex>
-          <ActionIcon variant="transparent" onClick={() => onSubmit(true)}>
-            <CheckAIcon24Regular className={styles.checkButton} />
-          </ActionIcon>
-          <ActionIcon variant="transparent" onClick={() => onSubmit(false)}>
-            <XIcon24Regular className={styles.crossButton} />
-          </ActionIcon>
-        </Flex>
-      )}
+      <Flex>
+        <ActionIcon loading={isLoadingAccept} variant="transparent" onClick={onAccept}>
+          <CheckAIcon24Regular className={styles.checkButton} />
+        </ActionIcon>
+        <ActionIcon loading={isLoadingReject} variant="transparent" onClick={onReject}>
+          <XIcon24Regular className={styles.crossButton} />
+        </ActionIcon>
+      </Flex>
     </Card>
   );
 };

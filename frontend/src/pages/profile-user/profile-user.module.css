@@ -30,6 +30,10 @@
   font-size: var(--mantine-font-size-lg);
 }
 
+.userLink {
+  align-self: center !important;
+}
+
 .bookList {
   display: flex;
   align-items: flex-start;
@@ -54,6 +58,10 @@
   object-fit: cover;
 }
 
+.menuDesktopButton {
+  display: none !important;
+}
+
 @media (min-width: 768px) {
   .profileHeader {
     display: none;
@@ -65,6 +73,7 @@
     padding-bottom: var(--mantine-spacing-xl);
     padding-left: var(--mantine-spacing-xl);
     padding-right: var(--mantine-spacing-xl);
+    align-items: flex-start;
   }
 
   .avatar {
@@ -80,6 +89,7 @@
   .userInfoAction {
     align-items: flex-start;
     margin: auto 0;
+    flex-grow: 1;
   }
 
   .userInfo {
@@ -92,5 +102,13 @@
 
   .userTitle {
     text-align: left;
+  }
+
+  .userLink {
+    align-self: flex-start !important;
+  }
+
+  .menuDesktopButton {
+    display: block !important;
   }
 }

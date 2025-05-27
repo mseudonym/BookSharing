@@ -13,7 +13,7 @@ export const FriendCard = ({ lowQualityPhotoUrl, username, firstName, lastName }
     <Card className={styles.friendCard}>
       <div className={styles.person} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
         <Avatar
-          src={lowQualityPhotoUrl ?? '/default-profile.png'}
+          src={lowQualityPhotoUrl || '/default-profile.png'}
           className={styles.avatar}
           alt={`Avatar image for ${username}`}
         />

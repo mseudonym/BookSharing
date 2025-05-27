@@ -120,11 +120,6 @@
       background-color: var(--light-gray-9-color);
       color: var(--disabled-text-color);
     }
-
-    &[data-loading] {
-      background-color: var(--primary-color);
-      color: var(--white-color);
-    }
   }
 
   &[data-variant='white'] {
@@ -137,11 +132,6 @@
 
     &:disabled {
       color: var(--disabled-text-color);
-    }
-
-    &[data-loading] {
-      background-color: var(--white-color);
-      color: var(--primary-color);
     }
   }
 
@@ -157,11 +147,6 @@
     &:disabled {
       color: var(--disabled-text-color);
       background-color: var(--light-background-color);
-    }
-
-    &[data-loading] {
-      background-color: var(--white-color);
-      color: var(--primary-color);
     }
   }
 }
@@ -302,6 +287,8 @@
   text-decoration: none !important;
   transition: color var(--transition-duration) var(--transition-timing);
   color: var(--primary-color);
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .anchor::after {

@@ -1,0 +1,1 @@
+export { SearchFriendsPage } from './search-friends-page';

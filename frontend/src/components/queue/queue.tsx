@@ -1,20 +1,20 @@
 import { Avatar, Flex, Button, ActionIcon, Anchor, Text, Card } from '@mantine/core';
 import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons/icons/ArrowUiAuthLogoutIcon';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 
 import styles from '~/components/queue/queue.module.css';
 import _styles from '~/index.module.css';
 
 import { AppRoute } from '~/conts';
-import { getGetItemsByBookIdQueryKey } from '~/generated-api/items/items';
-import { QueueModel } from '~/generated-api/model';
+import { getGetItemsFriendsByBookQueryKey, getGetItemsMyByBookQueryKey } from '~/generated-api/items/items';
+import { ItemModel } from '~/generated-api/model';
 import { postQueueItemIdBecomeHolder, postQueueItemIdEnqueue, postQueueItemIdLeaveQueue } from '~/generated-api/queue/queue';
-import { getGetUsersMeQueryKey, getUsersMe } from '~/generated-api/users/users';
+import { useGetUsersMe } from '~/generated-api/users/users';
 import { getNounForm } from '~/helpers/helpers';
 import { router } from '~/main';
 
-interface QueueProps extends QueueModel {
+interface QueueProps extends ItemModel {
   bookId: string;
 }
 
@@ -24,35 +24,31 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
   const { mutateAsync: enqueue } = useMutation({
     mutationFn: postQueueItemIdEnqueue,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: getGetItemsByBookIdQueryKey({ bookId: bookId }) });
+      await queryClient.invalidateQueries({ queryKey: getGetItemsFriendsByBookQueryKey({ bookId: bookId }) });
+      await queryClient.invalidateQueries({ queryKey: getGetItemsMyByBookQueryKey({ bookId: bookId }) });
     },
   });
 
   const { mutateAsync: leaveQueue } = useMutation({
     mutationFn: postQueueItemIdLeaveQueue,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: getGetItemsByBookIdQueryKey({ bookId: bookId }) });
+      await queryClient.invalidateQueries({ queryKey: getGetItemsFriendsByBookQueryKey({ bookId: bookId }) });
+      await queryClient.invalidateQueries({ queryKey: getGetItemsMyByBookQueryKey({ bookId: bookId }) });
     },
   });
 
   const { mutateAsync: becomeHolder } = useMutation({
     mutationFn: postQueueItemIdBecomeHolder,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: getGetItemsByBookIdQueryKey({ bookId: bookId }) });
+      await queryClient.invalidateQueries({ queryKey: getGetItemsFriendsByBookQueryKey({ bookId: bookId }) });
+      await queryClient.invalidateQueries({ queryKey: getGetItemsMyByBookQueryKey({ bookId: bookId }) });
     },
   });
 
-  const { data: userData } = useQuery({
-    queryFn: () => getUsersMe(),
-    queryKey: getGetUsersMeQueryKey(),
-  });
+  const { data: userData } = useGetUsersMe();
 
-  if (queue == undefined || owner == undefined) {
-    return <Text span>Нет очередей</Text>;
-  }
-
-  const isUserInQueue: boolean = queue.find((element) => element.id == userData?.id) !== undefined;
-  const isUserFirst: boolean = queue.at(0)?.id === userData?.id;
+  const isUserInQueue: boolean = queue!.find((element) => element.id == userData?.id) !== undefined;
+  const isUserFirst: boolean = queue!.at(0)?.id === userData?.id;
   const isUserHolder: boolean = userData?.username === holder?.username;
 
   return (
@@ -61,43 +57,45 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
         <Text span className={_styles.textGray}>Владелец</Text>
         <Flex gap='md'>
           <Avatar
-            src={owner.lowQualityPhotoUrl ?? '/default-profile.png'}
+            src={owner!.lowQualityPhotoUrl ?? '/default-profile.png'}
             radius="xl"
             size={41}
           />
           <Flex direction='column' gap='xs'>
             <Text span className={styles.name}>
-              {owner.firstName}
+              {owner!.firstName}
               {' '}
-              {owner.lastName}
+              {owner!.lastName}
             </Text>
-            <Anchor style={{ alignSelf: 'flex-start' }}  onClick={() => router.navigate(AppRoute.User.replace(':username', owner.username!))}>Перейти в профиль</Anchor>
+            <Anchor onClick={() => router.navigate(AppRoute.User.replace(':username', owner!.username!))}>Перейти в профиль</Anchor>
           </Flex>
         </Flex>
       </Flex>
 
-      <Flex direction='column' gap='sm'>
-        <Text span className={_styles.textGray}>Текущий держатель</Text>
-        {holder == undefined
-          ? <Text span className={_styles.textGray}>Пока никого</Text>
-          : (
-            <Flex gap='md'>
-              <Avatar
-                src={holder.lowQualityPhotoUrl ?? '/default-profile.png'}
-                radius="xl"
-                size={41}
-              />
-              <Flex direction='column' gap='xs'>
-                <Text span className={styles.name}>
-                  {holder.firstName}
-                  {' '}
-                  {holder.lastName}
-                </Text>
-                <Anchor style={{ alignSelf: 'flex-start' }} href={AppRoute.User.replace(':username', holder.username!)}>Связаться</Anchor>
+      {!isUserHolder ? 
+        <Flex direction='column' gap='sm'>
+          <Text span className={_styles.textGray}>Текущий держатель</Text>
+          {holder == undefined
+            ? <Text span className={_styles.textGray}>Пока никого</Text>
+            : (
+              <Flex gap='md'>
+                <Avatar
+                  src={holder.lowQualityPhotoUrl ?? '/default-profile.png'}
+                  radius="xl"
+                  size={41}
+                />
+                <Flex direction='column' gap='xs'>
+                  <Text span className={styles.name}>
+                    {holder.firstName}
+                    {' '}
+                    {holder.lastName}
+                  </Text>
+                  <Anchor href={holder.contactUrl ?? undefined}>Связаться</Anchor>
+                </Flex>
               </Flex>
-            </Flex>
-          )}
-      </Flex>
+            )}
+        </Flex>
+        : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не появится — отдайте книгу владельцу после прочтения.</Text>}
 
       {!isUserHolder
         ? (queue == undefined || queue.length == 0
@@ -123,7 +121,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
               </Avatar.Group>
             </Flex>
           ))
-        : <Text className={_styles.textGray}>В данный момент вы читаете книгу.</Text>}
+        : <Text className={_styles.textGray}>В данный момент нет очереди за книгой.</Text>}
 
       {!isUserHolder && (!isUserInQueue
         ? <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>

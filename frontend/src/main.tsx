@@ -22,7 +22,7 @@ import { FriendsPage } from '~/pages/friends-page';
 import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
-import { SearchFriendsPage } from '~/pages/search-friends-page/search-friends-page';
+import { SearchFriendsPage } from '~/pages/search-friends-page';
 import { SettingsPage, SecuritySettingsPage, ProfileSettingsPage } from '~/pages/settings';
 import { ShelfPage } from '~/pages/shelf-page';
 import { WelcomePage } from '~/pages/welcome-page';
@@ -117,7 +117,7 @@ export const router = createBrowserRouter([
 const AppWrapper = () => {
   React.useEffect(() => {
     const initializeAuth = async () => {
-      await checkAuth();
+      await checkAuth(false);
     };
 
     initializeAuth();

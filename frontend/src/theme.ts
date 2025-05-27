@@ -103,14 +103,28 @@ export const theme = createTheme({
       defaultProps: {
         variant: 'outline',
         size: 'md',
-      }
+        loaderProps: {
+          color: 'var(--button-loader-color)',
+        },
+        styles: () => ({
+          root: {
+            '--button-loader-color': 'var(--primary-color)',
+            '&[data-variant="filled"]': {
+              '--button-loader-color': 'var(--white-color)',
+            },
+          },
+        }),
+      },
     }),
     ActionIcon: ActionIcon.extend({
       classNames: { root: classes.actionIcon },
       defaultProps: {
         variant: 'white',
         size: 'lg',
-      }
+        loaderProps: {
+          color: 'var(--primary-color)',
+        },
+      },
     }),
     Menu: Menu.extend({
       classNames: { dropdown: classes.menuDropdown, item: classes.menuItem },

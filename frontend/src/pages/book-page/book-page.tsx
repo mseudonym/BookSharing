@@ -15,7 +15,7 @@ import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { Queue } from '~/components/queue/queue';
 import { AppRoute } from '~/conts';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
-import { deleteItemsRemoveFromMyShelf, useGetItemsByBookId } from '~/generated-api/items/items';
+import { deleteItemsRemoveFromMyShelf, useGetItemsFriendsByBook, useGetItemsMyByBook } from '~/generated-api/items/items';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { LoadingPage } from '~/pages/loading-page';
@@ -25,7 +25,8 @@ import { Wrapper } from '~/ui/wrapper';
 export const BookPage = () => {
   const { id } = useParams();
   const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
-  const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsByBookId({ bookId: id });
+  const {data: ownerQueue} = useGetItemsMyByBook({ bookId: id });
+  const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsFriendsByBook({ bookId: id });
   const [opened, { open, close }] = useDisclosure(false);
 
   const { mutateAsync: deleteBook } = useMutation({
@@ -113,20 +114,34 @@ export const BookPage = () => {
               <Divider my="l" />
             </div>
           
+            {ownerQueue && 
             <section className={styles.queues}>
-              <Header variant="left" withPadding>
-                <Title>Эта книга у ваших друзей</Title>
+              <Header className={styles.queueTitle} variant="left" withPadding>
+                <Title>Эта книга у ваc</Title>
               </Header>
-              {queueList == undefined || queueList.length == 0
-                ? (
-                  <IllustrationWrapper
-                    src="/queue-illustration.svg"
-                    alt="Queue is empty illustration"
-                    text="Очередей нет"
-                  />
-                )
-                : queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
+              <Queue {...ownerQueue} bookId={id!} key={id!} />
+              <Divider my="l" />
             </section>
+            }
+
+            {queueList == undefined || queueList.length == 0 ?
+              <section className={styles.queues}>
+                <Header className={styles.queueTitle} variant="left" withPadding>
+                  <Title>Этой книги нет у ваших друзей</Title>
+                </Header>
+                <IllustrationWrapper
+                  src="/queue-illustration.svg"
+                  alt="Queue is empty illustration"
+                />
+              </section>
+              :
+              <section className={styles.queues}>
+                <Header className={styles.queueTitle} variant="left" withPadding>
+                  <Title>Эта книга у ваших друзей</Title>
+                </Header>
+                {queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
+              </section>
+            }
           </div>
           <Menu position='bottom-end' offset={-50}>
             <Menu.Target>

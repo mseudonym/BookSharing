@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
@@ -45,8 +45,8 @@ export const LoginForm = () => {
     mutationFn: postAuthLogin,
     onSuccess: async (response) => {
       saveToken(response.accessToken!, response.tokenType!);
-      await checkProfileFilling();
-      router.navigate(AppRoute.Shelf);
+      await checkProfileFilling(undefined, true);
+      // router.navigate(AppRoute.Shelf);
     },
 
     onError: () => {

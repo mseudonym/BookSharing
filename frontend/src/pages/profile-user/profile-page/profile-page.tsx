@@ -55,7 +55,7 @@ export const ProfilePage = () => {
             </Text>
           </div>
           {user.contactUrl && (
-            <Anchor href={user.contactUrl}>
+            <Anchor href={user.contactUrl} className={styles.userLink}>
             Связаться
             </Anchor>
           )}

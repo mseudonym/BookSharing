@@ -7,10 +7,10 @@
 import type { QueueUser } from './queueUser';
 import type { UserProfile } from './userProfile';
 
-export interface QueueModel {
+export interface ItemModel {
   itemId?: string;
   /** @nullable */
-  queue?: QueueUser[] | null;
-  owner?: UserProfile;
-  holder?: UserProfile;
+  queue: QueueUser[] | null;
+  owner: UserProfile;
+  holder: UserProfile;
 }
