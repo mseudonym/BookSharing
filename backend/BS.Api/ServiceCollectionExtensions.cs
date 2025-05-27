@@ -62,8 +62,7 @@ public static class ServiceCollectionExtensions
                             .AllowAnyMethod()
                             .AllowCredentials()
                             .WithOrigins(
-                                "http://*.book-sharing.ru",
-                                "https://*.book-sharing.ru"
+                                "https://book-sharing.ru"
                             );
 
                     if (environment.IsStaging() || environment.IsDevelopment())
@@ -71,7 +70,10 @@ public static class ServiceCollectionExtensions
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+                            .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                            .WithOrigins(
+                                "https://staging.book-sharing.ru"
+                            );
                 });
         });
         return services;
