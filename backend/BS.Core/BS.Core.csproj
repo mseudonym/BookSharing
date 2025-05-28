@@ -26,8 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="Files/Email/Confirm.html" CopyToPublishDirectory="Always" CopyToOutputDirectory="Always"/>
-        <None Include="Files/Email/PasswordResetCode.html" CopyToPublishDirectory="Always" CopyToOutputDirectory="Always"/>
+        <EmbeddedResource Include="Files/Email/Confirm.html"/>
+        <EmbeddedResource Include="Files/Email/PasswordReset.html" />
     </ItemGroup>
 
 </Project>

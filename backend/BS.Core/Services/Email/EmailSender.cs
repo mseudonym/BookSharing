@@ -25,7 +25,7 @@ public class EmailSender : IEmailSender<UserEntity>
 
     public async Task SendConfirmationLinkAsync(UserEntity user, string email, string confirmationLink)
     {
-        var body = FilesProvider.GetEmailConfirmHtml(confirmationLink);
+        var body = ResourceProvider.GetEmailConfirmHtml(confirmationLink);
         const string subject = "Подтвердите подтвердите ваш email";
 
         await SendEmail(email, subject, body);
@@ -38,7 +38,7 @@ public class EmailSender : IEmailSender<UserEntity>
 
     public async Task SendPasswordResetCodeAsync(UserEntity user, string email, string resetCode)
     {
-        var body = FilesProvider.GetResetCodeHtml(resetCode);
+        var body = ResourceProvider.GetPasswordResetHtml(resetCode);
         const string subject = "Код для сброса пароля";
 
         await SendEmail(email, subject, body);
