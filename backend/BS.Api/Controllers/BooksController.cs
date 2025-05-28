@@ -36,7 +36,7 @@ public class BooksController : Controller
     }
 
     [HttpGet("byIsbn/{isbn}")]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BookModel>> GetBookByIsbn([FromRoute] string isbn)
     {
         var result = await _bookService.GetBookByIsbnAsync(isbn);
