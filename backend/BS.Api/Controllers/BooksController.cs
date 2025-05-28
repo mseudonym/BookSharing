@@ -35,8 +35,8 @@ public class BooksController : Controller
         return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
 
-    // TODO: добавить 404 в 
     [HttpGet("byIsbn/{isbn}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BookModel>> GetBookByIsbn([FromRoute] string isbn)
     {
         var result = await _bookService.GetBookByIsbnAsync(isbn);

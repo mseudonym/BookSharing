@@ -20,6 +20,7 @@ public class UsersController : Controller
     }
 
     [HttpGet("{username}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<UserProfile>> GetUser([FromRoute] string username)
     {
         var getUserResult = await _userService.GetUserByUsername(username);
