@@ -22,7 +22,7 @@ namespace BS.Api.Implementations;
 public static class IdentityApiEndpointRouteBuilderExtensions
 {
     // Validate the email address using DataAnnotations like the UserValidator does when RequireUniqueEmail = true.
-    private static readonly EmailAddressAttribute _emailAddressAttribute = new();
+    private static readonly EmailAddressAttribute EmailAddressAttribute = new();
 
     /// <summary>
     /// Add endpoints for registering, logging in, and logging out using ASP.NET Core Identity.
@@ -64,7 +64,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
             var emailStore = (IUserEmailStore<TUser>)userStore;
             var email = registration.Email;
 
-            if (string.IsNullOrEmpty(email) || !_emailAddressAttribute.IsValid(email))
+            if (string.IsNullOrEmpty(email) || !EmailAddressAttribute.IsValid(email))
             {
                 return CreateValidationProblem(IdentityResult.Failed(userManager.ErrorDescriber.InvalidEmail(email)));
             }
@@ -123,9 +123,9 @@ public static class IdentityApiEndpointRouteBuilderExtensions
             var refreshTicket = refreshTokenProtector.Unprotect(refreshRequest.RefreshToken);
 
             // Reject the /refresh attempt with a 401 if the token expired or the security stamp validation fails
-            if (refreshTicket?.Properties?.ExpiresUtc is not { } expiresUtc ||
+            if (refreshTicket?.Properties.ExpiresUtc is not { } expiresUtc ||
                 timeProvider.GetUtcNow() >= expiresUtc ||
-                await signInManager.ValidateSecurityStampAsync(refreshTicket.Principal) is not TUser user)
+                await signInManager.ValidateSecurityStampAsync(refreshTicket.Principal) is not { } user)
 
             {
                 return TypedResults.Challenge();
@@ -348,7 +348,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
                 return TypedResults.NotFound();
             }
 
-            if (!string.IsNullOrEmpty(infoRequest.NewEmail) && !_emailAddressAttribute.IsValid(infoRequest.NewEmail))
+            if (!string.IsNullOrEmpty(infoRequest.NewEmail) && !EmailAddressAttribute.IsValid(infoRequest.NewEmail))
             {
                 return CreateValidationProblem(IdentityResult.Failed(userManager.ErrorDescriber.InvalidEmail(infoRequest.NewEmail)));
             }

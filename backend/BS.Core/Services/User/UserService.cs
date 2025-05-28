@@ -99,7 +99,7 @@ internal class UserService : IUserService
             .Where(u => u.IsProfileFilled)
             .Where(u => u.NormalizedUserName!.StartsWith(normalizedUsernamePrefix))
             .Take(3)
-            .Select(person => _userMapper.ToUserProfile(person, GetFriendshipStatus(currentUser, person)))
+            .Select(person => _userMapper.ToUserProfile(person, GetFriendshipStatus(currentUser, person), false))
             .ToArrayAsync();
 
         return Result.Ok(usersProfiles);

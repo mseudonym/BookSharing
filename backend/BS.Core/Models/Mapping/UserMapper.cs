@@ -1,3 +1,4 @@
+using BS.Core.Models.Items;
 using BS.Core.Models.S3;
 using BS.Core.Models.User;
 using BS.Core.Services.S3;
@@ -34,7 +35,8 @@ public class UserMapper
     public UserProfile[] ToUserProfile(IEnumerable<UserEntity> persons, FriendshipStatus friendshipStatus)
         => persons.Select(person => ToUserProfile(person, friendshipStatus)).ToArray();
 
-    public UserProfile ToUserProfile(UserEntity person, FriendshipStatus friendshipStatus)
+    public UserProfile ToUserProfile(UserEntity person, FriendshipStatus friendshipStatus,
+        bool forceShowContact = false)
     {
         return new UserProfile
         {
@@ -43,7 +45,7 @@ public class UserMapper
             Username = person.UserName ?? "",
             FirstName = person.FirstName ?? "",
             LastName = person.LastName ?? "",
-            ContactUrl = friendshipStatus == FriendshipStatus.Friend ? person.ContactUrl : null,
+            ContactUrl = friendshipStatus == FriendshipStatus.Friend || forceShowContact ? person.ContactUrl : null,
             HighQualityPhotoUrl = person.IsProfilePhotoUploaded
                 ? _s3Service.GetProfilePhotoUrl(person.Id, PhotoQuality.High)
                 : "",
@@ -53,9 +55,9 @@ public class UserMapper
         };
     }
 
-    public QueueUser ToQueueUser(UserEntity userEntity)
+    public QueueUserModel ToQueueUser(UserEntity userEntity)
     {
-        return new QueueUser
+        return new QueueUserModel
         {
             Id = userEntity.Id,
             Username = userEntity.UserName ?? "",
@@ -64,4 +66,10 @@ public class UserMapper
                 : null,
         };
     }
+    public UserInTextProfile ToUserInItemProfile(UserEntity userEntity) =>
+        new()
+        {
+            Username = userEntity.UserName!,
+            ContactUrl = userEntity.ContactUrl!,
+        };
 }

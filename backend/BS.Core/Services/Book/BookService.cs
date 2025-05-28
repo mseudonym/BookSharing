@@ -20,6 +20,7 @@ public class BookService : IBookService
 
     private readonly IValidator<AddBookModel> _addBookModelValidator = new AddBookModelValidator();
     private readonly BookMapper _bookMapper;
+    private readonly TimeProvider _timeProvider;
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
     private readonly IS3Service _s3Service;
@@ -28,15 +29,17 @@ public class BookService : IBookService
         BookSharingContext dbContext,
         ICurrentUserService currentUserService,
         IS3Service s3Service,
-        BookMapper bookMapper)
+        BookMapper bookMapper,
+        TimeProvider timeProvider)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
         _s3Service = s3Service;
         _bookMapper = bookMapper;
+        _timeProvider = timeProvider;
     }
 
-    public async Task<Result<IEnumerable<BookModel>>> GetBooksByTitleAsync(string bookName)
+    public async Task<Result<BookModel[]>> GetBooksByTitleAsync(string bookName)
     {
         if (string.IsNullOrWhiteSpace(bookName))
             return Result.Fail(new EmptyTitleError());
@@ -45,8 +48,8 @@ public class BookService : IBookService
             .Take(SearchByTitleBooksMaxCount)
             .ToListAsync();
         return books.Count == 0
-            ? Result.Fail<IEnumerable<BookModel>>(new BookNotFoundByTitleError(bookName))
-            : Result.Ok(books.Select(b => _bookMapper.ToBookModel(b)));
+            ? Result.Fail(new BookNotFoundByTitleError(bookName))
+            : Result.Ok(books.Select(b => _bookMapper.ToBookModel(b)).ToArray());
     }
 
     public async Task<Result<BookModel>> GetBookByIsbnAsync(string isbn)
@@ -97,6 +100,7 @@ public class BookService : IBookService
             BookId = bookId,
             OwnerId = currentUserId,
             HolderId = currentUserId,
+            HolderChangedUtc = _timeProvider.GetUtcNow().UtcDateTime,
             CreatedUtc = DateTime.UtcNow,
         });
         await _dbContext.Books.AddAsync(new BookEntity

@@ -10,12 +10,17 @@ namespace BS.Core.Services.Queue;
 public class QueueService : IQueueService
 {
     private readonly ICurrentUserService _currentUserService;
+    private readonly TimeProvider _timeProvider;
     private readonly BookSharingContext _dbContext;
 
-    public QueueService(BookSharingContext dbContext, ICurrentUserService currentUserService)
+    public QueueService(
+        BookSharingContext dbContext,
+        ICurrentUserService currentUserService,
+        TimeProvider timeProvider)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
+        _timeProvider = timeProvider;
     }
     
     public async Task<Result> EnqueueAsync(Guid itemId, bool isForcesFirstByOwner = false)
@@ -64,6 +69,7 @@ public class QueueService : IQueueService
 
         var firstInQueue = queueItemEntities.First();
         item.HolderId = firstInQueue.UserId;
+        item.HolderChangedUtc = _timeProvider.GetUtcNow().UtcDateTime;
         _dbContext.QueueItems.Remove(firstInQueue);
         _dbContext.Items.Update(item);
         await _dbContext.SaveChangesAsync();

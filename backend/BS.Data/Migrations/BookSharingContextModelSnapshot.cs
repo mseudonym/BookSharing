@@ -3,7 +3,6 @@ using System;
 using BS.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BS.Data.Migrations
 {
     [DbContext(typeof(BookSharingContext))]
-    [Migration("20250118122747_AddPublicationYearFieldToBoolEntity")]
-    partial class AddPublicationYearFieldToBoolEntity
+    partial class BookSharingContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,12 +45,13 @@ namespace BS.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Isbn")
-                        .HasMaxLength(13)
-                        .HasColumnType("character varying(13)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Language")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int?>("PublicationYear")
                         .HasColumnType("integer");
@@ -80,17 +78,27 @@ namespace BS.Data.Migrations
                     b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("HelderChangedUtc")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("HolderId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserEntityId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
+                    b.HasIndex("HolderId");
+
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("UserEntityId");
 
                     b.ToTable("Items", (string)null);
                 });
@@ -376,24 +384,44 @@ namespace BS.Data.Migrations
                         .WithMany("Items")
                         .HasForeignKey("BookId");
 
-                    b.HasOne("BS.Data.Entities.UserEntity", "Owner")
-                        .WithMany("Items")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("BS.Data.Entities.UserEntity", "Holder")
+                        .WithMany()
+                        .HasForeignKey("HolderId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("BS.Data.Entities.UserEntity", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BS.Data.Entities.UserEntity", null)
+                        .WithMany("Items")
+                        .HasForeignKey("UserEntityId");
+
                     b.Navigation("Book");
+
+                    b.Navigation("Holder");
 
                     b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("BS.Data.Entities.QueueItemEntity", b =>
                 {
+                    b.HasOne("BS.Data.Entities.ItemEntity", "Item")
+                        .WithMany("QueueItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BS.Data.Entities.UserEntity", "User")
                         .WithMany("QueueItems")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Item");
 
                     b.Navigation("User");
                 });
@@ -482,6 +510,11 @@ namespace BS.Data.Migrations
             modelBuilder.Entity("BS.Data.Entities.BookEntity", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("BS.Data.Entities.ItemEntity", b =>
+                {
+                    b.Navigation("QueueItems");
                 });
 
             modelBuilder.Entity("BS.Data.Entities.UserEntity", b =>

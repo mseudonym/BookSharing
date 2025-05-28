@@ -18,5 +18,15 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<ItemEntity>
         builder.HasMany(item => item.QueueItems)
             .WithOne(item => item.Item)
             .HasForeignKey(queueItem => queueItem.ItemId);
+        
+        builder.HasOne(item => item.Holder)
+            .WithMany()
+            .HasForeignKey(item => item.HolderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(item => item.Owner)
+            .WithMany(user => user.Items)
+            .HasForeignKey(item => item.OwnerId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

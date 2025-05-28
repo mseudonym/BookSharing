@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,8 +64,9 @@ namespace BS.Data.Migrations
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Author = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    Isbn = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: true),
-                    Language = table.Column<string>(type: "text", nullable: false),
+                    Isbn = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    Language = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    PublicationYear = table.Column<int>(type: "integer", nullable: true),
                     IsPhotoUploaded = table.Column<bool>(type: "boolean", nullable: false),
                     IsAddedByUser = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -205,27 +206,6 @@ namespace BS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QueueItems",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    EnqueueTimeUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsForcedFirstByOwner = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QueueItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QueueItems_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserFriends",
                 columns: table => new
                 {
@@ -257,22 +237,62 @@ namespace BS.Data.Migrations
                     OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     BookId = table.Column<Guid>(type: "uuid", nullable: true),
                     HolderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    HolderChangedUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserEntityId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Items_AspNetUsers_HolderId",
+                        column: x => x.HolderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Items_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Items_AspNetUsers_UserEntityId",
+                        column: x => x.UserEntityId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Items_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QueueItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    EnqueueTimeUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsForcedFirstByOwner = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QueueItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QueueItems_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QueueItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -323,9 +343,19 @@ namespace BS.Data.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Items_HolderId",
+                table: "Items",
+                column: "HolderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Items_OwnerId",
                 table: "Items",
                 column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_UserEntityId",
+                table: "Items",
+                column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QueueItems_ItemId_EnqueueTimeUtc",
@@ -366,9 +396,6 @@ namespace BS.Data.Migrations
                 name: "FriendRequests");
 
             migrationBuilder.DropTable(
-                name: "Items");
-
-            migrationBuilder.DropTable(
                 name: "QueueItems");
 
             migrationBuilder.DropTable(
@@ -378,10 +405,13 @@ namespace BS.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Books");
         }
     }
 }

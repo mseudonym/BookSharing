@@ -8,6 +8,8 @@ public class ItemEntity
     public Guid? BookId { get; set; }
     public BookEntity Book { get; set; } = null!;
     public Guid HolderId { get; set; }
+    public UserEntity Holder { get; set; } = null!;
+    public DateTime HolderChangedUtc { get; set; }
     public List<QueueItemEntity> QueueItems { get; set; } = [];
     public DateTime CreatedUtc { get; set; }
 }

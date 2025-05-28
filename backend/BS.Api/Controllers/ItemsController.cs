@@ -19,16 +19,16 @@ public class ItemsController : Controller
     }
 
     [HttpGet("my")]
-    public async Task<ActionResult<MyItemInfo[]>> GetMyItemsWithHolder()
+    public async Task<ActionResult<ItemInfo[]>> GetMyItems()
     {
-        var result = await _itemsService.GetMyItemsWithHolderAsync();
+        var result = await _itemsService.GetMyItems();
         return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
 
     [HttpGet("friends")]
-    public async Task<ActionResult<FriendItemInfo[]>> GetItemsIHold()
+    public async Task<ActionResult<ItemInfo[]>> GetFriendsItems()
     {
-        var result = await _itemsService.GetItemsCurrentUserHoldAsync();
+        var result = await _itemsService.GetFriendsItems();
         return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
 

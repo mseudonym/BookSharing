@@ -28,13 +28,14 @@ public class BooksController : Controller
     }
 
     [HttpGet("byTitle/{title}")]
-    public async Task<ActionResult<BookModel>> GetBookByTitle([FromRoute] string title)
+    public async Task<ActionResult<BookModel[]>> GetBookByTitle([FromRoute] string title)
     {
         var result = await _bookService.GetBooksByTitleAsync(title);
 
         return result.IsFailed ? MapResult(result) : Ok(result.Value);
     }
 
+    // TODO: добавить 404 в 
     [HttpGet("byIsbn/{isbn}")]
     public async Task<ActionResult<BookModel>> GetBookByIsbn([FromRoute] string isbn)
     {

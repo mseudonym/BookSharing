@@ -5,7 +5,7 @@ namespace BS.Core.Services.Book;
 
 public interface IBookService
 {
-    public Task<Result<IEnumerable<BookModel>>> GetBooksByTitleAsync(string bookName);
+    public Task<Result<BookModel[]>> GetBooksByTitleAsync(string bookName);
     public Task<Result<BookModel>> GetBookByIsbnAsync(string isbn);
     public Task<Result<BookModel>> GetBookByIdAsync(Guid bookId);
 

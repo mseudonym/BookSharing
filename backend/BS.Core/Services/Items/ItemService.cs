@@ -1,4 +1,3 @@
-using BS.Core.Extensions;
 using BS.Core.Models.Items;
 using BS.Core.Models.Mapping;
 using BS.Core.Models.Queue;
@@ -17,14 +16,20 @@ public class ItemService : IItemService
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
     private readonly UserMapper _userMapper;
+    private readonly TimeProvider _timeProvider;
 
-    public ItemService(BookSharingContext dbContext, ICurrentUserService currentUserService,
-        BookMapper bookMapper, UserMapper userMapper)
+    public ItemService(
+        BookSharingContext dbContext,
+        ICurrentUserService currentUserService,
+        BookMapper bookMapper,
+        UserMapper userMapper,
+        TimeProvider timeProvider)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
         _bookMapper = bookMapper;
         _userMapper = userMapper;
+        _timeProvider = timeProvider;
     }
 
     public async Task<Result<ItemModel>> GetItemAsync(Guid itemId)
@@ -38,71 +43,72 @@ public class ItemService : IItemService
             .OrderBy(queueItem => queueItem.EnqueueTimeUtc)
             .ToArrayAsync();
 
-        var forcedFirstInQueueByUser = queueItemEntities.FirstOrDefault(queueItem => queueItem.IsForcedFirstByOwner);
-        var resultQueue = queueItemEntities
-            .Where(itemEntity => !itemEntity.IsForcedFirstByOwner)
-            .Select(itemEntity => _userMapper.ToQueueUser(itemEntity.User))
+        var queue = queueItemEntities
+            .OrderByDescending(queueItem => queueItem.IsForcedFirstByOwner)
+            .Select(queueItem => queueItem.User)
             .ToList();
-        if (forcedFirstInQueueByUser != null)
-            resultQueue.Insert(0, _userMapper.ToQueueUser(forcedFirstInQueueByUser.User));
 
         var owner = await _dbContext.Users.FirstAsync(user => user.Id == item.OwnerId);
         var holder = await _dbContext.Users.FirstAsync(user => user.Id == item.HolderId);
 
-        return Result.Ok(new ItemModel
+        var currentUserId = await _currentUserService.GetIdAsync();
+        var isIAmOwner = currentUserId == owner.Id;
+        var isIAmFirst = queue.Count > 0 && currentUserId == queue.First().Id;
+        var isIAmHolder = currentUserId == holder.Id;
+
+        var itemModel = new ItemModel
         {
             ItemId = itemId,
-            Holder = _userMapper.ToUserProfile(holder, FriendshipStatus.None),
-            Owner = _userMapper.ToUserProfile(owner, FriendshipStatus.None),
-            Queue = resultQueue.ToArray(),
-        });
+            Owner = _userMapper.ToUserProfile(owner, FriendshipStatus.Friend),
+            Holder = _userMapper.ToUserProfile(holder, FriendshipStatus.None, isIAmOwner || isIAmFirst),
+            Queue = queue.Select(itemEntity => _userMapper.ToQueueUser(itemEntity)).ToArray(),
+        };
+
+        if (queue.Count > 0)
+        {
+            var firstInQueue = queue.First();
+            itemModel.FirstInQueue =
+                _userMapper.ToUserProfile(firstInQueue, FriendshipStatus.None, isIAmHolder || isIAmOwner);
+        }
+
+        return Result.Ok(itemModel);
     }
 
-    public async Task<Result<MyItemInfo[]>> GetMyItemsWithHolderAsync()
+    public async Task<Result<ItemInfo[]>> GetMyItems()
     {
         var currentUserId = await _currentUserService.GetIdAsync();
-        var currentUser = await _dbContext.Users
-            .Where(user => user.Id == currentUserId)
-            .Include(user => user.Items)
-            .ThenInclude(item => item.Book)
-            .FirstAsync();
-
-        var itemsWithHolder = currentUser.Items
-            .Where(item => item.HolderId != currentUserId);
-
-        return itemsWithHolder.Select(item =>
-                new MyItemInfo
-                {
-                    ItemId = item.Id,
-                    Book = _bookMapper.ToBookModel(item.Book),
-                    CurrentHolderId = item.HolderId,
-                    CurrentHolderContact = GetUserContact(item.HolderId),
-                })
-            .ToArray();
-    }
-
-    public async Task<Result<FriendItemInfo[]>> GetItemsCurrentUserHoldAsync()
-    {
-        var currentUserId = await _currentUserService.GetIdAsync();
-
-        var queueItemsImInQueue = await _dbContext.QueueItems
-            .Where(queueItem => queueItem.UserId == currentUserId)
-            .ToArrayAsync();
-
-        var resultFromQueues = queueItemsImInQueue
-            .Select(GetItemUserCurrentlyHoldOrInQueue)
-            .ToArray();
-
-        var itemsIHold = await _dbContext.Items
-            .Where(item => item.HolderId == currentUserId && item.OwnerId != currentUserId)
+        var items = await _dbContext.Items
+            .Where(item => item.OwnerId == currentUserId)
+            .Include(item => item.Owner)
+            .Include(item => item.Holder)
             .Include(item => item.Book)
+            .Include(item => item.QueueItems)
+            .ThenInclude(queueItem => queueItem.User)
+            .ToArrayAsync();
+        
+        return Result.Ok(items.Select(item => ToFriendItemModel(item, currentUserId)).ToArray());
+    }
+
+    public async Task<Result<ItemInfo[]>> GetFriendsItems()
+    {
+        var currentUserId = await _currentUserService.GetIdAsync();
+
+        var itemIdsInQueue = _dbContext.QueueItems
+            .Where(q => q.UserId == currentUserId)
+            .Select(q => q.ItemId);
+
+        var items = await _dbContext.Items
+            .Where(item => itemIdsInQueue.Contains(item.Id)
+                           || (item.HolderId == currentUserId && item.OwnerId != currentUserId))
+            .Include(item => item.Owner)
+            .Include(item => item.Holder)
+            .Include(item => item.Book)
+            .Include(item => item.QueueItems)
+            .ThenInclude(queueItem => queueItem.User)
             .ToArrayAsync();
 
-        var resultFromItemsIHold = itemsIHold
-            .Select(GetItemUserCurrentlyHoldOrInQueue)
-            .ToArray();
-
-        return await resultFromQueues.Concat(resultFromItemsIHold).WhenAllAsync();
+        
+        return Result.Ok(items.Select(item => ToFriendItemModel(item, currentUserId)).ToArray());
     }
 
     public async Task<Result<ItemModel?>> GetMyItemByBook(Guid bookId)
@@ -135,10 +141,10 @@ public class ItemService : IItemService
             .Where(item => item.BookId == bookId)
             .ToArray();
 
-        var queuesInItems = allFriendsItemsWithThisBook
-            .Select(item => GetItemAsync(item.Id).GetAwaiter().GetResult().Value)
-            .ToArray();
-
+        var queuesInItems = await Task.WhenAll(
+            allFriendsItemsWithThisBook.Select(async item => (await GetItemAsync(item.Id)).Value)
+        );
+        
         return queuesInItems;
     }
 
@@ -146,16 +152,16 @@ public class ItemService : IItemService
     {
         var currentUserId = await _currentUserService.GetIdAsync();
 
-        await _dbContext.Items.AddAsync(
-            new ItemEntity
-            {
-                Id = Guid.NewGuid(),
-                BookId = bookId,
-                OwnerId = currentUserId,
-                HolderId = currentUserId,
-                CreatedUtc = DateTime.UtcNow,
-            }
-        );
+        var itemEntity = new ItemEntity
+        {
+            Id = Guid.NewGuid(),
+            BookId = bookId,
+            OwnerId = currentUserId,
+            HolderId = currentUserId,
+            CreatedUtc = _timeProvider.GetUtcNow().DateTime,
+            HolderChangedUtc = _timeProvider.GetUtcNow().DateTime,
+        };
+        await _dbContext.Items.AddAsync(itemEntity);
 
         await _dbContext.SaveChangesAsync();
 
@@ -174,65 +180,34 @@ public class ItemService : IItemService
 
         return Result.Ok();
     }
-
-    private string GetUserContact(Guid? id)
+    
+    private ItemInfo ToFriendItemModel(ItemEntity item, Guid currentUserId)
     {
-        if (id == null)
-            return "";
-        var user = _dbContext.Users.Find(id);
-        if (user == null)
-            return "";
-        return user.ContactUrl ?? "";
-    }
+        var queue = GetQueue(item);
+        var firstInQueue = queue.FirstOrDefault();
+        int index = queue.FindIndex(user => user.Id == currentUserId);
+        int? queuePosition = index >= 0 ? index + 1 : null;
 
-    private async Task<FriendItemInfo> GetItemUserCurrentlyHoldOrInQueue(QueueItemEntity queueItem)
-    {
-        var item = await _dbContext.Items
-            .Include(itemEntity => itemEntity.Book)
-            .FirstAsync(item => item.Id == queueItem.ItemId);
-
-        var bookModel = _bookMapper.ToBookModel(item.Book);
-
-        var queue = await _dbContext
-            .QueueItems
-            .Where(qi => qi.ItemId == queueItem.ItemId)
-            .OrderBy(qi => qi.EnqueueTimeUtc)
-            .ToArrayAsync();
-        var queueNumber = Array.FindIndex(queue, itemInQueue => itemInQueue.UserId == queueItem.UserId) + 1;
-
-        var holder = await _dbContext.Users.FindAsync(item.HolderId);
-        return new FriendItemInfo
+        return new ItemInfo
         {
-            Book = bookModel,
-            AmIHolder = false,
-            HolderContact = queueNumber == 1 ? holder?.ContactUrl ?? "" : "",
-            HolderUsername = queueNumber == 1 ? holder?.UserName ?? "" : "",
-            ItemId = queueItem.ItemId,
-            OwnerId = item.OwnerId,
-            QueueNumber = queueNumber,
-            WhoToGiveAfterContact = null,
+            ItemId = item.Id,
+            Book = _bookMapper.ToBookModel(item.Book),
+            Owner = _userMapper.ToUserInItemProfile(item.Owner),
+            Holder = _userMapper.ToUserInItemProfile(item.Holder),
+            FirstInQueue = firstInQueue is not null
+                ? _userMapper.ToUserInItemProfile(firstInQueue)
+                : null,
+            QueuePosition = queuePosition,
+            HolderChangedDaysAgo = (_timeProvider.GetUtcNow().UtcDateTime - item.HolderChangedUtc).Days,
         };
     }
 
-    private async Task<FriendItemInfo> GetItemUserCurrentlyHoldOrInQueue(ItemEntity queueItem)
+    private static List<UserEntity> GetQueue(ItemEntity item)
     {
-        var firstInQueue = await _dbContext
-            .QueueItems
-            .Where(qi => qi.ItemId == queueItem.Id)
-            .OrderBy(qi => qi.EnqueueTimeUtc)
-            .FirstOrDefaultAsync();
-        var whoToGiveAfter = await _dbContext.Users.FindAsync(firstInQueue?.UserId);
-        return new FriendItemInfo
-        {
-            Book = _bookMapper.ToBookModel(queueItem.Book),
-            AmIHolder = true,
-            HolderContact = null,
-            HolderUsername = null,
-            ItemId = queueItem.Id,
-            OwnerId = queueItem.OwnerId,
-            QueueNumber = 0,
-            WhoToGiveAfterContact = whoToGiveAfter?.ContactUrl ?? "",
-            WhoToGiveAfterUserName = whoToGiveAfter?.UserName ?? "",
-        };
+        var queue = item.QueueItems
+            .OrderByDescending(queueItem => queueItem.IsForcedFirstByOwner)
+            .Select(queueItem => queueItem.User)
+            .ToList();
+        return queue;
     }
 }
