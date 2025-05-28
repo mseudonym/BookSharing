@@ -19,6 +19,7 @@ public class BookService : IBookService
     private const int SearchByTitleBooksMaxCount = 10;
 
     private readonly IValidator<AddBookModel> _addBookModelValidator = new AddBookModelValidator();
+    private readonly IValidator<string?> _isbnValidator = new IsbnValidator();
     private readonly BookMapper _bookMapper;
     private readonly TimeProvider _timeProvider;
     private readonly ICurrentUserService _currentUserService;
@@ -54,19 +55,20 @@ public class BookService : IBookService
 
     public async Task<Result<BookModel>> GetBookByIsbnAsync(string isbn)
     {
-        if (string.IsNullOrWhiteSpace(isbn) || !isbn.IsValidIsbn(out var validIsbn))
-            return Result.Fail<BookModel>(new InvalidIsbnError(isbn));
+        var validationResult = await _isbnValidator.ValidateAsync(isbn);
+        if (!validationResult.IsValid)
+            return Result.Fail(new InvalidIsbnError(isbn));
 
-        var book = await _dbContext.Books.Where(b => b.Isbn == validIsbn).FirstOrDefaultAsync();
+        var book = await _dbContext.Books.FirstOrDefaultAsync(b => b.Isbn == isbn);
         return book is null
-            ? Result.Fail<BookModel>(new BookNotFoundByIsbnError(validIsbn))
+            ? Result.Fail(new BookNotFoundByIsbnError(isbn))
             : Result.Ok(_bookMapper.ToBookModel(book));
     }
 
     public async Task<Result<BookModel>> GetBookByIdAsync(Guid bookId)
     {
-        var book = await _dbContext.Books
-            .Where(b => b.Id == bookId).FirstOrDefaultAsync();
+        var book = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == bookId);
+        
         return book is null
             ? Result.Fail<BookModel>(new BookNotFoundByIdError(bookId))
             : Result.Ok(_bookMapper.ToBookModel(book));

@@ -9,17 +9,14 @@ public class AddBookModelValidator : AbstractValidator<AddBookModel>
     public AddBookModelValidator()
     {
         RuleFor(model => model.Author)
-            .NotNull()
             .NotEmpty()
             .MaximumLength(AuthorMaxLength);
 
         RuleFor(model => model.Title)
-            .NotNull()
             .NotEmpty()
             .MaximumLength(TitleMaxLength);
 
         RuleFor(model => model.Description)
-            .NotNull()
             .NotEmpty()
             .MaximumLength(DescriptionMaxLength);
 
@@ -29,10 +26,8 @@ public class AddBookModelValidator : AbstractValidator<AddBookModel>
             .When(model => model.PublicationYear.HasValue);
 
         RuleFor(model => model.Isbn)
-            .NotEmpty()
-            .Matches(@"^\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d{1}$")
-            .When(model => !string.IsNullOrEmpty(model.Isbn));
-
+            .SetValidator(new IsbnValidator());
+        
         RuleFor(model => model.Language)
             .NotEmpty()
             .MaximumLength(LanguageMaxLength)

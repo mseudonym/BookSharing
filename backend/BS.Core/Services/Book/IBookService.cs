@@ -11,6 +11,7 @@ public interface IBookService
 
     public Task<Result<BookModel>> AddBookAsync(AddBookModel book);
     public Task<Result> DeleteBookAsync(Guid bookId);
+    
     public Task<Result<BookModel[]>> GetAllFriendsBooks();
     public Task<Result<BookModel[]>> GetFriendBooks(Guid friendId);
     public Task<Result<BookModel[]>> GetMyBooks();
