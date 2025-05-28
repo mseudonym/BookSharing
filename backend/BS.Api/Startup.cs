@@ -6,6 +6,7 @@ using BS.Data.Context;
 using BS.Data.Entities;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder()
@@ -43,6 +44,14 @@ builder.Services.AddIdentityApiEndpoints<UserEntity>(options =>
 
 
 var app = builder.Build();
+
+// Автоматическое применение миграций
+if (app.Environment.IsProduction() || app.Environment.IsStaging())
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<BookSharingContext>();
+    db.Database.Migrate();
+}
 
 if (environment.IsDevelopment() || environment.IsStaging())
 {
