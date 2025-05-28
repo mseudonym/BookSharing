@@ -58,8 +58,7 @@ app.UseHttpLogging();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.MapGroup("Auth").WithTags("Auth").MapIdentityApi<UserEntity>();
+app.MapGroup("Auth").WithTags("Auth").MapCustomIdentityApi<UserEntity>();
 app.MapControllers();
 
 app.Run();
