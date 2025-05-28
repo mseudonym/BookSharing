@@ -21,6 +21,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'import'],
   rules: {
     'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': true }],
+    'object-curly-spacing': ['error', 'always'],
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'indent': ['error', 2],

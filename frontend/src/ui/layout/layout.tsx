@@ -20,7 +20,7 @@ export const Layout = () => {
 
   return (
     <AppShell
-      navbar={{ width: 236, breakpoint: 'sm'}}
+      navbar={{ width: 236, breakpoint: 'sm' }}
     >
       
       <Sidebar />

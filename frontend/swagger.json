@@ -971,17 +971,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/MyItemInfo"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MyItemInfo"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MyItemInfo"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MyItemInfo"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MyItemInfo"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MyItemInfo"
+                  }
                 }
               }
             }
@@ -1000,17 +1009,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FriendItemInfo"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FriendItemInfo"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FriendItemInfo"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FriendItemInfo"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FriendItemInfo"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FriendItemInfo"
+                  }
                 }
               }
             }

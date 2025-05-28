@@ -8,13 +8,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { EmailSettingsPage } from './pages/settings/email-settings-page/email-settings-page';
-import { PasswordSettingsPage } from './pages/settings/password-settings-page/password-settings-page';
-import { PrivateRoute } from './ui/private-route';
-import { PublicRoute } from './ui/public-route';
-
 import { AppRoute } from '~/conts';
-import { BookAdditionPage } from '~/pages/book-addition-page';
+import { BookAdditionManuallyPage } from '~/pages/book-addition-manually-page';
+import { BookAdditionPage } from '~/pages/book-addition-page/book-addition-page';
 import { BookPage } from '~/pages/book-page';
 import { EmailConfirmationPage } from '~/pages/email-confirmation-page';
 import { ErrorPage } from '~/pages/error-page';
@@ -24,12 +20,16 @@ import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
 import { SearchFriendsPage } from '~/pages/search-friends-page';
+import { EmailSettingsPage, PasswordSettingsPage } from '~/pages/settings';
 import { SettingsPage, SecuritySettingsPage, ProfileSettingsPage } from '~/pages/settings';
 import { ShelfPage } from '~/pages/shelf-page';
+import { StoragePage } from '~/pages/storage-page';
 import { WelcomePage } from '~/pages/welcome-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';
+import { PrivateRoute } from '~/ui/private-route';
+import { PublicRoute } from '~/ui/public-route';
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +80,10 @@ export const router = createBrowserRouter([
             element: <FriendsPage />,
           },
           {
+            path: `${AppRoute.Storage}`,
+            element: <StoragePage />,
+          },
+          {
             path: `${AppRoute.User}`,
             element: <UserPage />,
           },
@@ -90,6 +94,10 @@ export const router = createBrowserRouter([
           {
             path: `${AppRoute.AddBook}`,
             element: <BookAdditionPage />,
+          },
+          {
+            path: `${AppRoute.AddBookManually}`,
+            element: <BookAdditionManuallyPage />,
           },
           {
             path: `${AppRoute.SearchFriends}`,

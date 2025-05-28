@@ -12,7 +12,7 @@ import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper'
 export const SearchFriendsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { data: friendList } = useGetFriendsList();
-  const {data: me} = useGetUsersMe();
+  const { data: me } = useGetUsersMe();
   const { data: userList, isLoading: isLoadingUserList } = useGetUsersSearchUsernamePrefix(searchQuery, { query: { enabled: searchQuery.length > 2 } });
 
   const filteredUserList = useMemo(() => {

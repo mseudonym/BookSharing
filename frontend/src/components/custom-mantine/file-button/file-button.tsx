@@ -74,7 +74,7 @@ export const FileButton = <T extends FieldValues>({
               <BackgroundImage
                 src={URL.createObjectURL(file)}
                 className={styles.photoButtonImage}
-                style={{aspectRatio}}>
+                style={{ aspectRatio }}>
                 <Center h="100%">
                   <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
                 </Center>
@@ -84,7 +84,7 @@ export const FileButton = <T extends FieldValues>({
                 <BackgroundImage
                   src={photoUrl}
                   className={styles.photoButtonImage}
-                  style={{aspectRatio}}>
+                  style={{ aspectRatio }}>
                   <Center h="100%">
                     <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
                   </Center>
@@ -95,7 +95,7 @@ export const FileButton = <T extends FieldValues>({
                   : <BackgroundImage
                     src={defaultImage}
                     className={styles.photoButtonImage}
-                    style={{aspectRatio}}>
+                    style={{ aspectRatio }}>
                     <Center h="100%">
                       <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
                     </Center>

@@ -33,7 +33,7 @@ export const FriendsPage = () => {
         </ActionIcon>
       </Header>
 
-      <Tabs defaultValue={FriendsTabs.MyFriends} variant='pills'>
+      <Tabs defaultValue={FriendsTabs.MyFriends}>
         <Tabs.List>
           <Tabs.Tab value={FriendsTabs.MyFriends}>Мои друзья</Tabs.Tab>
           <Tabs.Tab value={FriendsTabs.Requests} 

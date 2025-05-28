@@ -30,7 +30,7 @@ export const UserPage = () => {
   const { username } = useParams();
   const queryClient = useQueryClient();
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersUsername(username!);
-  const {data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe} = useGetUsersMe();
+  const { data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe } = useGetUsersMe();
   const [opened, { open, close }] = useDisclosure(false);
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksFriendBooks(
     { friendId: user?.id },

@@ -51,6 +51,8 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
   const isUserFirst: boolean = queue!.at(0)?.id === userData?.id;
   const isUserHolder: boolean = userData?.username === holder?.username;
 
+  const nextUserInQueue = isUserHolder ? queue?.at(0) : undefined;
+
   return (
     <Card className={`${styles.queue} ${isUserInQueue && styles.backgroundBlue} ${isUserHolder && styles.backgroundPink}`}>
       <Flex direction='column' gap='sm'>
@@ -75,30 +77,28 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
       {!isUserHolder ? 
         <Flex direction='column' gap='sm'>
           <Text span className={_styles.textGray}>Текущий держатель</Text>
-          {holder == undefined
-            ? <Text span className={_styles.textGray}>Пока никого</Text>
-            : (
-              <Flex gap='md'>
-                <Avatar
-                  src={holder.lowQualityPhotoUrl ?? '/default-profile.png'}
-                  radius="xl"
-                  size={41}
-                />
-                <Flex direction='column' gap='xs'>
-                  <Text span className={styles.name}>
-                    {holder.firstName}
-                    {' '}
-                    {holder.lastName}
-                  </Text>
-                  <Anchor href={holder.contactUrl ?? undefined}>Связаться</Anchor>
-                </Flex>
-              </Flex>
-            )}
+          <Flex gap='md'>
+            <Avatar
+              src={holder.lowQualityPhotoUrl ?? '/default-profile.png'}
+              radius="xl"
+              size={41}
+            />
+            <Flex direction='column' gap='xs'>
+              <Text span className={styles.name}>
+                {holder.firstName}
+                {' '}
+                {holder.lastName}
+              </Text>
+              <Anchor href={holder.contactUrl ?? undefined}>Связаться</Anchor>
+            </Flex>
+          </Flex>
         </Flex>
-        : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не появится — отдайте книгу владельцу после прочтения.</Text>}
+        : (nextUserInQueue
+          ? <Text>Книга у вас. За вами в очереди стоит человек. После прочтения книги, свяжитесь с ним и передайте ёё.</Text>
+          : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не появится — отдайте книгу владельцу после прочтения.</Text>)}
 
       {!isUserHolder
-        ? (queue == undefined || queue.length == 0
+        ? (!queue || queue.length == 0
           ? <Text className={_styles.textGray}>Пока что никого нет в очереди, но вы можете быть первым.</Text>
           : (
             <Flex gap={4} direction="column">
@@ -121,7 +121,29 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
               </Avatar.Group>
             </Flex>
           ))
-        : <Text className={_styles.textGray}>В данный момент нет очереди за книгой.</Text>}
+        : (nextUserInQueue
+          ? <Flex direction='column' gap='sm'>
+            <Text span className={_styles.textGray}>Следующий в очереди</Text>
+            <Flex gap='md'>
+              <Avatar
+                src={nextUserInQueue.lowQualityPhotoUrl ?? '/default-profile.png'}
+                radius="xl"
+                size={41}
+              />
+              <Flex direction='column' gap='xs'>
+                <Text span className={styles.name}>
+                  {'Пусто'}
+                  {'Пусто'}
+                  {'Пусто'}
+                </Text>
+                <Anchor href={'Пусто'}>Связаться</Anchor>
+              </Flex>
+            </Flex>
+          </Flex>
+          : <Flex direction='column' gap='sm'>
+            <Text span className={_styles.textGray}>Текущий держатель</Text>
+            <Text>Пока никого</Text>
+          </Flex>)}
 
       {!isUserHolder && (!isUserInQueue
         ? <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>

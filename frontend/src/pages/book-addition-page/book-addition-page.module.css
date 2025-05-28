@@ -1,3 +1,5 @@
-.bookAddWrapper {
-  padding-bottom: 0 !important;
+.buttonWithDescription {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
 }

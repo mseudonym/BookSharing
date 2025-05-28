@@ -25,7 +25,7 @@ import { Wrapper } from '~/ui/wrapper';
 export const BookPage = () => {
   const { id } = useParams();
   const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
-  const {data: ownerQueue} = useGetItemsMyByBook({ bookId: id });
+  const { data: ownerQueue } = useGetItemsMyByBook({ bookId: id });
   const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsFriendsByBook({ bookId: id });
   const [opened, { open, close }] = useDisclosure(false);
 

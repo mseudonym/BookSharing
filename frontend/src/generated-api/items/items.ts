@@ -47,7 +47,7 @@ export const getItemsMy = (
 ) => {
       
       
-      return api<MyItemInfo>(
+      return api<MyItemInfo[]>(
       {url: `/Items/my`, method: 'GET', signal
     },
       options);
@@ -128,7 +128,7 @@ export const getItemsFriends = (
 ) => {
       
       
-      return api<FriendItemInfo>(
+      return api<FriendItemInfo[]>(
       {url: `/Items/friends`, method: 'GET', signal
     },
       options);
