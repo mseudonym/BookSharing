@@ -43,6 +43,7 @@ staging-deploy-backend:
   environment:
     name: staging
   script:
+  - kubectl get nodes
   - echo "Применяем конфиг подключения к кластеру K8S..."
   - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig && export KUBECONFIG=$PWD/kubeconfig
   - echo "Применяем ingress стейджинга..."
@@ -57,6 +58,9 @@ staging-deploy-backend:
   when: manual
   only:
     - branches
+  needs:
+    - job: build-backend
+
 
 staging-deploy-frontend:
   stage: deploy
@@ -77,6 +81,8 @@ staging-deploy-frontend:
   when: manual
   only:
     - branches
+  needs:
+    - job: build-frontend
 
 
 production-deploy-backend:
@@ -101,3 +107,5 @@ production-deploy-backend:
   when: manual
   only:
     - main
+  needs:
+    - job: build-backend

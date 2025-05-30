@@ -3,3 +3,6 @@ gitops:
     - id: booksharing/booksharingapp
       paths:
         - glob: "k8s/**/*.yaml"
+ci_access:
+  projects:
+    - id: booksharing/booksharingapp
