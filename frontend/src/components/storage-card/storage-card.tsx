@@ -27,7 +27,7 @@ export const StorageCard = ({ user, book, owner, holder, firstInQueue, queuePosi
         <Text>{book?.title}</Text>
         {
           // Книга у пользователя, и есть первый в очереди
-          isUserHolder && firstInQueue && (
+          !isUserOwner && isUserHolder && firstInQueue && (
             <Text className={_styles.textGray}>
                       Книга у вас {daysAgo} дней. Следующий в очереди @{firstInQueue.username}. После прочтения&nbsp;
               <Anchor href={firstInQueue.contactUrl ?? ''} className={_styles.anchorGray}>свяжитесь с ним</Anchor> и передайте книгу.
@@ -36,7 +36,7 @@ export const StorageCard = ({ user, book, owner, holder, firstInQueue, queuePosi
         }
         {
           // Книга у пользователя, но он последний в очереди
-          isUserHolder && !firstInQueue && (
+          !isUserOwner && isUserHolder && !firstInQueue && (
             <Text className={_styles.textGray}>
                       Книга у вас {daysAgo} дней и за вами в очереди никого нет. Если никто не появится —&nbsp;
               <Anchor href={owner.contactUrl ?? ''} className={_styles.anchorGray}>свяжитесь с владельцем</Anchor> после прочтения и отдайте книгу.

@@ -90,17 +90,7 @@ export const FileButton = <T extends FieldValues>({
                   </Center>
                   <Overlay/>
                 </BackgroundImage>
-                : isInitialRender ? 
-                  <TechCamPhotoIcon24Regular/>
-                  : <BackgroundImage
-                    src={defaultImage}
-                    className={styles.photoButtonImage}
-                    style={{ aspectRatio }}>
-                    <Center h="100%">
-                      <ToolPencilSquareIcon24Regular color="var(--white-color)"/>
-                    </Center>
-                    <Overlay color="var(--light-gray-16-color)"/>
-                  </BackgroundImage>}
+                : <TechCamPhotoIcon24Regular/>}
           </Button>
         )}
       </MantineFileButton>
