@@ -7,6 +7,8 @@
 
 export * from './accessTokenResponse';
 export * from './bookModel';
+export * from './changeEmailRequest';
+export * from './changePasswordRequest';
 export * from './deleteFriendsDeleteParams';
 export * from './deleteItemsRemoveFromMyShelfParams';
 export * from './forgotPasswordRequest';
@@ -26,6 +28,7 @@ export * from './loginRequest';
 export * from './mapCustomIdentityApiAuthConfirmEmailParams';
 export * from './mapIdentityApiAuthConfirmEmailParams';
 export * from './myItemInfo';
+export * from './postAuthConfirmEmailParams';
 export * from './postAuthLoginParams';
 export * from './postBooksAddBody';
 export * from './postFriendsCancelRequestParams';

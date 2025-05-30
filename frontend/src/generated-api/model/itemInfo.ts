@@ -12,8 +12,8 @@ export interface ItemInfo {
   book: BookModel;
   owner: UserInTextProfile;
   holder: UserInTextProfile;
-  firstInQueue?: UserInTextProfile;
+  firstInQueue: UserInTextProfile;
   /** @nullable */
-  queuePosition?: number | null;
-  holderChangedDaysAgo?: number;
+  queuePosition: number | null;
+  holderChangedDaysAgo: number;
 }

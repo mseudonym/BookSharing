@@ -5,32 +5,24 @@
  * OpenAPI spec version: v1
  */
 import {
-  useMutation,
-  useQuery
+  useMutation
 } from '@tanstack/react-query';
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
   MutationFunction,
   QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult,
-  UseQueryOptions,
-  UseQueryResult
+  UseMutationResult
 } from '@tanstack/react-query';
 
 import type {
   AccessTokenResponse,
+  ChangeEmailRequest,
+  ChangePasswordRequest,
   ForgotPasswordRequest,
   HttpValidationProblemDetails,
-  InfoRequest,
   InfoResponse,
   LoginRequest,
-  MapCustomIdentityApiAuthConfirmEmailParams,
+  PostAuthConfirmEmailParams,
   PostAuthLoginParams,
   RefreshRequest,
   RegisterRequest,
@@ -224,89 +216,64 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
-    export const mapCustomIdentityApiAuthConfirmEmail = (
-    params: MapCustomIdentityApiAuthConfirmEmailParams,
+    export const postAuthConfirmEmail = (
+    params: PostAuthConfirmEmailParams,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       
       return api<void>(
-      {url: `/Auth/confirmEmail`, method: 'GET',
+      {url: `/Auth/confirmEmail`, method: 'POST',
         params, signal
     },
       options);
     }
   
 
-export const getMapCustomIdentityApiAuthConfirmEmailQueryKey = (params: MapCustomIdentityApiAuthConfirmEmailParams,) => {
-    return [`/Auth/confirmEmail`, ...(params ? [params]: [])] as const;
-    }
 
+export const getPostAuthConfirmEmailMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthConfirmEmail>>, TError,{params: PostAuthConfirmEmailParams}, TContext>, request?: SecondParameter<typeof api>}
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthConfirmEmail>>, TError,{params: PostAuthConfirmEmailParams}, TContext> => {
+
+const mutationKey = ['postAuthConfirmEmail'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthConfirmEmail>>, {params: PostAuthConfirmEmailParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  postAuthConfirmEmail(params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostAuthConfirmEmailMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthConfirmEmail>>>
     
-export const getMapCustomIdentityApiAuthConfirmEmailQueryOptions = <TData = Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(params: MapCustomIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
-) => {
+    export type PostAuthConfirmEmailMutationError = ErrorType<unknown>
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+    export const usePostAuthConfirmEmail = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthConfirmEmail>>, TError,{params: PostAuthConfirmEmailParams}, TContext>, request?: SecondParameter<typeof api>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postAuthConfirmEmail>>,
+        TError,
+        {params: PostAuthConfirmEmailParams},
+        TContext
+      > => {
 
-  const queryKey =  queryOptions?.queryKey ?? getMapCustomIdentityApiAuthConfirmEmailQueryKey(params);
+      const mutationOptions = getPostAuthConfirmEmailMutationOptions(options);
 
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>> = ({ signal }) => mapCustomIdentityApiAuthConfirmEmail(params, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type MapCustomIdentityApiAuthConfirmEmailQueryResult = NonNullable<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>>
-export type MapCustomIdentityApiAuthConfirmEmailQueryError = ErrorType<unknown>
-
-
-export function useMapCustomIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params: MapCustomIdentityApiAuthConfirmEmailParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>,
-          TError,
-          Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useMapCustomIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params: MapCustomIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>,
-          TError,
-          Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useMapCustomIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params: MapCustomIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useMapCustomIdentityApiAuthConfirmEmail<TData = Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError = ErrorType<unknown>>(
- params: MapCustomIdentityApiAuthConfirmEmailParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof mapCustomIdentityApiAuthConfirmEmail>>, TError, TData>>, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getMapCustomIdentityApiAuthConfirmEmailQueryOptions(params,options)
-
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-export const postAuthResendConfirmationEmail = (
+      return useMutation(mutationOptions , queryClient);
+    }
+    export const postAuthResendConfirmationEmail = (
     resendConfirmationEmailRequest: BodyType<ResendConfirmationEmailRequest>,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
@@ -538,108 +505,27 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
-    export const getAuthManageInfo = (
-    
+    export const postAuthManageChangeEmail = (
+    changeEmailRequest: BodyType<ChangeEmailRequest>,
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
       
       return api<InfoResponse>(
-      {url: `/Auth/manage/info`, method: 'GET', signal
-    },
-      options);
-    }
-  
-
-export const getGetAuthManageInfoQueryKey = () => {
-    return [`/Auth/manage/info`] as const;
-    }
-
-    
-export const getGetAuthManageInfoQueryOptions = <TData = Awaited<ReturnType<typeof getAuthManageInfo>>, TError = ErrorType<HttpValidationProblemDetails | void>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthManageInfo>>, TError, TData>>, request?: SecondParameter<typeof api>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetAuthManageInfoQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAuthManageInfo>>> = ({ signal }) => getAuthManageInfo(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAuthManageInfo>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAuthManageInfoQueryResult = NonNullable<Awaited<ReturnType<typeof getAuthManageInfo>>>
-export type GetAuthManageInfoQueryError = ErrorType<HttpValidationProblemDetails | void>
-
-
-export function useGetAuthManageInfo<TData = Awaited<ReturnType<typeof getAuthManageInfo>>, TError = ErrorType<HttpValidationProblemDetails | void>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthManageInfo>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAuthManageInfo>>,
-          TError,
-          Awaited<ReturnType<typeof getAuthManageInfo>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAuthManageInfo<TData = Awaited<ReturnType<typeof getAuthManageInfo>>, TError = ErrorType<HttpValidationProblemDetails | void>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthManageInfo>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAuthManageInfo>>,
-          TError,
-          Awaited<ReturnType<typeof getAuthManageInfo>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAuthManageInfo<TData = Awaited<ReturnType<typeof getAuthManageInfo>>, TError = ErrorType<HttpValidationProblemDetails | void>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthManageInfo>>, TError, TData>>, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetAuthManageInfo<TData = Awaited<ReturnType<typeof getAuthManageInfo>>, TError = ErrorType<HttpValidationProblemDetails | void>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthManageInfo>>, TError, TData>>, request?: SecondParameter<typeof api>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetAuthManageInfoQueryOptions(options)
-
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-export const postAuthManageInfo = (
-    infoRequest: BodyType<InfoRequest>,
- options?: SecondParameter<typeof api>,signal?: AbortSignal
-) => {
-      
-      
-      return api<InfoResponse>(
-      {url: `/Auth/manage/info`, method: 'POST',
+      {url: `/Auth/manage/changeEmail`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
-      data: infoRequest, signal
+      data: changeEmailRequest, signal
     },
       options);
     }
   
 
 
-export const getPostAuthManageInfoMutationOptions = <TError = ErrorType<HttpValidationProblemDetails | void>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthManageInfo>>, TError,{data: BodyType<InfoRequest>}, TContext>, request?: SecondParameter<typeof api>}
-): UseMutationOptions<Awaited<ReturnType<typeof postAuthManageInfo>>, TError,{data: BodyType<InfoRequest>}, TContext> => {
+export const getPostAuthManageChangeEmailMutationOptions = <TError = ErrorType<HttpValidationProblemDetails | void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthManageChangeEmail>>, TError,{data: BodyType<ChangeEmailRequest>}, TContext>, request?: SecondParameter<typeof api>}
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthManageChangeEmail>>, TError,{data: BodyType<ChangeEmailRequest>}, TContext> => {
 
-const mutationKey = ['postAuthManageInfo'];
+const mutationKey = ['postAuthManageChangeEmail'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -649,10 +535,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthManageInfo>>, {data: BodyType<InfoRequest>}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthManageChangeEmail>>, {data: BodyType<ChangeEmailRequest>}> = (props) => {
           const {data} = props ?? {};
 
-          return  postAuthManageInfo(data,requestOptions)
+          return  postAuthManageChangeEmail(data,requestOptions)
         }
 
         
@@ -660,20 +546,78 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type PostAuthManageInfoMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthManageInfo>>>
-    export type PostAuthManageInfoMutationBody = BodyType<InfoRequest>
-    export type PostAuthManageInfoMutationError = ErrorType<HttpValidationProblemDetails | void>
+    export type PostAuthManageChangeEmailMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthManageChangeEmail>>>
+    export type PostAuthManageChangeEmailMutationBody = BodyType<ChangeEmailRequest>
+    export type PostAuthManageChangeEmailMutationError = ErrorType<HttpValidationProblemDetails | void>
 
-    export const usePostAuthManageInfo = <TError = ErrorType<HttpValidationProblemDetails | void>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthManageInfo>>, TError,{data: BodyType<InfoRequest>}, TContext>, request?: SecondParameter<typeof api>}
+    export const usePostAuthManageChangeEmail = <TError = ErrorType<HttpValidationProblemDetails | void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthManageChangeEmail>>, TError,{data: BodyType<ChangeEmailRequest>}, TContext>, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postAuthManageInfo>>,
+        Awaited<ReturnType<typeof postAuthManageChangeEmail>>,
         TError,
-        {data: BodyType<InfoRequest>},
+        {data: BodyType<ChangeEmailRequest>},
         TContext
       > => {
 
-      const mutationOptions = getPostAuthManageInfoMutationOptions(options);
+      const mutationOptions = getPostAuthManageChangeEmailMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    export const postAuthManageChangePassword = (
+    changePasswordRequest: BodyType<ChangePasswordRequest>,
+ options?: SecondParameter<typeof api>,signal?: AbortSignal
+) => {
+      
+      
+      return api<InfoResponse>(
+      {url: `/Auth/manage/changePassword`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: changePasswordRequest, signal
+    },
+      options);
+    }
+  
+
+
+export const getPostAuthManageChangePasswordMutationOptions = <TError = ErrorType<HttpValidationProblemDetails | void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthManageChangePassword>>, TError,{data: BodyType<ChangePasswordRequest>}, TContext>, request?: SecondParameter<typeof api>}
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthManageChangePassword>>, TError,{data: BodyType<ChangePasswordRequest>}, TContext> => {
+
+const mutationKey = ['postAuthManageChangePassword'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthManageChangePassword>>, {data: BodyType<ChangePasswordRequest>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postAuthManageChangePassword(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostAuthManageChangePasswordMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthManageChangePassword>>>
+    export type PostAuthManageChangePasswordMutationBody = BodyType<ChangePasswordRequest>
+    export type PostAuthManageChangePasswordMutationError = ErrorType<HttpValidationProblemDetails | void>
+
+    export const usePostAuthManageChangePassword = <TError = ErrorType<HttpValidationProblemDetails | void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthManageChangePassword>>, TError,{data: BodyType<ChangePasswordRequest>}, TContext>, request?: SecondParameter<typeof api>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postAuthManageChangePassword>>,
+        TError,
+        {data: BodyType<ChangePasswordRequest>},
+        TContext
+      > => {
+
+      const mutationOptions = getPostAuthManageChangePasswordMutationOptions(options);
 
       return useMutation(mutationOptions , queryClient);
     }
