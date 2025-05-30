@@ -56,7 +56,7 @@ export const getGetUsersUsernameQueryKey = (username: string,) => {
     }
 
     
-export const getGetUsersUsernameQueryOptions = <TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<unknown>>(username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetUsersUsernameQueryOptions = <TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<string>>(username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>>, request?: SecondParameter<typeof api>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -75,10 +75,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type GetUsersUsernameQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersUsername>>>
-export type GetUsersUsernameQueryError = ErrorType<unknown>
+export type GetUsersUsernameQueryError = ErrorType<string>
 
 
-export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<unknown>>(
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<string>>(
  username: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUsersUsername>>,
@@ -88,7 +88,7 @@ export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUs
       >, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<unknown>>(
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<string>>(
  username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUsersUsername>>,
@@ -98,12 +98,12 @@ export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUs
       >, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<unknown>>(
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<string>>(
  username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>>, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<unknown>>(
+export function useGetUsersUsername<TData = Awaited<ReturnType<typeof getUsersUsername>>, TError = ErrorType<string>>(
  username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersUsername>>, TError, TData>>, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {

@@ -59,7 +59,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
         <Text span className={_styles.textGray}>Владелец</Text>
         <Flex gap='md'>
           <Avatar
-            src={owner!.lowQualityPhotoUrl ?? '/default-profile.png'}
+            src={owner!.lowQualityPhotoUrl || '/default-profile.png'}
             radius="xl"
             size={41}
           />
@@ -79,7 +79,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
           <Text span className={_styles.textGray}>Текущий держатель</Text>
           <Flex gap='md'>
             <Avatar
-              src={holder.lowQualityPhotoUrl ?? '/default-profile.png'}
+              src={holder.lowQualityPhotoUrl || '/default-profile.png'}
               radius="xl"
               size={41}
             />
@@ -113,7 +113,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
                 {queue.map((avatar, index) => (
                   <Avatar
                     key={index}
-                    src={avatar.lowQualityPhotoUrl}
+                    src={avatar.lowQualityPhotoUrl || '/default-profile.png'}
                     size={41}
                     radius="xl"
                   />

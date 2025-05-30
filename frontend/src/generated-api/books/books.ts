@@ -124,7 +124,7 @@ export const getBooksByTitleTitle = (
 ) => {
       
       
-      return api<BookModel>(
+      return api<BookModel[]>(
       {url: `/Books/byTitle/${title}`, method: 'GET', signal
     },
       options);
@@ -217,7 +217,7 @@ export const getGetBooksByIsbnIsbnQueryKey = (isbn: string,) => {
     }
 
     
-export const getGetBooksByIsbnIsbnQueryOptions = <TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
+export const getGetBooksByIsbnIsbnQueryOptions = <TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<string>>(isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -236,10 +236,10 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 }
 
 export type GetBooksByIsbnIsbnQueryResult = NonNullable<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>>
-export type GetBooksByIsbnIsbnQueryError = ErrorType<unknown>
+export type GetBooksByIsbnIsbnQueryError = ErrorType<string>
 
 
-export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<string>>(
  isbn: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getBooksByIsbnIsbn>>,
@@ -249,7 +249,7 @@ export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooks
       >, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<string>>(
  isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getBooksByIsbnIsbn>>,
@@ -259,12 +259,12 @@ export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooks
       >, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<string>>(
  isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<unknown>>(
+export function useGetBooksByIsbnIsbn<TData = Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError = ErrorType<string>>(
  isbn: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBooksByIsbnIsbn>>, TError, TData>>, request?: SecondParameter<typeof api>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {

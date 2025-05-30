@@ -10,6 +10,11 @@
   }
 }
 
+.anchorGray::before,
+.anchorGray::after {
+  background-color: var(--secondary-text-color) !important;
+}
+
 .textContainer {
   display: flex;
   flex-direction: column;

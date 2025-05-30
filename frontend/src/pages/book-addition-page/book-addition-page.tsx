@@ -1,5 +1,4 @@
 import { Title, Tabs, SimpleGrid, ActionIcon, Input, Loader, TextInput, Flex, Text, Button } from '@mantine/core';
-import { useDebouncedValue } from '@mantine/hooks';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
 import React, { useState, useCallback } from 'react';
 import { z as zod } from 'zod';
@@ -10,7 +9,7 @@ import styles from '~/pages/book-addition-page/book-addition-page.module.css';
 import { BookAdditionCard } from '~/components/book-addition-card';
 import { Header } from '~/components/header';
 import { AppRoute, BookAdditionTabs } from '~/conts';
-import { useGetBooksByIsbnIsbn } from '~/generated-api/books/books';
+import {  useGetBooksByIsbnIsbn } from '~/generated-api/books/books';
 import { router } from '~/main';
 import { PageWithWrapper } from '~/ui/pages';
 
@@ -19,10 +18,10 @@ const isbnSchema = zod.string()
 
 export const BookAdditionPage = () => {
   const [isbnValue, setIsbnValue] = useState('');
+  //const [debouncedIsbn] = useDebouncedValue(isbnValue, 10500);
   const [searchIsbnQuery, setSearchIsbnQuery] = useState('');
-  const [debouncedIsbn] = useDebouncedValue(searchIsbnQuery, 500);
   const [isbnError, setIsbnError] = useState('');
-  const { data: bookIsbn, isLoading: isLoadingIsbn, isError: isErrorIsbn } = useGetBooksByIsbnIsbn(debouncedIsbn);
+  const { data: bookIsbn, isLoading: isLoadingIsbn, isError: isErrorIsbn } = useGetBooksByIsbnIsbn(searchIsbnQuery, { query: { retry: false } });
 
   const validateIsbn  = useCallback((value: string) => {
     setIsbnValue(value);
@@ -66,7 +65,7 @@ export const BookAdditionPage = () => {
             onChange={(e) => validateIsbn(e.target.value)}
             error={isbnError}/>
           {!isErrorIsbn && bookIsbn && <BookAdditionCard {...bookIsbn} />}
-          {debouncedIsbn && <Flex direction="column" gap="sm" align="center" className={styles.buttonWithDescription}>
+          {searchIsbnQuery && <Flex direction="column" gap="sm" align="center" className={styles.buttonWithDescription}>
             <Text className={_styles.textGray}>Не нашли что искали?</Text>
             <Button 
               onClick={() => router.navigate(AppRoute.AddBookManually)} 
