@@ -7,6 +7,9 @@ internal static class ResourceProvider
     public static string GetEmailConfirmHtml(string confirmationLink) =>
         ReadEmbeddedResource("Files.Email.Confirm.html")
             .Replace("CONFIRM_LINK", confirmationLink);
+    public static string GetEmailChangeHtml(string confirmationLink) =>
+        ReadEmbeddedResource("Files.Email.Change.html")
+            .Replace("CONFIRM_LINK", confirmationLink);
 
     public static string GetPasswordResetHtml(string passwordResetLink) =>
         ReadEmbeddedResource("Files.Email.PasswordReset.html")

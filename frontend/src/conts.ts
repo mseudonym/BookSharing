@@ -12,6 +12,7 @@ export enum AppRoute {
   Login = '/login',
   Register = '/register',
   ProfileFilling = '/profile-filling',
+  EmailConfirmationWaiting = '/email-confirmation-waiting',
   EmailConfirmation = '/email-confirmation',
   SearchFriends = '/search-friends',
   ForgotPassword = '/forgot-password',

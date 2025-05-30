@@ -7,14 +7,12 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
 import { EmailSettingsPage } from './pages/settings/email-settings-page/email-settings-page';
 import { PasswordSettingsPage } from './pages/settings/password-settings-page/password-settings-page';
-
-import { checkAuth } from '~/actions/user-actions';
 import { AppRoute } from '~/conts';
 import { BookAdditionPage } from '~/pages/book-addition-page';
 import { BookPage } from '~/pages/book-page';
+import { EmailConfirmationWaitingPage } from '~/pages/email-confirmation-waiting-page';
 import { EmailConfirmationPage } from '~/pages/email-confirmation-page';
 import { ErrorPage } from '~/pages/error-page';
 import { ForgotPasswordPage } from '~/pages/forgot-password-page';
@@ -29,11 +27,12 @@ import { WelcomePage } from '~/pages/welcome-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';
+import {checkAuth} from "~/actions";
 
 export const router = createBrowserRouter([
   {
     path: `${AppRoute.Root}`,
-    element: <WelcomePage />,
+    element: <WelcomePage />
   },
   {
     path: `${AppRoute.Register}`,
@@ -42,6 +41,10 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.Login}`,
     element: <LoginPage />,
+  },
+  {
+    path: `${AppRoute.EmailConfirmationWaiting}`,
+    element: <EmailConfirmationWaitingPage />,
   },
   {
     path: `${AppRoute.EmailConfirmation}`,

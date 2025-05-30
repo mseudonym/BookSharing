@@ -8,7 +8,7 @@ public class ItemInfo
     public required BookModel Book { get; set; }
     public required UserInTextProfile Owner { get; set; }
     public required UserInTextProfile Holder { get; set; }
-    public UserInTextProfile? FirstInQueue { get; set; }
-    public int? QueuePosition { get; set; }
-    public int HolderChangedDaysAgo { get; set; }
+    public required UserInTextProfile? FirstInQueue { get; set; }
+    public required int? QueuePosition { get; set; }
+    public required int HolderChangedDaysAgo { get; set; }
 }

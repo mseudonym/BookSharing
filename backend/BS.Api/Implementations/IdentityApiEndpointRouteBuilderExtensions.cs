@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Encodings.Web;
+using BS.Api.Requests;
+using BS.Core.Services.Email;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Http.Metadata;
@@ -40,18 +41,14 @@ public static class IdentityApiEndpointRouteBuilderExtensions
 
         var timeProvider = endpoints.ServiceProvider.GetRequiredService<TimeProvider>();
         var bearerTokenOptions = endpoints.ServiceProvider.GetRequiredService<IOptionsMonitor<BearerTokenOptions>>();
-        var emailSender = endpoints.ServiceProvider.GetRequiredService<IEmailSender<TUser>>();
-        var linkGenerator = endpoints.ServiceProvider.GetRequiredService<LinkGenerator>();
-
-        // We'll figure out a unique endpoint name based on the final route pattern during endpoint generation.
-        string? confirmEmailEndpointName = null;
-
+        var emailSender = endpoints.ServiceProvider.GetRequiredService<ICustomEmailSender<TUser>>();
+        
         var routeGroup = endpoints.MapGroup("");
 
         // NOTE: We cannot inject UserManager<TUser> directly because the TUser generic parameter is currently unsupported by RDG.
         // https://github.com/dotnet/aspnetcore/issues/47338
         routeGroup.MapPost("/register", async Task<Results<Ok, ValidationProblem>>
-            ([FromBody] RegisterRequest registration, HttpContext context, [FromServices] IServiceProvider sp) =>
+            ([FromBody] RegisterRequest registration, HttpContext _, [FromServices] IServiceProvider sp) =>
         {
             var userManager = sp.GetRequiredService<UserManager<TUser>>();
 
@@ -79,7 +76,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
                 return CreateValidationProblem(result);
             }
 
-            await SendConfirmationEmailAsync(user, userManager, context, email);
+            await SendConfirmationEmailAsync(user, userManager, email);
             return TypedResults.Ok();
         });
 
@@ -135,13 +132,12 @@ public static class IdentityApiEndpointRouteBuilderExtensions
             return TypedResults.SignIn(newPrincipal, authenticationScheme: IdentityConstants.BearerScheme);
         });
 
-        routeGroup.MapGet("/confirmEmail", async Task<Results<ContentHttpResult, UnauthorizedHttpResult>>
+        routeGroup.MapPost("/confirmEmail", async Task<Results<Ok, UnauthorizedHttpResult>>
             ([FromQuery] string userId, [FromQuery] string code, [FromQuery] string? changedEmail, [FromServices] IServiceProvider sp) =>
         {
             var userManager = sp.GetRequiredService<UserManager<TUser>>();
             if (await userManager.FindByIdAsync(userId) is not { } user)
             {
-                // We could respond with a 404 instead of a 401 like Identity UI, but that feels like unnecessary information.
                 return TypedResults.Unauthorized();
             }
 
@@ -162,14 +158,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
             }
             else
             {
-                // As with Identity UI, email and user name are one and the same. So when we update the email,
-                // we need to update the user name.
                 result = await userManager.ChangeEmailAsync(user, changedEmail, code);
-
-                if (result.Succeeded)
-                {
-                    result = await userManager.SetUserNameAsync(user, changedEmail);
-                }
             }
 
             if (!result.Succeeded)
@@ -177,17 +166,11 @@ public static class IdentityApiEndpointRouteBuilderExtensions
                 return TypedResults.Unauthorized();
             }
 
-            return TypedResults.Text("Thank you for confirming your email.");
-        })
-        .Add(endpointBuilder =>
-        {
-            var finalPattern = ((RouteEndpointBuilder)endpointBuilder).RoutePattern.RawText;
-            confirmEmailEndpointName = $"{nameof(MapCustomIdentityApi)}-{finalPattern}";
-            endpointBuilder.Metadata.Add(new EndpointNameMetadata(confirmEmailEndpointName));
+            return TypedResults.Ok();
         });
 
         routeGroup.MapPost("/resendConfirmationEmail", async Task<Ok>
-            ([FromBody] ResendConfirmationEmailRequest resendRequest, HttpContext context, [FromServices] IServiceProvider sp) =>
+            ([FromBody] ResendConfirmationEmailRequest resendRequest, HttpContext _, [FromServices] IServiceProvider sp) =>
         {
             var userManager = sp.GetRequiredService<UserManager<TUser>>();
             if (await userManager.FindByEmailAsync(resendRequest.Email) is not { } user)
@@ -195,7 +178,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
                 return TypedResults.Ok();
             }
 
-            await SendConfirmationEmailAsync(user, userManager, context, resendRequest.Email);
+            await SendConfirmationEmailAsync(user, userManager, resendRequest.Email);
             return TypedResults.Ok();
         });
 
@@ -210,7 +193,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
                 var code = await userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                await emailSender.SendPasswordResetCodeAsync(user, resetRequest.Email, HtmlEncoder.Default.Encode(code));
+                await emailSender.SendPasswordResetLinkAsync(user, resetRequest.Email, code);
             }
 
             // Don't reveal that the user does not exist or is not confirmed, so don't return a 200 if we would have
@@ -327,8 +310,8 @@ public static class IdentityApiEndpointRouteBuilderExtensions
             });
         });
 
-        accountGroup.MapGet("/info", async Task<Results<Ok<InfoResponse>, ValidationProblem, NotFound>>
-            (ClaimsPrincipal claimsPrincipal, [FromServices] IServiceProvider sp) =>
+        accountGroup.MapPost("/changeEmail", async Task<Results<Ok<InfoResponse>, ValidationProblem, NotFound>>
+            (ClaimsPrincipal claimsPrincipal, [FromBody] ChangeEmailRequest request, HttpContext _, [FromServices] IServiceProvider sp) =>
         {
             var userManager = sp.GetRequiredService<UserManager<TUser>>();
             if (await userManager.GetUserAsync(claimsPrincipal) is not { } user)
@@ -336,80 +319,59 @@ public static class IdentityApiEndpointRouteBuilderExtensions
                 return TypedResults.NotFound();
             }
 
-            return TypedResults.Ok(await CreateInfoResponseAsync(user, userManager));
-        });
-
-        accountGroup.MapPost("/info", async Task<Results<Ok<InfoResponse>, ValidationProblem, NotFound>>
-            (ClaimsPrincipal claimsPrincipal, [FromBody] InfoRequest infoRequest, HttpContext context, [FromServices] IServiceProvider sp) =>
-        {
-            var userManager = sp.GetRequiredService<UserManager<TUser>>();
-            if (await userManager.GetUserAsync(claimsPrincipal) is not { } user)
+            if (!EmailAddressAttribute.IsValid(request.NewEmail))
             {
-                return TypedResults.NotFound();
+                return CreateValidationProblem(IdentityResult.Failed(userManager.ErrorDescriber.InvalidEmail(request.NewEmail)));
             }
-
-            if (!string.IsNullOrEmpty(infoRequest.NewEmail) && !EmailAddressAttribute.IsValid(infoRequest.NewEmail))
-            {
-                return CreateValidationProblem(IdentityResult.Failed(userManager.ErrorDescriber.InvalidEmail(infoRequest.NewEmail)));
-            }
-
-            if (!string.IsNullOrEmpty(infoRequest.NewPassword))
-            {
-                if (string.IsNullOrEmpty(infoRequest.OldPassword))
-                {
-                    return CreateValidationProblem("OldPasswordRequired",
-                        "The old password is required to set a new password. If the old password is forgotten, use /resetPassword.");
-                }
-
-                var changePasswordResult = await userManager.ChangePasswordAsync(user, infoRequest.OldPassword, infoRequest.NewPassword);
-                if (!changePasswordResult.Succeeded)
-                {
-                    return CreateValidationProblem(changePasswordResult);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(infoRequest.NewEmail))
+            
+            if (!string.IsNullOrEmpty(request.NewEmail))
             {
                 var email = await userManager.GetEmailAsync(user);
 
-                if (email != infoRequest.NewEmail)
+                if (email != request.NewEmail)
                 {
-                    await SendConfirmationEmailAsync(user, userManager, context, infoRequest.NewEmail, isChange: true);
+                    await SendConfirmationEmailAsync(user, userManager, request.NewEmail, isChange: true);
                 }
             }
 
             return TypedResults.Ok(await CreateInfoResponseAsync(user, userManager));
         });
-
-        async Task SendConfirmationEmailAsync(TUser user, UserManager<TUser> userManager, HttpContext context, string email, bool isChange = false)
+        
+        accountGroup.MapPost("/changePassword", async Task<Results<Ok<InfoResponse>, ValidationProblem, NotFound>>
+            (ClaimsPrincipal claimsPrincipal, [FromBody] ChangePasswordRequest request, [FromServices] IServiceProvider sp) =>
         {
-            if (confirmEmailEndpointName is null)
+            var userManager = sp.GetRequiredService<UserManager<TUser>>();
+            if (await userManager.GetUserAsync(claimsPrincipal) is not { } user)
             {
-                throw new NotSupportedException("No email confirmation endpoint was registered!");
+                return TypedResults.NotFound();
+            }
+            
+            if (string.IsNullOrEmpty(request.OldPassword))
+            {
+                return CreateValidationProblem("OldPasswordRequired", "The old password is required.");
+            }
+            if (string.IsNullOrEmpty(request.NewPassword))
+            {
+                return CreateValidationProblem("NewPasswordRequired", "The new password is required.");
             }
 
+            var changePasswordResult = await userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                return CreateValidationProblem(changePasswordResult);
+            }
+                
+            return TypedResults.Ok(await CreateInfoResponseAsync(user, userManager));
+        });
+
+        async Task SendConfirmationEmailAsync(TUser user, UserManager<TUser> userManager, string email, bool isChange = false)
+        {
             var code = isChange
                 ? await userManager.GenerateChangeEmailTokenAsync(user, email)
                 : await userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-            var userId = await userManager.GetUserIdAsync(user);
-            var routeValues = new RouteValueDictionary()
-            {
-                ["userId"] = userId,
-                ["code"] = code,
-            };
-
-            if (isChange)
-            {
-                // This is validated by the /confirmEmail endpoint on change.
-                routeValues.Add("changedEmail", email);
-            }
-
-            var confirmEmailUrl = linkGenerator.GetUriByName(context, confirmEmailEndpointName, routeValues)
-                ?? throw new NotSupportedException($"Could not find endpoint named '{confirmEmailEndpointName}'.");
-
-            await emailSender.SendConfirmationLinkAsync(user, email, HtmlEncoder.Default.Encode(confirmEmailUrl));
+            await emailSender.SendConfirmationLinkAsync(user, email, code, isChange);
         }
 
         return new IdentityEndpointsConventionBuilder(routeGroup);

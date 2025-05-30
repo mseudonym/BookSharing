@@ -35,8 +35,6 @@ builder.Services.AddIdentityApiEndpoints<UserEntity>(options =>
             options.User.RequireUniqueEmail = true;
             options.Password.RequiredLength = 12;
             options.SignIn.RequireConfirmedEmail = false;
-            options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
-            options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultPhoneProvider;
         }
     )
     .AddEntityFrameworkStores<BookSharingContext>()

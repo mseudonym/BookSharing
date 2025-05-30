@@ -35,7 +35,7 @@ export const checkProfileFilling = async (user?: UserData, redirectToDefault: bo
   }
 
   if (!user.isEmailConfirm) {
-    await router.navigate(AppRoute.EmailConfirmation);
+    await router.navigate(AppRoute.EmailConfirmationWaiting);
     return;
   }
 

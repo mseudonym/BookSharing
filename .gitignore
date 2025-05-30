@@ -29,3 +29,4 @@ bin
 obj
 appsettings.*.json
 certs
+/backend/BookSharing.sln.DotSettings.user

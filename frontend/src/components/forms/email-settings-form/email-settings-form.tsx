@@ -9,7 +9,7 @@ import * as zod from 'zod';
 import styles from '~/components/forms/forms.module.css';
 
 import { REQUIRED_FIELD_TEXT } from '~/conts';
-import { postUsersEditProfile } from '~/generated-api/users/users';
+import {postAuthManageChangeEmail} from "~/generated-api/auth/auth";
 
 const FormSchema = zod.object({
   email: zod
@@ -33,11 +33,10 @@ export const EmailSettingsForm = () => {
   });
 
   const { mutateAsync: updateEmail } = useMutation({
-    // Поменять
-    mutationFn: postUsersEditProfile,
+    mutationFn: postAuthManageChangeEmail,
     onSuccess: () => {
       notifications.show({
-        title: 'Профиль обновлен',
+        title: 'Ссылка для подтверждения отправлена на новую почту',
         message: undefined,
         color: 'var(--green-color)',
       });
@@ -47,9 +46,9 @@ export const EmailSettingsForm = () => {
   const onSubmit = async (data: IFormInput) => {
     try {
       setIsLoading(true);
-      /*await updateEmail({
-        Email: data.email,
-      });*/
+      await updateEmail({
+        newEmail: data.email,
+      });
     } catch (error) {
       notifications.show({
         title: 'Ошибка сохранения',
@@ -64,8 +63,8 @@ export const EmailSettingsForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
       <TextInput
-        label="Почта"
-        placeholder="Введите почту"
+        label="Новая почта"
+        placeholder="Введите новую почту"
         {...register('email')}
         error={errors?.email?.message}
       />

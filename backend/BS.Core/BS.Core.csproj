@@ -27,6 +27,7 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Files/Email/Confirm.html"/>
+        <EmbeddedResource Include="Files/Email/Change.html" />
         <EmbeddedResource Include="Files/Email/PasswordReset.html" />
     </ItemGroup>
 

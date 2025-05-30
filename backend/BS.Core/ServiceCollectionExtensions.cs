@@ -12,7 +12,6 @@ using BS.Core.Services.S3;
 using BS.Core.Services.User;
 using BS.Data.Entities;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -36,6 +35,7 @@ public static class ServiceCollectionExtensions
     private static void AddEmailSender(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.Section));
+        services.Configure<FrontendOptions>(configuration.GetSection(FrontendOptions.Section));
         services.AddTransient<SmtpClient>(sp =>
         {
             var emailOptions = sp.GetRequiredService<IOptions<EmailOptions>>().Value;
@@ -48,7 +48,7 @@ public static class ServiceCollectionExtensions
                 EnableSsl = true,
             };
         });
-        services.AddTransient<IEmailSender<UserEntity>, EmailSender>();
+        services.AddTransient<ICustomEmailSender<UserEntity>, EmailSender>();
     }
 
     private static void AddCloudCredentials(this IServiceCollection services, IConfiguration configuration)
