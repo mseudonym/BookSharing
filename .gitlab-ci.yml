@@ -57,6 +57,9 @@ staging-deploy-backend:
   when: manual
   only:
     - branches
+  needs:
+    - job: build-backend
+
 
 staging-deploy-frontend:
   stage: deploy
@@ -77,6 +80,8 @@ staging-deploy-frontend:
   when: manual
   only:
     - branches
+  needs:
+    - job: build-frontend
 
 
 production-deploy-backend:
@@ -101,3 +106,5 @@ production-deploy-backend:
   when: manual
   only:
     - main
+  needs:
+    - job: build-backend
