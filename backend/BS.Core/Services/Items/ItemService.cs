@@ -158,8 +158,8 @@ public class ItemService : IItemService
             BookId = bookId,
             OwnerId = currentUserId,
             HolderId = currentUserId,
-            CreatedUtc = _timeProvider.GetUtcNow().DateTime,
-            HolderChangedUtc = _timeProvider.GetUtcNow().DateTime,
+            CreatedUtc = _timeProvider.GetUtcNow().UtcDateTime,
+            HolderChangedUtc = _timeProvider.GetUtcNow().UtcDateTime,
         };
         await _dbContext.Items.AddAsync(itemEntity);
 
