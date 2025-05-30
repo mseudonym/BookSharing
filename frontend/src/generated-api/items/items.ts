@@ -25,11 +25,10 @@ import type {
 
 import type {
   DeleteItemsRemoveFromMyShelfParams,
-  FriendItemInfo,
   GetItemsFriendsByBookParams,
   GetItemsMyByBookParams,
+  ItemInfo,
   ItemModel,
-  MyItemInfo,
   PostItemsAddToMyShelfParams
 } from '.././model';
 
@@ -47,7 +46,7 @@ export const getItemsMy = (
 ) => {
       
       
-      return api<MyItemInfo>(
+      return api<ItemInfo[]>(
       {url: `/Items/my`, method: 'GET', signal
     },
       options);
@@ -128,7 +127,7 @@ export const getItemsFriends = (
 ) => {
       
       
-      return api<FriendItemInfo>(
+      return api<ItemInfo[]>(
       {url: `/Items/friends`, method: 'GET', signal
     },
       options);

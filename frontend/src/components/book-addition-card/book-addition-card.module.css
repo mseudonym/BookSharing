@@ -1,0 +1,14 @@
+.bookCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 0;
+    gap: var(--mantine-spacing-sm);
+    margin-top: var(--mantine-spacing-lg);
+}
+
+.bookImage {
+    width: 56px;
+    height: 80px;
+    border-radius: var(--mantine-spacing-sm);
+}

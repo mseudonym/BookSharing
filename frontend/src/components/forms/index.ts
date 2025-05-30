@@ -1,4 +1,4 @@
-export { BookAdditionForm } from './book-addition-form/book-addition-form';
+export { BookAdditionManuallyForm } from '~/components/forms/book-addition-manually-form/book-addition-manually-form';
 export { LoginForm } from './login-form/login-form';
 export { ProfileFillingForm } from './profile-filling-form/profile-filling-form';
 export { RegistrationForm } from './registration-form/registration-form';

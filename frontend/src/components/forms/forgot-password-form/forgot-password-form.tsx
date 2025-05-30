@@ -47,7 +47,7 @@ export const ForgotPasswordForm = () => {
   const onSubmit = async (data: IFormInput) => {
     try {
       setIsLoading(true);
-      await resetPasswordMutation({ email: data.email});
+      await resetPasswordMutation({ email: data.email });
     } catch (error) {
       notifications.show({
         title: 'Ошибка сброса пароля',

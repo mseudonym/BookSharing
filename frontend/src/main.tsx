@@ -7,13 +7,13 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { EmailSettingsPage } from './pages/settings/email-settings-page/email-settings-page';
-import { PasswordSettingsPage } from './pages/settings/password-settings-page/password-settings-page';
+
 import { AppRoute } from '~/conts';
-import { BookAdditionPage } from '~/pages/book-addition-page';
+import { BookAdditionManuallyPage } from '~/pages/book-addition-manually-page';
+import { BookAdditionPage } from '~/pages/book-addition-page/book-addition-page';
 import { BookPage } from '~/pages/book-page';
-import { EmailConfirmationWaitingPage } from '~/pages/email-confirmation-waiting-page';
 import { EmailConfirmationPage } from '~/pages/email-confirmation-page';
+import { EmailConfirmationWaitingPage } from '~/pages/email-confirmation-waiting-page';
 import { ErrorPage } from '~/pages/error-page';
 import { ForgotPasswordPage } from '~/pages/forgot-password-page';
 import { FriendsPage } from '~/pages/friends-page';
@@ -21,26 +21,38 @@ import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
 import { SearchFriendsPage } from '~/pages/search-friends-page';
+import { EmailSettingsPage, PasswordSettingsPage } from '~/pages/settings';
 import { SettingsPage, SecuritySettingsPage, ProfileSettingsPage } from '~/pages/settings';
 import { ShelfPage } from '~/pages/shelf-page';
+import { StoragePage } from '~/pages/storage-page';
 import { WelcomePage } from '~/pages/welcome-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';
-import {checkAuth} from "~/actions";
+import { PrivateRoute } from '~/ui/private-route';
+import { PublicRoute } from '~/ui/public-route';
 
 export const router = createBrowserRouter([
   {
-    path: `${AppRoute.Root}`,
-    element: <WelcomePage />
-  },
-  {
-    path: `${AppRoute.Register}`,
-    element: <RegistrationPage />,
-  },
-  {
-    path: `${AppRoute.Login}`,
-    element: <LoginPage />,
+    element: <PublicRoute />,
+    children: [
+      {
+        path: `${AppRoute.Root}`,
+        element: <WelcomePage />,
+      },
+      {
+        path: `${AppRoute.Register}`,
+        element: <RegistrationPage />,
+      },
+      {
+        path: `${AppRoute.Login}`,
+        element: <LoginPage />,
+      },
+      {
+        path: `${AppRoute.ForgotPassword}`,
+        element: <ForgotPasswordPage />,
+      },
+    ],
   },
   {
     path: `${AppRoute.EmailConfirmationWaiting}`,
@@ -51,63 +63,72 @@ export const router = createBrowserRouter([
     element: <EmailConfirmationPage />,
   },
   {
-    path: `${AppRoute.ForgotPassword}`,
-    element: <ForgotPasswordPage />,
-  },
-  {
     path: `${AppRoute.ProfileFilling}`,
     element: <ProfileFillingPage />,
   },
   {
-    element: <Layout />,
+    element: <PrivateRoute />,
     children: [
       {
-        path: `${AppRoute.Profile}`,
-        element: <ProfilePage />,
-      },
-      {
-        path: `${AppRoute.Shelf}`,
-        element: <ShelfPage />,
-      },
-      {
-        path: `${AppRoute.Friends}`,
-        element: <FriendsPage />,
-      },
-      {
-        path: `${AppRoute.User}`,
-        element: <UserPage />,
-      },
-      {
-        path: `${AppRoute.Book}`,
-        element: <BookPage />,
-      },
-      {
-        path: `${AppRoute.AddBook}`,
-        element: <BookAdditionPage />,
-      },
-      {
-        path: `${AppRoute.SearchFriends}`,
-        element: <SearchFriendsPage />,
-      },
-      {
-        path: `${AppRoute.Settings}`,
-        element: <SettingsPage />,
-      },
-      {
-        path: `${AppRoute.SecuritySettings}`,
-        element: <SecuritySettingsPage />,
-      },
-      {
-        path: `${AppRoute.ProfileSettings}`,
-        element: <ProfileSettingsPage />,
-      },
-      {
-        path: `${AppRoute.EmailSettings}`,
-        element: <EmailSettingsPage />,
-      },
-      {
-        path: `${AppRoute.PasswordSettings}`,
-        element: <PasswordSettingsPage />,
+        element: <Layout />,
+        children: [
+          {
+            path: `${AppRoute.Profile}`,
+            element: <ProfilePage />,
+          },
+          {
+            path: `${AppRoute.Shelf}`,
+            element: <ShelfPage />,
+          },
+          {
+            path: `${AppRoute.Friends}`,
+            element: <FriendsPage />,
+          },
+          {
+            path: `${AppRoute.Storage}`,
+            element: <StoragePage />,
+          },
+          {
+            path: `${AppRoute.User}`,
+            element: <UserPage />,
+          },
+          {
+            path: `${AppRoute.Book}`,
+            element: <BookPage />,
+          },
+          {
+            path: `${AppRoute.AddBook}`,
+            element: <BookAdditionPage />,
+          },
+          {
+            path: `${AppRoute.AddBookManually}`,
+            element: <BookAdditionManuallyPage />,
+          },
+          {
+            path: `${AppRoute.SearchFriends}`,
+            element: <SearchFriendsPage />,
+          },
+          {
+            path: `${AppRoute.Settings}`,
+            element: <SettingsPage />,
+          },
+          {
+            path: `${AppRoute.SecuritySettings}`,
+            element: <SecuritySettingsPage />,
+          },
+          {
+            path: `${AppRoute.ProfileSettings}`,
+            element: <ProfileSettingsPage />,
+          },
+          {
+            path: `${AppRoute.EmailSettings}`,
+            element: <EmailSettingsPage />,
+          },
+          {
+            path: `${AppRoute.PasswordSettings}`,
+            element: <PasswordSettingsPage />,
+          },
+        ],
       },
     ],
   },
@@ -117,23 +138,12 @@ export const router = createBrowserRouter([
   },
 ]);
 
-const AppWrapper = () => {
-  React.useEffect(() => {
-    const initializeAuth = async () => {
-      await checkAuth(false);
-    };
-
-    initializeAuth();
-  }, []);
-  return <RouterProvider router={router} />;
-};
-
 const App = () => {
   return (
     <MantineProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Notifications />
-        <AppWrapper />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </MantineProvider>
   );

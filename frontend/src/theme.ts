@@ -199,6 +199,9 @@ export const theme = createTheme({
         tab: classes.tab,
         panel: classes.tabsPanel,
       },
+      defaultProps: {
+        variant: 'pills',
+      }
     }),
     Badge: Badge.extend({
       classNames: { 

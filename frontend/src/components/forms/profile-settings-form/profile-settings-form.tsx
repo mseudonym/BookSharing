@@ -49,7 +49,7 @@ export const ProfileSettingsForm = () => {
   const { mutateAsync: updateProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: getGetUsersMeQueryKey()});
+      queryClient.invalidateQueries({ queryKey: getGetUsersMeQueryKey() });
 
       notifications.show({
         title: 'Профиль обновлен',

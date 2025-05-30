@@ -4,13 +4,14 @@
  * BookSharingApi
  * OpenAPI spec version: v1
  */
-import type { QueueUser } from './queueUser';
+import type { QueueUserModel } from './queueUserModel';
 import type { UserProfile } from './userProfile';
 
 export interface ItemModel {
   itemId?: string;
   /** @nullable */
-  queue: QueueUser[] | null;
+  queue: QueueUserModel[] | null;
   owner: UserProfile;
   holder: UserProfile;
+  firstInQueue?: UserProfile;
 }

@@ -9,7 +9,7 @@ type PageProps = {
   withoutMenu?: boolean;
 }
 
-export const Page = ({ children, backgroundColor = 'rainbow', withoutMenu = false}: PropsWithChildren<PageProps>) => {  
+export const Page = ({ children, backgroundColor = 'rainbow', withoutMenu = false }: PropsWithChildren<PageProps>) => {  
   return (
     <div className={`${styles.page} ${styles[backgroundColor]} ${withoutMenu && styles.pageWithoutMenu}`}>
       {children}

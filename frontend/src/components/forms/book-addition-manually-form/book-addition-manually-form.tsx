@@ -18,10 +18,8 @@ import { router } from '~/main';
 const FormSchema = zod.object({
   bookCover: zod
     .custom<File>((data) => {
-      if (data instanceof File) {
-        return true;
-      }
-      return false;
+      return data instanceof File;
+
     }, 'Фото не может быть пустым'),
   title: zod
     .string()
@@ -42,11 +40,12 @@ const FormSchema = zod.object({
   isbn: zod
     .string()
     .nonempty(REQUIRED_FIELD_TEXT)
+    .regex(/^\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d{1}$/, 'Неверный формат ISBN')
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
 
-export const BookAdditionForm = () => {
+export const BookAdditionManuallyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -76,16 +75,16 @@ export const BookAdditionForm = () => {
   const { mutateAsync: addBook } = useMutation({
     mutationFn: postBooksAdd,
     onError: (error: AxiosError<{
+      problemDetails: {
       errors: {
-        ModelValidationError?: string[];
         BookAlreadyAddedError?: string[];
+        }
       }
     }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
-        if (errorData.errors) {
-          const errorMessage = (errorData.errors.ModelValidationError?.[0] && 'ISBN неправильного формата') || 
-                             (errorData.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') || 
+        if (errorData.problemDetails?.errors) {
+          const errorMessage = (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') ||
                              undefined;
           
           notifications.show({
@@ -97,7 +96,7 @@ export const BookAdditionForm = () => {
       }
     },
     onSuccess: async (bookData) => {
-      router.navigate(AppRoute.Book.replace(':id', bookData.id!));
+      await router.navigate(AppRoute.Book.replace(':id', bookData.id!));
     },
   });
 

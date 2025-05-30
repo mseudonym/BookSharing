@@ -9,6 +9,7 @@ export enum AppRoute {
   Book = '/book/:id',
   User = '/user/:username',
   AddBook = '/add-book',
+  AddBookManually = '/add-book-manually',
   Login = '/login',
   Register = '/register',
   ProfileFilling = '/profile-filling',
@@ -26,6 +27,16 @@ export enum AppRoute {
 export enum FriendsTabs {
   MyFriends = 'Мои друзья',
   Requests = 'Заявки',
+}
+
+export enum StorageTabs {
+  Friends = 'Друзей',
+  My = 'Мои',
+}
+
+export enum BookAdditionTabs {
+  Isbn = 'По ISBN',
+  Title = 'По названию'
 }
 
 export const REQUIRED_FIELD_TEXT = 'Обязательное поле';

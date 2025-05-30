@@ -2,11 +2,11 @@ import React, { PropsWithChildren } from 'react';
 
 import styles from '~/ui/wrapper/wrapper.module.css';
 
-import { WrapperAlign, WrapperBackground } from '~/types';
+import { WrapperAlign } from '~/types';
 
 type WrapperProps = {
   align?: WrapperAlign;
-  background?: WrapperBackground;
+  background?: 'white' | 'none';
   noPaddingHorizontal?: boolean;
   noPaddingVertical?: boolean;
   noGap?: boolean;

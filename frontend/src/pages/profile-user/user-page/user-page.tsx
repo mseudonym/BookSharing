@@ -30,7 +30,7 @@ export const UserPage = () => {
   const { username } = useParams();
   const queryClient = useQueryClient();
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersUsername(username!);
-  const {data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe} = useGetUsersMe();
+  const { data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe } = useGetUsersMe();
   const [opened, { open, close }] = useDisclosure(false);
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksFriendBooks(
     { friendId: user?.id },
@@ -53,12 +53,12 @@ export const UserPage = () => {
 
   const { mutateAsync: respondRequest } = useMutation({
     mutationFn: postFriendsRespondRequest,
-    onSuccess: async ({ friendshipStatus }) => {
+    onSuccess: async (data, variables) => {
       queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
       notifications.show({
-        title: friendshipStatus == FriendshipStatus.Friend ? 'Заявка принята' : 'Заявка отклонена',
+        title: variables?.isAccepted ? 'Заявка принята' : 'Заявка отклонена',
         message: undefined,
-        color: friendshipStatus == FriendshipStatus.Friend ? 'var(--green-color)' : 'var(--red-color)',
+        color: 'var(--green-color)',
       });
     },
   });
@@ -172,7 +172,7 @@ export const UserPage = () => {
             alt="Avatar"
             className={styles.avatar}
           />
-          
+
           <div className={styles.userInfoAction}>
             <div className={styles.userInfo}>
               <Title className={styles.userTitle}>
@@ -199,7 +199,7 @@ export const UserPage = () => {
             )}
 
             {user.friendshipStatus == FriendshipStatus.IncomeRequest && (
-              <Flex gap='sm' style={{alignSelf: 'stretch'}}>
+              <Flex gap='sm' className={styles.userRespondActions}>
                 <Button fullWidth variant={width < 768 ? 'white' : 'outline'} leftSection={<CheckAIcon24Regular color='var(--green-color)' />} onClick={() => onRespondRequest({ isAccepted: true })}>
               Принять заявку
                 </Button>
@@ -215,18 +215,20 @@ export const UserPage = () => {
               </Anchor>
             )}
           </div>
-          <Menu position='bottom-end' offset={-50}>
-            <Menu.Target>
-              <ActionIcon variant="transparent" className={styles.menuDesktopButton}>
-                <UiMenuDots3HIcon24Regular />
-              </ActionIcon>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
+          {user.friendshipStatus == FriendshipStatus.Friend && (
+            <Menu position='bottom-end' offset={-50}>
+              <Menu.Target>
+                <ActionIcon variant="transparent" className={styles.menuDesktopButton}>
+                  <UiMenuDots3HIcon24Regular />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
                   Удалить из друзей
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          )}
         </div>
         <Wrapper>
           <Title order={2}>Книги для обмена</Title>
