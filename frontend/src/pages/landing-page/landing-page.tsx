@@ -219,7 +219,7 @@ export const LandingPage = () => {
             <div className={styles.firstCreator}>
               <Avatar src='/pawel.png' className={styles.avatar}/>
               <Flex direction='column' gap={8} align='center'>
-                <Title ta='center' order={5}>Павел Ловыгин</Title>
+                <Title ta='center' order={creatorTitleOrder}>Павел Ловыгин</Title>
                 <Text ta='center' size={textSize} className={_styles.textGray}>Идейный вдохновитель, backend-разработчик, DevOps</Text>
                 <Anchor ta='center' href='https://t.me/pavel_lov_work'>Связаться</Anchor>
               </Flex>
@@ -227,7 +227,7 @@ export const LandingPage = () => {
             <div className={styles.secondCreator}>
               <Avatar src='/alexandr.png' className={styles.avatar}/>
               <Flex direction='column' gap={8} align='center'>
-                <Title ta='center' order={5}>Александр Михайличенко</Title>
+                <Title ta='center' order={creatorTitleOrder}>Александр Михайличенко</Title>
                 <Text ta='center' size={textSize} className={_styles.textGray}>Дизайнер, frontend-разработчик</Text>
                 <Anchor ta='center' href='https://t.me/mseudonym'>Связаться</Anchor>
               </Flex>
