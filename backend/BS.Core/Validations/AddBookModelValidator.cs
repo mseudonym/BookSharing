@@ -32,5 +32,8 @@ public class AddBookModelValidator : AbstractValidator<AddBookModel>
             .NotEmpty()
             .MaximumLength(LanguageMaxLength)
             .When(model => !string.IsNullOrEmpty(model.Language));
+        
+        RuleFor(model => model.BookCover)
+            .SetValidator(new PhotoFileModelValidator());
     }
 }

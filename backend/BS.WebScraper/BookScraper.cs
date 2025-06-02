@@ -72,6 +72,7 @@ public static partial class BookScraper
             Isbn = isbn,
             Language = "RUS",
             Title = bookTitle,
+            PublicationYear = null,
         };
         var res = await bookService.AddBookAsync(addBookModel);
         return res.IsSuccess ? res.Value : null;

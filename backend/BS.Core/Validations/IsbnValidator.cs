@@ -9,6 +9,7 @@ public class IsbnValidator : AbstractValidator<string?>
         RuleFor(isbn => isbn)
             .NotEmpty()
             .Matches(@"^\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d{1}$")
-            .WithMessage("Invalid ISBN format.");
+            .WithMessage("Invalid ISBN format.")
+            .WithErrorCode("InvalidIsbnFormat");
     }
 }

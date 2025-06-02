@@ -1,4 +1,5 @@
 using BS.Core.Errors;
+using BS.Core.Errors.Validation;
 using BS.Core.Extensions;
 using BS.Core.Models.Mapping;
 using BS.Core.Models.User;
@@ -10,17 +11,16 @@ using FluentResults;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace BS.Core.Services.User;
 
 internal class UserService : IUserService
 {
-    private readonly IValidator<string> _changeUsernameValidator = new UsernameValidator();
+    private readonly IValidator<string> _usernameValidator = new UsernameValidator();
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
 
-    private readonly IValidator<EditProfileModel> _editProfileModelValidator = new ProfileModelValidator();
+    private readonly IValidator<EditProfileModel> _editProfileModelValidator = new EditProfileModelValidator();
     private readonly IS3Service _s3Service;
     private readonly UserManager<UserEntity> _userManager;
     private readonly UserMapper _userMapper;
@@ -47,8 +47,8 @@ internal class UserService : IUserService
         var currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
 
         var validationResult = await ValidateEditUserModel(model, currentUser.IsProfileFilled);
-        if (!validationResult.IsValid)
-            return Result.Fail<UserData>(new ModelValidationError(validationResult.ErrorsToString()));
+        if (validationResult.IsFailed)
+            return validationResult;
 
         if (model.Photo is not null)
         {
@@ -78,13 +78,15 @@ internal class UserService : IUserService
         currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
 
         return errors.Any()
-            ? Result.Fail<UserData>(errors)
+            ? Result.Fail(errors)
             : Result.Ok(_userMapper.ToUserData(currentUser));
     }
 
     public async Task<Result<UserProfile[]>> SearchByUsernamePrefix(string usernamePrefix)
     {
-        if (usernamePrefix.Length < 3) return Result.Fail<UserProfile[]>(new UsernameSearchPrefixTooShortError());
+        if (usernamePrefix.Length < 3)
+            return Result.Fail<UserProfile[]>(new ValidationError("UsernamePrefixTooShort",
+                "Username prefix must be at least 3 characters long."));
 
         var currentUserId = await _currentUserService.GetIdAsync();
         var currentUser = await _dbContext.Users
@@ -107,16 +109,17 @@ internal class UserService : IUserService
 
     public async Task<Result<string>> EditUsername(string newUsername)
     {
-        var validationResult = await _changeUsernameValidator.ValidateAsync(newUsername);
-        if (!validationResult.IsValid)
-            return Result.Fail<string>(new ModelValidationError(validationResult.ErrorsToString()));
+        var validationResult = await _usernameValidator.ValidateAsync(newUsername).ToTypedResult();
+        if (validationResult.IsFailed)
+            return validationResult;
 
         var currentUserId = await _currentUserService.GetIdAsync();
         var currentUser = await _dbContext.Users.Where(u => u.Id == currentUserId).FirstAsync();
-        
+
         var existingUser = await _userManager.FindByNameAsync(newUsername);
         if (existingUser != null && existingUser.Id != currentUser.Id)
-            return Result.Fail(new UsernameAlreadyTakenError(newUsername));
+            return Result.Fail(new ValidationError("UsernameAlreadyTaken",
+                $"Username '{newUsername}' is already taken. Please choose another one."));
 
         // Обновляем username
         var setUserNameResult = await _userManager.SetUserNameAsync(currentUser, newUsername);
@@ -182,15 +185,15 @@ internal class UserService : IUserService
         return Result.Ok(_userMapper.ToUserProfile(person, friendshipStatus));
     }
 
-    private async Task<ValidationResult> ValidateEditUserModel(
+    private async Task<Result> ValidateEditUserModel(
         EditProfileModel model,
         bool isProfileFilled)
     {
-        ValidationResult validationResult;
+        Result validationResult;
         if (isProfileFilled)
-            validationResult = await _editProfileModelValidator.ValidateNotNullFieldsAsync(model);
+            validationResult = await _editProfileModelValidator.ValidateNotNullFieldsAsync(model).ToTypedResult();
         else
-            validationResult = await _editProfileModelValidator.ValidateAsync(model);
+            validationResult = await _editProfileModelValidator.ValidateAsync(model).ToTypedResult();
 
         return validationResult;
     }

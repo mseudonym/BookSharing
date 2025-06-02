@@ -1,6 +1,6 @@
 using BS.Api.Extensions;
 using BS.Core.Errors;
-using BS.Core.Errors.Book;
+using BS.Core.Errors.Validation;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +10,9 @@ public static class ErrorStatusCodeMapper
 {
     public static ObjectResult MapResult(ResultBase result)
     {
-        var errorDictionary = result.Errors
-            .GroupBy(e => e.GetType().Name)
+        var validationErrors = result.Errors
+            .OfType<ValidationError>()
+            .GroupBy(e => e.ErrorCode)
             .ToDictionary(
                 g => g.Key,
                 g => g.Select(e => e.Message).ToArray()
@@ -20,15 +21,8 @@ public static class ErrorStatusCodeMapper
         return result switch
         {
             // 400
-            _ when result.HasError<EmptyTitleError>() ||
-                   result.HasError<InvalidIsbnError>() ||
-                   result.HasError<BookDeleteError>() ||
-                   result.HasError<ModelValidationError>() ||
-                   result.HasError<FriendNotFoundError>() ||
-                   result.HasError<UsernameSearchPrefixTooShortError>() ||
-                   result.HasError<UsernameAlreadyTakenError>() ||
-                   result.HasError<BookAlreadyAddedError>()
-                => new BadRequestObjectResult(TypedResults.ValidationProblem(errorDictionary)),
+            _ when result.HasError<ValidationError>()
+                => new BadRequestObjectResult(TypedResults.ValidationProblem(validationErrors)),
 
             // 200
             _ when result.HasError<OperationAlreadyApplied>()
@@ -36,9 +30,7 @@ public static class ErrorStatusCodeMapper
 
             // 404
             _ when result.HasError<PersonNotFoundError>() ||
-                   result.HasError<BookNotFoundByTitleError>() ||
-                   result.HasError<BookNotFoundByIsbnError>() ||
-                   result.HasError<BookNotFoundByIdError>()
+                   result.HasError<BookNotFoundError>()
                 => new NotFoundObjectResult(result.ErrorsToString()),
 
             // 403
