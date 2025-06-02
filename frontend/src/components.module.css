@@ -294,6 +294,7 @@
   text-decoration: none !important;
   color: var(--primary-color);
   position: relative;
+  align-self: flex-start;
 
   display: inline-block; /* Важно, чтобы ссылка занимала только необходимую ширину */
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1); /* Определяем easing function */

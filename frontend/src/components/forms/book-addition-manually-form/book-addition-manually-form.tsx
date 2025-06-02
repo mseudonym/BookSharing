@@ -58,7 +58,7 @@ export const BookAdditionManuallyForm = () => {
   } = useForm<IFormInput>({
     resolver: zodResolver(FormSchema),
     reValidateMode: 'onChange',
-    mode: 'onTouched',
+    mode: 'onTouched'
   });
 
   useEffect(() => {
@@ -78,14 +78,17 @@ export const BookAdditionManuallyForm = () => {
       problemDetails: {
       errors: {
         BookAlreadyAddedError?: string[];
+        BookCoverContentType_NotSupportedType: string[];
         }
       }
     }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.problemDetails?.errors) {
-          const errorMessage = (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') ||
+          const errorMessage =  (errorData.problemDetails.errors.BookCoverContentType_NotSupportedType?.[0] && 'Поддерживаемый формат изображения — jpeg') ||
+          (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') ||
                              undefined;
+          setError('bookCover', { message: errorMessage });
           
           notifications.show({
             title: 'Ошибка при добавлении книги',

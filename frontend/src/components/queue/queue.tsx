@@ -18,7 +18,7 @@ interface QueueProps extends ItemModel {
   bookId: string;
 }
 
-export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
+export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: QueueProps) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: enqueue } = useMutation({
@@ -50,8 +50,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
   const isUserInQueue: boolean = queue!.find((element) => element.id == userData?.id) !== undefined;
   const isUserFirst: boolean = queue!.at(0)?.id === userData?.id;
   const isUserHolder: boolean = userData?.username === holder?.username;
-
-  const nextUserInQueue = isUserHolder ? queue?.at(0) : undefined;
+  const isUserOwner: boolean = owner.username === userData?.username;
 
   return (
     <Card className={`${styles.queue} ${isUserInQueue && styles.backgroundBlue} ${isUserHolder && styles.backgroundPink}`}>
@@ -93,8 +92,8 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
             </Flex>
           </Flex>
         </Flex>
-        : (nextUserInQueue
-          ? <Text>Книга у вас. За вами в очереди стоит человек. После прочтения книги, свяжитесь с ним и передайте ёё.</Text>
+        : (firstInQueue
+          ? <Text>Книга у вас. За вами в очереди стоит человек. После прочтения книги, свяжитесь с ним и передайте её.</Text>
           : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не появится — отдайте книгу владельцу после прочтения.</Text>)}
 
       {!isUserHolder
@@ -121,22 +120,22 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
               </Avatar.Group>
             </Flex>
           ))
-        : (nextUserInQueue
+        : (firstInQueue
           ? <Flex direction='column' gap='sm'>
             <Text span className={_styles.textGray}>Следующий в очереди</Text>
             <Flex gap='md'>
               <Avatar
-                src={nextUserInQueue.lowQualityPhotoUrl ?? '/default-profile.png'}
+                src={firstInQueue.lowQualityPhotoUrl ?? '/default-profile.png'}
                 radius="xl"
                 size={41}
               />
               <Flex direction='column' gap='xs'>
                 <Text span className={styles.name}>
-                  {'Пусто'}
-                  {'Пусто'}
-                  {'Пусто'}
+                  {firstInQueue.firstName}
+                  {' '}
+                  {firstInQueue.lastName}
                 </Text>
-                <Anchor href={'Пусто'}>Связаться</Anchor>
+                <Anchor href={firstInQueue.contactUrl ?? ''}>Связаться</Anchor>
               </Flex>
             </Flex>
           </Flex>
@@ -146,7 +145,12 @@ export const Queue = ({ bookId, itemId, owner, holder, queue }: QueueProps) => {
           </Flex>)}
 
       {!isUserHolder && (!isUserInQueue
-        ? <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
+        ? isUserOwner 
+          ? <Flex direction='column' align={'center'} gap='sm' className={styles.buttonWrapper}>
+            <Button variant="white" fullWidth onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
+            <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
+          </Flex>
+          : <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
         : (
           <Flex gap='sm' className={styles.buttonWrapper}>
             <Button variant="white" fullWidth disabled={!isUserFirst} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
