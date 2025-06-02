@@ -32,7 +32,7 @@ public class S3Service : IS3Service
 
     public string GetProfilePhotoUrl(Guid userId, PhotoQuality quality)
     {
-        var keyById = $"{userId.ToString()}{PngFormat.FileExtension}";
+        var keyById = $"{userId.ToString()}{JpgFormat.FileExtension}";
         var objectKey = GetPhotoPath(keyById, _options.ProfilePhotos, quality);
 
         return GeneratePreSignedUrl(objectKey);
@@ -40,7 +40,7 @@ public class S3Service : IS3Service
 
     public string GetBookCoverUrl(Guid bookId, PhotoQuality quality)
     {
-        var fileName = $"{bookId.ToString()}{PngFormat.FileExtension}";
+        var fileName = $"{bookId.ToString()}{JpgFormat.FileExtension}";
         var objectKey = GetPhotoPath(fileName, _options.BookCovers, quality);
 
         return GeneratePreSignedUrl(objectKey);
@@ -54,12 +54,12 @@ public class S3Service : IS3Service
 
     private async Task<Result<string>> UploadAsync(PhotoFileModel model, Guid entityId, string category)
     {
-        if (model.FileExtension.ToLower() is not (".jpg" or ".jpeg"))
+        if (model.ContentType != JpgFormat.ContentType)
         {
             return Result.Fail("File extension must be .jpg or .jpeg");
         }
         
-        var fileName = $"{entityId}{PngFormat.FileExtension}";
+        var fileName = $"{entityId}{JpgFormat.FileExtension}";
         var objectKey = GetPhotoPath(fileName, category, PhotoQuality.Original);
 
         var putObjectRequest = new PutObjectRequest

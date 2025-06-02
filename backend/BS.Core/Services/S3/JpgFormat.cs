@@ -2,7 +2,7 @@ using System.Net.Mime;
 
 namespace BS.Core.Services.S3;
 
-public static class PngFormat
+public static class JpgFormat
 {
     public const string ContentType = MediaTypeNames.Image.Jpeg;
     public const string FileExtension = ".jpg";

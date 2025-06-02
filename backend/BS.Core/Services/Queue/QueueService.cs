@@ -1,4 +1,4 @@
-using BS.Core.Errors.Queue;
+using BS.Core.Errors;
 using BS.Core.Services.User;
 using BS.Data.Context;
 using BS.Data.Entities;
@@ -27,10 +27,10 @@ public class QueueService : IQueueService
     {
         var currentUserId = await _currentUserService.GetIdAsync();
         if (await _dbContext.QueueItems.AnyAsync(item => item.ItemId == itemId && item.UserId == currentUserId))
-            return Result.Fail(new UserAlreadyInQueueError("The user is already in the queue"));
+            return Result.Fail(new OperationAlreadyApplied("The user is already in the queue"));
 
         if (isForcesFirstByOwner && !await IsUserOwnsItem(currentUserId, itemId))
-            return Result.Fail(new UserDoesNotOwnItemError("The user is not real owner of this item."));
+            return Result.Fail(new OperationAlreadyApplied("The user is not real owner of this item."));
 
         await _dbContext.QueueItems.AddAsync(new QueueItemEntity
         {

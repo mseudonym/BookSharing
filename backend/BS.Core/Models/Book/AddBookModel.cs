@@ -9,6 +9,6 @@ public class AddBookModel
     public required string Description { get; init; }
     public string? Isbn { get; init; }
     public required string Language { get; set; }
-    public int? PublicationYear { get; set; }
-    public PhotoFileModel? BookCover { get; set; }
+    public required int? PublicationYear { get; set; }
+    public required PhotoFileModel BookCover { get; set; }
 }

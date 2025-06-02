@@ -25,5 +25,8 @@ public static class ValidatorExtensions
 
             if (model.Photo is not null)
                 options.IncludeProperties(x => x.Photo);
+
+            if (model.Photo is not null)
+                options.IncludeProperties(x => x.Photo);
         });
 }

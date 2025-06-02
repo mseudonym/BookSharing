@@ -1,12 +1,13 @@
+using BS.Core.Models.S3;
 using BS.Core.Models.User;
 using FluentValidation;
 using static BS.Data.Validations.DataUserValidationConstants;
 
 namespace BS.Core.Validations;
 
-public class ProfileModelValidator : AbstractValidator<EditProfileModel>
+public class EditProfileModelValidator : AbstractValidator<EditProfileModel>
 {
-    public ProfileModelValidator()
+    public EditProfileModelValidator()
     {
         RuleFor(model => model.FirstName)
             .NotEmpty()
@@ -24,5 +25,9 @@ public class ProfileModelValidator : AbstractValidator<EditProfileModel>
             .MaximumLength(ContactUrlMaxLength)
             .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _))
             .WithMessage("ContactUrl is invalid");
+
+        RuleFor(model => model.Photo)
+            .NotNull()
+            .SetValidator(new PhotoFileModelValidator() as IValidator<PhotoFileModel?>);
     }
 }

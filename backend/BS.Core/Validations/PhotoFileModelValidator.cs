@@ -9,11 +9,8 @@ public class PhotoFileModelValidator : AbstractValidator<PhotoFileModel>
     public PhotoFileModelValidator()
     {
         RuleFor(model => model.ContentType)
-            .Equal(PngFormat.ContentType)
-            .WithMessage($"File type must be {PngFormat.ContentType}");
-
-        RuleFor(model => model.FileExtension.ToLower())
-            .Equal(PngFormat.FileExtension)
-            .WithMessage($"File extension must be {PngFormat.FileExtension}");
+            .Equal(JpgFormat.ContentType)
+            .WithMessage($"File type must be {JpgFormat.ContentType}")
+            .WithErrorCode("NotSupportedType");
     }
 }
