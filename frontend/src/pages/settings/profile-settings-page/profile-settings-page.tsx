@@ -13,7 +13,7 @@ export const ProfileSettingsPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
-        <Title order={2}>Личные данные</Title>
+        <Title order={6}>Личные данные</Title>
       </Header>
 
       <ProfileSettingsForm />

@@ -1,4 +1,4 @@
-import { ActionIcon, Notification, Anchor, AppShell, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge, Overlay } from '@mantine/core';
+import { ActionIcon, Notification, Anchor, AppShell, Burger, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge, Overlay } from '@mantine/core';
 
 import classes from './components.module.css';
 
@@ -14,16 +14,28 @@ export const theme = createTheme({
     fontWeight: '400',
     sizes: {
       h1: {
-        fontSize: '22px',
-        lineHeight: '120%',
+        fontSize: '96px',
+        lineHeight: '100%'
       },
       h2: {
-        fontSize: '18px',
-        lineHeight: '120%',
+        fontSize: '60px',
+        lineHeight: '100%'
       },
       h3: {
-        fontSize: '16px',
-        lineHeight: '120%',
+        fontSize: '40px',
+        lineHeight: '100%'
+      },
+      h4: {
+        fontSize: '32px',
+        lineHeight: '100%'
+      },
+      h5: {
+        fontSize: '22px',
+        lineHeight: '100%'
+      },
+      h6: {
+        fontSize: '18px',
+        lineHeight: '100%'
       },
     },
   },
@@ -41,9 +53,9 @@ export const theme = createTheme({
   // Typography system
   fontFamily: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
   fontSizes: {
-    sm: '14px',
     md: '16px',
     lg: '18px',
+    xl: '20px'
   },
 
   // Border radius system
@@ -53,11 +65,12 @@ export const theme = createTheme({
     md: '16px',
     lg: '24px',
     xl: '32px',
-
   },
 
   breakpoints: {
-    tablet: '768px',
+    sm: '600px',
+    md: '768px',
+    lg: '1024px',
   },
 
   // Components configuration
@@ -80,7 +93,7 @@ export const theme = createTheme({
       },
       styles: (theme) => ({
         title: {
-          ...theme.headings?.sizes?.h2,
+          ...theme.headings?.sizes?.h6,
           fontWeight: theme.headings?.fontWeight,
           fontFamily: theme.headings?.fontFamily,
         },
@@ -93,7 +106,7 @@ export const theme = createTheme({
       classNames: { root: classes.title },
     }),
     Text: Text.extend({
-      classNames: { root: classes.text },
+      classNames: { root: classes.text }
     }),
     Card: Card.extend({
       classNames: { root: classes.card },
@@ -115,6 +128,9 @@ export const theme = createTheme({
           },
         }),
       },
+    }),
+    Burger: Burger.extend({
+      classNames: { root: classes.burger }
     }),
     ActionIcon: ActionIcon.extend({
       classNames: { root: classes.actionIcon },
@@ -216,7 +232,7 @@ export const theme = createTheme({
       },
       styles: (theme) => ({
         title: {
-          ...theme.headings?.sizes?.h3,
+          ...theme.headings?.sizes?.h6,
           fontWeight: theme.headings?.fontWeight,
           fontFamily: theme.headings?.fontFamily,
         },

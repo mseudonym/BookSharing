@@ -53,7 +53,7 @@ export const EmailConfirmationWaitingPage = () => {
           <ArrowALeftIcon24Regular />
         </ActionIcon>
       </Header>
-      <Title ta='center'>
+      <Title order={5} ta='center'>
                 Ожидаем подтверждение почты
       </Title>
       <Text ta='center' className={_styles.textGray}>

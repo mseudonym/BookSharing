@@ -16,7 +16,7 @@ export const BookAdditionManuallyPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
-        <Title order={2}>Добавление книги вручную</Title>
+        <Title order={6}>Добавление книги вручную</Title>
       </Header>
 
       <Wrapper background="none" noPaddingHorizontal className={styles.bookAddWrapper}>

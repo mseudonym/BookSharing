@@ -44,7 +44,7 @@ export const ProfilePage = () => {
         />
         <div className={styles.userInfoAction}>
           <div className={styles.userInfo}>
-            <Title className={styles.userTitle}>
+            <Title className={styles.userTitle} order={5}>
               {user.firstName}
               {' '}
               {user.lastName}
@@ -62,7 +62,7 @@ export const ProfilePage = () => {
         </div>
       </div>
       <Wrapper>
-        <Title order={2}>Книги для обмена</Title>
+        <Title order={6}>Книги для обмена</Title>
         <div className={styles.bookList}>
           <Button variant="outline" className={styles.addBookButton} onClick={() => router.navigate(AppRoute.AddBook)}>
             <PlusIcon24Regular />

@@ -13,7 +13,7 @@ export const ForgotPasswordPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
-        <Title order={2}>Восстановление пароля</Title>
+        <Title order={6}>Восстановление пароля</Title>
       </Header>
 
       <ForgotPasswordForm/>

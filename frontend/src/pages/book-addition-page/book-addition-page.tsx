@@ -48,7 +48,7 @@ export const BookAdditionPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
-        <Title>Добавление книги</Title>
+        <Title order={5}>Добавление книги</Title>
       </Header>
 
       <Tabs defaultValue={BookAdditionTabs.Isbn}>

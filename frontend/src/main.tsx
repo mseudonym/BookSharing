@@ -17,6 +17,7 @@ import { EmailConfirmationWaitingPage } from '~/pages/email-confirmation-waiting
 import { ErrorPage } from '~/pages/error-page';
 import { ForgotPasswordPage } from '~/pages/forgot-password-page';
 import { FriendsPage } from '~/pages/friends-page';
+import { LandingPage } from '~/pages/landing-page';
 import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
@@ -25,7 +26,6 @@ import { EmailSettingsPage, PasswordSettingsPage } from '~/pages/settings';
 import { SettingsPage, SecuritySettingsPage, ProfileSettingsPage } from '~/pages/settings';
 import { ShelfPage } from '~/pages/shelf-page';
 import { StoragePage } from '~/pages/storage-page';
-import { WelcomePage } from '~/pages/welcome-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: `${AppRoute.Root}`,
-        element: <WelcomePage />,
+        element: <LandingPage />,
       },
       {
         path: `${AppRoute.Register}`,

@@ -27,7 +27,7 @@ export const StoragePage = () => {
   return (
     <PageWithWrapper>
       <Header variant="left">
-        <Title>Предметы</Title>
+        <Title order={5}>Предметы</Title>
       </Header>
 
       <Tabs defaultValue={StorageTabs.Friends}>

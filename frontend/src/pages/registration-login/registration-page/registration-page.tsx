@@ -15,7 +15,7 @@ export const RegistrationPage = () => {
     <PageWithWrapper alignWrapper="center" withoutMenu>
       <Flex direction='column' align='center' gap='lg' className={styles.head}>
         <Logo />
-        <Title ta='center'>Регистрация</Title>
+        <Title order={5} ta='center'>Регистрация</Title>
       </Flex>
 
       <RegistrationForm />

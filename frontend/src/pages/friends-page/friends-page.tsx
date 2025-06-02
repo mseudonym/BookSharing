@@ -27,7 +27,7 @@ export const FriendsPage = () => {
   return (
     <PageWithWrapper>
       <Header variant="auto">
-        <Title>Друзья</Title>
+        <Title order={5}>Друзья</Title>
         <ActionIcon variant="transparent" onClick={() => { router.navigate(AppRoute.SearchFriends); }}>
           <SearchLoupeIcon24Regular />
         </ActionIcon>

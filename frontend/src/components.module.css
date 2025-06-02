@@ -91,6 +91,7 @@
 .text {
   color: var(--primary-color);  
   line-height: 120%;
+  max-width: 800px;
 }
 
 /* Card styles */
@@ -154,6 +155,12 @@
 .buttonInner {
   display: flex;
   gap: var(--mantine-spacing-sm);
+}
+
+/* Burger styles */
+.burger {
+  height: 50px;
+  width: 50px;
 }
 
 /* ActionIcon styles */

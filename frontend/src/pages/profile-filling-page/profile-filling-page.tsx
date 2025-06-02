@@ -14,7 +14,7 @@ export const ProfileFillingPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
-        <Title order={2}>Создание профиля</Title>
+        <Title order={6}>Создание профиля</Title>
       </Header>
 
       <ProfileFillingForm />

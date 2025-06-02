@@ -14,7 +14,7 @@ export const LoginPage = () => {
     <PageWithWrapper alignWrapper="center" withoutMenu>
       <Flex direction='column' align='center' gap='lg' className={styles.head}>
         <Logo />
-        <Title ta='center'>Вход</Title>
+        <Title order={5} ta='center'>Вход</Title>
       </Flex>
 
       <LoginForm />

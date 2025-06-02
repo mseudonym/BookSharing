@@ -13,7 +13,7 @@ export const EmailSettingsPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
-        <Title order={2}>Изменение почты</Title>
+        <Title order={6}>Изменение почты</Title>
       </Header>
 
       <EmailSettingsForm />

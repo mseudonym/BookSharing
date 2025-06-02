@@ -42,7 +42,7 @@ export const SettingsPage = () => {
           <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
             <ArrowALeftIcon24Regular />
           </ActionIcon>
-          <Title order={2}>Настройки</Title>
+          <Title order={6}>Настройки</Title>
         </Header>
 
         <Button className={styles.buttonLeft} 

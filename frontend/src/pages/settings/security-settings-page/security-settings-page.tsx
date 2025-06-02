@@ -16,7 +16,7 @@ export const SecuritySettingsPage = () => {
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />
         </ActionIcon>
-        <Title order={2}>Безопасность</Title>
+        <Title order={6}>Безопасность</Title>
       </Header>
 
       <Button variant='white' 

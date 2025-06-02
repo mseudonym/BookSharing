@@ -25,7 +25,7 @@ export const ShelfPage = () => {
   return (
     <PageWithWrapper>
       <Header variant="left">
-        <Title>Полка друзей</Title>
+        <Title order={5}>Полка друзей</Title>
       </Header>
       <section className={styles.bookList}>
         {bookList == undefined || bookList.length == 0

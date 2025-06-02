@@ -105,7 +105,7 @@ export const BookPage = () => {
                 г.
                   </Text>
                 </div>
-                <Title ta='center'>{book?.title}</Title>
+                <Title order={5} ta='center'>{book?.title}</Title>
               </div>
               <div className={styles.bookBlock}>
                 <Text span className={_styles.textGray}>Описание</Text>
@@ -117,7 +117,7 @@ export const BookPage = () => {
             {ownerQueue && 
             <section className={styles.queues}>
               <Header className={styles.queueTitle} variant="left" withPadding>
-                <Title>Эта книга у ваc</Title>
+                <Title order={5}>Эта книга у ваc</Title>
               </Header>
               <Queue {...ownerQueue} bookId={id!} key={id!} />
               <Divider my="l" />
@@ -127,7 +127,7 @@ export const BookPage = () => {
             {queueList == undefined || queueList.length == 0 ?
               <section className={styles.queues}>
                 <Header className={styles.queueTitle} variant="left" withPadding>
-                  <Title>Этой книги нет у ваших друзей</Title>
+                  <Title order={5}>Этой книги нет у ваших друзей</Title>
                 </Header>
                 <IllustrationWrapper
                   src="/queue-illustration.svg"
@@ -137,7 +137,7 @@ export const BookPage = () => {
               :
               <section className={styles.queues}>
                 <Header className={styles.queueTitle} variant="left" withPadding>
-                  <Title>Эта книга у ваших друзей</Title>
+                  <Title order={5}>Эта книга у ваших друзей</Title>
                 </Header>
                 {queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
               </section>

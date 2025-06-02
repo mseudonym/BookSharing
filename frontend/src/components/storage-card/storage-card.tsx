@@ -25,6 +25,7 @@ export const StorageCard = ({ user, book, owner, holder, firstInQueue, queuePosi
       <Image onClick={() => router.navigate(AppRoute.Book.replace(':id', book.id!))} src={book?.bookCoverUrl} alt={`Book cover for ${book?.title}`} className={styles.bookCover} />
       <Flex direction="column" gap="sm"> 
         <Text>{book?.title}</Text>
+        <Text></Text>
         {
           // Книга у пользователя, и есть первый в очереди
           !isUserOwner && isUserHolder && firstInQueue && (

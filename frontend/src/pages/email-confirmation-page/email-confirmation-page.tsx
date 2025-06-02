@@ -39,14 +39,14 @@ export const EmailConfirmationPage = () => {
 
   return (
     <PageWithWrapper alignWrapper="center" withoutMenu>
-      <Title ta='center'>
+      <Title order={5} ta='center'>
                 Подтверждение почты
       </Title>
       <Text ta='center' className={_styles.textGray}>
                 Чтобы это сделать, перейдите по ссылке, отправленной на почту.
       </Text>
       <Header variant="left">
-        <Title order={2}>Подтверждение почты</Title>
+        <Title order={5}>Подтверждение почты</Title>
       </Header>
 
       {isPending && <p>Подтверждение...</p>}

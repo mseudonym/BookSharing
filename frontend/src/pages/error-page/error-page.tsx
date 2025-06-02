@@ -14,7 +14,7 @@ export const ErrorPage = () => {
         src='/error-illustration.svg'
         alt='Error illustration'/>
       <div className={_styles.textContainer}>
-        <Title textWrap='balance' ta='center'>Упс! Страница не найдена</Title>
+        <Title order={5} ta='center'>Упс! Страница не найдена</Title>
         <Text ta='center' className={_styles.textGray}>Попробуйте вернуться назад или изменить запрос.</Text>
       </div>
     </PageWithWrapper>
