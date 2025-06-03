@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BS.Data.Entities.Notifications.Base;
+using Microsoft.AspNetCore.Identity;
 
 namespace BS.Data.Entities;
 
@@ -14,4 +15,5 @@ public class UserEntity : IdentityUser<Guid>
     public List<UserEntity> SentFriendRequests { get; set; } = [];
     public List<ItemEntity> Items { get; set; } = [];
     public List<QueueItemEntity> QueueItems { get; set; } = [];
+    public List<NotificationEntityBase> Notifications { get; set; } = [];
 }

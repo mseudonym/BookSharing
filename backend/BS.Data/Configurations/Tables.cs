@@ -7,4 +7,5 @@ public static class Tables
     public const string UserFriendsTableName = "UserFriends";
     public const string ItemsTableName = "Items";
     public const string BooksTableName = "Books";
+    public const string NotificationsTableName = "Notifications";
 }

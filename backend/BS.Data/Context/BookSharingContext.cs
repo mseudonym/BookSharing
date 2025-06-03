@@ -20,6 +20,7 @@ public class BookSharingContext(DbContextOptions<BookSharingContext> options)
         builder.ApplyConfiguration(new QueueItemEntityConfiguration());
         builder.ApplyConfiguration(new ItemEntityConfiguration());
         builder.ApplyConfiguration(new BookEntityConfiguration());
+        builder.ApplyConfiguration(new NotificationEntityConfiguration());
 
         base.OnModelCreating(builder);
     }
