@@ -8,6 +8,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { ISBNScanningPage } from './pages/isbn-scanning-page/isbn-scanning-page';
+
 import { AppRoute } from '~/conts';
 import { BookAdditionManuallyPage } from '~/pages/book-addition-manually-page';
 import { BookAdditionPage } from '~/pages/book-addition-page/book-addition-page';
@@ -127,6 +129,10 @@ export const router = createBrowserRouter([
           {
             path: `${AppRoute.PasswordSettings}`,
             element: <PasswordSettingsPage />,
+          },
+          {
+            path: `${AppRoute.ScanningCode}`,
+            element: <ISBNScanningPage />,
           },
         ],
       },

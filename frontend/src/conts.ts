@@ -22,6 +22,7 @@ export enum AppRoute {
   SecuritySettings = '/security-settings',
   EmailSettings = '/email-settings',
   PasswordSettings = '/password-settings',
+  ScanningCode = '/scanning-code'
 }
 
 export enum FriendsTabs {

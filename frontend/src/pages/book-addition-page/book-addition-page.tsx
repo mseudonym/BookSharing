@@ -1,5 +1,5 @@
 import { Title, Tabs, SimpleGrid, ActionIcon, Input, Loader, TextInput, Flex, Text, Button } from '@mantine/core';
-import { ArrowALeftIcon24Regular } from '@skbkontur/icons';
+import { ArrowALeftIcon24Regular, ScanFrameBarcodeClassicIcon24Regular } from '@skbkontur/icons';
 import React, { useState, useCallback } from 'react';
 import { z as zod } from 'zod';
 
@@ -63,6 +63,10 @@ export const BookAdditionPage = () => {
           <TextInput placeholder="Введите ISBN книги" 
             value={isbnValue}
             onChange={(e) => validateIsbn(e.target.value)}
+            rightSection={
+              <ActionIcon onClick={() => router.navigate(AppRoute.ScanningCode)}>
+                <ScanFrameBarcodeClassicIcon24Regular/>
+              </ActionIcon>}
             error={isbnError}/>
           {!isErrorIsbn && bookIsbn && <BookAdditionCard {...bookIsbn} />}
           {searchIsbnQuery && <Flex direction="column" gap="sm" align="center" className={styles.buttonWithDescription}>
