@@ -8,8 +8,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { ISBNScanningPage } from './pages/isbn-scanning-page/isbn-scanning-page';
-
 import { AppRoute } from '~/conts';
 import { BookAdditionManuallyPage } from '~/pages/book-addition-manually-page';
 import { BookAdditionPage } from '~/pages/book-addition-page/book-addition-page';
@@ -19,6 +17,7 @@ import { EmailConfirmationWaitingPage } from '~/pages/email-confirmation-waiting
 import { ErrorPage } from '~/pages/error-page';
 import { ForgotPasswordPage } from '~/pages/forgot-password-page';
 import { FriendsPage } from '~/pages/friends-page';
+import { ISBNScanningPage } from '~/pages/isbn-scanning-page/isbn-scanning-page';
 import { LandingPage } from '~/pages/landing-page';
 import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
@@ -67,6 +66,10 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.ProfileFilling}`,
     element: <ProfileFillingPage />,
+  },
+  {
+    path: `${AppRoute.ScanningCode}`,
+    element: <ISBNScanningPage />,
   },
   {
     element: <PrivateRoute />,
@@ -130,10 +133,7 @@ export const router = createBrowserRouter([
             path: `${AppRoute.PasswordSettings}`,
             element: <PasswordSettingsPage />,
           },
-          {
-            path: `${AppRoute.ScanningCode}`,
-            element: <ISBNScanningPage />,
-          },
+          
         ],
       },
     ],

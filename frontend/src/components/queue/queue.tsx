@@ -153,7 +153,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
           : <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
         : (
           <Flex gap='sm' className={styles.buttonWrapper}>
-            <Button variant="white" fullWidth disabled={!isUserFirst} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
+            <Button variant="white" fullWidth disabled={!isUserFirst && !isUserOwner} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
             <ActionIcon variant="white" onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular /></ActionIcon>
           </Flex>
         ))}
