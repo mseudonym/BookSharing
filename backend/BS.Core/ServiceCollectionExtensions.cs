@@ -7,7 +7,6 @@ using BS.Core.Services.Book;
 using BS.Core.Services.Email;
 using BS.Core.Services.Friends;
 using BS.Core.Services.Items;
-using BS.Core.Services.Queue;
 using BS.Core.Services.S3;
 using BS.Core.Services.User;
 using BS.Data.Entities;
@@ -82,7 +81,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IFriendsService, FriendsService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IQueueService, QueueService>();
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IItemService, ItemService>();
     }

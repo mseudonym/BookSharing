@@ -1,6 +1,6 @@
+using BS.Core.Errors;
 using BS.Core.Models.Items;
 using BS.Core.Models.Mapping;
-using BS.Core.Models.Queue;
 using BS.Core.Models.User;
 using BS.Core.Services.User;
 using BS.Data.Context;
@@ -181,6 +181,91 @@ public class ItemService : IItemService
         return Result.Ok();
     }
     
+    public async Task<Result> EnqueueAsync(Guid itemId, bool isForcesFirstByOwner = false)
+    {
+        var currentUserId = await _currentUserService.GetIdAsync();
+        var currentUser = await _dbContext.Users
+            .Where(user => user.Id == currentUserId)
+            .Include(user => user.Friends)
+            .FirstAsync();
+        
+        var item = await _dbContext.Items.FirstOrDefaultAsync(item => item.Id == itemId);
+        if (item is null)
+            return Result.Fail(new ItemNotFoundError(itemId));
+        
+        if (currentUser.Friends.Any(friend => friend.Id == item.OwnerId))
+            return Result.Fail(new PersonIsNotYourFriendError(item.OwnerId));
+        
+        if (await _dbContext.QueueItems.AnyAsync(queueItem => queueItem.ItemId == itemId && queueItem.UserId == currentUserId))
+            return Result.Fail(new OperationAlreadyApplied("The user is already in the queue"));
+
+        if (isForcesFirstByOwner && !await IsUserOwnsItem(currentUserId, itemId))
+            return Result.Fail(new OperationForbiddenError("The user is not owner of this item."));
+
+        await _dbContext.QueueItems.AddAsync(new QueueItemEntity
+        {
+            UserId = currentUserId,
+            ItemId = itemId,
+            EnqueueTimeUtc = DateTime.UtcNow,
+            IsForcedFirstByOwner = isForcesFirstByOwner,
+        });
+
+        await _dbContext.SaveChangesAsync();
+
+        return Result.Ok();
+    }
+
+    public async Task<Result> LeaveQueueAsync(Guid itemId)
+    {
+        var currentUserId = await _currentUserService.GetIdAsync();
+        await _dbContext.QueueItems
+            .Where(queueItem => queueItem.ItemId == itemId && queueItem.UserId == currentUserId)
+            .ExecuteDeleteAsync();
+        return Result.Ok();
+    }
+
+    public async Task<Result> BecameHolderAsync(Guid itemId)
+    {
+        var item = await _dbContext.Items
+            .Where(item => item.Id == itemId)
+            .Include(item => item.QueueItems)
+            .FirstOrDefaultAsync();
+        
+        if (item is null)
+            return Result.Fail("Item not found");
+
+        var queue = GetQueueItems(item);
+        
+        var currentUserId = await _currentUserService.GetIdAsync();
+        var isCurrentUserFirstInQueue = queue.Count != 0 && queue[0].UserId == currentUserId;
+        var isCurrentUserOwner = item.OwnerId == currentUserId;
+        
+        if (!isCurrentUserFirstInQueue && !isCurrentUserOwner)
+            return Result.Fail(new OperationForbiddenError("You are not first in queue or owner of this item."));
+
+        item.HolderId = currentUserId;
+        item.HolderChangedUtc = _timeProvider.GetUtcNow().UtcDateTime;
+        _dbContext.Items.Update(item);
+        if (isCurrentUserFirstInQueue)
+        {
+            _dbContext.QueueItems.Remove(queue[0]);
+        }
+        await _dbContext.SaveChangesAsync();
+        return Result.Ok();
+    }
+
+    private async Task<bool> IsUserOwnsItem(Guid userId, Guid itemId)
+    {
+        var user = await _dbContext.Users
+            .Where(user => user.Id == userId)
+            .Include(user => user.Items)
+            .FirstAsync();
+
+        if (user.Items.Any(item => item.Id == itemId)) return true;
+
+        return false;
+    }
+    
     private ItemInfo ToFriendItemModel(ItemEntity item, Guid currentUserId)
     {
         var queue = GetQueue(item);
@@ -202,12 +287,13 @@ public class ItemService : IItemService
         };
     }
 
-    private static List<UserEntity> GetQueue(ItemEntity item)
-    {
-        var queue = item.QueueItems
+    private static List<QueueItemEntity> GetQueueItems(ItemEntity item) =>
+        item.QueueItems
             .OrderByDescending(queueItem => queueItem.IsForcedFirstByOwner)
+            .ToList();
+
+    private static List<UserEntity> GetQueue(ItemEntity item) =>
+        GetQueueItems(item)
             .Select(queueItem => queueItem.User)
             .ToList();
-        return queue;
-    }
 }

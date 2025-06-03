@@ -1,5 +1,4 @@
 using BS.Core.Models.Items;
-using BS.Core.Models.Queue;
 using BS.Core.Services.Items;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

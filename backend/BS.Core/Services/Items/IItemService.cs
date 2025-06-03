@@ -1,5 +1,4 @@
 using BS.Core.Models.Items;
-using BS.Core.Models.Queue;
 using FluentResults;
 
 namespace BS.Core.Services.Items;
@@ -13,4 +12,7 @@ public interface IItemService
     public Task<Result<ItemModel[]>> GetFriendItemsByBook(Guid bookId);
     public Task<Result> AddToMyShelf(Guid bookId);
     public Task<Result> RemoveFromMyShelf(Guid bookId);
+    public Task<Result> EnqueueAsync(Guid itemId, bool isForcesFirstByOwner = false);
+    public Task<Result> LeaveQueueAsync(Guid itemId);
+    public Task<Result> BecameHolderAsync(Guid userId);
 }
