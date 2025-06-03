@@ -17,17 +17,17 @@ spec:
     - host: staging.book-sharing.ru
       http:
         paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: bs-api
-                port:
-                  number: 80
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: bs-app
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: bs-api
                 port:
                   number: 80
