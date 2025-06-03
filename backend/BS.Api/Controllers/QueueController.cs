@@ -1,4 +1,4 @@
-using BS.Core.Services.Queue;
+using BS.Core.Services.Items;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static BS.Api.Results.ErrorStatusCodeMapper;
@@ -9,9 +9,9 @@ namespace BS.Api.Controllers;
 [Route("[controller]")]
 public class QueueController : Controller
 {
-    private readonly IQueueService _queueService;
+    private readonly IItemService _queueService;
 
-    public QueueController(IQueueService queueService)
+    public QueueController(IItemService queueService)
     {
         _queueService = queueService;
     }
@@ -33,7 +33,7 @@ public class QueueController : Controller
     [HttpPost("{itemId:guid}/becomeHolder")]
     public async Task<IActionResult> MakeNextUserTheHolder(Guid itemId)
     {
-        var queueResult = await _queueService.MakeNextUserTheHolderAsync(itemId);
+        var queueResult = await _queueService.BecameHolderAsync(itemId);
         return queueResult.IsFailed ? MapResult(queueResult) : Ok();
     }
 }

@@ -1,6 +1,6 @@
 using BS.Core.Models.User;
 
-namespace BS.Core.Models.Queue;
+namespace BS.Core.Models.Items;
 
 public class ItemModel
 {

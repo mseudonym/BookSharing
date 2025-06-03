@@ -30,11 +30,14 @@ public static class ErrorStatusCodeMapper
 
             // 404
             _ when result.HasError<PersonNotFoundError>() ||
-                   result.HasError<BookNotFoundError>()
+                   result.HasError<BookNotFoundError>() ||
+                   result.HasError<ItemNotFoundError>()
                 => new NotFoundObjectResult(result.ErrorsToString()),
 
             // 403
-            _ when result.HasError<PersonIsNotYourFriendError>() => new ObjectResult(result.ErrorsToString())
+            _ when result.HasError<PersonIsNotYourFriendError>() ||
+                   result.HasError<OperationForbiddenError>()
+                => new ObjectResult(result.ErrorsToString())
                 { StatusCode = 403 },
 
             // 500
