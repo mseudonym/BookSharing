@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: api-ingress
+  name: staging-ingress
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/auth-type: basic
@@ -11,25 +11,19 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - api.staging.book-sharing.ru
-      secretName: bs-tls-cert
-    - hosts:
         - staging.book-sharing.ru
       secretName: bs-tls-cert
   rules:
-    - host: api.staging.book-sharing.ru
+    - host: staging.book-sharing.ru
       http:
         paths:
-          - path: /
+          - path: /api
             pathType: Prefix
             backend:
               service:
                 name: bs-api
                 port:
                   number: 80
-    - host: staging.book-sharing.ru
-      http:
-        paths:
           - path: /
             pathType: Prefix
             backend:
