@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "BookSharingApi", Version = "v1" });
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Name = "Authorization",
+                Name = "BsAuthorization",
                 Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,

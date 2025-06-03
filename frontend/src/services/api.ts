@@ -13,7 +13,7 @@ AXIOS_INSTANCE.interceptors.request.use((config: InternalAxiosRequestConfig) => 
   const token = getToken();
 
   if (token && config.headers) {
-    config.headers['Authorization'] = token;
+    config.headers['BsAuthorization'] = token;
   }
 
   return config;
