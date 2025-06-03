@@ -60,19 +60,6 @@ if (environment.IsDevelopment() || environment.IsStaging())
     });
 }
 
-app.Use(async (context, next) =>
-{
-    if (!context.Request.Headers.ContainsKey("Authorization") &&
-        context.Request.Headers.ContainsKey("BsAuthorization"))
-    {
-        var token = context.Request.Headers["BsAuthorization"].ToString();
-        context.Request.Headers["Authorization"] = token;
-    }
-
-    await next();
-});
-
-
 app.UseCors();
 app.UseHttpLogging();
 app.UseAuthentication();
