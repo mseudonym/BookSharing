@@ -221,7 +221,7 @@ export const LandingPage = () => {
               <Flex direction='column' gap={8} align='center'>
                 <Title ta='center' order={creatorTitleOrder}>Павел Ловыгин</Title>
                 <Text ta='center' size={textSize} className={_styles.textGray}>Идейный вдохновитель, backend-разработчик, DevOps</Text>
-                <Anchor ta='center' href='https://t.me/pavel_lov_work'>Связаться</Anchor>
+                <Anchor ta='center' style={{ alignSelf: 'center' }} href='https://t.me/pavel_lov_work'>Связаться</Anchor>
               </Flex>
             </div>
             <div className={styles.secondCreator}>
@@ -229,7 +229,7 @@ export const LandingPage = () => {
               <Flex direction='column' gap={8} align='center'>
                 <Title ta='center' order={creatorTitleOrder}>Александр Михайличенко</Title>
                 <Text ta='center' size={textSize} className={_styles.textGray}>Дизайнер, frontend-разработчик</Text>
-                <Anchor ta='center' href='https://t.me/mseudonym'>Связаться</Anchor>
+                <Anchor ta='center' style={{ alignSelf: 'center' }} href='https://t.me/mseudonym'>Связаться</Anchor>
               </Flex>
             </div>
           </div>

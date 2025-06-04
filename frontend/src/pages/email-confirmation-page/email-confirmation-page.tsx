@@ -1,4 +1,4 @@
-import { Text, Title } from '@mantine/core';
+import { Button, Loader, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
@@ -7,9 +7,11 @@ import { useSearchParams } from 'react-router';
 import _styles from '~/index.module.css';
 
 import { Header } from '~/components/header';
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
+import { AppRoute } from '~/conts';
 import { postAuthConfirmEmail } from '~/generated-api/auth/auth';
+import { router } from '~/main';
 import { PageWithWrapper } from '~/ui/pages';
-
 
 export const EmailConfirmationPage = () => {
   const [searchParams] = useSearchParams();
@@ -39,19 +41,42 @@ export const EmailConfirmationPage = () => {
 
   return (
     <PageWithWrapper alignWrapper="center" withoutMenu>
-      <Title order={5} ta='center'>
-                Подтверждение почты
-      </Title>
-      <Text ta='center' className={_styles.textGray}>
-                Чтобы это сделать, перейдите по ссылке, отправленной на почту.
-      </Text>
       <Header variant="left">
-        <Title order={5}>Подтверждение почты</Title>
       </Header>
 
-      {isPending && <p>Подтверждение...</p>}
-      {isError && <p>Не удалось подтвердить почту, ссылка устарела</p>}
-      {!isPending && !isError && <p>Email успешно подтвержден!</p>}
+      {isPending ?
+        <Loader/>
+        : (isError 
+          ? <>
+            <Title order={5} ta='center'>Ошибка при подтверждении почты</Title>
+            <Text className={_styles.textGray}>Ссылка устарела.</Text>
+            <IllustrationWrapper
+              src="/email-error.svg"
+              alt="Email error illustration"
+            />
+          </>
+          : (email 
+            ? <>
+              <Title order={5} ta='center'>Почта успешно изменена</Title>
+              <Text className={_styles.textGray}>Можно продолжить использование приложения.</Text>
+              <IllustrationWrapper
+                src="/email-confirmed.svg"
+                alt="Email confirmed illustration"
+              />
+              <Button variant='filled' onClick={() => router.navigate(AppRoute.Storage)}>Вернуться на главную</Button>
+            </>
+            : <>
+              <Title order={5} ta='center'>Почта успешно подтверждена</Title>
+              <Text className={_styles.textGray}>Можно переходить к следующему шагу.</Text>
+              <IllustrationWrapper
+                src="/email-confirmed.svg"
+                alt="Email confirmed illustration"
+              />
+              <Button variant='filled' onClick={() => router.navigate(AppRoute.ProfileFilling)}>Перейти к заполнению профиля</Button>
+            </>
+          )
+        )
+      }
     </PageWithWrapper>
   );
 };

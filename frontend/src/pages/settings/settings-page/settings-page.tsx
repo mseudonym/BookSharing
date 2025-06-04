@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Modal, Title, Flex } from '@mantine/core';
+import { ActionIcon, Button, Modal, Title, SimpleGrid } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ArrowALeftIcon24Regular, ArrowUiAuthLogoutIcon24Regular, People1EditIcon24Regular, SecurityShieldCheckIcon24Regular } from '@skbkontur/icons';
 import React from 'react';
@@ -22,11 +22,11 @@ export const SettingsPage = () => {
   return (
     <>
       <Modal opened={opened} onClose={close} title="Выйти из аккаунта?" centered>
-        <Flex
-          justify="flex-start"
-          align="center"
-          direction="row"
-          gap="var(--mantine-spacing-sm)"
+        <SimpleGrid
+          cols={{ base: 1, sm: 2 }}
+          spacing={{ base: 'md' }}
+          verticalSpacing={{ base: 'md' }}
+          style={{ width: '100%' }}
         >
           <Button variant="filled" onClick={logout}>
           Да, выйти
@@ -34,7 +34,7 @@ export const SettingsPage = () => {
           <Button  color="outline" onClick={close}>
           Нет, остаться
           </Button>
-        </Flex>
+        </SimpleGrid>
       </Modal>
       
       <PageWithWrapper backgroundColor='white'>

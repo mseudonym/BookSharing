@@ -54,10 +54,10 @@ export const EmailConfirmationWaitingPage = () => {
         </ActionIcon>
       </Header>
       <Title order={5} ta='center'>
-                Ожидаем подтверждение почты
+        Ожидаем подтверждение почты
       </Title>
       <Text ta='center' className={_styles.textGray}>
-                Чтобы это сделать, перейдите по ссылке, отправленной на почту.
+        Чтобы это сделать, перейдите по ссылке, отправленной на почту.
       </Text>
       <IllustrationWrapper
         src="/mail.svg"
@@ -66,7 +66,7 @@ export const EmailConfirmationWaitingPage = () => {
       {seconds === 0
         ? (
           <Anchor className={_styles.anchorGray} onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
-                        Отправить письмо ещё раз
+            Отправить письмо ещё раз
           </Anchor>
         )
         : (

@@ -10,7 +10,7 @@ import styles from '~/components/forms/forms.module.css';
 
 import { PasswordInput } from '~/components/custom-mantine';
 import { REQUIRED_FIELD_TEXT } from '~/conts';
-import { postUsersEditProfile } from '~/generated-api/users/users';
+import { postAuthManageChangePassword } from '~/generated-api/auth/auth';
 
 const FormSchema = zod.object({
   oldPassword: zod
@@ -53,11 +53,10 @@ export const PasswordSettingsForm = () => {
   });
 
   const { mutateAsync: updatePassword } = useMutation({
-    // Поменять
-    mutationFn: postUsersEditProfile,
+    mutationFn: postAuthManageChangePassword,
     onSuccess: () => {
       notifications.show({
-        title: 'Профиль обновлен',
+        title: 'Пароль обновлен',
         message: undefined,
         color: 'var(--green-color)',
       });
@@ -67,10 +66,7 @@ export const PasswordSettingsForm = () => {
   const onSubmit = async (data: IFormInput) => {
     try {
       setIsLoading(true);
-      /*await updatePassword({
-        password: data.password,
-        oldPassword: data.oldPassword,
-      });*/
+      await updatePassword({ oldPassword: data.oldPassword, newPassword: data.password });
     } catch (error) {
       notifications.show({
         title: 'Ошибка сохранения',

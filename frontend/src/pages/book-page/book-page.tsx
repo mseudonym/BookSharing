@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Menu, Modal, Title, Text, Button, Flex, Image } from '@mantine/core';
+import { ActionIcon, Divider, Menu, Modal, Title, Text, Button, Image, SimpleGrid } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
@@ -52,11 +52,11 @@ export const BookPage = () => {
     <>
       <Modal opened={opened} onClose={close} title="Удалить книгу?" centered>
         <Text className={_styles.textGray}>Это также удалит все очереди за ней.</Text>
-        <Flex
-          justify="flex-start"
-          align="center"
-          direction="row"
-          gap="var(--mantine-spacing-sm)"
+        <SimpleGrid
+          cols={{ base: 1, sm: 2 }}
+          spacing={{ base: 'md' }}
+          verticalSpacing={{ base: 'md' }}
+          style={{ width: '100%' }}
         >
           <Button variant="filled" onClick={onDeleteBook}>
               Да, удалить
@@ -64,7 +64,7 @@ export const BookPage = () => {
           <Button  color="outline" onClick={close}>
               Нет, оставить
           </Button>
-        </Flex>
+        </SimpleGrid>
       </Modal>
       <Page>
         <Header variant="auto" withPadding hideOnDesktop>

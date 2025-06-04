@@ -1,6 +1,9 @@
 .landingRoot {
   gap: 40px;
   padding: var(--mantine-spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero {
@@ -9,18 +12,23 @@
   width: 100%;
   min-height: calc(100vh - 32px);
   border-radius: var(--mantine-radius-md);
+  box-sizing: border-box;
 }
 
 .heroContent, .secondaryBlock, .blockWrapper {
   padding: var(--mantine-spacing-sm) 0;
+  box-sizing: border-box;
 }
 
 .heroContent {
   gap: var(--mantine-spacing-md);
+  display: flex;
+  flex-direction: column;
 }
 
 .firstBlock {
   max-width: 1300px;
+  width: 100%;
 }
 
 .landingHeader {
@@ -29,6 +37,7 @@
   background: var(--white-80-color);
   backdrop-filter: blur(8px);
   border-radius: var(--mantine-spacing-xl);
+  display: flex;
 }
 
 .logo {
@@ -45,21 +54,25 @@
 }
 
 .drawer {
-  max-width: 100px !important;
+  max-width: 100px;
 }
 
 .secondaryBlock {
   max-width: 1300px;
+  width: 100%;
 }
 
 .secondaryBlockInfo {
   gap: var(--mantine-spacing-md);
+  display: flex;
+  flex-direction: column;
 }
 
 .secondaryBlockImage {
   border-radius: var(--mantine-spacing-xxl);
   border: 2px solid var(--light-gray-16-color);
   max-width: 600px;
+  width: 100%;
 }
 
 .blockWrapper {
@@ -67,6 +80,7 @@
   gap: var(--mantine-spacing-md);
   flex-direction: column;
   width: 100%;
+  display: flex;
 }
 
 .creators {
@@ -101,9 +115,10 @@
 
 .footer {
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-xl) 0 0;
+  box-sizing: border-box;
 }
 
-
+/* Медиа-запросы для планшетов (min-width: 600px) */
 @media (min-width: 600px) {
   .landingRoot {
     gap: 60px;
@@ -123,6 +138,7 @@
   }
 }
 
+/* Медиа-запросы для десктопов (min-width: 1024px) */
 @media (min-width: 1024px) {
   .landingRoot {
     gap: 80px;
@@ -159,12 +175,10 @@
   .avatar {
     width: 150px;
     height: 150px;
-    aspect-ratio: 1;
   }
 
-  
-.logo {
-  width: auto !important;
-  height: auto !important;
-}
+  .logo {
+    width: auto !important;
+    height: auto !important;
+  }
 }
