@@ -16,7 +16,8 @@ export const SearchFriendsPage = () => {
   const { data: userList, isLoading: isLoadingUserList } = useGetUsersSearchUsernamePrefix(searchQuery, { query: { enabled: searchQuery.length > 2 } });
 
   const filteredUserList = useMemo(() => {
-    if (!userList || !friendList) return userList;
+    if (!userList || !friendList) 
+      return userList;
     
     const friendIds = new Set(friendList.map((friend) => friend.id));
     return userList.filter((user) => !friendIds.has(user.id) && user.id !== me?.id);
