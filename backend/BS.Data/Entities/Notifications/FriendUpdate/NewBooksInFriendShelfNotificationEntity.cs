@@ -2,5 +2,5 @@
 
 public sealed class NewBooksInFriendShelfNotificationEntity : FriendUpdatesNotificationBaseEntity
 {
-    public required List<BookEntity> NewBooks { get; set; }
+    public required Guid[] NewBookIds { get; set; }
 }

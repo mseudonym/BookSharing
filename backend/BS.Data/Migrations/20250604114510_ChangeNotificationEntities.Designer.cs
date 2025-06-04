@@ -3,6 +3,7 @@ using System;
 using BS.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BS.Data.Migrations
 {
     [DbContext(typeof(BookSharingContext))]
-    partial class BookSharingContextModelSnapshot : ModelSnapshot
+    [Migration("20250604114510_ChangeNotificationEntities")]
+    partial class ChangeNotificationEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +56,9 @@ namespace BS.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<Guid?>("NewBooksInFriendShelfNotificationEntityId")
+                        .HasColumnType("uuid");
+
                     b.Property<int?>("PublicationYear")
                         .HasColumnType("integer");
 
@@ -62,6 +68,8 @@ namespace BS.Data.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NewBooksInFriendShelfNotificationEntityId");
 
                     b.ToTable("Books", (string)null);
                 });
@@ -415,18 +423,35 @@ namespace BS.Data.Migrations
                     b.ToTable("FriendRequests", (string)null);
                 });
 
-            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.FriendUpdatesNotificationBaseEntity", b =>
+            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.FriendTakeBookToReadNotificationEntity", b =>
+                {
+                    b.HasBaseType("BS.Data.Entities.Notifications.Base.NotificationBaseEntity");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FriendId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasDiscriminator().HasValue("FriendTakeBookToReadNotificationEntity");
+                });
+
+            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.NewBooksInFriendShelfNotificationEntity", b =>
                 {
                     b.HasBaseType("BS.Data.Entities.Notifications.Base.NotificationBaseEntity");
 
                     b.Property<Guid>("FriendId")
                         .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("uuid")
-                        .HasColumnName("PersonId");
+                        .HasColumnType("uuid");
 
                     b.HasIndex("FriendId");
 
-                    b.HasDiscriminator().HasValue("FriendUpdatesNotificationBaseEntity");
+                    b.HasDiscriminator().HasValue("NewBooksInFriendShelfNotificationEntity");
                 });
 
             modelBuilder.Entity("BS.Data.Entities.Notifications.Friendship.FriendshipStatusChangedNotificationEntity", b =>
@@ -437,58 +462,25 @@ namespace BS.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("PersonId")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("uuid")
-                        .HasColumnName("PersonId");
+                        .HasColumnType("uuid");
 
                     b.HasIndex("PersonId");
 
                     b.HasDiscriminator().HasValue("FriendshipStatusChangedNotificationEntity");
                 });
 
-            modelBuilder.Entity("BS.Data.Entities.Notifications.Items.ItemNotificationBaseEntity", b =>
+            modelBuilder.Entity("BS.Data.Entities.Notifications.Items.SomeoneBecameHolderOfYourItemNotificationEntity", b =>
                 {
                     b.HasBaseType("BS.Data.Entities.Notifications.Base.NotificationBaseEntity");
 
                     b.Property<Guid>("ItemId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("NewHolderId")
                         .HasColumnType("uuid");
 
                     b.HasIndex("ItemId");
-
-                    b.HasDiscriminator().HasValue("ItemNotificationBaseEntity");
-                });
-
-            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.FriendTakeBookToReadNotificationEntity", b =>
-                {
-                    b.HasBaseType("BS.Data.Entities.Notifications.FriendUpdate.FriendUpdatesNotificationBaseEntity");
-
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uuid");
-
-                    b.HasIndex("BookId");
-
-                    b.HasDiscriminator().HasValue("FriendTakeBookToReadNotificationEntity");
-                });
-
-            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.NewBooksInFriendShelfNotificationEntity", b =>
-                {
-                    b.HasBaseType("BS.Data.Entities.Notifications.FriendUpdate.FriendUpdatesNotificationBaseEntity");
-
-                    b.Property<string>("NewBookIds")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
-                    b.HasDiscriminator().HasValue("NewBooksInFriendShelfNotificationEntity");
-                });
-
-            modelBuilder.Entity("BS.Data.Entities.Notifications.Items.SomeoneBecameHolderOfYourItemNotificationEntity", b =>
-                {
-                    b.HasBaseType("BS.Data.Entities.Notifications.Items.ItemNotificationBaseEntity");
-
-                    b.Property<Guid>("NewHolderId")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("uuid")
-                        .HasColumnName("PersonId");
 
                     b.HasIndex("NewHolderId");
 
@@ -497,12 +489,16 @@ namespace BS.Data.Migrations
 
             modelBuilder.Entity("BS.Data.Entities.Notifications.Items.SomeoneQueueToItemNotificationEntity", b =>
                 {
-                    b.HasBaseType("BS.Data.Entities.Notifications.Items.ItemNotificationBaseEntity");
+                    b.HasBaseType("BS.Data.Entities.Notifications.Base.NotificationBaseEntity");
+
+                    b.Property<Guid>("ItemId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("NewQueueMemberId")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("uuid")
-                        .HasColumnName("PersonId");
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("NewQueueMemberId");
 
@@ -511,12 +507,25 @@ namespace BS.Data.Migrations
 
             modelBuilder.Entity("BS.Data.Entities.Notifications.Items.YourQueuePositionChangedNotificationEntity", b =>
                 {
-                    b.HasBaseType("BS.Data.Entities.Notifications.Items.ItemNotificationBaseEntity");
+                    b.HasBaseType("BS.Data.Entities.Notifications.Base.NotificationBaseEntity");
+
+                    b.Property<Guid>("ItemId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("uuid");
 
                     b.Property<int>("NewPosition")
                         .HasColumnType("integer");
 
+                    b.HasIndex("ItemId");
+
                     b.HasDiscriminator().HasValue("YourQueuePositionChangedNotificationEntity");
+                });
+
+            modelBuilder.Entity("BS.Data.Entities.BookEntity", b =>
+                {
+                    b.HasOne("BS.Data.Entities.Notifications.FriendUpdate.NewBooksInFriendShelfNotificationEntity", null)
+                        .WithMany("NewBooks")
+                        .HasForeignKey("NewBooksInFriendShelfNotificationEntityId");
                 });
 
             modelBuilder.Entity("BS.Data.Entities.ItemEntity", b =>
@@ -655,12 +664,31 @@ namespace BS.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.FriendUpdatesNotificationBaseEntity", b =>
+            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.FriendTakeBookToReadNotificationEntity", b =>
+                {
+                    b.HasOne("BS.Data.Entities.BookEntity", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BS.Data.Entities.UserEntity", "Friend")
+                        .WithMany()
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Friend");
+                });
+
+            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.NewBooksInFriendShelfNotificationEntity", b =>
                 {
                     b.HasOne("BS.Data.Entities.UserEntity", "Friend")
                         .WithMany()
                         .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Friend");
@@ -671,54 +699,59 @@ namespace BS.Data.Migrations
                     b.HasOne("BS.Data.Entities.UserEntity", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("BS.Data.Entities.Notifications.Items.ItemNotificationBaseEntity", b =>
+            modelBuilder.Entity("BS.Data.Entities.Notifications.Items.SomeoneBecameHolderOfYourItemNotificationEntity", b =>
                 {
                     b.HasOne("BS.Data.Entities.ItemEntity", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Item");
-                });
-
-            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.FriendTakeBookToReadNotificationEntity", b =>
-                {
-                    b.HasOne("BS.Data.Entities.BookEntity", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("BS.Data.Entities.Notifications.Items.SomeoneBecameHolderOfYourItemNotificationEntity", b =>
-                {
                     b.HasOne("BS.Data.Entities.UserEntity", "NewHolder")
                         .WithMany()
                         .HasForeignKey("NewHolderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Item");
 
                     b.Navigation("NewHolder");
                 });
 
             modelBuilder.Entity("BS.Data.Entities.Notifications.Items.SomeoneQueueToItemNotificationEntity", b =>
                 {
+                    b.HasOne("BS.Data.Entities.ItemEntity", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BS.Data.Entities.UserEntity", "NewQueueMember")
                         .WithMany()
                         .HasForeignKey("NewQueueMemberId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Item");
+
                     b.Navigation("NewQueueMember");
+                });
+
+            modelBuilder.Entity("BS.Data.Entities.Notifications.Items.YourQueuePositionChangedNotificationEntity", b =>
+                {
+                    b.HasOne("BS.Data.Entities.ItemEntity", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("BS.Data.Entities.BookEntity", b =>
@@ -738,6 +771,11 @@ namespace BS.Data.Migrations
                     b.Navigation("Notifications");
 
                     b.Navigation("QueueItems");
+                });
+
+            modelBuilder.Entity("BS.Data.Entities.Notifications.FriendUpdate.NewBooksInFriendShelfNotificationEntity", b =>
+                {
+                    b.Navigation("NewBooks");
                 });
 #pragma warning restore 612, 618
         }

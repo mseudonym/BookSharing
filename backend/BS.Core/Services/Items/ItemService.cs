@@ -1,7 +1,6 @@
 using BS.Core.Errors;
 using BS.Core.Models.Items;
 using BS.Core.Models.Mapping;
-using BS.Core.Models.User;
 using BS.Core.Services.User;
 using BS.Data.Context;
 using BS.Data.Entities;

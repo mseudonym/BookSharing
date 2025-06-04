@@ -1,7 +1,6 @@
 ﻿using BS.Api.Requests;
 using BS.Core.Extensions;
 using BS.Core.Models.Book;
-using BS.Core.Models.S3;
 using BS.Core.Services.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,3 @@
-using BS.Core.Models.Notifications.Base;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using BS.Core.Models.Notifications.Items;

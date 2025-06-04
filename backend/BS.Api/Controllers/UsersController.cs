@@ -1,6 +1,5 @@
 ﻿using BS.Api.Requests;
 using BS.Core.Extensions;
-using BS.Core.Models.S3;
 using BS.Core.Models.User;
 using BS.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;

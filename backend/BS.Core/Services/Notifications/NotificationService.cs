@@ -4,7 +4,6 @@ using BS.Core.Models.Notifications.Base;
 using BS.Core.Options;
 using BS.Core.Services.User;
 using BS.Data.Context;
-using BS.Data.Entities.Notifications.Base;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -47,6 +46,9 @@ public class NotificationService : INotificationsService
             .OrderByDescending(n => n.CreatedAt)
             .Skip(page * pageSize)
             .Take(pageSize)
+            .Include("Item.Book")
+            .Include("NewQueueMember")
+            .Include("NewHolder")
             .ToArrayAsync();
         
         var models = _notificationMapper.ToModel(notifications);

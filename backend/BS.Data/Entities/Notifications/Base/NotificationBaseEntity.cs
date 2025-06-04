@@ -3,9 +3,10 @@
 public abstract class NotificationBaseEntity
 {
     public Guid Id { get; set; } = Guid.CreateVersion7();
-    public Guid RecipientId { get; set; }
-    public required UserEntity Recipient { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public required Guid RecipientId { get; set; }
+    public UserEntity Recipient { get; set; } = null!;
+    public required DateTime CreatedAt { get; set; }
     public bool IsRead { get; set; } = false;
+    // TODO: delete
     public bool IsDeleted { get; set; } = false;
 }

@@ -1,5 +1,4 @@
-﻿using BS.Data.Entities;
-using BS.Data.Entities.Notifications.Base;
+﻿using BS.Data.Entities.Notifications.Base;
 using BS.Data.Entities.Notifications.Friendship;
 using BS.Data.Entities.Notifications.FriendUpdate;
 using BS.Data.Entities.Notifications.Items;
@@ -7,7 +6,7 @@ using BS.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BS.Data.Configurations;
+namespace BS.Data.Configurations.Notifications;
 
 public class NotificationEntityConfiguration : IEntityTypeConfiguration<NotificationBaseEntity>
 {
