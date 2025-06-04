@@ -8,7 +8,7 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const ISBNScanningPage = () => {
   return (
-    <PageWithWrapper>
+    <PageWithWrapper alignWrapper='center'>
       <Header variant="left">
         <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
           <ArrowALeftIcon24Regular />

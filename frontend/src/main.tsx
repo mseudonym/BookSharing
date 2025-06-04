@@ -68,10 +68,6 @@ export const router = createBrowserRouter([
     element: <ProfileFillingPage />,
   },
   {
-    path: `${AppRoute.ScanningCode}`,
-    element: <ISBNScanningPage />,
-  },
-  {
     element: <PrivateRoute />,
     children: [
       {
@@ -133,7 +129,10 @@ export const router = createBrowserRouter([
             path: `${AppRoute.PasswordSettings}`,
             element: <PasswordSettingsPage />,
           },
-          
+          {
+            path: `${AppRoute.ScanningCode}`,
+            element: <ISBNScanningPage />,
+          },
         ],
       },
     ],
@@ -160,7 +159,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <App />
+  //</React.StrictMode>
 );

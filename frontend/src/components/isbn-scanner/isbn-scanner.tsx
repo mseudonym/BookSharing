@@ -1,5 +1,5 @@
 import Quagga from '@ericblade/quagga2';
-import { Button, Flex, Image, Modal, Text, Title, SimpleGrid } from '@mantine/core';
+import { Button, Flex, Image, Modal, Text, Title, SimpleGrid, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
@@ -9,8 +9,11 @@ import Webcam from 'react-webcam';
 
 import styles from '~/components/isbn-scanner/isbn-scanner.module.css';
 
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
+import { AppRoute } from '~/conts';
 import { useGetBooksByIsbnIsbn } from '~/generated-api/books/books';
 import { postItemsAddToMyShelf } from '~/generated-api/items/items';
+import { router } from '~/main';
 
 export const ISBNScanner = () => {
   const webcamRef = useRef<Webcam | null>(null);
@@ -31,6 +34,7 @@ export const ISBNScanner = () => {
         color: 'var(--green-color)',
       });
       close();
+      handleRetry();
     },
     onError: (err) => {
       setError(`Ошибка добавления книги: ${err.message}`);
@@ -165,35 +169,6 @@ export const ISBNScanner = () => {
 
   return (
     <>
-      {isScanning && (
-        <>
-          <Text style={{ maxWidth: '800px' }}>
-            Наведите камеру на штрихкод ISBN. Убедитесь, что изображение четкое и хорошо освещено.
-          </Text>
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
-            onUserMediaError={handleUserMediaError}
-            style={{ width: '100%', maxWidth: '640px', border: '2px solid #ccc', borderRadius: '32px' }}
-          />
-        </>
-      )}
-      {!isScanning && (
-        <Flex direction="column" gap="md">
-          {isbn && (
-            <>
-              <Text span>Распознанный ISBN:</Text>
-              <Text>{isbn}</Text>
-            </>
-          )}
-          {error && <Text c="red">{error}</Text>}
-          <Button onClick={handleRetry} variant="filled">
-            Сканировать снова
-          </Button>
-        </Flex>
-      )}
       <Modal opened={opened} onClose={close} centered>
         <Flex direction='column' align='center' gap='md'>
           <Image className={styles.bookCover} src={bookData?.bookCoverUrl} />
@@ -216,6 +191,46 @@ export const ISBNScanner = () => {
           </SimpleGrid>
         </Flex>
       </Modal>
+
+      {isLoading && <Loader />}
+      
+      {!isLoading && (isScanning ? (
+        <>
+          <Text ta='center' style={{ maxWidth: '800px' }}>
+            Наведите камеру на штрихкод ISBN. Убедитесь, что изображение четкое и хорошо освещено.
+          </Text>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+            onUserMediaError={handleUserMediaError}
+            style={{ width: '100%', maxWidth: '640px', border: '2px solid #ccc', borderRadius: '32px' }}
+          />
+        </>
+      )
+        : (
+          <Flex direction="column" gap="md">
+            {isbn && !bookData && (
+              <>
+                <IllustrationWrapper
+                  src="/scan-error.svg"
+                  alt="Book isn't in database illustration"
+                />
+                <Text span>Книги в базе нет, но вы можете добавить её вручную.</Text>
+              </>
+            )}
+            <Text span>Распознанный ISBN: {ISBN.hyphenate(isbn)}</Text>
+            {error && <Text c="red">{error}</Text>}
+            <Button onClick={handleRetry} variant="filled">
+            Сканировать снова
+            </Button>
+            <Button onClick={() => router.navigate(AppRoute.AddBookManually)} variant="outline">
+            Добавить книгу вручную
+            </Button>
+          </Flex>
+        )
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Title, Text, Avatar, Button, Flex, Modal, Menu } from '@mantine/core';
+import { ActionIcon, Anchor, Title, Text, Avatar, Button, Flex, Modal, Menu, SimpleGrid } from '@mantine/core';
 import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { CheckAIcon24Regular, People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
@@ -129,11 +129,11 @@ export const UserPage = () => {
     <>
       <Modal opened={opened} onClose={close} title="Удалить из друзей?" centered>
         <Text className={_styles.textGray}>Человек удалится из всех ваших очередей, а вы будете удалены из всех очередей человека.</Text>
-        <Flex
-          justify="flex-start"
-          align="center"
-          direction="row"
-          gap="var(--mantine-spacing-sm)"
+        <SimpleGrid
+          cols={{ base: 1, sm: 2 }}
+          spacing={{ base: 'md' }}
+          verticalSpacing={{ base: 'md' }}
+          style={{ width: '100%' }}
         >
           <Button variant="filled" onClick={onDeleteFriend} loading={isLoading}>
           Да, удалить
@@ -141,7 +141,7 @@ export const UserPage = () => {
           <Button  color="outline" onClick={close}>
           Нет, оставить
           </Button>
-        </Flex>
+        </SimpleGrid>
       </Modal>
 
       <Page>

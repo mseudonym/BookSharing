@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextInput } from '@mantine/core';
+import { Button, TextInput, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -7,9 +7,13 @@ import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
 import styles from '~/components/forms/forms.module.css';
+import _styles from '~/index.module.css';
 
 import { REQUIRED_FIELD_TEXT } from '~/conts';
-import {postAuthManageChangeEmail} from "~/generated-api/auth/auth";
+import { postAuthManageChangeEmail } from '~/generated-api/auth/auth';
+import { useGetUsersMe } from '~/generated-api/users/users';
+import { ErrorPage } from '~/pages/error-page';
+import { LoadingPage } from '~/pages/loading-page';
 
 const FormSchema = zod.object({
   email: zod
@@ -21,6 +25,7 @@ type IFormInput = zod.infer<typeof FormSchema>;
 
 export const EmailSettingsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe } = useGetUsersMe();
 
   const {
     register,
@@ -36,7 +41,7 @@ export const EmailSettingsForm = () => {
     mutationFn: postAuthManageChangeEmail,
     onSuccess: () => {
       notifications.show({
-        title: 'Ссылка для подтверждения отправлена на новую почту',
+        title: 'Ссылка для подтверждения отправлена на почту',
         message: undefined,
         color: 'var(--green-color)',
       });
@@ -60,8 +65,20 @@ export const EmailSettingsForm = () => {
     }
   };
 
+  if (isLoadingUserMe){
+    return <LoadingPage/>;
+  }
+
+  if(isErrorUserMe) {
+    return <ErrorPage/>;
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form}`}>
+      <Text className={_styles.textGray}>Текущий адрес</Text>
+      <Text>{userMe?.email}</Text>
+      
+
       <TextInput
         label="Новая почта"
         placeholder="Введите новую почту"
