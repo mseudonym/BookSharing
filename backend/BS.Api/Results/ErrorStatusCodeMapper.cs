@@ -45,4 +45,40 @@ public static class ErrorStatusCodeMapper
                 { StatusCode = 500 },
         };
     }
+    
+        public static IResult MapMinimalResult(ResultBase result)
+        {
+            var validationErrors = result.Errors
+                .OfType<ValidationError>()
+                .GroupBy(e => e.ErrorCode)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(e => e.Message).ToArray()
+                );
+            
+            return result switch
+            {
+                // 400
+                _ when result.HasError<ValidationError>()
+                    => TypedResults.ValidationProblem(validationErrors),
+
+                // 200
+                _ when result.HasError<OperationAlreadyApplied>()
+                    => TypedResults.Ok(result.ErrorsToString()),
+
+                // 404
+                _ when result.HasError<PersonNotFoundError>() ||
+                       result.HasError<BookNotFoundError>() ||
+                       result.HasError<ItemNotFoundError>()
+                    => TypedResults.NotFound(result.ErrorsToString()),
+
+                // 403
+                _ when result.HasError<PersonIsNotYourFriendError>() ||
+                       result.HasError<OperationForbiddenError>()
+                    => TypedResults.Forbid(),
+
+                // 500
+                _ => TypedResults.InternalServerError(result.ErrorsToString()),
+            };
+        }
 }

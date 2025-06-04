@@ -7,6 +7,7 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
+[ApiController]
 public class QueueController : Controller
 {
     private readonly IItemService _queueService;

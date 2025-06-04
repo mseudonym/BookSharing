@@ -8,15 +8,15 @@ using Polly;
 
 namespace BS.Core.Services.Email;
 
-public class EmailSender : ICustomEmailSender<UserEntity>
+public class CustomEmailSender : ICustomEmailSender<UserEntity>
 {
-    private readonly ILogger<EmailSender> _logger;
+    private readonly ILogger<CustomEmailSender> _logger;
     private readonly EmailOptions _options;
     private readonly FrontendOptions _frontendOptions;
     private readonly SmtpClient _smtpClient;
 
-    public EmailSender(IOptions<EmailOptions> emailOptions, IOptions<FrontendOptions> frontendOptions,
-        SmtpClient smtpClient, ILogger<EmailSender> logger)
+    public CustomEmailSender(IOptions<EmailOptions> emailOptions, IOptions<FrontendOptions> frontendOptions,
+        SmtpClient smtpClient, ILogger<CustomEmailSender> logger)
     {
         _options = emailOptions.Value;
         _frontendOptions = frontendOptions.Value;

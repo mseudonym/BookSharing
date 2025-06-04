@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BS.Core.Models.User;
+namespace BS.Data.Entities.Notifications.Friendship;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum FriendshipStatus

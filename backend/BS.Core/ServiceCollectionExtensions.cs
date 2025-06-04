@@ -7,6 +7,7 @@ using BS.Core.Services.Book;
 using BS.Core.Services.Email;
 using BS.Core.Services.Friends;
 using BS.Core.Services.Items;
+using BS.Core.Services.Notifications;
 using BS.Core.Services.S3;
 using BS.Core.Services.User;
 using BS.Data.Entities;
@@ -22,8 +23,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddBsServices(this IServiceCollection services, IConfiguration configuration,
         IWebHostEnvironment environment)
     {
+        services.AddBsOptions(configuration);
         services.AddEmailSender(configuration);
-        services.AddCloudCredentials(configuration);
         services.AddS3Client(configuration, environment);
         services.AddModelMappers();
         services.AddCoreServices();
@@ -31,10 +32,20 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static void AddEmailSender(this IServiceCollection services, IConfiguration configuration)
+    private static void AddBsOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.Section));
         services.Configure<FrontendOptions>(configuration.GetSection(FrontendOptions.Section));
+        services.Configure<YandexCloudS3Options>(configuration.GetRequiredSection(YandexCloudS3Options.Section));
+        services.Configure<YandexCloudCredentialsOptions>(
+            configuration.GetRequiredSection(YandexCloudCredentialsOptions.Section));
+        services.Configure<PaginationOptions>(configuration.GetRequiredSection(PaginationOptions.Section));
+    }
+
+    private static void AddEmailSender(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.Section));
+
         services.AddTransient<SmtpClient>(sp =>
         {
             var emailOptions = sp.GetRequiredService<IOptions<EmailOptions>>().Value;
@@ -47,20 +58,12 @@ public static class ServiceCollectionExtensions
                 EnableSsl = true,
             };
         });
-        services.AddTransient<ICustomEmailSender<UserEntity>, EmailSender>();
-    }
-
-    private static void AddCloudCredentials(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.Configure<YandexCloudCredentialsOptions>(
-            configuration.GetRequiredSection(YandexCloudCredentialsOptions.Section));
+        services.AddTransient<ICustomEmailSender<UserEntity>, CustomEmailSender>();
     }
 
     public static void AddS3Client(this IServiceCollection services, IConfiguration configuration,
         IWebHostEnvironment environment)
     {
-        services.Configure<YandexCloudS3Options>(configuration.GetRequiredSection(YandexCloudS3Options.Section));
-        
         services.AddSingleton<IAmazonS3>(sp =>
         {
             var yandexCloudCredentialsOptions = sp.GetRequiredService<IOptions<YandexCloudCredentialsOptions>>().Value;
@@ -83,11 +86,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IItemService, ItemService>();
+        services.AddScoped<INotificationsService, NotificationService>();
     }
 
     private static void AddModelMappers(this IServiceCollection services)
     {
         services.AddScoped<UserMapper>();
         services.AddScoped<BookMapper>();
+        services.AddScoped<NotificationMapper>();
     }
 }

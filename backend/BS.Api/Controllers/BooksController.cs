@@ -1,4 +1,5 @@
 ﻿using BS.Api.Requests;
+using BS.Core.Extensions;
 using BS.Core.Models.Book;
 using BS.Core.Models.S3;
 using BS.Core.Services.Book;
@@ -10,6 +11,7 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
+[ApiController]
 public class BooksController : Controller
 {
     private readonly IBookService _bookService;

@@ -1,6 +1,6 @@
 ﻿namespace BS.Data.Entities.Notifications.FriendUpdate;
 
-public sealed class FriendTakeBookToReadNotification : FriendUpdatesNotificationBase
+public sealed class FriendTakeBookToReadNotificationEntity : FriendUpdatesNotificationBaseEntity
 {
     public required BookEntity Book { get; set; }
 }

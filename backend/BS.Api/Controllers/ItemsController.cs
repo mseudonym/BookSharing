@@ -8,6 +8,7 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
+[ApiController]
 public class ItemsController : Controller
 {
     private readonly IItemService _itemsService;

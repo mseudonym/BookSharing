@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BS.Data.Configurations;
 
-public class NotificationEntityConfiguration : IEntityTypeConfiguration<NotificationEntityBase>
+public class NotificationEntityConfiguration : IEntityTypeConfiguration<NotificationBaseEntity>
 {
-    public void Configure(EntityTypeBuilder<NotificationEntityBase> builder)
+    public void Configure(EntityTypeBuilder<NotificationBaseEntity> builder)
     {
         // Основная таблица для всех уведомлений (TPH)
         builder.ToTable(Tables.NotificationsTableName);
@@ -28,15 +28,14 @@ public class NotificationEntityConfiguration : IEntityTypeConfiguration<Notifica
         var notificationTypeColumnName = "NotificationType";
         builder.HasDiscriminator<string>(notificationTypeColumnName)
             // Friendship
-            .HasValueByTypeName<FriendshipRequestNotification>()
-            .HasValueByTypeName<NewFriendNotification>()
+            .HasValueByTypeName<FriendshipStatusChangedNotificationEntity>()
             // Friends updates
-            .HasValueByTypeName<FriendTakeBookToReadNotification>()
-            .HasValueByTypeName<NewBooksInFriendShelfNotification>()
+            .HasValueByTypeName<FriendTakeBookToReadNotificationEntity>()
+            .HasValueByTypeName<NewBooksInFriendShelfNotificationEntity>()
             // Items
-            .HasValueByTypeName<SomeoneQueueToItemNotification>()
-            .HasValueByTypeName<YourQueuePositionChangedNotification>()
-            .HasValueByTypeName<SomeoneBecameHolderOfYourItemNotification>();
+            .HasValueByTypeName<SomeoneQueueToItemNotificationEntity>()
+            .HasValueByTypeName<YourQueuePositionChangedNotificationEntity>()
+            .HasValueByTypeName<SomeoneBecameHolderOfYourItemNotificationEntity>();
 
         builder.Property(notificationTypeColumnName)
             .HasColumnName(notificationTypeColumnName)

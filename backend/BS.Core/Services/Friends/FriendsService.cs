@@ -4,6 +4,7 @@ using BS.Core.Models.User;
 using BS.Core.Services.User;
 using BS.Data.Context;
 using BS.Data.Entities;
+using BS.Data.Entities.Notifications.Friendship;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 

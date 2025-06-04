@@ -8,6 +8,7 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
+[ApiController]
 public class FriendsController : Controller
 {
     private readonly IFriendsService _friendsService;

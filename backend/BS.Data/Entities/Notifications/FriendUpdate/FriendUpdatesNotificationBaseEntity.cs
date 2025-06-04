@@ -2,7 +2,7 @@
 
 namespace BS.Data.Entities.Notifications.FriendUpdate;
 
-public abstract class FriendUpdatesNotificationBase : NotificationEntityBase
+public abstract class FriendUpdatesNotificationBaseEntity : NotificationBaseEntity
 {
     public Guid FriendId { get; set; }
     public required UserEntity Friend { get; set; }

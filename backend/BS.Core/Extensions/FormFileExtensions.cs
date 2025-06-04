@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BS.Core.Models.S3;
+using Microsoft.AspNetCore.Http;
 
-namespace BS.Core.Models.S3;
+namespace BS.Core.Extensions;
 
 public static class FormFileExtensions
 {

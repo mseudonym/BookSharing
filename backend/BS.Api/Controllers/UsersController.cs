@@ -1,4 +1,5 @@
 ﻿using BS.Api.Requests;
+using BS.Core.Extensions;
 using BS.Core.Models.S3;
 using BS.Core.Models.User;
 using BS.Core.Services.User;
@@ -10,6 +11,7 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
+[ApiController]
 public class UsersController : Controller
 {
     private readonly IUserService _userService;

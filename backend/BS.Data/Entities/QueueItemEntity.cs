@@ -2,7 +2,7 @@ namespace BS.Data.Entities;
 
 public class QueueItemEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.CreateVersion7();
     public Guid UserId { get; set; }
     public UserEntity User { get; set; } = null!;
     public Guid ItemId { get; set; }

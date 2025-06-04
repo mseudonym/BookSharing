@@ -3,6 +3,7 @@ using BS.Core.Models.S3;
 using BS.Core.Models.User;
 using BS.Core.Services.S3;
 using BS.Data.Entities;
+using BS.Data.Entities.Notifications.Friendship;
 
 namespace BS.Core.Models.Mapping;
 

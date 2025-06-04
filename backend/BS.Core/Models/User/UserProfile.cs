@@ -1,3 +1,5 @@
+using BS.Data.Entities.Notifications.Friendship;
+
 namespace BS.Core.Models.User;
 
 public class UserProfile

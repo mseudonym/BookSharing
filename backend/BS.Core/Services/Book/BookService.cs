@@ -86,7 +86,7 @@ public class BookService : IBookService
             return Result.Fail<BookModel>(new ValidationError("BookWithThatIsbnAlreadyExist",
                 $"Book with ISBN '{book.Isbn}' already added."));
 
-        var bookId = Guid.NewGuid();
+        var bookId = Guid.CreateVersion7();
         var uploadResult = await _s3Service.UploadBookCoverAsync(book.BookCover, bookId);
 
         if (uploadResult.IsFailed)
@@ -94,7 +94,6 @@ public class BookService : IBookService
 
         await _dbContext.Items.AddAsync(new ItemEntity
         {
-            Id = Guid.NewGuid(),
             BookId = bookId,
             OwnerId = currentUserId,
             HolderId = currentUserId,

@@ -15,12 +15,12 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
-namespace BS.Api.Implementations;
+namespace BS.Api.Endpoints;
 
 /// <summary>
 /// Provides extension methods for <see cref="IEndpointRouteBuilder"/> to add identity endpoints.
 /// </summary>
-public static class IdentityApiEndpointRouteBuilderExtensions
+public static class AuthEndpoints
 {
     // Validate the email address using DataAnnotations like the UserValidator does when RequireUniqueEmail = true.
     private static readonly EmailAddressAttribute EmailAddressAttribute = new();
@@ -34,7 +34,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
     /// Call <see cref="EndpointRouteBuilderExtensions.MapGroup(IEndpointRouteBuilder, string)"/> to add a prefix to all the endpoints.
     /// </param>
     /// <returns>An <see cref="IEndpointConventionBuilder"/> to further customize the added endpoints.</returns>
-    public static IEndpointConventionBuilder MapCustomIdentityApi<TUser>(this IEndpointRouteBuilder endpoints)
+    public static IEndpointConventionBuilder MapCustomIdentityEndpoints<TUser>(this IEndpointRouteBuilder endpoints)
         where TUser : class, new()
     {
         ArgumentNullException.ThrowIfNull(endpoints);
@@ -43,8 +43,10 @@ public static class IdentityApiEndpointRouteBuilderExtensions
         var bearerTokenOptions = endpoints.ServiceProvider.GetRequiredService<IOptionsMonitor<BearerTokenOptions>>();
         var emailSender = endpoints.ServiceProvider.GetRequiredService<ICustomEmailSender<TUser>>();
         
-        var routeGroup = endpoints.MapGroup("");
-
+        var routeGroup = endpoints
+            .MapGroup("Auth")
+            .WithTags("Auth");
+    
         // NOTE: We cannot inject UserManager<TUser> directly because the TUser generic parameter is currently unsupported by RDG.
         // https://github.com/dotnet/aspnetcore/issues/47338
         routeGroup.MapPost("/register", async Task<Results<Ok, ValidationProblem>>
@@ -54,7 +56,7 @@ public static class IdentityApiEndpointRouteBuilderExtensions
 
             if (!userManager.SupportsUserEmail)
             {
-                throw new NotSupportedException($"{nameof(MapCustomIdentityApi)} requires a user store with email support.");
+                throw new NotSupportedException($"{nameof(MapCustomIdentityEndpoints)} requires a user store with email support.");
             }
 
             var userStore = sp.GetRequiredService<IUserStore<TUser>>();

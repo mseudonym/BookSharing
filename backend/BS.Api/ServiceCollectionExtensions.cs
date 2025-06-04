@@ -14,34 +14,39 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddBsSwagger(this IServiceCollection services)
+    public static IServiceCollection AddBsOpenApi(this IServiceCollection services)
     {
-        services.AddSwaggerGen(options =>
+        services.AddOpenApi(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "BookSharingApi", Version = "v1" });
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            options.AddDocumentTransformer((document, context, arg3) =>
             {
-                Name = "Authorization",
-                Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer",
-            });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
+                document.Components ??= new OpenApiComponents();
+                document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
+
+                document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
                 {
-                    new OpenApiSecurityScheme
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Введите JWT токен с префиксом Bearer",
+                };
+                document.SecurityRequirements.Add(new OpenApiSecurityRequirement
+                {
                     {
-                        Name = "Bearer",
-                        In = ParameterLocation.Header,
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Id = "Bearer",
-                            Type = ReferenceType.SecurityScheme,
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer",
+                            }
                         },
-                    },
-                    new List<string>()
-                },
+                        new List<string>()
+                    }
+                });
+
+                return Task.CompletedTask;
             });
         });
         return services;

@@ -5,6 +5,7 @@ using BS.Core.Models.User;
 using BS.Core.Services.User;
 using BS.Data.Context;
 using BS.Data.Entities;
+using BS.Data.Entities.Notifications.Friendship;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 
@@ -154,7 +155,6 @@ public class ItemService : IItemService
 
         var itemEntity = new ItemEntity
         {
-            Id = Guid.NewGuid(),
             BookId = bookId,
             OwnerId = currentUserId,
             HolderId = currentUserId,

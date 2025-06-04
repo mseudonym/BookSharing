@@ -2,7 +2,7 @@ namespace BS.Data.Entities;
 
 public class ItemEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.CreateVersion7();
     public Guid OwnerId { get; set; }
     public UserEntity Owner { get; set; } = null!;
     public Guid? BookId { get; set; }
