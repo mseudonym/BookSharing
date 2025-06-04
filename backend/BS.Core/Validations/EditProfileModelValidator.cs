@@ -28,6 +28,7 @@ public class EditProfileModelValidator : AbstractValidator<EditProfileModel>
 
         RuleFor(model => model.Photo)
             .NotNull()
-            .SetValidator(new PhotoFileModelValidator() as IValidator<PhotoFileModel?>);
+            .SetValidator(new PhotoFileModelValidator() as IValidator<PhotoFileModel?>)
+            .When(photo => photo.Photo is not null);
     }
 }
