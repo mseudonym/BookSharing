@@ -9,5 +9,5 @@ public class AddBookRequest
     public required string Language { get; set; }
 
     public int? PublicationYear { get; set; }
-    public IFormFile? BookCover { get; set; }
+    public required IFormFile BookCover { get; set; }
 }

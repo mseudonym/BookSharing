@@ -21,7 +21,7 @@ public static class NotificationEndpoints
                 [FromQuery] int pageSize = 20) =>
             {
                 var result = await notificationService.GetNotificationsAsync(page, pageSize);
-                return result.IsSuccess ? TypedResults.Ok(result.Value) : MapMinimalResult(result);
+                return MapMinimalResult(result);
             })
             .Produces<NotificationBase[]>();
 
@@ -30,14 +30,14 @@ public static class NotificationEndpoints
             [FromBody] Guid[] notificationIds) =>
         {
             var result = await notificationService.MarkAsReadAsync(notificationIds);
-            return result.IsSuccess ? TypedResults.NoContent() : MapMinimalResult(result);
+            return MapMinimalResult(result);
         });
         
         routeGroup.MapGet("/unreadCount", async Task<IResult> (
             [FromServices] INotificationsService notificationService) =>
         {
             var result = await notificationService.GetUnreadNotificationsCountAsync();
-            return result.IsSuccess ? TypedResults.Ok(result.Value) : MapMinimalResult(result);
+            return MapMinimalResult(result);
         })
         .Produces<int>();
 

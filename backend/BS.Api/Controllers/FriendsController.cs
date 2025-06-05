@@ -22,30 +22,21 @@ public class FriendsController : Controller
     public async Task<ActionResult<UserProfile[]>> GetFriends()
     {
         var friendsResult = await _friendsService.GetFriendsAsync();
-
-        if (friendsResult.IsFailed) return MapResult(friendsResult);
-
-        return Ok(friendsResult.Value);
+        return MapResult(friendsResult);
     }
 
     [HttpPost("sendRequest")]
     public async Task<ActionResult<UserProfile>> SendFriendRequest([FromQuery] Guid personToSendId)
     {
         var sendRequestResult = await _friendsService.SendFriendRequestAsync(personToSendId);
-
-        if (sendRequestResult.IsFailed) return MapResult(sendRequestResult);
-
-        return Ok();
+        return MapResult(sendRequestResult);
     }
     
     [HttpPost("cancelRequest")]
     public async Task<ActionResult<UserProfile>> CancelFriendRequest([FromQuery] Guid person)
     {
         var sendRequestResult = await _friendsService.CancelFriendRequestAsync(person);
-
-        if (sendRequestResult.IsFailed) return MapResult(sendRequestResult);
-
-        return Ok();
+        return MapResult(sendRequestResult);
     }
 
     [HttpPost("respondRequest")]
@@ -54,39 +45,27 @@ public class FriendsController : Controller
         [FromQuery] bool isAccepted)
     {
         var respondRequestResult = await _friendsService.RespondToFriendRequestAsync(personToRespondId, isAccepted);
-
-        if (respondRequestResult.IsFailed) return MapResult(respondRequestResult);
-
-        return Ok();
+        return MapResult(respondRequestResult);
     }
 
     [HttpGet("requests/sent")]
     public async Task<ActionResult<UserProfile[]>> GetSentFriendRequests()
     {
         var sentRequestsResult = await _friendsService.GetSentFriendRequestsAsync();
-
-        if (sentRequestsResult.IsFailed) return MapResult(sentRequestsResult);
-
-        return Ok(sentRequestsResult.Value);
+        return MapResult(sentRequestsResult);
     }
 
     [HttpGet("requests/received")]
     public async Task<ActionResult<UserProfile[]>> GetReceivedFriendRequests()
     {
         var receivedFriendRequestsResult = await _friendsService.GetReceivedFriendRequestsAsync();
-
-        if (receivedFriendRequestsResult.IsFailed) return MapResult(receivedFriendRequestsResult);
-
-        return Ok(receivedFriendRequestsResult.Value);
+        return MapResult(receivedFriendRequestsResult);
     }
 
     [HttpDelete("delete")]
     public async Task<ActionResult<UserProfile>> DeleteFriendRequest([FromQuery] Guid personToDeleteId)
     {
         var deleteFriendResult = await _friendsService.DeleteFriendAsync(personToDeleteId);
-
-        if (deleteFriendResult.IsFailed) return MapResult(deleteFriendResult);
-
-        return Ok();
+        return MapResult(deleteFriendResult);
     }
 }

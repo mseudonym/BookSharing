@@ -26,30 +26,21 @@ public class UsersController : Controller
     public async Task<ActionResult<UserProfile>> GetUser([FromRoute] string username)
     {
         var getUserResult = await _userService.GetUserByUsername(username);
-
-        if (getUserResult.IsFailed) return MapResult(getUserResult);
-
-        return Ok(getUserResult.Value);
+        return MapResult(getUserResult);
     }
 
     [HttpGet("search/{usernamePrefix}")]
     public async Task<ActionResult<UserProfile[]>> GetUsers([FromRoute] string usernamePrefix)
     {
         var users = await _userService.SearchByUsernamePrefix(usernamePrefix);
-
-        if (users.IsFailed) return MapResult(users);
-
-        return Ok(users.Value);
+        return MapResult(users);
     }
 
     [HttpGet("me")]
     public async Task<ActionResult<UserData>> GetCurrentUser()
     {
         var getCurrentUserResult = await _userService.GetCurrentUser();
-
-        if (getCurrentUserResult.IsFailed) return MapResult(getCurrentUserResult);
-
-        return Ok(getCurrentUserResult.Value);
+        return MapResult(getCurrentUserResult);
     }
 
     [HttpPost("editProfile")]
@@ -68,9 +59,6 @@ public class UsersController : Controller
                 : request.PhotoFile!.GetPhotoFileModel(),
         };
         var editUserProfile = await _userService.EditUserProfile(model);
-
-        if (editUserProfile.IsFailed) return MapResult(editUserProfile);
-
-        return Ok(editUserProfile.Value);
+        return MapResult(editUserProfile);
     }
 }
