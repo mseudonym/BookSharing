@@ -34,18 +34,16 @@ public static class ServiceCollectionExtensions
 
     private static void AddBsOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.Section));
-        services.Configure<FrontendOptions>(configuration.GetSection(FrontendOptions.Section));
-        services.Configure<YandexCloudS3Options>(configuration.GetRequiredSection(YandexCloudS3Options.Section));
-        services.Configure<YandexCloudCredentialsOptions>(
-            configuration.GetRequiredSection(YandexCloudCredentialsOptions.Section));
-        services.Configure<PaginationOptions>(configuration.GetRequiredSection(PaginationOptions.Section));
+        services.ConfigureByName<EmailOptions>(configuration);
+        services.ConfigureByName<FrontendOptions>(configuration);
+        services.ConfigureByName<YandexCloudS3Options>(configuration);
+        services.ConfigureByName<YandexCloudCredentialsOptions>(configuration);
+        services.ConfigureByName<PaginationOptions>(configuration);
+        services.ConfigureByName<NotificationOptions>(configuration);
     }
 
     private static void AddEmailSender(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.Section));
-
         services.AddTransient<SmtpClient>(sp =>
         {
             var emailOptions = sp.GetRequiredService<IOptions<EmailOptions>>().Value;
@@ -94,5 +92,11 @@ public static class ServiceCollectionExtensions
         services.AddScoped<UserMapper>();
         services.AddScoped<BookMapper>();
         services.AddScoped<NotificationMapper>();
+    }
+    
+    private static void ConfigureByName<TOptions>(this IServiceCollection services, IConfiguration configuration)
+        where TOptions : class
+    {
+        services.Configure<TOptions>(configuration.GetSection(nameof(TOptions)));
     }
 }

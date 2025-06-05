@@ -50,8 +50,8 @@ public class NotificationEntityConfiguration : IEntityTypeConfiguration<Notifica
         // Индексы для быстрого поиска и сортировки
         builder.HasIndex(n => n.RecipientId);
         builder.HasIndex(n => n.CreatedAt);
+        builder.HasIndex(n => n.ShouldBeSentAt);
         builder.HasIndex(n => n.IsRead);
-        builder.HasIndex(n => n.IsDeleted);
         builder.HasIndex(notificationTypeColumnName);
     }
 }

@@ -5,7 +5,7 @@ public class ItemEntity
     public Guid Id { get; set; } = Guid.CreateVersion7();
     public Guid OwnerId { get; set; }
     public UserEntity Owner { get; set; } = null!;
-    public Guid? BookId { get; set; }
+    public Guid BookId { get; set; }
     public BookEntity Book { get; set; } = null!;
     public Guid HolderId { get; set; }
     public UserEntity Holder { get; set; } = null!;

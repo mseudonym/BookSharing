@@ -48,7 +48,6 @@ public static class NotificationModelBuilderExtensions
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // 6. Для FriendTakeBookToReadNotificationEntity — связь с Book
         modelBuilder.Entity<FriendTakeBookToReadNotificationEntity>(builder =>
         {
             builder.Property(x => x.FriendId)
@@ -60,7 +59,6 @@ public static class NotificationModelBuilderExtensions
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // 7. Для FriendshipStatusChangedNotificationEntity — связь с Person
         modelBuilder.Entity<FriendshipStatusChangedNotificationEntity>(builder =>
         {
             builder.Property(x => x.PersonId)

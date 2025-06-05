@@ -6,7 +6,6 @@ public abstract class NotificationBaseEntity
     public required Guid RecipientId { get; set; }
     public UserEntity Recipient { get; set; } = null!;
     public required DateTime CreatedAt { get; set; }
+    public DateTime? ShouldBeSentAt { get; set; }
     public bool IsRead { get; set; } = false;
-    // TODO: delete
-    public bool IsDeleted { get; set; } = false;
 }

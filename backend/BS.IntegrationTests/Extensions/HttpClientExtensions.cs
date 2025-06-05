@@ -1,5 +1,8 @@
 ﻿using System.Text.Json;
 using Shouldly;
+using BS.Api.Requests;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 
 namespace BS.IntegrationTests.Extensions;
 

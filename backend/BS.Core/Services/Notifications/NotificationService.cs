@@ -16,17 +16,20 @@ public class NotificationService : INotificationsService
     private readonly BookSharingContext _dbContext;
     private readonly PaginationOptions _paginationOptions;
     private readonly NotificationMapper _notificationMapper;
+    private readonly TimeProvider _timeProvider;
 
     public NotificationService(
         ICurrentUserService currentUserService,
         BookSharingContext dbContext,
         IOptions<PaginationOptions> paginationOptions,
-        NotificationMapper notificationMapper)
+        NotificationMapper notificationMapper,
+        TimeProvider timeProvider)
     {
         _currentUserService = currentUserService;
         _dbContext = dbContext;
         _paginationOptions = paginationOptions.Value;
         _notificationMapper = notificationMapper;
+        _timeProvider = timeProvider;
     }
 
     public async Task<Result<NotificationBase[]>> GetNotificationsAsync(int page, int pageSize)
@@ -38,11 +41,12 @@ public class NotificationService : INotificationsService
         }
         
         var currentUserId = await _currentUserService.GetIdAsync();
+        var now = _timeProvider.GetUtcNow().UtcDateTime;
 
         var notifications = await _dbContext
             .Notifications
-            .Where(n => !n.IsDeleted)
             .Where(n => n.RecipientId == currentUserId)
+            .Where(n => n.ShouldBeSentAt <= now)
             .OrderByDescending(n => n.CreatedAt)
             .Skip(page * pageSize)
             .Take(pageSize)
@@ -58,10 +62,12 @@ public class NotificationService : INotificationsService
     public async Task<Result<int>> GetUnreadNotificationsCountAsync()
     {
         var currentUserId = await _currentUserService.GetIdAsync();
-        
+
+        var now = _timeProvider.GetUtcNow().UtcDateTime;
         var unreadNotificationsCount = await _dbContext
             .Notifications
-            .Where(n => n.RecipientId == currentUserId && !n.IsRead && !n.IsDeleted)
+            .Where(n => n.RecipientId == currentUserId && !n.IsRead)
+            .Where(n => n.ShouldBeSentAt <= now)
             .CountAsync();
         
         return unreadNotificationsCount;
