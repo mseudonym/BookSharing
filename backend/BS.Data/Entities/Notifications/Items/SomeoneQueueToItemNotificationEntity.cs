@@ -4,5 +4,5 @@
 public sealed class SomeoneQueueToItemNotificationEntity : ItemNotificationBaseEntity
 {
     public required Guid NewQueueMemberId { get; set; }
-    public required UserEntity NewQueueMember { get; set; }
+    public UserEntity NewQueueMember { get; set; } = null!;
 }

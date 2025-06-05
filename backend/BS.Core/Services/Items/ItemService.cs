@@ -7,6 +7,7 @@ using BS.Data.Context;
 using BS.Data.Entities;
 using BS.Data.Entities.Notifications.Friendship;
 using BS.Data.Entities.Notifications.FriendUpdate;
+using BS.Data.Entities.Notifications.Items;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -202,7 +203,6 @@ public class ItemService : IItemService
                 {
                     RecipientId = friend.Id,
                     FriendId = user.Id,
-                    Friend = user,
                     CreatedAt = now.UtcDateTime,
                     ShouldBeSentAt = now.Add(batchDelay).UtcDateTime,
                     NewBookIds = [bookId],
@@ -236,7 +236,11 @@ public class ItemService : IItemService
             .Include(user => user.Friends)
             .FirstAsync();
         
-        var item = await _dbContext.Items.FirstOrDefaultAsync(item => item.Id == itemId);
+        var item = await _dbContext.Items
+            .Where(item => item.Id == itemId)
+            .Include(i => i.QueueItems)
+            .ThenInclude(q => q.User)
+            .FirstOrDefaultAsync();
         if (item is null)
             return Result.Fail(new ItemNotFoundError(itemId));
         
@@ -257,8 +261,33 @@ public class ItemService : IItemService
             IsForcedFirstByOwner = isForcesFirstByOwner,
         });
 
+        // Уведомление владельцу и держателю о новом участнике очереди
+        var now = _timeProvider.GetUtcNow().UtcDateTime;
+        var newQueueMember = currentUser;
+        if (item.OwnerId != currentUserId)
+        {
+            _dbContext.Notifications.Add(new SomeoneQueueToItemNotificationEntity
+            {
+                RecipientId = item.OwnerId,
+                ItemId = item.Id,
+                NewQueueMemberId = newQueueMember.Id,
+                CreatedAt = now,
+                ShouldBeSentAt = now,
+            });
+        }
+        
+        if (item.HolderId != item.OwnerId)
+        {
+            _dbContext.Notifications.Add(new SomeoneQueueToItemNotificationEntity
+            {
+                RecipientId = item.HolderId,
+                ItemId = item.Id,
+                NewQueueMemberId = newQueueMember.Id,
+                CreatedAt = now,
+                ShouldBeSentAt = now,
+            });
+        }
         await _dbContext.SaveChangesAsync();
-
         return Result.Ok();
     }
 
@@ -276,6 +305,8 @@ public class ItemService : IItemService
         var item = await _dbContext.Items
             .Where(item => item.Id == itemId)
             .Include(item => item.QueueItems)
+            .Include(item => item.Owner)
+            .Include(item => item.Holder)
             .FirstOrDefaultAsync();
         
         if (item is null)
@@ -297,6 +328,8 @@ public class ItemService : IItemService
         {
             _dbContext.QueueItems.Remove(queue[0]);
         }
+        
+        var now = _timeProvider.GetUtcNow().UtcDateTime;
 
         if (!isCurrentUserOwner)
         {
@@ -305,7 +338,6 @@ public class ItemService : IItemService
                 .Where(u => u.Id == currentUserId)
                 .Include(u => u.Friends)
                 .FirstAsync();
-            var now = _timeProvider.GetUtcNow().UtcDateTime;
             foreach (var friend in newHolder.Friends)
             {
                 _dbContext.Notifications.Add(new FriendTakeBookToReadNotificationEntity
@@ -317,6 +349,36 @@ public class ItemService : IItemService
                     ShouldBeSentAt = now,
                 });
             }
+            // Уведомление владельцу о том, что кто-то стал держателем его книги
+            if (item.OwnerId != currentUserId)
+            {
+                var owner = item.Owner;
+                var newHolderEntity = newHolder;
+                _dbContext.Notifications.Add(new SomeoneBecameHolderOfYourItemNotificationEntity
+                {
+                    RecipientId = owner.Id,
+                    ItemId = item.Id,
+                    NewHolderId = newHolderEntity.Id,
+                    CreatedAt = now,
+                    ShouldBeSentAt = now
+                });
+            }
+        }
+
+        // Уведомления о смене позиции в очереди для оставшихся
+        for (var i = 0; i < queue.Count; i++)
+        {
+            var queueUser = queue[i];
+            if (queueUser.UserId == currentUserId)
+                continue;
+            _dbContext.Notifications.Add(new YourQueuePositionChangedNotificationEntity
+            {
+                RecipientId = queueUser.UserId,
+                ItemId = item.Id,
+                NewPosition = i + 1,
+                CreatedAt = now,
+                ShouldBeSentAt = now
+            });
         }
         
         await _dbContext.SaveChangesAsync();

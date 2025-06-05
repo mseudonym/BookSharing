@@ -4,5 +4,5 @@
 public sealed class SomeoneBecameHolderOfYourItemNotificationEntity : ItemNotificationBaseEntity
 {
     public required Guid NewHolderId { get; set; }
-    public required UserEntity NewHolder { get; set; }
+    public UserEntity NewHolder { get; set; } = null!;
 }

@@ -97,6 +97,6 @@ public static class ServiceCollectionExtensions
     private static void ConfigureByName<TOptions>(this IServiceCollection services, IConfiguration configuration)
         where TOptions : class
     {
-        services.Configure<TOptions>(configuration.GetSection(nameof(TOptions)));
+        services.Configure<TOptions>(configuration.GetSection(typeof(TOptions).Name));
     }
 }
