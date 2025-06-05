@@ -1,5 +1,7 @@
-﻿using Bogus;
+﻿using System.Data;
+using Bogus;
 using BS.Core.Models.User;
+using BS.Data.Validations;
 using BS.IntegrationTests.Extensions;
 
 namespace BS.IntegrationTests.DataGenerator;
@@ -11,7 +13,12 @@ public static partial class DataGenerator
         var faker = new Faker<EditProfileModel>()
             .RuleFor(p => p.FirstName, (f, _) => f.Name.FirstName())
             .RuleFor(p => p.LastName, (f, _) => f.Name.LastName())
-            .RuleFor(p => p.Username, (f, p) => f.Name.UserName(p.FirstName!, p.LastName!))
+            .RuleFor(p => p.Username, (f, p) =>
+            {
+                var userName = f.Name.UserName(p.FirstName!, p.LastName!);
+
+                return userName[..Math.Min(userName.Length, DataUserValidationConstants.UsernameMaxLength)];
+            })
             .RuleFor(p => p.ContactUrl, (_, p) => $"https://t.me/{p.Username}");
 
         return faker.Generate();

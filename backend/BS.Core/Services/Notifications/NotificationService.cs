@@ -81,8 +81,7 @@ public class NotificationService : INotificationsService
             notification.IsRead = true;
         }
         await _dbContext.SaveChangesAsync();
-        
-        
-        throw new NotImplementedException();
+
+        return Result.Ok();
     }
 }

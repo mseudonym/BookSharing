@@ -1,4 +1,5 @@
 using BS.Core.Errors;
+using BS.Core.Errors.Validation;
 using BS.Core.Models.Mapping;
 using BS.Core.Models.User;
 using BS.Core.Services.User;
@@ -66,6 +67,8 @@ public class FriendsService : IFriendsService
     public async Task<Result<UserProfile>> SendFriendRequestAsync(Guid personId)
     {
         var currentUserId = await _currentUserService.GetIdAsync();
+        if (currentUserId == personId) return Result.Fail(new SelfIsInvalidTarget());
+        
         var currentUser = await _dbContext.Users
             .Where(u => u.Id == currentUserId)
             .Include(u => u.Friends)
@@ -158,7 +161,6 @@ public class FriendsService : IFriendsService
 
         if (currentUser.ReceivedFriendRequests.All(u => u.Id != userWhoSendRequest.Id))
             return Result.Fail(new OperationAlreadyApplied("Doesn't have requests from this user"));
-
 
         currentUser.ReceivedFriendRequests.Remove(userWhoSendRequest);
         userWhoSendRequest.SentFriendRequests.Remove(currentUser);
