@@ -46,7 +46,7 @@ public class NotificationService : INotificationsService
         var notifications = await _dbContext
             .Notifications
             .Where(n => n.RecipientId == currentUserId)
-            .Where(n => n.ShouldBeSentAt <= now)
+            .Where(n => n.ShouldBeSentAt == null || n.ShouldBeSentAt <= now)
             .OrderByDescending(n => n.CreatedAt)
             .Skip(page * pageSize)
             .Take(pageSize)
