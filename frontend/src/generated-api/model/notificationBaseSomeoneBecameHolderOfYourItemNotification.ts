@@ -12,7 +12,6 @@ export interface NotificationBaseSomeoneBecameHolderOfYourItemNotification {
   $type: NotificationBaseSomeoneBecameHolderOfYourItemNotificationType;
   newHolder: UserProfile;
   itemId?: string;
-  bookId?: string;
   book: BookModel;
   id?: string;
   createdAt?: string;

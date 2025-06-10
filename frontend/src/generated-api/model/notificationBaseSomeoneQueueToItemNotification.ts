@@ -12,7 +12,6 @@ export interface NotificationBaseSomeoneQueueToItemNotification {
   $type: NotificationBaseSomeoneQueueToItemNotificationType;
   newQueueMember: UserProfile;
   itemId?: string;
-  bookId?: string;
   book: BookModel;
   id?: string;
   createdAt?: string;

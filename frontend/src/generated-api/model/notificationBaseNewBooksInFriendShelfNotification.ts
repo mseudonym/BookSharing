@@ -5,12 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { NotificationBaseNewBooksInFriendShelfNotificationType } from './notificationBaseNewBooksInFriendShelfNotificationType';
-import type { BookModel } from './bookModel';
 import type { UserProfile } from './userProfile';
 
 export interface NotificationBaseNewBooksInFriendShelfNotification {
   $type: NotificationBaseNewBooksInFriendShelfNotificationType;
-  newBooks: BookModel[];
+  newBooksCoverUrls: string[];
   friendId?: string;
   friend: UserProfile;
   id?: string;

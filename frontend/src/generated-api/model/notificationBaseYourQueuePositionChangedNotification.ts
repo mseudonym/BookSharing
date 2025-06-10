@@ -11,7 +11,6 @@ export interface NotificationBaseYourQueuePositionChangedNotification {
   $type: NotificationBaseYourQueuePositionChangedNotificationType;
   newPosition?: number;
   itemId?: string;
-  bookId?: string;
   book: BookModel;
   id?: string;
   createdAt?: string;
