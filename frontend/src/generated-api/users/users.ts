@@ -286,27 +286,27 @@ export const postUsersEditProfile = (
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
-      const formUrlEncoded = new URLSearchParams();
+      const formData = new FormData();
 if(postUsersEditProfileBody.FirstName !== undefined) {
- formUrlEncoded.append(`FirstName`, postUsersEditProfileBody.FirstName)
+ formData.append(`FirstName`, postUsersEditProfileBody.FirstName)
  }
 if(postUsersEditProfileBody.LastName !== undefined) {
- formUrlEncoded.append(`LastName`, postUsersEditProfileBody.LastName)
+ formData.append(`LastName`, postUsersEditProfileBody.LastName)
  }
 if(postUsersEditProfileBody.Username !== undefined) {
- formUrlEncoded.append(`Username`, postUsersEditProfileBody.Username)
+ formData.append(`Username`, postUsersEditProfileBody.Username)
  }
 if(postUsersEditProfileBody.ContactUrl !== undefined) {
- formUrlEncoded.append(`ContactUrl`, postUsersEditProfileBody.ContactUrl)
+ formData.append(`ContactUrl`, postUsersEditProfileBody.ContactUrl)
  }
 if(postUsersEditProfileBody.PhotoFile !== undefined) {
- formUrlEncoded.append(`PhotoFile`, postUsersEditProfileBody.PhotoFile)
+ formData.append(`PhotoFile`, postUsersEditProfileBody.PhotoFile)
  }
 
       return api<UserData>(
       {url: `/Users/editProfile`, method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded', },
-       data: formUrlEncoded, signal
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData, signal
     },
       options);
     }

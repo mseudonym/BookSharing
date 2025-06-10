@@ -285,33 +285,33 @@ export const postBooksAdd = (
  options?: SecondParameter<typeof api>,signal?: AbortSignal
 ) => {
       
-      const formUrlEncoded = new URLSearchParams();
+      const formData = new FormData();
 if(postBooksAddBody.Title !== undefined) {
- formUrlEncoded.append(`Title`, postBooksAddBody.Title)
+ formData.append(`Title`, postBooksAddBody.Title)
  }
 if(postBooksAddBody.Author !== undefined) {
- formUrlEncoded.append(`Author`, postBooksAddBody.Author)
+ formData.append(`Author`, postBooksAddBody.Author)
  }
 if(postBooksAddBody.Description !== undefined) {
- formUrlEncoded.append(`Description`, postBooksAddBody.Description)
+ formData.append(`Description`, postBooksAddBody.Description)
  }
 if(postBooksAddBody.Isbn !== undefined) {
- formUrlEncoded.append(`Isbn`, postBooksAddBody.Isbn)
+ formData.append(`Isbn`, postBooksAddBody.Isbn)
  }
 if(postBooksAddBody.Language !== undefined) {
- formUrlEncoded.append(`Language`, postBooksAddBody.Language)
+ formData.append(`Language`, postBooksAddBody.Language)
  }
 if(postBooksAddBody.PublicationYear !== undefined) {
- formUrlEncoded.append(`PublicationYear`, postBooksAddBody.PublicationYear.toString())
+ formData.append(`PublicationYear`, postBooksAddBody.PublicationYear.toString())
  }
 if(postBooksAddBody.BookCover !== undefined) {
- formUrlEncoded.append(`BookCover`, postBooksAddBody.BookCover)
+ formData.append(`BookCover`, postBooksAddBody.BookCover)
  }
 
       return api<BookModel>(
       {url: `/Books/add`, method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded', },
-       data: formUrlEncoded, signal
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData, signal
     },
       options);
     }

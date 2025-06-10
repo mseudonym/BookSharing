@@ -1,9 +1,11 @@
-﻿using BS.Api.Requests;
+﻿using System.Net.Mime;
+using BS.Api.Requests;
 using BS.Core.Extensions;
 using BS.Core.Models.Book;
 using BS.Core.Services.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using static BS.Api.Results.ErrorStatusCodeMapper;
 
 namespace BS.Api.Controllers;
@@ -45,6 +47,7 @@ public class BooksController : Controller
     }
 
     [HttpPost("add")]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
     public async Task<ActionResult<BookModel>> AddBook([FromForm] AddBookRequest bookRequest)
     {
         var model = new AddBookModel

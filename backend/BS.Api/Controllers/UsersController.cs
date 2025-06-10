@@ -1,4 +1,5 @@
-﻿using BS.Api.Requests;
+﻿using System.Net.Mime;
+using BS.Api.Requests;
 using BS.Core.Extensions;
 using BS.Core.Models.User;
 using BS.Core.Services.User;
@@ -44,6 +45,7 @@ public class UsersController : Controller
     }
 
     [HttpPost("editProfile")]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
     [ProducesResponseType(typeof(UserData), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<UserData>> EditProfile([FromForm] EditProfileRequest request)

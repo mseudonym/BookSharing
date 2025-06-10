@@ -12,7 +12,7 @@ import { defineConfig } from 'orval';
 export default defineConfig({
   booksharing: {
     input: {
-      target: process.env.OPEN_API_SCHEMA_URL!,
+      target: process.env.VITE_BS_API_BASE_URL + process.env.OPEN_API_SCHEMA_ROUTE,
     },
     output: {
       mode: 'tags-split',
