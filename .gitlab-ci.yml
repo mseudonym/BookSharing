@@ -12,13 +12,9 @@ test-backend:
     - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
     - export KUBECONFIG=$PWD/kubeconfig
     # Устанавливаем kubectl в текущую директорию
-    - bash -c '
-      set -e
-      VERSION=$(curl -s https://dl.k8s.io/release/stable.txt)
-      URL="https://dl.k8s.io/release/${VERSION}/bin/linux/amd64/kubectl"
-      curl -LO "$URL"
-      chmod +x kubectl
-      '
+    - VERSION=$(curl -s https://dl.k8s.io/release/stable.txt)
+    - curl -LO "https://dl.k8s.io/release/${VERSION}/bin/linux/amd64/kubectl"
+    - chmod +x kubectl
     # Пробрасываем порт PostgreSQL (5432) из Kubernetes-сервиса наружу
     - ./kubectl port-forward svc/bs-postgres-0 5432:5433 &
     - PORT_FORWARD_PID=$!
