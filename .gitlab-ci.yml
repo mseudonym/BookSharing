@@ -19,7 +19,7 @@ test-backend:
     - dotnet tool restore
     - dotnet ef database update --connection "$BS_API__ConnectionStringsOptions__Postgres" --project BS.Data --startup-project BS.Api
   script:
-    - cd backend/BS.IntegrationTests
+    - cd BS.IntegrationTests
     - dotnet restore
     - dotnet test --verbosity normal
 
