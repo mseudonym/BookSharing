@@ -3,13 +3,34 @@ stages:
   - build
   - deploy
 
-#test-backend:
-#  stage: test
-#  image: mcr.microsoft.com/dotnet/sdk:9.0
-#  script:
-#    - cd backend/BS.IntegrationTests
-#    - dotnet restore
-#    - dotnet test --verbosity normal
+test-backend:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:9.0
+  environment:
+    name: testing
+  before_script:
+    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
+    - export KUBECONFIG=$PWD/kubeconfig
+    # Устанавливаем kubectl
+    - curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    - chmod +x kubectl && mv kubectl /usr/local/bin/
+    # Пробрасываем порт PostgreSQL (5432) из Kubernetes-сервиса наружу
+    - kubectl port-forward svc/bs-postgres-0 5432:5433 &
+    # Сохраняем PID процесса для последующего завершения
+    - PORT_FORWARD_PID=$!
+    # Ждём несколько секунд, чтобы проброс точно поднялся
+    - sleep 5
+    # Применяем миграции
+    - cd backend
+    - dotnet ef database update --connection "$BS_API__ConnectionStringsOptions__Postgres" --project BS.Data --startup-project BS.Api
+  script:
+    - cd backend/BS.IntegrationTests
+    # Восстанавливаем зависимости
+    - dotnet restore
+    # Запускаем тесты
+    - dotnet test --verbosity normal
+  after_script:
+    - kill $PORT_FORWARD_PID || true
 
 variables:
   BS_API_IMAGE: "$CI_REGISTRY_IMAGE/bs-api:$CI_COMMIT_SHORT_SHA"
