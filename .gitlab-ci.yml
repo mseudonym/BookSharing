@@ -11,29 +11,25 @@ test-backend:
   before_script:
     - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
     - export KUBECONFIG=$PWD/kubeconfig
-    # Устанавливаем kubectl
+    # Устанавливаем kubectl в текущую директорию
     - bash -c '
       set -e
       VERSION=$(curl -s https://dl.k8s.io/release/stable.txt)
       URL="https://dl.k8s.io/release/${VERSION}/bin/linux/amd64/kubectl"
       curl -LO "$URL"
       chmod +x kubectl
-      mv kubectl /usr/local/bin/
       '
     # Пробрасываем порт PostgreSQL (5432) из Kubernetes-сервиса наружу
-    - kubectl port-forward svc/bs-postgres-0 5432:5433 &
-    # Сохраняем PID процесса для последующего завершения
+    - ./kubectl port-forward svc/bs-postgres-0 5432:5433 &
     - PORT_FORWARD_PID=$!
-    # Ждём несколько секунд, чтобы проброс точно поднялся
     - sleep 5
     # Применяем миграции
     - cd backend
+    - dotnet tool restore
     - dotnet ef database update --connection "$BS_API__ConnectionStringsOptions__Postgres" --project BS.Data --startup-project BS.Api
   script:
     - cd backend/BS.IntegrationTests
-    # Восстанавливаем зависимости
     - dotnet restore
-    # Запускаем тесты
     - dotnet test --verbosity normal
   after_script:
     - kill $PORT_FORWARD_PID || true
