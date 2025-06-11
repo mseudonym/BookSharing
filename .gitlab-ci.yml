@@ -18,8 +18,8 @@ test-backend:
       URL="https://dl.k8s.io/release/${VERSION}/bin/linux/amd64/kubectl"
       curl -LO "$URL"
       chmod +x kubectl
-      mv kubectl /usr/local/bin/kubectl
       '
+    - export PATH=$PWD:$PATH  # добавляем текущую директорию в PATH
     # Пробрасываем порт PostgreSQL (5432) из Kubernetes-сервиса наружу
     - kubectl port-forward svc/bs-postgres-0 5432:5433 &
     - PORT_FORWARD_PID=$!
