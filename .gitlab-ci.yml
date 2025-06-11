@@ -36,6 +36,8 @@ build-backend:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - docker build -t $BS_API_IMAGE -f backend/BS.Api/Dockerfile backend/
     - docker push $BS_API_IMAGE
+  needs:
+    - job: test-backend
 
 build-frontend:
   stage: build
@@ -46,6 +48,8 @@ build-frontend:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - docker build -t $BS_APP_IMAGE -f frontend/Dockerfile frontend/
     - docker push $BS_APP_IMAGE
+  needs:
+    - job: test-backend
 
 staging-deploy-backend:
   stage: deploy
