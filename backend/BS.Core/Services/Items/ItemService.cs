@@ -93,7 +93,11 @@ public class ItemService : IItemService
             .ThenInclude(queueItem => queueItem.User)
             .ToArrayAsync();
         
-        return Result.Ok(items.Select(item => ToFriendItemModel(item, currentUserId)).ToArray());
+        var itemsWithState = items
+            .Where(item => item.HolderId != currentUserId || item.QueueItems.Count != 0)
+            .ToArray();
+        
+        return Result.Ok(itemsWithState.Select(item => ToFriendItemModel(item, currentUserId)).ToArray());
     }
 
     public async Task<Result<ItemInfo[]>> GetFriendsItems()

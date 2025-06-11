@@ -5,7 +5,6 @@ using BS.Core.Models.Book;
 using BS.Core.Services.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using static BS.Api.Results.ErrorStatusCodeMapper;
 
 namespace BS.Api.Controllers;
@@ -58,7 +57,7 @@ public class BooksController : Controller
             Isbn = bookRequest.Isbn,
             Language = bookRequest.Language,
             PublicationYear = bookRequest.PublicationYear,
-            BookCover = bookRequest.BookCover!.GetPhotoFileModel(),
+            BookCover = bookRequest.BookCover.GetPhotoFileModel(),
         };
         var addResult = await _bookService.AddBookAsync(model);
         return MapResult(addResult);

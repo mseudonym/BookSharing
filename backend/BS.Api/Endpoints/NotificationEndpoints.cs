@@ -14,7 +14,6 @@ public static class NotificationEndpoints
             .WithTags("Notifications")
             .RequireAuthorization();
 
-
         routeGroup.MapGet("/", async Task<IResult> (
                 [FromServices] INotificationsService notificationService,
                 [FromQuery] int page = 0,
