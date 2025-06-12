@@ -71,7 +71,7 @@ build-backend:
     - docker build -t $BS_API_IMAGE -f backend/BS.Api/Dockerfile backend/
     - docker push $BS_API_IMAGE
   needs:
-    - job: analyze-and-test-backend
+    - job: test-backend
   rules:
     - when: manual
 
