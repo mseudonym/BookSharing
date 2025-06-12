@@ -9,7 +9,7 @@ variables:
   BS_APP_IMAGE: "$CI_REGISTRY_IMAGE/bs-app:$CI_COMMIT_SHORT_SHA"
 
 
-analyze-and-test-backend:
+test-backend:
   stage: test
   image: mcr.microsoft.com/dotnet/sdk:9.0
   services:
@@ -28,7 +28,7 @@ analyze-and-test-backend:
     - echo "Проверяем предупреждения и ошибки"
     - dotnet build --warnaserror
     - echo "Запускаем тесты"
-    - cd backend/BS.IntegrationTests
+    - cd BS.IntegrationTests
     - dotnet restore
     - dotnet test --logger "trx;LogFileName=test_results.trx"
     - dotnet tool install -g trx2junit
