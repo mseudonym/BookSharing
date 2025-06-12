@@ -1,7 +1,6 @@
+using System.Net.Http.Headers;
 using BS.Api.Requests;
 using Microsoft.AspNetCore.Http;
-using System.Net.Http;
-using System.Net.Http.Headers;
 
 namespace BS.IntegrationTests.DataGenerator;
 
@@ -40,7 +39,7 @@ public static class BookGenerator
             content.Add(new StringContent(request.PublicationYear.Value.ToString()), nameof(request.PublicationYear));
         // BookCover
         var fileContent = new StreamContent(request.BookCover.OpenReadStream());
-        fileContent.Headers.ContentType = new MediaTypeHeaderValue(request.BookCover.ContentType ?? "application/octet-stream");
+        fileContent.Headers.ContentType = new MediaTypeHeaderValue(request.BookCover.ContentType);
         content.Add(fileContent, nameof(request.BookCover), request.BookCover.FileName);
         return content;
     }

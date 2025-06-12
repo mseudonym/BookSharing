@@ -1,8 +1,8 @@
-﻿using BS.Data.Entities.Notifications.FriendUpdate;
+﻿using System.Text.Json;
 using BS.Data.Entities.Notifications.Friendship;
+using BS.Data.Entities.Notifications.FriendUpdate;
 using BS.Data.Entities.Notifications.Items;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 namespace BS.Data.Configurations.Notifications;
 

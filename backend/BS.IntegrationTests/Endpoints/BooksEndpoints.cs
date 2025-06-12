@@ -1,7 +1,6 @@
-using BS.Core.Models.Book;
-using BS.IntegrationTests.Extensions;
-using BS.Api.Requests;
 using System.Net.Http.Json;
+using BS.Api.Requests;
+using BS.Core.Models.Book;
 using BS.IntegrationTests.DataGenerator;
 
 namespace BS.IntegrationTests.Endpoints;

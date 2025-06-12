@@ -22,7 +22,6 @@ public class BookService : IBookService
     private readonly IValidator<AddBookModel> _addBookModelValidator = new AddBookModelValidator();
     private readonly IValidator<string?> _isbnValidator = new IsbnValidator();
     private readonly BookMapper _bookMapper;
-    private readonly TimeProvider _timeProvider;
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
     private readonly IS3Service _s3Service;
@@ -33,14 +32,12 @@ public class BookService : IBookService
         ICurrentUserService currentUserService,
         IS3Service s3Service,
         BookMapper bookMapper,
-        TimeProvider timeProvider,
         IItemService itemService)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
         _s3Service = s3Service;
         _bookMapper = bookMapper;
-        _timeProvider = timeProvider;
         _itemService = itemService;
     }
 
@@ -83,9 +80,7 @@ public class BookService : IBookService
         var validationResult = await _addBookModelValidator.ValidateAsync(book).ToTypedResult();
         if (validationResult.IsFailed)
             return validationResult;
-
-        var currentUserId = await _currentUserService.GetIdAsync();
-
+        
         if (book.Isbn != null && await _dbContext.Books.AnyAsync(b => b.Isbn == book.Isbn))
             return Result.Fail<BookModel>(new ValidationError("BookWithThatIsbnAlreadyExist",
                 $"Book with ISBN '{book.Isbn}' already added."));

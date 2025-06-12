@@ -1,6 +1,5 @@
 using BS.Core.Models.Items;
 using BS.IntegrationTests.Extensions;
-using System.Net.Http.Json;
 
 namespace BS.IntegrationTests.Endpoints;
 

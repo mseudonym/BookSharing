@@ -1,8 +1,8 @@
+using BS.Core.Models.Notifications.Friendship;
+using BS.Core.Models.Notifications.FriendUpdate;
+using BS.Core.Models.Notifications.Items;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using BS.Core.Models.Notifications.Items;
-using BS.Core.Models.Notifications.FriendUpdate;
-using BS.Core.Models.Notifications.Friendship;
 
 namespace BS.Api;
 

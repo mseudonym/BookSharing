@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using BS.Core.Models.Notifications.Items;
-using BS.Core.Models.Notifications.FriendUpdate;
 using BS.Core.Models.Notifications.Friendship;
+using BS.Core.Models.Notifications.FriendUpdate;
+using BS.Core.Models.Notifications.Items;
 
 namespace BS.Core.Models.Notifications.Base;
 

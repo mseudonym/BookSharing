@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
         IWebHostEnvironment environment)
     {
         services.AddBsOptions(configuration);
-        services.AddEmailSender(configuration);
+        services.AddEmailSender();
         services.AddS3Client(configuration, environment);
         services.AddModelMappers();
         services.AddCoreServices();
@@ -42,7 +42,7 @@ public static class ServiceCollectionExtensions
         services.ConfigureByName<NotificationOptions>(configuration);
     }
 
-    private static void AddEmailSender(this IServiceCollection services, IConfiguration configuration)
+    private static void AddEmailSender(this IServiceCollection services)
     {
         services.AddTransient<SmtpClient>(sp =>
         {

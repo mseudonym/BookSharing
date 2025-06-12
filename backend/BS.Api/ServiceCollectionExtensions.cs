@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
                     Scheme = "bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Введите JWT токен с префиксом Bearer",
+                    Description = "Введите JWT токен",
                 };
                 document.SecurityRequirements.Add(new OpenApiSecurityRequirement
                 {
@@ -43,7 +43,7 @@ public static class ServiceCollectionExtensions
                             }
                         },
                         new List<string>()
-                    }
+                    },
                 });
 
                 return Task.CompletedTask;

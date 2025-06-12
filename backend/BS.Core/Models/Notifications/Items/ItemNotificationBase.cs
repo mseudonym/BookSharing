@@ -1,5 +1,5 @@
-using BS.Core.Models.Notifications.Base;
 using BS.Core.Models.Book;
+using BS.Core.Models.Notifications.Base;
 
 namespace BS.Core.Models.Notifications.Items;
 

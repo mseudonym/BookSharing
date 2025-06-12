@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Bogus;
+﻿using Bogus;
 using BS.Core.Models.User;
 using BS.Data.Validations;
 using BS.IntegrationTests.Extensions;

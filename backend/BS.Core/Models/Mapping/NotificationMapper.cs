@@ -1,13 +1,13 @@
 using BS.Core.Models.Notifications.Base;
-using BS.Core.Models.Notifications.Items;
-using BS.Core.Models.Notifications.FriendUpdate;
 using BS.Core.Models.Notifications.Friendship;
-using BS.Data.Entities.Notifications.Base;
-using BS.Data.Entities.Notifications.Items;
-using BS.Data.Entities.Notifications.FriendUpdate;
-using BS.Data.Entities.Notifications.Friendship;
+using BS.Core.Models.Notifications.FriendUpdate;
+using BS.Core.Models.Notifications.Items;
 using BS.Core.Models.S3;
 using BS.Core.Services.S3;
+using BS.Data.Entities.Notifications.Base;
+using BS.Data.Entities.Notifications.Friendship;
+using BS.Data.Entities.Notifications.FriendUpdate;
+using BS.Data.Entities.Notifications.Items;
 
 namespace BS.Core.Models.Mapping;
 
