@@ -31,15 +31,16 @@ test-backend:
     - cd BS.IntegrationTests
     - dotnet restore
     - dotnet test --logger "trx;LogFileName=test_results.trx"
+    - cd TestResults
     - dotnet tool install -g trx2junit
     - export PATH="$PATH:/root/.dotnet/tools"
     - trx2junit test_results.trx
   artifacts:
     reports:
-      junit: backend/BS.IntegrationTests/test_results.xml
+      junit: backend/BS.IntegrationTests/TestResults/test_results.xml
     paths:
-      - backend/BS.IntegrationTests/test_results.trx
-      - backend/BS.IntegrationTests/test_results.xml
+      - backend/BS.IntegrationTests/TestResults/test_results.trx
+      - backend/BS.IntegrationTests/TestResults/test_results.xml
     expire_in: 1 week
   rules:
     - changes:
