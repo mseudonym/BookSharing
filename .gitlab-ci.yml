@@ -3,6 +3,7 @@ stages:
   - build
   - deploy
 
+
 test-backend:
   stage: test
   image: mcr.microsoft.com/dotnet/sdk:9.0
@@ -46,6 +47,7 @@ build-backend:
   rules:
     - when: manual
 
+
 build-frontend:
   stage: build
   image: docker:latest
@@ -58,6 +60,7 @@ build-frontend:
   rules:
     - when: manual
 
+
 .deploy-template:
   image:
     name: bitnami/kubectl:latest
@@ -68,6 +71,7 @@ build-frontend:
     - export KUBECONFIG=$PWD/kubeconfig
     - echo "Применяем ingress..."
     - envsubst < k8s/${CI_ENVIRONMENT_NAME}-ingress.yaml | kubectl apply -n $CI_ENVIRONMENT_NAME -f -
+
 
 staging-deploy-backend:
   stage: deploy
@@ -80,6 +84,7 @@ staging-deploy-backend:
   - echo "Применяем Deployment..."
   - envsubst < k8s/backend-deployment.yaml | kubectl apply -n staging -f -
   - kubectl rollout restart deployment bs-api -n staging
+  - kubectl rollout status deployment bs-api -n production --timeout=120s
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
   when: manual
@@ -96,6 +101,7 @@ staging-deploy-frontend:
     - echo "Применяем Deployment..."
     - envsubst < k8s/frontend-deployment.yaml | kubectl apply -n staging -f -
     - kubectl rollout restart deployment bs-app -n staging
+    - kubectl rollout status deployment bs-app -n staging --timeout=120s
   when: manual
   needs:
     - job: build-frontend
@@ -112,6 +118,7 @@ production-deploy-backend:
     - echo "Применяем Deployment..."
     - envsubst < k8s/backend-deployment.yaml | kubectl apply -n production -f -
     - kubectl rollout restart deployment bs-api -n production
+    - kubectl rollout status deployment bs-api -n production --timeout=120s
   variables:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
