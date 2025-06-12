@@ -1,6 +1,5 @@
 using BS.Core.Services.User;
 using BS.Data.Entities;
-using BS.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace BS.Api.Implementations;
