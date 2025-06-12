@@ -10,7 +10,7 @@ import * as zod from 'zod';
 import f_styles from '~/components/forms/forms.module.css';
 import styles from '~/pages/book-page/book-page.module.css';
 
-import { FileButton } from '~/components/custom-mantine';
+import { FileButton, ISBNInput } from '~/components/custom-mantine';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postBooksAdd } from '~/generated-api/books/books';
 import { router } from '~/main';
@@ -40,7 +40,6 @@ const FormSchema = zod.object({
   isbn: zod
     .string()
     .nonempty(REQUIRED_FIELD_TEXT)
-    .regex(/^\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d{1}$/, 'Неверный формат ISBN')
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;
@@ -185,8 +184,8 @@ export const BookAdditionManuallyForm = () => {
             type="number"
           />
 
-          <TextInput
-            label="Isbn"
+          <ISBNInput
+            label={'ISBN'}
             placeholder="Введите ISBN книги"
             {...register('isbn')}
             error={errors?.isbn?.message}

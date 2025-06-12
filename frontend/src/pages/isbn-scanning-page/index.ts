@@ -1,0 +1,1 @@
+export { ISBNScanningPage } from './isbn-scanning-page';
