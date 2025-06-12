@@ -26,7 +26,7 @@ analyze-and-test-backend:
     - dotnet ef database update --connection "$BS_API__ConnectionStringsOptions__Postgres" --project BS.Data --startup-project BS.Api
   script:
     - echo "Проверяем предупреждения и ошибки"
-    - dotnet build --warnaserror
+    - dotnet build BookSharing.sln --warnaserror
     - echo "Запускаем тесты"
     - cd BS.IntegrationTests
     - dotnet restore
