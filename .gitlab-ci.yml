@@ -58,18 +58,23 @@ build-frontend:
   rules:
     - when: manual
 
-staging-deploy-backend:
-  stage: deploy
-  image: 
+.deploy-template:
+  image:
     name: bitnami/kubectl:latest
     entrypoint: [ "" ]
+  before_script:
+    - echo "Настраиваем доступ к кластеру..."
+    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
+    - export KUBECONFIG=$PWD/kubeconfig
+    - echo "Применяем ingress..."
+    - envsubst < k8s/${CI_ENVIRONMENT_NAME}-ingress.yaml | kubectl apply -n $CI_ENVIRONMENT_NAME -f -
+
+staging-deploy-backend:
+  stage: deploy
+  extends: .deploy-template
   environment:
     name: staging
   script:
-  - echo "Применяем конфиг подключения к кластеру K8S..."
-  - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig && export KUBECONFIG=$PWD/kubeconfig
-  - echo "Применяем ingress стейджинга..."
-  - envsubst < k8s/staging-ingress.yaml | kubectl apply -n staging -f -
   - echo "Генерируем и применяем секреты..."
   - envsubst < k8s/bs-api-secrets.yaml | kubectl apply -n staging -f -
   - echo "Применяем Deployment..."
@@ -78,47 +83,30 @@ staging-deploy-backend:
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
   when: manual
-  only:
-    - branches
   needs:
     - job: build-backend
 
 
 staging-deploy-frontend:
   stage: deploy
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: [ "" ]
+  extends: .deploy-template
   environment:
     name: staging
   script:
-    - echo "Применяем конфиг подключения к кластеру K8S..."
-    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
-    - export KUBECONFIG=$PWD/kubeconfig
-    - echo "Применяем ingress стейджинга..."
-    - envsubst < k8s/staging-ingress.yaml | kubectl apply -n staging -f -
     - echo "Применяем Deployment..."
     - envsubst < k8s/frontend-deployment.yaml | kubectl apply -n staging -f -
     - kubectl rollout restart deployment bs-app -n staging
   when: manual
-  only:
-    - branches
   needs:
     - job: build-frontend
 
 
 production-deploy-backend:
   stage: deploy
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: [ "" ]
+  extends: .deploy-template
   environment:
     name: production
   script:
-    - echo "Применяем конфиг подключения к кластеру K8S..."
-    - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig && export KUBECONFIG=$PWD/kubeconfig
-    - echo "Применяем ingress..."
-    - envsubst < k8s/production-ingress.yaml | kubectl apply -n production -f -
     - echo "Генерируем и применяем секреты..."
     - envsubst < k8s/bs-api-secrets.yaml | kubectl apply -n production -f -
     - echo "Применяем Deployment..."
@@ -127,7 +115,8 @@ production-deploy-backend:
   variables:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
-  only:
-    - main
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
   needs:
     - job: build-backend
