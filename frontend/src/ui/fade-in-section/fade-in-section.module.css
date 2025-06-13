@@ -1,0 +1,18 @@
+.fadeInSection {
+    opacity: 0;
+    transform: translateY(30px);
+    will-change: opacity, transform;
+    transition:
+            opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+            transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+    backface-visibility: hidden;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.fadeInSection.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

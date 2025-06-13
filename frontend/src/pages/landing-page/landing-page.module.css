@@ -13,6 +13,8 @@
   min-height: calc(100vh - 32px);
   border-radius: var(--mantine-radius-md);
   box-sizing: border-box;
+  background-size: 200% 200%;
+  animation: gradientAnimation 20s ease infinite;
 }
 
 .heroContent, .secondaryBlock, .blockWrapper {
@@ -180,5 +182,17 @@
   .logo {
     width: auto !important;
     height: auto !important;
+  }
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
