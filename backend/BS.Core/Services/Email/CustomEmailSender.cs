@@ -47,7 +47,8 @@ public class CustomEmailSender : ICustomEmailSender<UserEntity>
     public async Task SendPasswordResetLinkAsync(UserEntity user, string email, string resetCode)
     {
         var passwordResetLink = $"{_frontendOptions.Url}/{_frontendOptions.PasswordResetPath}" +
-                                $"?code={resetCode}";
+                                $"?code={resetCode}" +
+                                $"&email={Uri.EscapeDataString(email)}";
 
         var body = ResourceProvider.GetPasswordResetHtml(passwordResetLink);
         const string subject = "Код для сброса пароля";
