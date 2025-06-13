@@ -27,6 +27,7 @@ import { EmailSettingsPage, PasswordSettingsPage } from '~/pages/settings';
 import { SettingsPage, SecuritySettingsPage, ProfileSettingsPage } from '~/pages/settings';
 import { ShelfPage } from '~/pages/shelf-page';
 import { StoragePage } from '~/pages/storage-page';
+import { UpdatePasswordPage } from '~/pages/update-password-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';
@@ -62,6 +63,10 @@ export const router = createBrowserRouter([
   {
     path: `${AppRoute.EmailConfirmation}`,
     element: <EmailConfirmationPage/>,
+  },
+  {
+    path: `${AppRoute.UpdatePassword}`,
+    element: <UpdatePasswordPage/>,
   },
   {
     path: `${AppRoute.ProfileFilling}`,

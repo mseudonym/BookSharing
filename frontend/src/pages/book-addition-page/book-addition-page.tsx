@@ -23,7 +23,8 @@ export const BookAdditionPage = () => {
     data: bookIsbn,
     isLoading: isLoadingIsbn,
     isError: isErrorIsbn
-  } = useGetBooksByIsbnIsbn(isbnQuery, { query: { retry: false, enabled: isbnQuery.length === 17 } });
+  } = useGetBooksByIsbnIsbn(isbnQuery, { query: { enabled: isbnQuery.length === 17 } });
+  console.log(isbnQuery.length);
   const {
     data: bookTitleList,
     isLoading: isLoadingTitleList,

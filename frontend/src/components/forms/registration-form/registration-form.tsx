@@ -11,34 +11,17 @@ import styles from '~/components/forms/forms.module.css';
 
 import { checkProfileFilling } from '~/actions/user-actions';
 import { PasswordInput } from '~/components/custom-mantine';
-import { REQUIRED_FIELD_TEXT } from '~/conts';
+import { PasswordBaseSchema, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postAuthLogin, postAuthRegister } from '~/generated-api/auth/auth';
 import { saveToken } from '~/services/token';
 
-const FormSchema = zod.object({
-  email: zod
-    .string()
-    .nonempty(REQUIRED_FIELD_TEXT),
-  password: zod
-    .string()
-    .min(12, 'Пароль должен быть не меньше 12-ти символов')
-    .regex(/[0-9]+/, 'Пароль должен содержать минимум одну цифру')
-    .regex(/[a-z]+/, 'Пароль должен содержать минимум одну строчную латинскую букву')
-    .regex(/[A-Z]+/, 'Пароль должен содержать минимум одну заглавную латинскую букву')
-    .regex(/[^0-9a-zA-Z]+/, 'Пароль должен содержать минимум один не буквенный и не числовой символ')
-    .nonempty(REQUIRED_FIELD_TEXT),
-  confirmPassword: zod
-    .string()
-    .nonempty(REQUIRED_FIELD_TEXT),
-}).superRefine(({ confirmPassword, password }, ctx) => {
-  if (confirmPassword !== password) {
-    ctx.addIssue({
-      code: 'custom',
-      message: 'Пароли не совпадают',
-      path: ['confirmPassword'],
-    });
-  }
-});
+const FormSchema = PasswordBaseSchema.and(
+  zod.object({
+    email: zod
+      .string()
+      .nonempty(REQUIRED_FIELD_TEXT)
+  })
+);
 
 type IFormInput = zod.infer<typeof FormSchema>;
 

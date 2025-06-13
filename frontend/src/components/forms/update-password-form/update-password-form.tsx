@@ -4,25 +4,22 @@ import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router';
 import * as zod from 'zod';
 
 import styles from '~/components/forms/forms.module.css';
 
 import { PasswordInput } from '~/components/custom-mantine';
-import { PasswordBaseSchema, REQUIRED_FIELD_TEXT } from '~/conts';
-import { postAuthManageChangePassword } from '~/generated-api/auth/auth';
+import { PasswordBaseSchema } from '~/conts';
+import { postAuthResetPassword } from '~/generated-api/auth/auth';
 
-const FormSchema = PasswordBaseSchema.and(
-  zod.object({
-    oldPassword: zod
-      .string()
-      .nonempty(REQUIRED_FIELD_TEXT)
-  })
-);
+type IFormInput = zod.infer<typeof PasswordBaseSchema>;
 
-type IFormInput = zod.infer<typeof FormSchema>;
-
-export const PasswordSettingsForm = () => {
+export const UpdatePasswordForm = () => {
+  const [searchParams] = useSearchParams();
+  
+  const email = searchParams.get('email') || null;
+  const resetCode = searchParams.get('code') || null;
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -30,14 +27,14 @@ export const PasswordSettingsForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInput>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(PasswordBaseSchema),
     reValidateMode: 'onChange',
     mode: 'onTouched',
   });
 
-  const { mutateAsync: updatePassword } = useMutation({
-    mutationFn: postAuthManageChangePassword,
-    onSuccess: () => {
+  const { mutateAsync: resetPasswordMutation } = useMutation({
+    mutationFn: postAuthResetPassword,
+    onSuccess: async () => {
       notifications.show({
         title: 'Пароль обновлен',
         message: undefined,
@@ -46,7 +43,7 @@ export const PasswordSettingsForm = () => {
     },
     onError: () => {
       notifications.show({
-        title: 'Ошибка сохранения',
+        title: 'Ошибка обновления пароля',
         message: undefined,
         color: 'var(--red-color)',
       });
@@ -55,19 +52,12 @@ export const PasswordSettingsForm = () => {
 
   const onSubmit = async (data: IFormInput) => {
     setIsLoading(true);
-    await updatePassword({ oldPassword: data.oldPassword, newPassword: data.password });
+    await resetPasswordMutation({ newPassword: data.confirmPassword, email: email, resetCode: resetCode });
     setIsLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
-      <PasswordInput
-        label='Старый пароль'
-        placeholder='Введите старый пароль'
-        {...register('oldPassword')}
-        error={errors?.oldPassword?.message}
-      />
-
+    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formPadding}`}>
       <PasswordInput
         label='Новый пароль'
         placeholder='Введите новый пароль'
@@ -80,13 +70,9 @@ export const PasswordSettingsForm = () => {
         placeholder='Введите новый пароль повторно'
         {...register('confirmPassword')}
         error={errors?.confirmPassword?.message}
-      />
+        />
 
-      <Button
-        variant='filled'
-        type='submit'
-        fullWidth
-        loading={isLoading}>
+      <Button fullWidth variant='filled' loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Обновить пароль
       </Button>
     </form>

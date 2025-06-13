@@ -15,6 +15,7 @@ export enum AppRoute {
     ProfileFilling = '/profile-filling',
     EmailConfirmationWaiting = '/email-confirmation-waiting',
     EmailConfirmation = '/email-confirmation',
+    UpdatePassword = '/update-password',
     SearchFriends = '/search-friends',
     ForgotPassword = '/forgot-password',
     Settings = '/settings',
@@ -61,4 +62,26 @@ export const ProfileFormSchema = zod.object({
     .url('Ссылка должна быть валидной'),
   profilePhoto: zod
     .custom<File>()
+});
+
+export const PasswordBaseSchema = zod.object({
+  password: zod
+    .string()
+    .min(12, 'Пароль должен быть не меньше 12-ти символов')
+    .regex(/[0-9]+/, 'Пароль должен содержать минимум одну цифру')
+    .regex(/[a-z]+/, 'Пароль должен содержать минимум одну строчную латинскую букву')
+    .regex(/[A-Z]+/, 'Пароль должен содержать минимум одну заглавную латинскую букву')
+    .regex(/[^0-9a-zA-Z]+/, 'Пароль должен содержать минимум один не буквенный и не числовой символ')
+    .nonempty(REQUIRED_FIELD_TEXT),
+  confirmPassword: zod
+    .string()
+    .nonempty(REQUIRED_FIELD_TEXT),
+}).superRefine(({ confirmPassword, password }, ctx) => {
+  if (confirmPassword !== password) {
+    ctx.addIssue({
+      code: 'custom',
+      message: 'Пароли не совпадают',
+      path: ['confirmPassword'],
+    });
+  }
 });

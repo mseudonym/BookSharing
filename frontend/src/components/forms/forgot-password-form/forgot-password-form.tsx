@@ -33,7 +33,7 @@ export const ForgotPasswordForm = () => {
     mode: 'onTouched',
   });
 
-  const { mutateAsync: resetPasswordMutation } = useMutation({
+  const { mutateAsync: forgotPasswordMutation } = useMutation({
     mutationFn: postAuthForgotPassword,
     onSuccess: async () => {
       notifications.show({
@@ -53,7 +53,7 @@ export const ForgotPasswordForm = () => {
 
   const onSubmit = async (data: IFormInput) => {
     setIsLoading(true);
-    await resetPasswordMutation({ email: data.email });
+    await forgotPasswordMutation({ email: data.email });
     setIsLoading(false);
   };
 

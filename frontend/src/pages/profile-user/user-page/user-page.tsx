@@ -58,8 +58,8 @@ export const UserPage = () => {
 
   const { mutateAsync: respondRequest } = useMutation({
     mutationFn: postFriendsRespondRequest,
-    onSuccess: async (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
+    onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
       notifications.show({
         title: variables?.isAccepted ? 'Заявка принята' : 'Заявка отклонена',
         message: undefined,
@@ -71,8 +71,8 @@ export const UserPage = () => {
   const { mutateAsync: deleteFriend } = useMutation({
     mutationFn: deleteFriendsDelete,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: getGetFriendsListQueryKey() });
-      router.navigate(AppRoute.Friends);
+      await queryClient.invalidateQueries({ queryKey: getGetFriendsListQueryKey() });
+      await router.navigate(AppRoute.Friends);
 
       notifications.show({
         title: 'Друг удален',
@@ -85,7 +85,7 @@ export const UserPage = () => {
   const { mutateAsync: removeRequest } = useMutation({
     mutationFn: postFriendsCancelRequest,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
+      await queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
       notifications.show({
         title: 'Запрос в друзья отменен',
         message: undefined,
@@ -127,7 +127,7 @@ export const UserPage = () => {
   }
 
   if (userMe?.id === user?.id) {
-    router.navigate(AppRoute.Profile);
+    router.navigate(AppRoute.Profile).then();
   }
 
   return (
