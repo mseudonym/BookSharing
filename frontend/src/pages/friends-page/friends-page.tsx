@@ -17,47 +17,50 @@ export const FriendsPage = () => {
   const { data: requestList, isLoading: isLoadingRequests, isError: isErrorRequests } = useGetFriendsRequestsReceived();
 
   if (isLoadingFriends || isLoadingRequests) {
-    return <LoadingPage />;
+    return <LoadingPage/>;
   }
 
   if (isErrorFriends || isErrorRequests) {
-    return <ErrorPage />;
+    return <ErrorPage/>;
   }
 
   return (
     <PageWithWrapper>
-      <Header variant="auto">
+      <Header variant='auto'>
         <Title order={5}>Друзья</Title>
-        <ActionIcon variant="transparent" onClick={() => { router.navigate(AppRoute.SearchFriends); }}>
-          <SearchLoupeIcon24Regular />
+        <ActionIcon variant='transparent' onClick={() => {
+          router.navigate(AppRoute.SearchFriends);
+        }}>
+          <SearchLoupeIcon24Regular/>
         </ActionIcon>
       </Header>
 
       <Tabs defaultValue={FriendsTabs.MyFriends}>
         <Tabs.List>
           <Tabs.Tab value={FriendsTabs.MyFriends}>Мои друзья</Tabs.Tab>
-          <Tabs.Tab value={FriendsTabs.Requests} 
-            rightSection={requestList  && requestList.length > 0 && <Badge>{requestList.length}</Badge>}>
-                Запросы
+          <Tabs.Tab value={FriendsTabs.Requests}
+            rightSection={requestList && requestList.length > 0 &&
+            <Badge>{requestList.length}</Badge>}>
+            Запросы
           </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value={FriendsTabs.MyFriends}>
-          {friendList == undefined || friendList.length == 0 ? 
+          {friendList == undefined || friendList.length == 0 ?
             (
               <IllustrationWrapper
-                src="/friends-illustration.svg"
-                alt="No friends illustration"
-                text="Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху."
+                src='/friends-illustration.svg'
+                alt='No friends illustration'
+                text='Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху.'
               />
             ) :
-            <SimpleGrid
-              cols={{ base: 1, md: 2 }}
-              spacing={{ base: 'md',  }}
-              verticalSpacing={{ base: 'md' }}
+              <SimpleGrid
+                cols={{ base: 1, md: 2 }}
+                spacing={{ base: 'md', }}
+                verticalSpacing={{ base: 'md' }}
             >
-              {friendList.map((friend) => <FriendCard {...friend} key={friend.id} />)}
-            </SimpleGrid>
+                {friendList.map((friend) => <FriendCard {...friend} key={friend.id}/>)}
+              </SimpleGrid>
           }
         </Tabs.Panel>
 
@@ -65,17 +68,17 @@ export const FriendsPage = () => {
           {requestList == undefined || requestList.length == 0 ?
             (
               <IllustrationWrapper
-                src="/request-illustration.svg"
-                alt="No requests illustration"
-                text="Заявок пока нет, но можно кого-нибудь добавить самому."
+                src='/request-illustration.svg'
+                alt='No requests illustration'
+                text='Заявок пока нет, но можно кого-нибудь добавить самому.'
               />) :
-            <SimpleGrid
-              cols={{ base: 1 }}
-              spacing={{ base: 'md', md: 'xl' }}
-              verticalSpacing={{ base: 'md', md: 'xl' }}
+              <SimpleGrid
+                cols={{ base: 1 }}
+                spacing={{ base: 'md', md: 'xl' }}
+                verticalSpacing={{ base: 'md', md: 'xl' }}
             >
-              {requestList.map((person) => <RequestCard {...person} key={person.id} />)}
-            </SimpleGrid>
+                {requestList.map((person) => <RequestCard {...person} key={person.id}/>)}
+              </SimpleGrid>
           }
         </Tabs.Panel>
       </Tabs>

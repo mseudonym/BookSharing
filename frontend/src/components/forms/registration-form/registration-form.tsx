@@ -56,16 +56,16 @@ export const RegistrationForm = () => {
   const { mutateAsync: registerMutation } = useMutation({
     mutationFn: postAuthRegister,
     onError: (error: AxiosError<{
-      errors: {
-        DuplicateEmail?: string[];
-      }
-    }>) => {
+            errors: {
+                DuplicateEmail?: string[];
+            }
+        }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.errors) {
-          const errorMessage = (errorData.errors.DuplicateEmail?.[0] && 'Email уже занят') || 
-                             undefined;
-          
+          const errorMessage = (errorData.errors.DuplicateEmail?.[0] && 'Email уже занят') ||
+                        undefined;
+
           notifications.show({
             title: 'Ошибка регистрации',
             message: errorMessage,
@@ -100,27 +100,27 @@ export const RegistrationForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
       <TextInput
-        label="Почта"
-        placeholder="Введите почту"
+        label='Почта'
+        placeholder='Введите почту'
         {...register('email')}
         error={errors?.email?.message}
       />
 
       <PasswordInput
-        label="Пароль"
-        placeholder="Введите пароль"
+        label='Пароль'
+        placeholder='Введите пароль'
         {...register('password')}
         error={errors?.password?.message}
       />
 
       <PasswordInput
-        label="Пароль ещё раз"
-        placeholder="Введите пароль повторно"
+        label='Пароль ещё раз'
+        placeholder='Введите пароль повторно'
         {...register('confirmPassword')}
         error={errors?.confirmPassword?.message}
       />
 
-      <Button fullWidth variant="filled" onClick={handleSubmit(onSubmit)} loading={isLoading}>
+      <Button fullWidth variant='filled' onClick={handleSubmit(onSubmit)} loading={isLoading}>
         Зарегистрироваться
       </Button>
 

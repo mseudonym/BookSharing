@@ -63,8 +63,10 @@ export const StorageCard = (props: StorageFriendCardProps) => {
 
   return (
     <Card className={styles.storageCard}>
-      <Image onClick={() => router.navigate(AppRoute.Book.replace(':id', props.book.id!))} src={props.book?.bookCoverUrl} alt={`Book cover for ${props.book?.title}`} className={styles.bookCover} />
-      <Flex direction="column" gap="sm">
+      <Image onClick={() => router.navigate(AppRoute.Book.replace(':id', props.book.id!))}
+        src={props.book?.bookCoverUrl} alt={`Book cover for ${props.book?.title}`}
+        className={styles.bookCover}/>
+      <Flex direction='column' gap='sm'>
         <Text>{props.book?.title}</Text>
         {cardText && (
           <Text className={_styles.textGray}>

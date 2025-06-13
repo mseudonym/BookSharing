@@ -8,11 +8,22 @@ import styles from '~/components/friend-request/friend-request.module.css';
 import _styles from '~/index.module.css';
 
 import { AppRoute } from '~/conts';
-import { postFriendsCancelRequest, postFriendsRespondRequest, postFriendsSendRequest } from '~/generated-api/friends/friends';
+import {
+  postFriendsCancelRequest,
+  postFriendsRespondRequest,
+  postFriendsSendRequest
+} from '~/generated-api/friends/friends';
 import { FriendshipStatus, UserProfile } from '~/generated-api/model';
 import { router } from '~/main';
 
-export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, lastName, friendshipStatus }: UserProfile) => {
+export const SearchFriendCard = ({
+  id,
+  lowQualityPhotoUrl,
+  username,
+  firstName,
+  lastName,
+  friendshipStatus
+}: UserProfile) => {
   const [localStatus, setLocalStatus] = useState<FriendshipStatus>(friendshipStatus ?? FriendshipStatus.None);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,7 +31,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
     mutationFn: postFriendsSendRequest,
     onSuccess: async () => {
       setLocalStatus(FriendshipStatus.OutcomeRequest);
-      
+
       notifications.show({
         title: 'Запрос в друзья отправлен',
         message: undefined,
@@ -33,7 +44,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
     mutationFn: postFriendsCancelRequest,
     onSuccess: async () => {
       setLocalStatus(FriendshipStatus.None);
-      
+
       notifications.show({
         title: 'Запрос в друзья отменен',
         message: undefined,
@@ -46,7 +57,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
     mutationFn: postFriendsRespondRequest,
     onSuccess: async ({ friendshipStatus }) => {
       setLocalStatus(friendshipStatus ?? FriendshipStatus.None);
-      
+
       notifications.show({
         title: friendshipStatus == FriendshipStatus.Friend ? 'Заявка принята' : 'Заявка отклонена',
         message: undefined,
@@ -84,7 +95,7 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
 
   return (
     <Card className={styles.friendCard}>
-      <div className={styles.person} 
+      <div className={styles.person}
         onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
         <Avatar
           src={lowQualityPhotoUrl || '/default-profile.png'}
@@ -98,27 +109,27 @@ export const SearchFriendCard = ({ id, lowQualityPhotoUrl, username, firstName, 
             {lastName}
           </Text>
           <Text span className={_styles.textGray}>
-          @
+            @
             {username}
           </Text>
         </div>
       </div>
 
       {localStatus == FriendshipStatus.OutcomeRequest && (
-        <ActionIcon variant="transparent" onClick={onRemoveRequest} loading={isLoading}>
-          <XIcon24Regular />
+        <ActionIcon variant='transparent' onClick={onRemoveRequest} loading={isLoading}>
+          <XIcon24Regular/>
         </ActionIcon>
       )}
 
       {localStatus == FriendshipStatus.IncomeRequest && (
-        <ActionIcon variant="transparent" onClick={onRespondRequest} loading={isLoading}>
-          <CheckAIcon24Regular />
+        <ActionIcon variant='transparent' onClick={onRespondRequest} loading={isLoading}>
+          <CheckAIcon24Regular/>
         </ActionIcon>
       )}
 
       {localStatus == FriendshipStatus.None && (
-        <ActionIcon variant="transparent" onClick={onSentRequest} loading={isLoading}>
-          <People1PlusIcon24Regular />
+        <ActionIcon variant='transparent' onClick={onSentRequest} loading={isLoading}>
+          <People1PlusIcon24Regular/>
         </ActionIcon>
       )}
     </Card>

@@ -9,13 +9,17 @@ import _styles from '~/index.module.css';
 import { AppRoute } from '~/conts';
 import { getGetItemsFriendsByBookQueryKey, getGetItemsMyByBookQueryKey } from '~/generated-api/items/items';
 import { ItemModel } from '~/generated-api/model';
-import { postQueueItemIdBecomeHolder, postQueueItemIdEnqueue, postQueueItemIdLeaveQueue } from '~/generated-api/queue/queue';
+import {
+  postQueueItemIdBecomeHolder,
+  postQueueItemIdEnqueue,
+  postQueueItemIdLeaveQueue
+} from '~/generated-api/queue/queue';
 import { useGetUsersMe } from '~/generated-api/users/users';
 import { getNounForm } from '~/helpers/helpers';
 import { router } from '~/main';
 
 interface QueueProps extends ItemModel {
-  bookId: string;
+    bookId: string;
 }
 
 export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: QueueProps) => {
@@ -53,13 +57,14 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
   const isUserOwner: boolean = owner.username === userData?.username;
 
   return (
-    <Card className={`${styles.queue} ${isUserInQueue && styles.backgroundBlue} ${isUserHolder && styles.backgroundPink}`}>
+    <Card
+      className={`${styles.queue} ${isUserInQueue && styles.backgroundBlue} ${isUserHolder && styles.backgroundPink}`}>
       <Flex direction='column' gap='sm'>
         <Text span className={_styles.textGray}>Владелец</Text>
         <Flex gap='md'>
           <Avatar
             src={owner!.lowQualityPhotoUrl || '/default-profile.png'}
-            radius="xl"
+            radius='xl'
             size={41}
           />
           <Flex direction='column' gap='xs'>
@@ -68,18 +73,19 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
               {' '}
               {owner!.lastName}
             </Text>
-            <Anchor onClick={() => router.navigate(AppRoute.User.replace(':username', owner!.username!))}>Перейти в профиль</Anchor>
+            <Anchor onClick={() => router.navigate(AppRoute.User.replace(':username', owner!.username!))}>Перейти
+              в профиль</Anchor>
           </Flex>
         </Flex>
       </Flex>
 
-      {!isUserHolder ? 
+      {!isUserHolder ?
         <Flex direction='column' gap='sm'>
           <Text span className={_styles.textGray}>Текущий держатель</Text>
           <Flex gap='md'>
             <Avatar
               src={holder.lowQualityPhotoUrl || '/default-profile.png'}
-              radius="xl"
+              radius='xl'
               size={41}
             />
             <Flex direction='column' gap='xs'>
@@ -93,20 +99,22 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
           </Flex>
         </Flex>
         : (firstInQueue
-          ? <Text>Книга у вас. За вами в очереди стоит человек. После прочтения книги, свяжитесь с ним и передайте её.</Text>
-          : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не появится — отдайте книгу владельцу после прочтения.</Text>)}
+          ? <Text>Книга у вас. За вами в очереди стоит человек. После прочтения книги, свяжитесь с ним и
+            передайте её.</Text>
+          : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не
+            появится — отдайте книгу владельцу после прочтения.</Text>)}
 
       {!isUserHolder
         ? (!queue || queue.length == 0
           ? <Text className={_styles.textGray}>Пока что никого нет в очереди, но вы можете быть первым.</Text>
           : (
-            <Flex gap={4} direction="column">
+            <Flex gap={4} direction='column'>
               <Text span className={_styles.textGray}>
                 {queue.length}
                 {' '}
                 {getNounForm(queue.length, 'человек', 'человека', 'человек')}
                 {' '}
-                    в очереди
+                в очереди
               </Text>
               <Avatar.Group>
                 {queue.map((avatar, index) => (
@@ -114,7 +122,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
                     key={index}
                     src={avatar.lowQualityPhotoUrl || '/default-profile.png'}
                     size={41}
-                    radius="xl"
+                    radius='xl'
                   />
                 ))}
               </Avatar.Group>
@@ -126,7 +134,7 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
             <Flex gap='md'>
               <Avatar
                 src={firstInQueue.lowQualityPhotoUrl ?? '/default-profile.png'}
-                radius="xl"
+                radius='xl'
                 size={41}
               />
               <Flex direction='column' gap='xs'>
@@ -145,16 +153,18 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
           </Flex>)}
 
       {!isUserHolder && (!isUserInQueue
-        ? isUserOwner 
+        ? isUserOwner
           ? <Flex direction='column' align={'center'} gap='sm' className={styles.buttonWrapper}>
-            <Button variant="white" fullWidth onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
-            <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
+            <Button variant='white' fullWidth onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
+            <Button variant='white' fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
           </Flex>
-          : <Button variant="white" fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
+          : <Button variant='white' fullWidth onClick={() => enqueue(itemId!)}>Встать в очередь</Button>
         : (
           <Flex gap='sm' className={styles.buttonWrapper}>
-            <Button variant="white" fullWidth disabled={!isUserFirst && !isUserOwner} onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
-            <ActionIcon variant="white" onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular /></ActionIcon>
+            <Button variant='white' fullWidth disabled={!isUserFirst && !isUserOwner}
+              onClick={() => becomeHolder(itemId!)}>Книга у меня</Button>
+            <ActionIcon variant='white'
+              onClick={() => leaveQueue(itemId!)}><ArrowUiAuthLogoutIcon24Regular/></ActionIcon>
           </Flex>
         ))}
     </Card>

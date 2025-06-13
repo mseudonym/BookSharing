@@ -17,12 +17,12 @@ export const PrivateRoute = () => {
       setIsAuthenticated(result);
       setIsLoading(false);
     };
-    verifyAuth();
+    verifyAuth().then();
   }, []);
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader/>;
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to={AppRoute.Root} replace />;
+  return isAuthenticated ? <Outlet/> : <Navigate to={AppRoute.Root} replace/>;
 };

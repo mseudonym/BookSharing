@@ -26,7 +26,11 @@ export const BookPage = () => {
   const { id } = useParams();
   const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
   const { data: ownerQueue } = useGetItemsMyByBook({ bookId: id });
-  const { data: queueList, isLoading: isLoadingQueues, isError: isErrorQueues } = useGetItemsFriendsByBook({ bookId: id });
+  const {
+    data: queueList,
+    isLoading: isLoadingQueues,
+    isError: isErrorQueues
+  } = useGetItemsFriendsByBook({ bookId: id });
   const [opened, { open, close }] = useDisclosure(false);
 
   const { mutateAsync: deleteBook } = useMutation({
@@ -41,16 +45,16 @@ export const BookPage = () => {
   };
 
   if (isLoadingBook || isLoadingQueues) {
-    return <LoadingPage />;
+    return <LoadingPage/>;
   }
 
   if (isErrorBook || isErrorQueues || !book) {
-    return <ErrorPage />;
+    return <ErrorPage/>;
   }
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Удалить книгу?" centered>
+      <Modal opened={opened} onClose={close} title='Удалить книгу?' centered>
         <Text className={_styles.textGray}>Это также удалит все очереди за ней.</Text>
         <SimpleGrid
           cols={{ base: 1, sm: 2 }}
@@ -58,41 +62,43 @@ export const BookPage = () => {
           verticalSpacing={{ base: 'md' }}
           style={{ width: '100%' }}
         >
-          <Button variant="filled" onClick={onDeleteBook}>
-              Да, удалить
+          <Button variant='filled' onClick={onDeleteBook}>
+            Да, удалить
           </Button>
-          <Button  color="outline" onClick={close}>
-              Нет, оставить
+          <Button color='outline' onClick={close}>
+            Нет, оставить
           </Button>
         </SimpleGrid>
       </Modal>
       <Page>
-        <Header variant="auto" withPadding hideOnDesktop>
-          <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-            <ArrowALeftIcon24Regular />
+        <Header variant='auto' withPadding hideOnDesktop>
+          <ActionIcon variant='transparent' onClick={() => {
+            window.history.back();
+          }}>
+            <ArrowALeftIcon24Regular/>
           </ActionIcon>
 
           {ownerQueue && <Menu position='bottom-end' offset={-50}>
             <Menu.Target>
-              <ActionIcon variant="transparent">
-                <UiMenuDots3HIcon24Regular />
+              <ActionIcon variant='transparent'>
+                <UiMenuDots3HIcon24Regular/>
               </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
-              Удалить книгу с полки
+                Удалить книгу с полки
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>}
 
         </Header>
 
-        <Wrapper background='none' noPaddingHorizontal noGap className={styles.bookWrapper}>
+        <Wrapper backgroundColor='none' noPaddingHorizontal noGap className={styles.bookWrapper}>
           <div className={styles.bookCover}>
-            <Image className={styles.bookImage} src={book.bookCoverUrl} />
-            <div className={styles.roundRect} />
+            <Image className={styles.bookImage} src={book.bookCoverUrl}/>
+            <div className={styles.roundRect}/>
           </div>
-          <Image className={styles.bookImageDesktop} src={book.bookCoverUrl} />
+          <Image className={styles.bookImageDesktop} src={book.bookCoverUrl}/>
           <div className={styles.bookContent}>
             <div className={styles.bookInfo}>
               <div className={styles.bookHeader}>
@@ -102,7 +108,7 @@ export const BookPage = () => {
                   <Text span className={_styles.textGray}>
                     {book.publicationYear}
                     {' '}
-                г.
+                    г.
                   </Text>
                 </div>
                 <Title order={5} ta='center'>{book?.title}</Title>
@@ -111,47 +117,47 @@ export const BookPage = () => {
                 <Text span className={_styles.textGray}>Описание</Text>
                 <Text>{book?.description}</Text>
               </div>
-              <Divider my="l" />
+              <Divider my='l'/>
             </div>
-          
-            {ownerQueue && 
+
+            {ownerQueue &&
             <section className={styles.queues}>
-              <Header className={styles.queueTitle} variant="left" withPadding>
+              <Header className={styles.queueTitle} variant='left' withPadding>
                 <Title order={5}>Эта книга у ваc</Title>
               </Header>
-              <Queue {...ownerQueue} bookId={id!} key={id!} />
-              <Divider my="l" />
+              <Queue {...ownerQueue} bookId={id!} key={id!}/>
+              <Divider my='l'/>
             </section>
             }
 
             {queueList == undefined || queueList.length == 0 ?
               <section className={styles.queues}>
-                <Header className={styles.queueTitle} variant="left" withPadding>
+                <Header className={styles.queueTitle} variant='left' withPadding>
                   <Title order={5}>Этой книги нет у ваших друзей</Title>
                 </Header>
                 <IllustrationWrapper
-                  src="/queue-illustration.svg"
-                  alt="Queue is empty illustration"
+                  src='/queue-illustration.svg'
+                  alt='Queue is empty illustration'
                 />
               </section>
               :
               <section className={styles.queues}>
-                <Header className={styles.queueTitle} variant="left" withPadding>
+                <Header className={styles.queueTitle} variant='left' withPadding>
                   <Title order={5}>Эта книга у ваших друзей</Title>
                 </Header>
-                {queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!} />)}
+                {queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!}/>)}
               </section>
             }
           </div>
           {ownerQueue && <Menu position='bottom-end' offset={-50}>
             <Menu.Target>
-              <ActionIcon variant="transparent" className={styles.menuDesktopButton}>
-                <UiMenuDots3HIcon24Regular />
+              <ActionIcon variant='transparent' className={styles.menuDesktopButton}>
+                <UiMenuDots3HIcon24Regular/>
               </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item onClick={open} leftSection={<TrashCanIcon24Regular/>}>
-              Удалить книгу с полки
+                Удалить книгу с полки
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>}

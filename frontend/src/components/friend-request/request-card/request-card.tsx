@@ -9,7 +9,11 @@ import styles from '~/components/friend-request/friend-request.module.css';
 import _styles from '~/index.module.css';
 
 import { AppRoute } from '~/conts';
-import { getGetFriendsListQueryKey, getGetFriendsRequestsReceivedQueryKey, postFriendsRespondRequest } from '~/generated-api/friends/friends';
+import {
+  getGetFriendsListQueryKey,
+  getGetFriendsRequestsReceivedQueryKey,
+  postFriendsRespondRequest
+} from '~/generated-api/friends/friends';
 import { UserProfile } from '~/generated-api/model';
 import { router } from '~/main';
 
@@ -52,7 +56,8 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
 
   return (
     <Card className={styles.friendCard}>
-      <div className={styles.person} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
+      <div className={styles.person}
+        onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
         <Avatar
           src={lowQualityPhotoUrl || '/default-profile.png'}
           className={styles.avatar}
@@ -65,17 +70,17 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
             {lastName}
           </Text>
           <Text span className={_styles.textGray}>
-          @
+            @
             {username}
           </Text>
         </div>
       </div>
       <Flex>
-        <ActionIcon loading={isLoadingAccept} variant="transparent" onClick={onAccept}>
-          <CheckAIcon24Regular className={styles.checkButton} />
+        <ActionIcon loading={isLoadingAccept} variant='transparent' onClick={onAccept}>
+          <CheckAIcon24Regular className={styles.checkButton}/>
         </ActionIcon>
-        <ActionIcon loading={isLoadingReject} variant="transparent" onClick={onReject}>
-          <XIcon24Regular className={styles.crossButton} />
+        <ActionIcon loading={isLoadingReject} variant='transparent' onClick={onReject}>
+          <XIcon24Regular className={styles.crossButton}/>
         </ActionIcon>
       </Flex>
     </Card>

@@ -9,13 +9,15 @@ import { PageWithWrapper } from '~/ui/pages';
 export const ISBNScanningPage = () => {
   return (
     <PageWithWrapper alignWrapper='center'>
-      <Header variant="left">
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
+      <Header variant='left'>
+        <ActionIcon variant='transparent' onClick={() => {
+          window.history.back();
+        }}>
+          <ArrowALeftIcon24Regular/>
         </ActionIcon>
         <Title order={5}>Сканирование ISBN</Title>
       </Header>
-      
+
       <ISBNScanner/>
     </PageWithWrapper>
   );

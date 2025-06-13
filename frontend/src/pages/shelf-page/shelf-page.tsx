@@ -15,28 +15,28 @@ export const ShelfPage = () => {
   const { data: bookList, isLoading, isError } = useGetBooksAllFriendsBooks();
 
   if (isLoading) {
-    return <LoadingPage />;
+    return <LoadingPage/>;
   }
 
   if (isError) {
-    return <ErrorPage />;
+    return <ErrorPage/>;
   }
 
   return (
     <PageWithWrapper>
-      <Header variant="left">
+      <Header variant='left'>
         <Title order={5}>Полка друзей</Title>
       </Header>
       <section className={styles.bookList}>
         {bookList == undefined || bookList.length == 0
           ? (
             <IllustrationWrapper
-              src="/shelf-illustration.svg"
-              alt="Shelf is empty illustration"
-              text="Добавьте друзей, чтобы увидеть книги, которые они выложили."
+              src='/shelf-illustration.svg'
+              alt='Shelf is empty illustration'
+              text='Добавьте друзей, чтобы увидеть книги, которые они выложили.'
             />
           )
-          : bookList.map((book) => <BookCard {...book} key={book.id} />)}
+          : bookList.map((book) => <BookCard {...book} key={book.id}/>)}
       </section>
     </PageWithWrapper>
   );

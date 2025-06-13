@@ -45,31 +45,29 @@ export const EmailSettingsForm = () => {
         message: undefined,
         color: 'var(--green-color)',
       });
-    }
-  });
-
-  const onSubmit = async (data: IFormInput) => {
-    try {
-      setIsLoading(true);
-      await updateEmail({
-        newEmail: data.email,
-      });
-    } catch (error) {
+    },
+    onError: () => {
       notifications.show({
         title: 'Ошибка сохранения',
         message: undefined,
         color: 'var(--red-color)',
       });
-    } finally {
-      setIsLoading(false);
     }
+  });
+
+  const onSubmit = async (data: IFormInput) => {
+    setIsLoading(true);
+    await updateEmail({
+      newEmail: data.email,
+    });
+    setIsLoading(false);
   };
 
-  if (isLoadingUserMe){
+  if (isLoadingUserMe) {
     return <LoadingPage/>;
   }
 
-  if(isErrorUserMe) {
+  if (isErrorUserMe) {
     return <ErrorPage/>;
   }
 
@@ -77,20 +75,20 @@ export const EmailSettingsForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form}`}>
       <Text className={_styles.textGray}>Текущий адрес</Text>
       <Text>{userMe?.email}</Text>
-      
+
 
       <TextInput
-        label="Новая почта"
-        placeholder="Введите новую почту"
+        label='Новая почта'
+        placeholder='Введите новую почту'
         {...register('email')}
         error={errors?.email?.message}
       />
       <Button
-        variant="filled"
-        type="submit"
+        variant='filled'
+        type='submit'
         fullWidth
-        loading={isLoading} >
-          Подтвердить почту
+        loading={isLoading}>
+        Подтвердить почту
       </Button>
     </form>
   );

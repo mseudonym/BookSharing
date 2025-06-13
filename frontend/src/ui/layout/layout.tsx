@@ -22,12 +22,12 @@ export const Layout = () => {
     <AppShell
       navbar={{ width: 236, breakpoint: 'sm' }}
     >
-      
-      <Sidebar />
-      {shouldShowNavbar && <Navbar />}
+
+      <Sidebar/>
+      {shouldShowNavbar && <Navbar/>}
 
       <AppShell.Main>
-        <Outlet />
+        <Outlet/>
       </AppShell.Main>
     </AppShell>
   );

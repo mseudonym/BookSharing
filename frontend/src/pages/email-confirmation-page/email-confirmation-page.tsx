@@ -18,13 +18,11 @@ export const EmailConfirmationPage = () => {
 
   const userId = searchParams.get('userId') || undefined;
   const code = searchParams.get('code') || undefined;
-    
-  // Если прилетел email — значит пользователь изменил почту, нужно отобразить это в интерфейсе
   const email = searchParams.get('email') || undefined;
 
   const { isPending, isError, mutateAsync: confirmEmailMutation } = useMutation({
     mutationFn: postAuthConfirmEmail,
-    onError: (error) => {
+    onError: () => {
       notifications.show({
         title: 'Ошибка подтверждения',
         message: 'Не удалось подтвердить email',
@@ -37,42 +35,44 @@ export const EmailConfirmationPage = () => {
     if (userId && code) {
       confirmEmailMutation({ userId, code, changedEmail: email }).then();
     }
-  }, [userId, code, email]);
+  }, [userId, code, email, confirmEmailMutation]);
 
   return (
-    <PageWithWrapper alignWrapper="center" withoutMenu>
-      <Header variant="left">
+    <PageWithWrapper alignWrapper='center' withoutMenu>
+      <Header variant='left'>
       </Header>
 
       {isPending ?
         <Loader/>
-        : (isError 
+        : (isError
           ? <>
             <Title order={5} ta='center'>Ошибка при подтверждении почты</Title>
             <Text className={_styles.textGray}>Ссылка устарела.</Text>
             <IllustrationWrapper
-              src="/email-error.svg"
-              alt="Email error illustration"
+              src='/email-error.svg'
+              alt='Email error illustration'
             />
           </>
-          : (email 
+          : (email
             ? <>
               <Title order={5} ta='center'>Почта успешно изменена</Title>
               <Text className={_styles.textGray}>Можно продолжить использование приложения.</Text>
               <IllustrationWrapper
-                src="/email-confirmed.svg"
-                alt="Email confirmed illustration"
+                src='/email-confirmed.svg'
+                alt='Email confirmed illustration'
               />
-              <Button variant='filled' onClick={() => router.navigate(AppRoute.Storage)}>Вернуться на главную</Button>
+              <Button variant='filled' onClick={() => router.navigate(AppRoute.Storage)}>Вернуться
+                на главную</Button>
             </>
             : <>
               <Title order={5} ta='center'>Почта успешно подтверждена</Title>
               <Text className={_styles.textGray}>Можно переходить к следующему шагу.</Text>
               <IllustrationWrapper
-                src="/email-confirmed.svg"
-                alt="Email confirmed illustration"
+                src='/email-confirmed.svg'
+                alt='Email confirmed illustration'
               />
-              <Button variant='filled' onClick={() => router.navigate(AppRoute.ProfileFilling)}>Перейти к заполнению профиля</Button>
+              <Button variant='filled' onClick={() => router.navigate(AppRoute.ProfileFilling)}>Перейти
+                к заполнению профиля</Button>
             </>
           )
         )

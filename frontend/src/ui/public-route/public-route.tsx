@@ -15,18 +15,18 @@ export const PublicRoute = () => {
       try {
         const isAuth = await checkAuth(false);
         setIsAuthenticated(isAuth);
-      } catch (error) {
+      } catch {
         setIsAuthenticated(false);
       } finally {
         setIsLoading(false);
       }
     };
-    verifyAuth();
+    verifyAuth().then();
   }, []);
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader/>;
   }
 
-  return isAuthenticated ? <Navigate to={AppRoute.Shelf} replace /> : <Outlet />;
+  return isAuthenticated ? <Navigate to={AppRoute.Shelf} replace/> : <Outlet/>;
 }; 

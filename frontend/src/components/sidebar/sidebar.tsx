@@ -26,38 +26,38 @@ const allSidebarItems = [
   {
     value: AppRoute.Shelf,
     label: 'Полка друзей',
-    iconRegular: <BooksLibraryIcon24Regular />,
-    iconSolid: <BooksLibraryIcon24Solid />,
+    iconRegular: <BooksLibraryIcon24Regular/>,
+    iconSolid: <BooksLibraryIcon24Solid/>,
   },
   {
     value: AppRoute.Friends,
     label: 'Друзья',
-    iconRegular: <People2Icon24Regular />,
-    iconSolid: <People2Icon24Solid />,
+    iconRegular: <People2Icon24Regular/>,
+    iconSolid: <People2Icon24Solid/>,
   },
   {
     value: AppRoute.Storage,
     label: 'Предметы',
-    iconRegular: <FolderIcon24Regular />,
-    iconSolid: <FolderIcon24Solid />,
+    iconRegular: <FolderIcon24Regular/>,
+    iconSolid: <FolderIcon24Solid/>,
   },
   {
     value: AppRoute.Profile,
     label: 'Профиль',
-    iconRegular: <People1Icon24Regular />,
-    iconSolid: <People1Icon24Solid />,
+    iconRegular: <People1Icon24Regular/>,
+    iconSolid: <People1Icon24Solid/>,
   },
   {
     value: '',
     label: 'Уведомления',
-    iconRegular: <NotificationBellIcon24Regular />,
-    iconSolid: <NotificationBellIcon24Solid />,
+    iconRegular: <NotificationBellIcon24Regular/>,
+    iconSolid: <NotificationBellIcon24Solid/>,
   },
   {
     value: AppRoute.Settings,
     label: 'Настройки',
-    iconRegular: <SettingsGearIcon24Regular />,
-    iconSolid: <SettingsGearIcon24Solid />,
+    iconRegular: <SettingsGearIcon24Regular/>,
+    iconSolid: <SettingsGearIcon24Solid/>,
   },
 ];
 
@@ -72,7 +72,7 @@ export const Sidebar = () => {
     }
     router.navigate(value);
   };
-  
+
   const mainItems = allSidebarItems.slice(0, 4);
   const footerItems = allSidebarItems.slice(4);
 
@@ -105,10 +105,10 @@ export const Sidebar = () => {
 
       <AppShell.Section grow>
         <SegmentedControl
-          orientation="vertical"
-          size="md"
+          orientation='vertical'
+          size='md'
           withItemsBorders={false}
-          radius="md"
+          radius='md'
           value={pathname}
           onChange={handleNavigate}
           data={menuData}
@@ -124,12 +124,12 @@ export const Sidebar = () => {
       <Drawer
         opened={isNotificationsOpen}
         onClose={() => setIsNotificationsOpen(false)}
-        title="Уведомления"
-        position="left"
-        size="md"
+        title='Уведомления'
+        position='left'
+        size='md'
       >
         {/* Здесь будет содержимое уведомлений */}
       </Drawer>
-    </AppShell.Navbar>  
+    </AppShell.Navbar>
   );
 };

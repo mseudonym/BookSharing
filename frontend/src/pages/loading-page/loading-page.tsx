@@ -5,8 +5,8 @@ import { Page } from '~/ui/pages';
 
 export const LoadingPage = () => {
   return (
-    <Page backgroundColor="white">
-      <Loader />
+    <Page backgroundColor='white'>
+      <Loader/>
     </Page>
   );
 };

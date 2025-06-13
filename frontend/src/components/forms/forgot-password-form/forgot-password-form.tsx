@@ -42,33 +42,31 @@ export const ForgotPasswordForm = () => {
         color: 'var(--green-color)',
       });
     },
-  });
-
-  const onSubmit = async (data: IFormInput) => {
-    try {
-      setIsLoading(true);
-      await resetPasswordMutation({ email: data.email });
-    } catch (error) {
+    onError: () => {
       notifications.show({
         title: 'Ошибка сброса пароля',
         message: undefined,
         color: 'var(--red-color)',
       });
-    } finally {
-      setIsLoading(false);
     }
+  });
+
+  const onSubmit = async (data: IFormInput) => {
+    setIsLoading(true);
+    await resetPasswordMutation({ email: data.email });
+    setIsLoading(false);
   };
-  
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formPadding}`}>
       <TextInput
-        label="Почта"
-        placeholder="Введите почту"
+        label='Почта'
+        placeholder='Введите почту'
         {...register('email')}
         error={errors?.email?.message}
-      />
+            />
 
-      <Button fullWidth variant="filled" loading={isLoading} onClick={handleSubmit(onSubmit)}>
+      <Button fullWidth variant='filled' loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти
       </Button>
     </form>

@@ -16,7 +16,12 @@ import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { AppRoute } from '~/conts';
 import { useGetBooksFriendBooks } from '~/generated-api/books/books';
-import {  deleteFriendsDelete, getGetFriendsListQueryKey, postFriendsCancelRequest, postFriendsRespondRequest } from '~/generated-api/friends/friends';
+import {
+  deleteFriendsDelete,
+  getGetFriendsListQueryKey,
+  postFriendsCancelRequest,
+  postFriendsRespondRequest
+} from '~/generated-api/friends/friends';
 import { postFriendsSendRequest } from '~/generated-api/friends/friends';
 import { FriendshipStatus } from '~/generated-api/model';
 import { getGetUsersUsernameQueryKey, useGetUsersMe, useGetUsersUsername } from '~/generated-api/users/users';
@@ -42,7 +47,7 @@ export const UserPage = () => {
   const { mutateAsync: sendRequest } = useMutation({
     mutationFn: postFriendsSendRequest,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
+      await queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
       notifications.show({
         title: 'Запрос в друзья отправлен',
         message: undefined,
@@ -114,11 +119,11 @@ export const UserPage = () => {
   };
 
   if (isLoadingUser || isLoadingBooks || isLoadingUserMe || isErrorUserMe) {
-    return <LoadingPage />;
+    return <LoadingPage/>;
   }
 
-  if (isErrorUser || isErrorBooks || isErrorUserMe || !user ) {
-    return <ErrorPage />;
+  if (isErrorUser || isErrorBooks || isErrorUserMe || !user) {
+    return <ErrorPage/>;
   }
 
   if (userMe?.id === user?.id) {
@@ -127,34 +132,37 @@ export const UserPage = () => {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Удалить из друзей?" centered>
-        <Text className={_styles.textGray}>Человек удалится из всех ваших очередей, а вы будете удалены из всех очередей человека.</Text>
+      <Modal opened={opened} onClose={close} title='Удалить из друзей?' centered>
+        <Text className={_styles.textGray}>Человек удалится из всех ваших очередей, а вы будете удалены из всех
+          очередей человека.</Text>
         <SimpleGrid
           cols={{ base: 1, sm: 2 }}
           spacing={{ base: 'md' }}
           verticalSpacing={{ base: 'md' }}
           style={{ width: '100%' }}
         >
-          <Button variant="filled" onClick={onDeleteFriend} loading={isLoading}>
-          Да, удалить
+          <Button variant='filled' onClick={onDeleteFriend} loading={isLoading}>
+            Да, удалить
           </Button>
-          <Button  color="outline" onClick={close}>
-          Нет, оставить
+          <Button color='outline' onClick={close}>
+            Нет, оставить
           </Button>
         </SimpleGrid>
       </Modal>
 
       <Page>
-        <Header variant="auto" withPadding hideOnDesktop>
-          <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-            <ArrowALeftIcon24Regular />
+        <Header variant='auto' withPadding hideOnDesktop>
+          <ActionIcon variant='transparent' onClick={() => {
+            window.history.back();
+          }}>
+            <ArrowALeftIcon24Regular/>
           </ActionIcon>
 
           {user.friendshipStatus == FriendshipStatus.Friend && (
             <Menu position='bottom-end' offset={-50}>
               <Menu.Target>
-                <ActionIcon variant="transparent">
-                  <UiMenuDots3HIcon24Regular />
+                <ActionIcon variant='transparent'>
+                  <UiMenuDots3HIcon24Regular/>
                 </ActionIcon>
               </Menu.Target>
               <Menu.Dropdown>
@@ -169,7 +177,7 @@ export const UserPage = () => {
         <div className={styles.userContent}>
           <Avatar
             src={user.highQualityPhotoUrl || '/default-profile.png'}
-            alt="Avatar"
+            alt='Avatar'
             className={styles.avatar}
           />
 
@@ -181,45 +189,50 @@ export const UserPage = () => {
                 {user.lastName}
               </Title>
               <Text span className={`${_styles.textGray} ${styles.userName}`}>
-            @
+                @
                 {user.username}
               </Text>
             </div>
 
             {user.friendshipStatus == FriendshipStatus.None && (
-              <Button fullWidth loading={isLoading} variant={width < 768 ? 'white' : 'outline'} leftSection={<People1PlusIcon24Regular />} onClick={onSentRequest}>
-            Добавить в друзья
+              <Button fullWidth loading={isLoading} variant={width < 768 ? 'white' : 'outline'}
+                leftSection={<People1PlusIcon24Regular/>} onClick={onSentRequest}>
+                Добавить в друзья
               </Button>
             )}
 
             {user.friendshipStatus == FriendshipStatus.OutcomeRequest && (
-              <Button fullWidth loading={isLoading} variant={width < 768 ? 'white' : 'outline'} leftSection={<XIcon24Regular/>} onClick={onRemoveRequest}>
-            Отменить заявку
+              <Button fullWidth loading={isLoading} variant={width < 768 ? 'white' : 'outline'}
+                leftSection={<XIcon24Regular/>} onClick={onRemoveRequest}>
+                Отменить заявку
               </Button>
             )}
 
             {user.friendshipStatus == FriendshipStatus.IncomeRequest && (
               <Flex gap='sm' className={styles.userRespondActions}>
-                <Button fullWidth variant={width < 768 ? 'white' : 'outline'} leftSection={<CheckAIcon24Regular color='var(--green-color)' />} onClick={() => onRespondRequest({ isAccepted: true })}>
-              Принять заявку
+                <Button fullWidth variant={width < 768 ? 'white' : 'outline'}
+                  leftSection={<CheckAIcon24Regular color='var(--green-color)'/>}
+                  onClick={() => onRespondRequest({ isAccepted: true })}>
+                  Принять заявку
                 </Button>
-                <ActionIcon variant={width < 768 ? 'white' : 'outline'} onClick={() => onRespondRequest({ isAccepted: false })}>
-                  <XIcon24Regular color='var(--red-color)' />
+                <ActionIcon variant={width < 768 ? 'white' : 'outline'}
+                  onClick={() => onRespondRequest({ isAccepted: false })}>
+                  <XIcon24Regular color='var(--red-color)'/>
                 </ActionIcon>
               </Flex>
             )}
 
             {user.friendshipStatus == FriendshipStatus.Friend && user.contactUrl && (
               <Anchor href={user.contactUrl} className={styles.userLink}>
-            Связаться
+                Связаться
               </Anchor>
             )}
           </div>
           {user.friendshipStatus == FriendshipStatus.Friend && (
             <Menu position='bottom-end' offset={-50}>
               <Menu.Target>
-                <ActionIcon variant="transparent" className={styles.menuDesktopButton}>
-                  <UiMenuDots3HIcon24Regular />
+                <ActionIcon variant='transparent' className={styles.menuDesktopButton}>
+                  <UiMenuDots3HIcon24Regular/>
                 </ActionIcon>
               </Menu.Target>
               <Menu.Dropdown>
@@ -238,17 +251,17 @@ export const UserPage = () => {
               bookList == undefined || bookList.length == 0
                 ? (
                   <IllustrationWrapper
-                    src="/profile-illustration.svg"
-                    alt="No books illustration"
-                    text="У твоего друга книг пока нет."
+                    src='/profile-illustration.svg'
+                    alt='No books illustration'
+                    text='У твоего друга книг пока нет.'
                   />
                 )
-                : bookList?.map((book) => <BookCard {...book} key={book.id} />)
+                : bookList?.map((book) => <BookCard {...book} key={book.id}/>)
             ) : (
               <IllustrationWrapper
-                src="/profile-illustration.svg"
-                alt="No available books illustration"
-                text="Книги скрыты. Добавьте человека в друзья, чтобы их увидеть."
+                src='/profile-illustration.svg'
+                alt='No available books illustration'
+                text='Книги скрыты. Добавьте человека в друзья, чтобы их увидеть.'
               />
             )}
           </div>

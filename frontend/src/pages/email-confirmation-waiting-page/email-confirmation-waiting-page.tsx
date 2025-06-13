@@ -1,4 +1,4 @@
-﻿import { ActionIcon, Anchor, Text, Title }  from '@mantine/core';
+﻿import { ActionIcon, Anchor, Text, Title } from '@mantine/core';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
@@ -47,10 +47,12 @@ export const EmailConfirmationWaitingPage = () => {
   }, [userData]);
 
   return (
-    <PageWithWrapper alignWrapper="center" withoutMenu>
-      <Header variant="left">
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
+    <PageWithWrapper alignWrapper='center' withoutMenu>
+      <Header variant='left'>
+        <ActionIcon variant='transparent' onClick={() => {
+          window.history.back();
+        }}>
+          <ArrowALeftIcon24Regular/>
         </ActionIcon>
       </Header>
       <Title order={5} ta='center'>
@@ -60,12 +62,13 @@ export const EmailConfirmationWaitingPage = () => {
         Чтобы это сделать, перейдите по ссылке, отправленной на почту.
       </Text>
       <IllustrationWrapper
-        src="/mail.svg"
-        alt="Email confirmation illustration"
+        src='/mail.svg'
+        alt='Email confirmation illustration'
       />
       {seconds === 0
         ? (
-          <Anchor className={_styles.anchorGray} onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
+          <Anchor className={_styles.anchorGray}
+            onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
             Отправить письмо ещё раз
           </Anchor>
         )

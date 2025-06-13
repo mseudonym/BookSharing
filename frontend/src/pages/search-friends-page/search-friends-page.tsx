@@ -13,10 +13,13 @@ export const SearchFriendsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { data: friendList } = useGetFriendsList();
   const { data: me } = useGetUsersMe();
-  const { data: userList, isLoading: isLoadingUserList } = useGetUsersSearchUsernamePrefix(searchQuery, { query: { enabled: searchQuery.length > 2 } });
+  const {
+    data: userList,
+    isLoading: isLoadingUserList
+  } = useGetUsersSearchUsernamePrefix(searchQuery, { query: { enabled: searchQuery.length > 2 } });
 
   const filteredUserList = useMemo(() => {
-    if (!userList || !friendList) 
+    if (!userList || !friendList)
       return userList;
     
     const friendIds = new Set(friendList.map((friend) => friend.id));
@@ -25,23 +28,26 @@ export const SearchFriendsPage = () => {
 
   return (
     <PageWithWrapper>
-      <Header variant="left">
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
+      <Header variant='left'>
+        <ActionIcon variant='transparent' onClick={() => {
+          window.history.back();
+        }}>
+          <ArrowALeftIcon24Regular/>
         </ActionIcon>
-        <Input placeholder="Введите никнейм пользователя" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+        <Input placeholder='Введите никнейм пользователя' value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}/>
       </Header>
 
-      {isLoadingUserList && <Loader />}
+      {isLoadingUserList && <Loader/>}
 
       {!isLoadingUserList && (filteredUserList == undefined || filteredUserList.length == 0)
         ? (
           <IllustrationWrapper
-            src="/search-illustration.svg"
-            alt="No users illustration"
-            text="Тут ничего нет. Введите никнейм пользователя или проверьте его на правильность."
+            src='/search-illustration.svg'
+            alt='No users illustration'
+            text='Тут ничего нет. Введите никнейм пользователя или проверьте его на правильность.'
           />
-        ) : filteredUserList?.map((user) => <SearchFriendCard {...user} key={user.id} />)}
+        ) : filteredUserList?.map((user) => <SearchFriendCard {...user} key={user.id}/>)}
     </PageWithWrapper>
   );
 };

@@ -6,7 +6,7 @@ import styles from '~/components/custom-mantine/password-input/password-input.mo
 
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>((props, ref) => {
   const { label, placeholder, error, ...rest } = props;
-  
+
   return (
     <MantinePasswordInput
       ref={ref}
@@ -16,9 +16,9 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       {...rest}
       visibilityToggleIcon={({ reveal }) =>
         reveal ? (
-          <EyeClosedIcon20Regular className={styles.eyeIcon} />
+          <EyeClosedIcon20Regular className={styles.eyeIcon}/>
         ) : (
-          <EyeOpenIcon20Regular className={styles.eyeIcon} />
+          <EyeOpenIcon20Regular className={styles.eyeIcon}/>
         )
       }
     />

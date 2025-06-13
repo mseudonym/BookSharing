@@ -11,17 +11,17 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const LoginPage = () => {
   return (
-    <PageWithWrapper alignWrapper="center" withoutMenu>
+    <PageWithWrapper alignWrapper='center' withoutMenu>
       <Flex direction='column' align='center' gap='lg' className={styles.head}>
-        <Logo />
+        <Logo/>
         <Title order={5} ta='center'>Вход</Title>
       </Flex>
 
-      <LoginForm />
+      <LoginForm/>
 
-      <Divider my="l" label="Или" />
-      <Button fullWidth variant="outline" onClick={async () => await router.navigate(AppRoute.Register)}>
-          Зарегистрироваться
+      <Divider my='l' label='Или'/>
+      <Button fullWidth variant='outline' onClick={async () => await router.navigate(AppRoute.Register)}>
+        Зарегистрироваться
       </Button>
     </PageWithWrapper>
   );

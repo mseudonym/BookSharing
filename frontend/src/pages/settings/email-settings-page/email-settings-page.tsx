@@ -9,15 +9,17 @@ import { PageWithWrapper } from '~/ui/pages';
 export const EmailSettingsPage = () => {
   return (
     <PageWithWrapper backgroundColor='white'>
-      <Header variant="left">
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
+      <Header variant='left'>
+        <ActionIcon variant='transparent' onClick={() => {
+          window.history.back();
+        }}>
+          <ArrowALeftIcon24Regular/>
         </ActionIcon>
         <Title order={6}>Изменение почты</Title>
       </Header>
 
-      <EmailSettingsForm />
-      
+      <EmailSettingsForm/>
+
     </PageWithWrapper>
   );
 };

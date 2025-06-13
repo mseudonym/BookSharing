@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import ISBN from 'isbn3';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import Webcam from 'react-webcam';
 
 import styles from '~/components/isbn-scanner/isbn-scanner.module.css';
@@ -41,14 +41,12 @@ export const ISBNScanner = () => {
     },
   });
 
-  // Camera settings
-  const videoConstraints = {
+  const videoConstraints = useMemo(() => ({
     facingMode: 'environment',
     width: { ideal: 640 },
     height: { ideal: 480 },
-  };
+  }), []);
 
-  // Открытие модального окна при выполнении условий
   useEffect(() => {
     if (!isLoading && isbn && !isError && bookData) {
       open();
@@ -57,12 +55,12 @@ export const ISBNScanner = () => {
     }
   }, [isLoading, isbn, isError, bookData, open, close]);
 
-  // Initialize Quagga and handle barcode detection
   useEffect(() => {
     let isMounted = true;
+    const currentWebcam = webcamRef.current;
 
     const initializeQuagga = () => {
-      if (!isMounted || !isScanning || !webcamRef.current || !webcamRef.current.video) {
+      if (!isMounted || !isScanning || !currentWebcam || !currentWebcam.video) {
         if (isMounted) {
           setError('Камера не инициализирована. Проверьте доступ к камере.');
           setIsScanning(false);
@@ -75,7 +73,7 @@ export const ISBNScanner = () => {
           inputStream: {
             name: 'Live',
             type: 'LiveStream',
-            target: webcamRef.current.video,
+            target: currentWebcam.video,
             constraints: videoConstraints,
           },
           decoder: {
@@ -95,7 +93,6 @@ export const ISBNScanner = () => {
         }
       );
 
-      // Handle detected barcode
       Quagga.onDetected((data) => {
         const code = data?.codeResult?.code;
         if (code && (code.startsWith('978') || code.startsWith('979'))) {
@@ -110,9 +107,8 @@ export const ISBNScanner = () => {
       });
     };
 
-    // Wait for video element to be ready
     const checkVideoReady = () => {
-      if (webcamRef.current && webcamRef.current.video && webcamRef.current.video.readyState >= 2) {
+      if (currentWebcam && currentWebcam.video && currentWebcam.video.readyState >= 2) {
         initializeQuagga();
       } else {
         setTimeout(checkVideoReady, 500);
@@ -123,19 +119,17 @@ export const ISBNScanner = () => {
       checkVideoReady();
     }
 
-    // Cleanup on unmount or when scanning stops
     return () => {
       isMounted = false;
       Quagga.stop();
       Quagga.offDetected();
-      if (webcamRef.current && webcamRef.current.video && webcamRef.current.video.srcObject) {
-        const stream = webcamRef.current.video.srcObject as MediaStream;
+      if (currentWebcam && currentWebcam.video && currentWebcam.video.srcObject) {
+        const stream = currentWebcam.video.srcObject as MediaStream;
         stream.getTracks().forEach((track) => track.stop());
       }
     };
-  }, [isScanning]);
+  }, [isScanning, videoConstraints]);
 
-  // Handle retry button
   const handleRetry = () => {
     setIsbn('');
     setError(null);
@@ -160,7 +154,6 @@ export const ISBNScanner = () => {
     }
   };
 
-  // Handle webcam errors
   const handleUserMediaError = (err: string | DOMException) => {
     const errorMessage = typeof err === 'string' ? err : err.message || 'Неизвестная ошибка';
     setError(`Ошибка доступа к камере: ${errorMessage}`);
@@ -178,22 +171,22 @@ export const ISBNScanner = () => {
             spacing={{ base: 'md' }}
             verticalSpacing={{ base: 'md' }}
             style={{ width: '100%' }}
-          >
-            <Button
-              variant="filled"
-              onClick={() => addBookToShelf({ bookId: bookData?.id })}
             >
-            Добавить книгу
+            <Button
+              variant='filled'
+              onClick={() => addBookToShelf({ bookId: bookData?.id })}
+              >
+              Добавить книгу
             </Button>
-            <Button variant="outline" onClick={close}>
-            Не добавлять
+            <Button variant='outline' onClick={close}>
+              Не добавлять
             </Button>
           </SimpleGrid>
         </Flex>
       </Modal>
 
       {isLoading && <Loader />}
-      
+
       {!isLoading && (isScanning ? (
         <>
           <Text ta='center' style={{ maxWidth: '800px' }}>
@@ -202,35 +195,33 @@ export const ISBNScanner = () => {
           <Webcam
             audio={false}
             ref={webcamRef}
-            screenshotFormat="image/jpeg"
+            screenshotFormat='image/jpeg'
             videoConstraints={videoConstraints}
             onUserMediaError={handleUserMediaError}
             style={{ width: '100%', maxWidth: '640px', border: '2px solid #ccc', borderRadius: '32px' }}
-          />
+              />
         </>
-      )
-        : (
-          <Flex direction="column" gap="md">
-            {isbn && !bookData && (
-              <>
-                <IllustrationWrapper
-                  src="/scan-error.svg"
-                  alt="Book isn't in database illustration"
-                />
-                <Text span>Книги в базе нет, но вы можете добавить её вручную.</Text>
-              </>
-            )}
-            <Text span>Распознанный ISBN: {ISBN.hyphenate(isbn)}</Text>
-            {error && <Text c="red">{error}</Text>}
-            <Button onClick={handleRetry} variant="filled">
+      ) : (
+        <Flex direction='column' gap='md'>
+          {isbn && !bookData && (
+          <>
+            <IllustrationWrapper
+              src='/scan-error.svg'
+              alt="Book isn't in database illustration"
+                    />
+            <Text span>Книги в базе нет, но вы можете добавить её вручную.</Text>
+          </>
+          )}
+          <Text span>Распознанный ISBN: {ISBN.hyphenate(isbn)}</Text>
+          {error && <Text c='red'>{error}</Text>}
+          <Button onClick={handleRetry} variant='filled'>
             Сканировать снова
-            </Button>
-            <Button onClick={() => router.navigate(AppRoute.AddBookManually)} variant="outline">
+          </Button>
+          <Button onClick={() => router.navigate(AppRoute.AddBookManually)} variant='outline'>
             Добавить книгу вручную
-            </Button>
-          </Flex>
-        )
-      )}
+          </Button>
+        </Flex>
+      ))}
     </>
   );
 };

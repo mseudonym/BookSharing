@@ -12,7 +12,7 @@ export const BookCard = ({ id, title, bookCoverUrl, author }: BookModel) => {
   return (
     <Card className={styles.bookCard} onClick={() => router.navigate(AppRoute.Book.replace(':id', id!))}>
       <Image
-        loading="lazy"
+        loading='lazy'
         src={bookCoverUrl ?? '/default-book-cover.png'}
         className={styles.bookCover}
         alt={`Book cover for ${title}`}

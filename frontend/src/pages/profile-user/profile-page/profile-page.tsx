@@ -22,24 +22,24 @@ export const ProfilePage = () => {
   const { data: bookList, isLoading: isLoadingBooks, isError: isErrorBooks } = useGetBooksMyBooks();
 
   if (isLoadingUser || isLoadingBooks) {
-    return <LoadingPage />;
+    return <LoadingPage/>;
   }
 
   if (isErrorUser || isErrorBooks || !user) {
-    return <ErrorPage />;
+    return <ErrorPage/>;
   }
 
   return (
     <Page>
-      <Header variant="right" withPadding hideOnDesktop>
-        <ActionIcon variant="transparent" onClick={() => router.navigate(AppRoute.Settings)}>
-          <SettingsGearIcon24Regular />
+      <Header variant='right' withPadding hideOnDesktop>
+        <ActionIcon variant='transparent' onClick={() => router.navigate(AppRoute.Settings)}>
+          <SettingsGearIcon24Regular/>
         </ActionIcon>
       </Header>
       <div className={styles.userContent}>
         <Avatar
           src={user.photoUrl || '/default-profile.png'}
-          alt="Avatar"
+          alt='Avatar'
           className={styles.avatar}
         />
         <div className={styles.userInfoAction}>
@@ -50,13 +50,13 @@ export const ProfilePage = () => {
               {user.lastName}
             </Title>
             <Text span className={`${_styles.textGray} ${styles.userName}`}>
-            @
+              @
               {user.username}
             </Text>
           </div>
           {user.contactUrl && (
             <Anchor href={user.contactUrl} className={styles.userLink}>
-            Связаться
+              Связаться
             </Anchor>
           )}
         </div>
@@ -64,10 +64,11 @@ export const ProfilePage = () => {
       <Wrapper>
         <Title order={6}>Книги для обмена</Title>
         <div className={styles.bookList}>
-          <Button variant="outline" className={styles.addBookButton} onClick={() => router.navigate(AppRoute.AddBook)}>
-            <PlusIcon24Regular />
+          <Button variant='outline' className={styles.addBookButton}
+            onClick={() => router.navigate(AppRoute.AddBook)}>
+            <PlusIcon24Regular/>
           </Button>
-          {bookList?.map((book) => <BookCard {...book} key={book.id} />)}
+          {bookList?.map((book) => <BookCard {...book} key={book.id}/>)}
         </div>
       </Wrapper>
     </Page>

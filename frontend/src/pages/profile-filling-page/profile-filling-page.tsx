@@ -10,14 +10,16 @@ import { PageWithWrapper } from '~/ui/pages';
 export const ProfileFillingPage = () => {
   return (
     <PageWithWrapper withoutMenu>
-      <Header variant="left">
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
+      <Header variant='left'>
+        <ActionIcon variant='transparent' onClick={() => {
+          window.history.back();
+        }}>
+          <ArrowALeftIcon24Regular/>
         </ActionIcon>
         <Title order={6}>Создание профиля</Title>
       </Header>
 
-      <ProfileFillingForm />
+      <ProfileFillingForm/>
 
     </PageWithWrapper>
   );

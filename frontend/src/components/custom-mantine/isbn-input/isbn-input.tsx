@@ -1,37 +1,40 @@
 import { TextInput, TextInputProps } from '@mantine/core';
+import { InputMask, type MaskOptions } from '@react-input/mask';
 import React, { forwardRef } from 'react';
-import InputMask from 'react-input-mask';
 
 type ISBNInputProps = TextInputProps & {
-  maskChar?: string | null;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  value?: string;
-  name?: string;
+    mask?: string;
+    replacement?: string | { [key: string]: RegExp };
+    showMask?: boolean;
 };
 
-export const ISBNInput = forwardRef<HTMLInputElement, ISBNInputProps>(
-  ({ maskChar = null, ...props }, ref) => {
+export const IsbnInput = forwardRef<HTMLInputElement, ISBNInputProps>(
+  (
+    {
+      mask = '___-_-__-______-_', // можно ли 97 сюда добавить
+      replacement = { _: /\d/ },
+      showMask = false,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <InputMask
-        mask="999-9-99-999999-9"
-        maskChar={maskChar}
-        alwaysShowMask={true}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-        value={props.value}
-        name={props.name}
-      >
-        {(inputProps) => (
-          <TextInput
-            {...props}
+      <TextInput
+        {...props}
+        ref={ref}
+        component={({
+          ...inputProps
+        }: React.InputHTMLAttributes<HTMLInputElement> & MaskOptions) => (
+          <InputMask
             {...inputProps}
-            ref={ref}
-          />
+            mask={mask}
+            replacement={replacement}
+            showMask={showMask}
+            />
         )}
-      </InputMask>
+        />
     );
   }
 );
 
-ISBNInput.displayName = 'ISBNInput';
+IsbnInput.displayName = 'ISBNInput';

@@ -59,20 +59,20 @@ export const ProfileSettingsForm = () => {
     },
 
     onError: (error: AxiosError<{
-      problemDetails: {
-        errors: {
-          UsernameAlreadyTakenError?: string[];
-        }
-      }
-    }>) => {
+            problemDetails: {
+                errors: {
+                    UsernameAlreadyTakenError?: string[];
+                }
+            }
+        }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.problemDetails.errors) {
-          const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0] 
-            && 'Никнейм уже занят') || undefined;
-          
+          const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0]
+                        && 'Никнейм уже занят') || undefined;
+
           notifications.show({
-            title: 'Ошибка сохранения', 
+            title: 'Ошибка сохранения',
             message: errorMessage,
             color: 'var(--red-color)',
           });
@@ -97,14 +97,14 @@ export const ProfileSettingsForm = () => {
   };
 
   if (isLoadingData) {
-    return <LoadingPage />;
+    return <LoadingPage/>;
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
-      <FileButton 
-        name="profilePhoto" 
-        type="avatar" 
+      <FileButton
+        name='profilePhoto'
+        type='avatar'
         error={errors?.profilePhoto?.message}
         setValue={setValue}
         setError={setError}
@@ -115,43 +115,43 @@ export const ProfileSettingsForm = () => {
           return result.success;
         }}
       />
-  
+
       <TextInput
-        label="Имя"
-        placeholder="Введите имя"
+        label='Имя'
+        placeholder='Введите имя'
         {...register('firstName')}
         error={errors?.firstName?.message}
       />
-  
+
       <TextInput
-        label="Фамилия"
-        placeholder="Введите фамилию"
+        label='Фамилия'
+        placeholder='Введите фамилию'
         {...register('lastName')}
         error={errors?.lastName?.message}
       />
-  
+
       <TextInput
-        label="Никнейм"
-        placeholder="Введите никнейм"
+        label='Никнейм'
+        placeholder='Введите никнейм'
         {...register('username')}
         error={errors?.username?.message}
       />
-  
+
       <TextInput
-        label="Ссылка для связи"
-        placeholder="Введите ссылку для связи"
+        label='Ссылка для связи'
+        placeholder='Введите ссылку для связи'
         {...register('contactUrl')}
         error={errors?.contactUrl?.message}
       />
-  
+
       <Button
-        variant="filled"
-        type="submit"
+        variant='filled'
+        type='submit'
         fullWidth
-        loading={isLoading} >
-          Сохранить
+        loading={isLoading}>
+        Сохранить
       </Button>
-  
+
     </form>
   );
 };

@@ -35,103 +35,103 @@ import { PublicRoute } from '~/ui/public-route';
 
 export const router = createBrowserRouter([
   {
-    element: <PublicRoute />,
+    element: <PublicRoute/>,
     children: [
       {
         path: `${AppRoute.Root}`,
-        element: <LandingPage />,
+        element: <LandingPage/>,
       },
       {
         path: `${AppRoute.Register}`,
-        element: <RegistrationPage />,
+        element: <RegistrationPage/>,
       },
       {
         path: `${AppRoute.Login}`,
-        element: <LoginPage />,
+        element: <LoginPage/>,
       },
       {
         path: `${AppRoute.ForgotPassword}`,
-        element: <ForgotPasswordPage />,
+        element: <ForgotPasswordPage/>,
       },
     ],
   },
   {
     path: `${AppRoute.EmailConfirmationWaiting}`,
-    element: <EmailConfirmationWaitingPage />,
+    element: <EmailConfirmationWaitingPage/>,
   },
   {
     path: `${AppRoute.EmailConfirmation}`,
-    element: <EmailConfirmationPage />,
+    element: <EmailConfirmationPage/>,
   },
   {
     path: `${AppRoute.ProfileFilling}`,
-    element: <ProfileFillingPage />,
+    element: <ProfileFillingPage/>,
   },
   {
-    element: <PrivateRoute />,
+    element: <PrivateRoute/>,
     children: [
       {
-        element: <Layout />,
+        element: <Layout/>,
         children: [
           {
             path: `${AppRoute.Profile}`,
-            element: <ProfilePage />,
+            element: <ProfilePage/>,
           },
           {
             path: `${AppRoute.Shelf}`,
-            element: <ShelfPage />,
+            element: <ShelfPage/>,
           },
           {
             path: `${AppRoute.Friends}`,
-            element: <FriendsPage />,
+            element: <FriendsPage/>,
           },
           {
             path: `${AppRoute.Storage}`,
-            element: <StoragePage />,
+            element: <StoragePage/>,
           },
           {
             path: `${AppRoute.User}`,
-            element: <UserPage />,
+            element: <UserPage/>,
           },
           {
             path: `${AppRoute.Book}`,
-            element: <BookPage />,
+            element: <BookPage/>,
           },
           {
             path: `${AppRoute.AddBook}`,
-            element: <BookAdditionPage />,
+            element: <BookAdditionPage/>,
           },
           {
             path: `${AppRoute.AddBookManually}`,
-            element: <BookAdditionManuallyPage />,
+            element: <BookAdditionManuallyPage/>,
           },
           {
             path: `${AppRoute.SearchFriends}`,
-            element: <SearchFriendsPage />,
+            element: <SearchFriendsPage/>,
           },
           {
             path: `${AppRoute.Settings}`,
-            element: <SettingsPage />,
+            element: <SettingsPage/>,
           },
           {
             path: `${AppRoute.SecuritySettings}`,
-            element: <SecuritySettingsPage />,
+            element: <SecuritySettingsPage/>,
           },
           {
             path: `${AppRoute.ProfileSettings}`,
-            element: <ProfileSettingsPage />,
+            element: <ProfileSettingsPage/>,
           },
           {
             path: `${AppRoute.EmailSettings}`,
-            element: <EmailSettingsPage />,
+            element: <EmailSettingsPage/>,
           },
           {
             path: `${AppRoute.PasswordSettings}`,
-            element: <PasswordSettingsPage />,
+            element: <PasswordSettingsPage/>,
           },
           {
             path: `${AppRoute.ScanningCode}`,
-            element: <ISBNScanningPage />,
+            element: <ISBNScanningPage/>,
           },
         ],
       },
@@ -139,7 +139,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <ErrorPage />,
+    element: <ErrorPage/>,
   },
 ]);
 
@@ -147,19 +147,19 @@ const App = () => {
   return (
     <MantineProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Notifications />
-        <RouterProvider router={router} />
+        <Notifications/>
+        <RouterProvider router={router}/>
       </QueryClientProvider>
     </MantineProvider>
   );
 };
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 
 root.render(
   // <React.StrictMode>
-  <App />
+  <App/>
   //</React.StrictMode>
 );

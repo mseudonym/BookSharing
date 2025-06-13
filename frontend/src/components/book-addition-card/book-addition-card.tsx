@@ -14,7 +14,7 @@ import { deleteItemsRemoveFromMyShelf, postItemsAddToMyShelf } from '~/generated
 import { BookModel } from '~/generated-api/model';
 
 interface BookAdditionCardProps extends BookModel {
-  isUserAlreadyHaveBook: boolean;
+    isUserAlreadyHaveBook: boolean;
 }
 
 export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, author, id }: BookAdditionCardProps) => {
@@ -67,7 +67,7 @@ export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, a
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Удалить книгу с полки?" centered>
+      <Modal opened={opened} onClose={close} title='Удалить книгу с полки?' centered>
         <Text className={_styles.textGray}>Это также удалит все очереди за ней.</Text>
         <SimpleGrid
           cols={{ base: 1, sm: 2 }}
@@ -75,10 +75,10 @@ export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, a
           verticalSpacing={{ base: 'md' }}
           style={{ width: '100%' }}
         >
-          <Button variant="filled" onClick={onDeleteBook}>
+          <Button variant='filled' onClick={onDeleteBook}>
             Да, удалить
           </Button>
-          <Button  color="outline" onClick={close}>
+          <Button color='outline' onClick={close}>
             Нет, оставить
           </Button>
         </SimpleGrid>
@@ -86,15 +86,15 @@ export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, a
       <Card className={styles.bookCard}>
         <Image src={bookCoverUrl} alt={`Book cover for ${title}`} className={styles.bookImage}/>
         <Flex style={{ width: '100%' }}>
-          <Flex direction="column" gap="xs" style={{ width: '100%' }}>
+          <Flex direction='column' gap='xs' style={{ width: '100%' }}>
             <Text>{title}</Text>
             <Text className={_styles.textGray}>{author}</Text>
           </Flex>
           {!isUserAlreadyHaveBook
-            ? <ActionIcon variant="transparent" onClick={onAddBook} loading={isLoading}>
+            ? <ActionIcon variant='transparent' onClick={onAddBook} loading={isLoading}>
               <PlusIcon24Regular/>
             </ActionIcon>
-            : <ActionIcon variant="transparent" onClick={open} loading={isLoading}>
+            : <ActionIcon variant='transparent' onClick={open} loading={isLoading}>
               <XIcon24Regular/>
             </ActionIcon>}
         </Flex>

@@ -11,7 +11,8 @@ import { router } from '~/main';
 export const FriendCard = ({ lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   return (
     <Card className={styles.friendCard}>
-      <div className={styles.person} onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
+      <div className={styles.person}
+        onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
         <Avatar
           src={lowQualityPhotoUrl || '/default-profile.png'}
           className={styles.avatar}
@@ -24,7 +25,7 @@ export const FriendCard = ({ lowQualityPhotoUrl, username, firstName, lastName }
             {lastName}
           </Text>
           <Text span className={_styles.textGray}>
-          @
+            @
             {username}
           </Text>
         </div>

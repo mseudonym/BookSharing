@@ -23,23 +23,23 @@ export const Navbar = () => {
   const navItems = [
     {
       value: AppRoute.Shelf,
-      iconRegular: <BooksLibraryIcon24Regular />,
-      iconSolid: <BooksLibraryIcon24Solid />,
+      iconRegular: <BooksLibraryIcon24Regular/>,
+      iconSolid: <BooksLibraryIcon24Solid/>,
     },
     {
       value: AppRoute.Friends,
-      iconRegular: <People2Icon24Regular />,
-      iconSolid: <People2Icon24Solid />,
+      iconRegular: <People2Icon24Regular/>,
+      iconSolid: <People2Icon24Solid/>,
     },
     {
       value: AppRoute.Storage,
-      iconRegular: <FolderIcon24Regular />,
-      iconSolid: <FolderIcon24Solid />,
+      iconRegular: <FolderIcon24Regular/>,
+      iconSolid: <FolderIcon24Solid/>,
     },
     {
       value: AppRoute.Profile,
-      iconRegular: <People1Icon24Regular />,
-      iconSolid: <People1Icon24Solid />,
+      iconRegular: <People1Icon24Regular/>,
+      iconSolid: <People1Icon24Solid/>,
     },
   ];
 
@@ -49,9 +49,9 @@ export const Navbar = () => {
 
   return (
     <SegmentedControl
-      size="md"
+      size='md'
       withItemsBorders={false}
-      radius="xl"
+      radius='xl'
       value={pathname}
       onChange={handleNavigate}
       data={navItems.map((item) => ({

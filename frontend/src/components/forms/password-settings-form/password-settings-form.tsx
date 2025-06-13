@@ -60,53 +60,51 @@ export const PasswordSettingsForm = () => {
         message: undefined,
         color: 'var(--green-color)',
       });
-    }
-  });
-
-  const onSubmit = async (data: IFormInput) => {
-    try {
-      setIsLoading(true);
-      await updatePassword({ oldPassword: data.oldPassword, newPassword: data.password });
-    } catch (error) {
+    },
+    onError: () => {
       notifications.show({
         title: 'Ошибка сохранения',
         message: undefined,
         color: 'var(--red-color)',
       });
-    } finally {
-      setIsLoading(false);
     }
+  });
+
+  const onSubmit = async (data: IFormInput) => {
+    setIsLoading(true);
+    await updatePassword({ oldPassword: data.oldPassword, newPassword: data.password });
+    setIsLoading(false);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
       <PasswordInput
-        label="Старый пароль"
-        placeholder="Введите старый пароль"
+        label='Старый пароль'
+        placeholder='Введите старый пароль'
         {...register('oldPassword')}
         error={errors?.oldPassword?.message}
       />
 
       <PasswordInput
-        label="Новый пароль"
-        placeholder="Введите новый пароль"
+        label='Новый пароль'
+        placeholder='Введите новый пароль'
         {...register('password')}
         error={errors?.password?.message}
       />
 
       <PasswordInput
-        label="Новый пароль ещё раз"
-        placeholder="Введите новый пароль повторно"
+        label='Новый пароль ещё раз'
+        placeholder='Введите новый пароль повторно'
         {...register('confirmPassword')}
         error={errors?.confirmPassword?.message}
       />
 
       <Button
-        variant="filled"
-        type="submit"
+        variant='filled'
+        type='submit'
         fullWidth
-        loading={isLoading} >
-          Обновить пароль
+        loading={isLoading}>
+        Обновить пароль
       </Button>
     </form>
   );

@@ -10,7 +10,7 @@ import * as zod from 'zod';
 import f_styles from '~/components/forms/forms.module.css';
 import styles from '~/pages/book-page/book-page.module.css';
 
-import { FileButton, ISBNInput } from '~/components/custom-mantine';
+import { FileButton, IsbnInput } from '~/components/custom-mantine';
 import { AppRoute, REQUIRED_FIELD_TEXT } from '~/conts';
 import { postBooksAdd } from '~/generated-api/books/books';
 import { router } from '~/main';
@@ -75,20 +75,20 @@ export const BookAdditionManuallyForm = () => {
     mutationFn: postBooksAdd,
     onError: (error: AxiosError<{
       problemDetails: {
-      errors: {
-        BookAlreadyAddedError?: string[];
-        BookCoverContentType_NotSupportedType: string[];
+        errors: {
+          BookAlreadyAddedError?: string[];
+          BookCoverContentType_NotSupportedType: string[];
         }
       }
-    }>) => {
+  }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.problemDetails?.errors) {
-          const errorMessage =  (errorData.problemDetails.errors.BookCoverContentType_NotSupportedType?.[0] && 'Поддерживаемый формат изображения — jpeg') ||
-          (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') ||
-                             undefined;
+          const errorMessage = (errorData.problemDetails.errors.BookCoverContentType_NotSupportedType?.[0] && 'Поддерживаемый формат изображения — jpeg') ||
+                        (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') ||
+                        undefined;
           setError('bookCover', { message: errorMessage });
-          
+
           notifications.show({
             title: 'Ошибка при добавлении книги',
             message: errorMessage,
@@ -122,9 +122,9 @@ export const BookAdditionManuallyForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${f_styles.form} ${f_styles.bookAddForm}`}>
       <div className={styles.bookCover}>
-        <FileButton 
-          name="bookCover" 
-          type="book" 
+        <FileButton
+          name='bookCover'
+          type='book'
           error={errors?.bookCover?.message}
           setValue={setValue}
           setError={setError}
@@ -134,13 +134,13 @@ export const BookAdditionManuallyForm = () => {
             return result.success;
           }}
         />
-        <div className={`${styles.roundRect} ${errors?.bookCover ? styles.roundRectWithError : ''}`} />
+        <div className={`${styles.roundRect} ${errors?.bookCover ? styles.roundRectWithError : ''}`}/>
       </div>
 
       <div className={`${styles.bookContent} ${f_styles.bookContentAddition}`}>
-        <FileButton 
-          name="bookCover" 
-          type="book"
+        <FileButton
+          name='bookCover'
+          type='book'
           className={`${styles.bookImageDesktop}`}
           error={errors?.bookCover?.message}
           setValue={setValue}
@@ -154,15 +154,15 @@ export const BookAdditionManuallyForm = () => {
 
         <div className={styles.actions}>
           <TextInput
-            label="Название"
-            placeholder="Введите название книги"
+            label='Название'
+            placeholder='Введите название книги'
             {...register('title')}
             error={errors?.title?.message}
           />
 
           <Textarea
-            label="Описание"
-            placeholder="Введите описание книги"
+            label='Описание'
+            placeholder='Введите описание книги'
             {...register('description')}
             error={errors?.description?.message}
             autosize
@@ -170,35 +170,36 @@ export const BookAdditionManuallyForm = () => {
           />
 
           <TextInput
-            label="Автор"
-            placeholder="Введите автора книги"
+            label='Автор'
+            placeholder='Введите автора книги'
             {...register('author')}
             error={errors?.author?.message}
           />
 
           <TextInput
-            label="Год"
-            placeholder="Введите год написания книги"
+            label='Год'
+            placeholder='Введите год написания книги'
             {...register('year')}
             error={errors?.year?.message}
-            type="number"
+            type='number'
           />
 
-          <ISBNInput
-            label={'ISBN'}
-            placeholder="Введите ISBN книги"
+          <IsbnInput
+            label='ISBN'
+            placeholder='Введите ISBN книги'
             {...register('isbn')}
             error={errors?.isbn?.message}
           />
+
           <TextInput
-            label="Язык"
-            placeholder="Введите язык книги"
+            label='Язык'
+            placeholder='Введите язык книги'
             {...register('language')}
             error={errors?.language?.message}
           />
 
           <Button
-            variant="filled"
+            variant='filled'
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             fullWidth>

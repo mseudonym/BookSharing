@@ -12,15 +12,17 @@ import { Wrapper } from '~/ui/wrapper';
 export const BookAdditionManuallyPage = () => {
   return (
     <Page>
-      <Header variant="left" withPadding>
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
+      <Header variant='left' withPadding>
+        <ActionIcon variant='transparent' onClick={() => {
+          window.history.back();
+        }}>
+          <ArrowALeftIcon24Regular/>
         </ActionIcon>
         <Title order={6}>Добавление книги вручную</Title>
       </Header>
 
-      <Wrapper background="none" noPaddingHorizontal className={styles.bookAddWrapper}>
-        <BookAdditionManuallyForm />
+      <Wrapper backgroundColor='none' noPaddingHorizontal className={styles.bookAddWrapper}>
+        <BookAdditionManuallyForm/>
       </Wrapper>
 
     </Page>

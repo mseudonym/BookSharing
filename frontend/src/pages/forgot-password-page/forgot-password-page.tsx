@@ -10,8 +10,10 @@ export const ForgotPasswordPage = () => {
   return (
     <PageWithWrapper withoutMenu>
       <Header variant='left'>
-        <ActionIcon variant="transparent" onClick={() => { window.history.back(); }}>
-          <ArrowALeftIcon24Regular />
+        <ActionIcon variant='transparent' onClick={() => {
+          window.history.back();
+        }}>
+          <ArrowALeftIcon24Regular/>
         </ActionIcon>
         <Title order={6}>Восстановление пароля</Title>
       </Header>

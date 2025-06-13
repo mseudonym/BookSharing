@@ -71,22 +71,23 @@ export const LoginForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
       <TextInput
-        label="Почта"
-        placeholder="Введите почту"
+        label='Почта'
+        placeholder='Введите почту'
         {...register('email')}
         error={errors?.email?.message}
       />
 
       <PasswordInput
-        label="Пароль"
-        placeholder="Введите пароль"
+        label='Пароль'
+        placeholder='Введите пароль'
         {...register('password')}
         error={errors?.password?.message}
       />
 
-      <Anchor className={_styles.anchorGray} onClick={() => router.navigate(AppRoute.ForgotPassword)}>Я не помню пароль</Anchor>
+      <Anchor className={_styles.anchorGray} onClick={() => router.navigate(AppRoute.ForgotPassword)}>Я не помню
+        пароль</Anchor>
 
-      <Button fullWidth variant="filled" loading={isLoading} onClick={handleSubmit(onSubmit)}>
+      <Button fullWidth variant='filled' loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти
       </Button>
 
