@@ -7,9 +7,9 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const ResetPasswordPage = () => {
   return (
-    <PageWithWrapper backgroundColor='white'>
+    <PageWithWrapper withoutMenu>
       <Header variant='left'>
-        <Title order={6}>Обновление пароля</Title>
+        <Title order={5}>Обновление пароля</Title>
       </Header>
 
       <ResetPasswordForm/>

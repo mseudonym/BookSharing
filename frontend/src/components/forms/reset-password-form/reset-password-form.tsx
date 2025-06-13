@@ -10,8 +10,9 @@ import * as zod from 'zod';
 import styles from '~/components/forms/forms.module.css';
 
 import { PasswordInput } from '~/components/custom-mantine';
-import { PasswordBaseSchema } from '~/conts';
+import { AppRoute, PasswordBaseSchema } from '~/conts';
 import { postAuthResetPassword } from '~/generated-api/auth/auth';
+import { router } from '~/main';
 
 type IFormInput = zod.infer<typeof PasswordBaseSchema>;
 
@@ -40,6 +41,7 @@ export const ResetPasswordForm = () => {
         message: undefined,
         color: 'var(--green-color)',
       });
+      await router.navigate(AppRoute.Login);
     },
     onError: () => {
       notifications.show({
