@@ -15,7 +15,7 @@ import { postAuthResetPassword } from '~/generated-api/auth/auth';
 
 type IFormInput = zod.infer<typeof PasswordBaseSchema>;
 
-export const UpdatePasswordForm = () => {
+export const ResetPasswordForm = () => {
   const [searchParams] = useSearchParams();
   
   const email = searchParams.get('email') || null;

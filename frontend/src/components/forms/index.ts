@@ -6,4 +6,4 @@ export { ForgotPasswordForm } from './forgot-password-form/forgot-password-form'
 export { ProfileSettingsForm } from './profile-settings-form/profile-settings-form';
 export { PasswordSettingsForm } from './password-settings-form/password-settings-form';
 export { EmailSettingsForm } from './email-settings-form/email-settings-form';
-export { UpdatePasswordForm } from './update-password-form/update-password-form';
+export { ResetPasswordForm } from '~/components/forms/reset-password-form/reset-password-form';

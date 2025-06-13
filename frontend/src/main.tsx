@@ -22,12 +22,12 @@ import { LandingPage } from '~/pages/landing-page';
 import { ProfileFillingPage } from '~/pages/profile-filling-page';
 import { ProfilePage, UserPage } from '~/pages/profile-user';
 import { LoginPage, RegistrationPage } from '~/pages/registration-login';
+import { ResetPasswordPage } from '~/pages/reset-password-page';
 import { SearchFriendsPage } from '~/pages/search-friends-page';
 import { EmailSettingsPage, PasswordSettingsPage } from '~/pages/settings';
 import { SettingsPage, SecuritySettingsPage, ProfileSettingsPage } from '~/pages/settings';
 import { ShelfPage } from '~/pages/shelf-page';
 import { StoragePage } from '~/pages/storage-page';
-import { UpdatePasswordPage } from '~/pages/update-password-page';
 import { queryClient } from '~/services/query-client';
 import { theme } from '~/theme';
 import { Layout } from '~/ui/layout';
@@ -65,8 +65,8 @@ export const router = createBrowserRouter([
     element: <EmailConfirmationPage/>,
   },
   {
-    path: `${AppRoute.UpdatePassword}`,
-    element: <UpdatePasswordPage/>,
+    path: `${AppRoute.ResetPassword}`,
+    element: <ResetPasswordPage/>,
   },
   {
     path: `${AppRoute.ProfileFilling}`,
