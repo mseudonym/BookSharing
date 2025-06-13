@@ -84,8 +84,13 @@ build-frontend:
     - docker:dind
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build -t $BS_APP_IMAGE -f frontend/Dockerfile frontend/
+    - docker build --no-cache -t $BS_APP_IMAGE -f frontend/Dockerfile frontend/
     - docker push $BS_APP_IMAGE
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}-frontend"
+    paths:
+      - frontend/node_modules/
+      - frontend/package-lock.json
   needs:
     - job: lint-frontend
   rules:

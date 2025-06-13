@@ -2,7 +2,9 @@
 FROM node:22-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm cache clean --force && \
+        npm install -g npm@11.4.2 && \
+        npm install --prefer-offline --no-audit --progress=false
 COPY . .
 RUN npm run build
 
