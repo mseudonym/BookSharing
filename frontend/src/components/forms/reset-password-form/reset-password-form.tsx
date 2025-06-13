@@ -18,8 +18,8 @@ type IFormInput = zod.infer<typeof PasswordBaseSchema>;
 export const ResetPasswordForm = () => {
   const [searchParams] = useSearchParams();
   
-  const email = searchParams.get('email') || null;
-  const resetCode = searchParams.get('code') || null;
+  const email = searchParams.get('email') ?? '';
+  const resetCode = searchParams.get('code') ?? '';
   const [isLoading, setIsLoading] = useState(false);
 
   const {
