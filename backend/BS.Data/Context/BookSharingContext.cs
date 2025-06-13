@@ -1,5 +1,7 @@
-﻿using BS.Data.Configurations;
+﻿using System.Reflection;
+using BS.Data.Configurations.Notifications;
 using BS.Data.Entities;
+using BS.Data.Entities.Notifications.Base;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +15,12 @@ public class BookSharingContext(DbContextOptions<BookSharingContext> options)
     public DbSet<QueueItemEntity> QueueItems { get; set; }
     public DbSet<ItemEntity> Items { get; set; }
     public DbSet<BookEntity> Books { get; set; }
+    public DbSet<NotificationBaseEntity> Notifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new UserEntityConfiguration());
-        builder.ApplyConfiguration(new QueueItemEntityConfiguration());
-        builder.ApplyConfiguration(new ItemEntityConfiguration());
-        builder.ApplyConfiguration(new BookEntityConfiguration());
-        builder.ApplyConfiguration(new NotificationEntityConfiguration());
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(BsDataAssemblyMarker))!);
+        builder.ConfigureNotificationEntities();
 
         base.OnModelCreating(builder);
     }

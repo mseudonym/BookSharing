@@ -1,0 +1,6 @@
+﻿<wpf:ResourceDictionary
+        xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+        xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml">
+    <s:Boolean x:Key="/Default/CodeInspection/Severity/StyleCopRules/SA1309/Enabled">True</s:Boolean>
+    <s:Boolean x:Key="/Default/CodeInspection/Severity/StyleCopRules/SA1309/IsEnabledByDefault">True</s:Boolean>
+</wpf:ResourceDictionary>

@@ -1,6 +1,7 @@
-﻿using BS.Api.Requests;
+﻿using System.Net.Mime;
+using BS.Api.Requests;
+using BS.Core.Extensions;
 using BS.Core.Models.Book;
-using BS.Core.Models.S3;
 using BS.Core.Services.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace BS.Api.Controllers;
 
 [Authorize]
 [Route("[controller]")]
+[ApiController]
 public class BooksController : Controller
 {
     private readonly IBookService _bookService;
@@ -24,15 +26,14 @@ public class BooksController : Controller
     {
         var result = await _bookService.GetBookByIdAsync(bookId);
 
-        return result.IsFailed ? MapResult(result) : Ok(result.Value);
+        return MapResult(result);
     }
 
     [HttpGet("byTitle/{title}")]
     public async Task<ActionResult<BookModel[]>> GetBookByTitle([FromRoute] string title)
     {
         var result = await _bookService.GetBooksByTitleAsync(title);
-
-        return result.IsFailed ? MapResult(result) : Ok(result.Value);
+        return MapResult(result);
     }
 
     [HttpGet("byIsbn/{isbn}")]
@@ -41,10 +42,11 @@ public class BooksController : Controller
     public async Task<ActionResult<BookModel>> GetBookByIsbn([FromRoute] string isbn)
     {
         var result = await _bookService.GetBookByIsbnAsync(isbn);
-        return result.IsFailed ? MapResult(result) : Ok(result.Value);
+        return MapResult(result);
     }
 
     [HttpPost("add")]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
     public async Task<ActionResult<BookModel>> AddBook([FromForm] AddBookRequest bookRequest)
     {
         var model = new AddBookModel
@@ -55,32 +57,30 @@ public class BooksController : Controller
             Isbn = bookRequest.Isbn,
             Language = bookRequest.Language,
             PublicationYear = bookRequest.PublicationYear,
-            BookCover = bookRequest.BookCover is null
-                ? null
-                : bookRequest.BookCover!.GetPhotoFileModel(),
+            BookCover = bookRequest.BookCover.GetPhotoFileModel(),
         };
         var addResult = await _bookService.AddBookAsync(model);
-        return addResult.IsFailed ? MapResult(addResult) : Ok(addResult.Value);
+        return MapResult(addResult);
     }
 
     [HttpGet("allFriendsBooks")]
     public async Task<ActionResult<BookModel[]>> GetAllFriendsBooksAsync()
     {
         var result = await _bookService.GetAllFriendsBooks();
-        return result.IsFailed ? MapResult(result) : Ok(result.Value);
+        return MapResult(result);
     }
 
     [HttpGet("friendBooks")]
     public async Task<ActionResult<BookModel[]>> GetFriendBooks(Guid friendId)
     {
         var result = await _bookService.GetFriendBooks(friendId);
-        return result.IsFailed ? MapResult(result) : Ok(result.Value);
+        return MapResult(result);
     }
 
     [HttpGet("myBooks")]
     public async Task<ActionResult<BookModel[]>> GetMyBooks()
     {
         var result = await _bookService.GetMyBooks();
-        return result.IsFailed ? MapResult(result) : Ok(result.Value);
+        return MapResult(result);
     }
 }

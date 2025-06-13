@@ -46,7 +46,6 @@ public static class HttpClientExtensions
     }
 
     public static async Task<T> GetAsync<T>(this HttpClient client, string requestUri)
-        where T : class
     {
         var response = await client.GetAsync(requestUri);
 
@@ -55,7 +54,10 @@ public static class HttpClientExtensions
         var resultInString = await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<T>(resultInString, JsonSerializerOptions);
 
-        result.ShouldNotBeNull();
+        if (result is null)
+        {
+            throw new NullReferenceException("Ожидался не null результат");
+        }
 
         return result;
     }

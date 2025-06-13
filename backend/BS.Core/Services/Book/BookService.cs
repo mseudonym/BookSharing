@@ -3,6 +3,7 @@ using BS.Core.Errors.Validation;
 using BS.Core.Extensions;
 using BS.Core.Models.Book;
 using BS.Core.Models.Mapping;
+using BS.Core.Services.Items;
 using BS.Core.Services.S3;
 using BS.Core.Services.User;
 using BS.Core.Validations;
@@ -21,23 +22,23 @@ public class BookService : IBookService
     private readonly IValidator<AddBookModel> _addBookModelValidator = new AddBookModelValidator();
     private readonly IValidator<string?> _isbnValidator = new IsbnValidator();
     private readonly BookMapper _bookMapper;
-    private readonly TimeProvider _timeProvider;
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
     private readonly IS3Service _s3Service;
+    private readonly IItemService _itemService;
 
     public BookService(
         BookSharingContext dbContext,
         ICurrentUserService currentUserService,
         IS3Service s3Service,
         BookMapper bookMapper,
-        TimeProvider timeProvider)
+        IItemService itemService)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
         _s3Service = s3Service;
         _bookMapper = bookMapper;
-        _timeProvider = timeProvider;
+        _itemService = itemService;
     }
 
     public async Task<Result<BookModel[]>> GetBooksByTitleAsync(string bookName)
@@ -79,28 +80,17 @@ public class BookService : IBookService
         var validationResult = await _addBookModelValidator.ValidateAsync(book).ToTypedResult();
         if (validationResult.IsFailed)
             return validationResult;
-
-        var currentUserId = await _currentUserService.GetIdAsync();
-
+        
         if (book.Isbn != null && await _dbContext.Books.AnyAsync(b => b.Isbn == book.Isbn))
             return Result.Fail<BookModel>(new ValidationError("BookWithThatIsbnAlreadyExist",
                 $"Book with ISBN '{book.Isbn}' already added."));
 
-        var bookId = Guid.NewGuid();
+        var bookId = Guid.CreateVersion7();
         var uploadResult = await _s3Service.UploadBookCoverAsync(book.BookCover, bookId);
 
         if (uploadResult.IsFailed)
             return Result.Fail<BookModel>(uploadResult.Errors);
 
-        await _dbContext.Items.AddAsync(new ItemEntity
-        {
-            Id = Guid.NewGuid(),
-            BookId = bookId,
-            OwnerId = currentUserId,
-            HolderId = currentUserId,
-            HolderChangedUtc = _timeProvider.GetUtcNow().UtcDateTime,
-            CreatedUtc = DateTime.UtcNow,
-        });
         await _dbContext.Books.AddAsync(new BookEntity
         {
             Id = bookId,
@@ -113,8 +103,10 @@ public class BookService : IBookService
             IsPhotoUploaded = true,
             IsAddedByUser = true,
         });
-
+        
         await _dbContext.SaveChangesAsync();
+        
+        await _itemService.AddToMyShelf(bookId);
 
         return await GetBookByIdAsync(bookId);
     }

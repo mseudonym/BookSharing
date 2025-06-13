@@ -1,4 +1,5 @@
 using BS.Api;
+using BS.Api.Endpoints;
 using BS.Api.Implementations;
 using BS.Core;
 using BS.Data;
@@ -7,6 +8,7 @@ using BS.Data.Entities;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder()
@@ -19,7 +21,7 @@ var environment = builder.Environment;
 builder.Services.AddLogging();
 builder.Services.AddHttpLogging(_ => { });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddBsSwagger();
+builder.Services.AddBsOpenApi();
 
 builder.Services.AddControllers();
 
@@ -53,11 +55,8 @@ if (app.Environment.IsProduction() || app.Environment.IsStaging())
 
 if (environment.IsDevelopment() || environment.IsStaging())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(swaggerUiOptions =>
-    {
-        swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "Book sharing API V1");
-    });
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseCors();
@@ -65,7 +64,8 @@ app.UseHttpLogging();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGroup("Auth").WithTags("Auth").MapCustomIdentityApi<UserEntity>();
+app.MapNotificationsEndpoints();
+app.MapCustomIdentityEndpoints<UserEntity>();
 app.MapControllers();
 
 app.Run();

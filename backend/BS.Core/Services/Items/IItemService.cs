@@ -5,7 +5,6 @@ namespace BS.Core.Services.Items;
 
 public interface IItemService
 {
-    public Task<Result<ItemModel>> GetItemAsync(Guid itemId);
     public Task<Result<ItemInfo[]>> GetMyItems();
     public Task<Result<ItemInfo[]>> GetFriendsItems();
     public Task<Result<ItemModel?>> GetMyItemByBook(Guid bookId);

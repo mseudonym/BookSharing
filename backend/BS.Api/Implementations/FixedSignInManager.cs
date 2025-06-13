@@ -13,8 +13,8 @@ public class FixedSignInManager<TUser> : SignInManager<TUser> where TUser : clas
         IOptions<IdentityOptions> optionsAccessor,
         ILogger<SignInManager<TUser>> logger,
         IAuthenticationSchemeProvider schemes,
-        IUserConfirmation<TUser> confirmation
-    ) : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes, confirmation)
+        IUserConfirmation<TUser> confirmation)
+        : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes, confirmation)
     {
     }
 

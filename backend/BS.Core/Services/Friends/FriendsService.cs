@@ -1,9 +1,11 @@
 using BS.Core.Errors;
+using BS.Core.Errors.Validation;
 using BS.Core.Models.Mapping;
 using BS.Core.Models.User;
 using BS.Core.Services.User;
 using BS.Data.Context;
 using BS.Data.Entities;
+using BS.Data.Entities.Notifications.Friendship;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,12 +16,18 @@ public class FriendsService : IFriendsService
     private readonly ICurrentUserService _currentUserService;
     private readonly BookSharingContext _dbContext;
     private readonly UserMapper _userMapper;
+    private readonly TimeProvider _timeProvider;
 
-    public FriendsService(BookSharingContext dbContext, ICurrentUserService currentUserService, UserMapper userMapper)
+    public FriendsService(
+        BookSharingContext dbContext,
+        ICurrentUserService currentUserService,
+        UserMapper userMapper,
+        TimeProvider timeProvider)
     {
         _dbContext = dbContext;
         _currentUserService = currentUserService;
         _userMapper = userMapper;
+        _timeProvider = timeProvider;
     }
 
     public async Task<Result<UserProfile[]>> GetFriendsAsync()
@@ -59,6 +67,8 @@ public class FriendsService : IFriendsService
     public async Task<Result<UserProfile>> SendFriendRequestAsync(Guid personId)
     {
         var currentUserId = await _currentUserService.GetIdAsync();
+        if (currentUserId == personId) return Result.Fail(new SelfIsInvalidTarget());
+        
         var currentUser = await _dbContext.Users
             .Where(u => u.Id == currentUserId)
             .Include(u => u.Friends)
@@ -81,6 +91,15 @@ public class FriendsService : IFriendsService
 
         currentUser.SentFriendRequests.Add(friend);
         friend.ReceivedFriendRequests.Add(currentUser);
+
+        _dbContext.Notifications.Add(new FriendshipStatusChangedNotificationEntity
+        {
+            RecipientId = personId,
+            PersonId = currentUserId,
+            NewStatus = FriendshipStatus.IncomeRequest,
+            CreatedAt = _timeProvider.GetUtcNow().UtcDateTime,
+        });
+
         await _dbContext.SaveChangesAsync();
 
         return Result.Ok(_userMapper.ToUserProfile(friend, FriendshipStatus.OutcomeRequest));
@@ -103,11 +122,18 @@ public class FriendsService : IFriendsService
 
         if (currentUser.SentFriendRequests.All(u => u.Id != person.Id))
             return Result.Fail(new OperationAlreadyApplied("You don't have requests to this user"));
-
-
+        
         currentUser.SentFriendRequests.Remove(person);
         person.ReceivedFriendRequests.Remove(currentUser);
         
+        await _dbContext.Notifications
+            .OfType<FriendshipStatusChangedNotificationEntity>()
+            .Where(n =>
+                n.RecipientId == personId &&
+                n.PersonId == currentUserId &&
+                n.NewStatus == FriendshipStatus.IncomeRequest)
+            .ExecuteDeleteAsync();
+
         await _dbContext.SaveChangesAsync();
 
         return Result.Ok();
@@ -136,14 +162,29 @@ public class FriendsService : IFriendsService
         if (currentUser.ReceivedFriendRequests.All(u => u.Id != userWhoSendRequest.Id))
             return Result.Fail(new OperationAlreadyApplied("Doesn't have requests from this user"));
 
-
         currentUser.ReceivedFriendRequests.Remove(userWhoSendRequest);
         userWhoSendRequest.SentFriendRequests.Remove(currentUser);
         if (isAccepted)
         {
             currentUser.Friends.Add(userWhoSendRequest);
             userWhoSendRequest.Friends.Add(currentUser);
+            
+            _dbContext.Notifications.Add(new FriendshipStatusChangedNotificationEntity
+            {
+                RecipientId = personId,
+                PersonId = currentUserId,
+                NewStatus = FriendshipStatus.Friend,
+                CreatedAt = _timeProvider.GetUtcNow().UtcDateTime,
+            });
         }
+        
+        await _dbContext.Notifications
+            .OfType<FriendshipStatusChangedNotificationEntity>()
+            .Where(n =>
+                n.RecipientId == currentUserId &&
+                n.PersonId == personId &&
+                n.NewStatus == FriendshipStatus.IncomeRequest)
+            .ExecuteDeleteAsync();
 
         await _dbContext.SaveChangesAsync();
 
