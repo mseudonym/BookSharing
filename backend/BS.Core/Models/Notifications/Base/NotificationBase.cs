@@ -5,13 +5,13 @@ using BS.Core.Models.Notifications.Items;
 
 namespace BS.Core.Models.Notifications.Base;
 
-[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
-[JsonDerivedType(typeof(SomeoneBecameHolderOfYourItemNotification), "SomeoneBecameHolderOfYourItemNotification")]
-[JsonDerivedType(typeof(SomeoneQueueToItemNotification), "SomeoneQueueToItemNotification")]
-[JsonDerivedType(typeof(YourQueuePositionChangedNotification), "YourQueuePositionChangedNotification")]
-[JsonDerivedType(typeof(FriendTakeBookToReadNotification), "FriendTakeBookToReadNotification")]
-[JsonDerivedType(typeof(NewBooksInFriendShelfNotification), "NewBooksInFriendShelfNotification")]
-[JsonDerivedType(typeof(FriendshipStatusChangedNotification), "FriendshipStatusChangedNotification")]
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "Type")]
+[JsonDerivedType(typeof(SomeoneBecameHolderOfYourItemNotification), nameof(SomeoneBecameHolderOfYourItemNotification))]
+[JsonDerivedType(typeof(SomeoneQueueToItemNotification), nameof(SomeoneQueueToItemNotification))]
+[JsonDerivedType(typeof(YourQueuePositionChangedNotification),  nameof(YourQueuePositionChangedNotification))]
+[JsonDerivedType(typeof(FriendTakeBookToReadNotification),  nameof(FriendTakeBookToReadNotification))]
+[JsonDerivedType(typeof(NewBooksInFriendShelfNotification), nameof(NewBooksInFriendShelfNotification))]
+[JsonDerivedType(typeof(FriendshipStatusChangedNotification),  nameof(FriendshipStatusChangedNotification))]
 public abstract class NotificationBase
 {
     public Guid Id { get; set; }
