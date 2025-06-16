@@ -1,24 +1,23 @@
 .landingRoot {
   gap: 40px;
-  padding: var(--mantine-spacing-md);
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .hero {
-  padding: var(--mantine-spacing-md);
   background: var(--rainbow-color);
   width: 100%;
-  min-height: calc(100vh - 32px);
-  border-radius: var(--mantine-radius-md);
+  min-height: 100vh;
+  border-radius: 0 0 var(--mantine-radius-md) var(--mantine-radius-md);
   box-sizing: border-box;
   background-size: 200% 200%;
-  animation: gradientAnimation 15s ease infinite;
+  animation: gradientAnimation 10s ease infinite;
 }
 
-.heroContent, .secondaryBlock, .blockWrapper {
-  padding: var(--mantine-spacing-sm) 0;
+.secondaryBlock, .blockWrapper {
+  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
   box-sizing: border-box;
 }
 
@@ -31,12 +30,13 @@
 .firstBlock {
   max-width: 1300px;
   width: 100%;
+  padding: var(--mantine-spacing-md);
 }
 
 .landingHeader {
   padding: var(--mantine-spacing-xs);
   align-items: center;
-  background: var(--white-80-color);
+  background: var(--white-color);
   backdrop-filter: blur(8px);
   border-radius: var(--mantine-spacing-xl);
   display: flex;
@@ -126,8 +126,8 @@
     gap: 60px;
   }
 
-  .heroContent, .secondaryBlock, .blockWrapper {
-    padding: var(--mantine-spacing-md) 0;
+  .secondaryBlock, .blockWrapper {
+    padding: var(--mantine-spacing-md);
   }
 
   .logo {
@@ -162,16 +162,16 @@
     padding: var(--mantine-spacing-md) var(--mantine-spacing-xl);
   }
 
-  .heroContent, .secondaryBlock, .blockWrapper {
-    padding: var(--mantine-spacing-xl) 0;
+  .firstBlock {
+    padding: var(--mantine-spacing-xl);
+  }
+
+  .secondaryBlock, .blockWrapper {
+    padding: var(--mantine-spacing-md) var(--mantine-spacing-xl);
   }
 
   .heroContent, .secondaryBlockInfo, .blockWrapper {
     gap: var(--mantine-spacing-xl);
-  }
-
-  .hero {
-    padding: var(--mantine-spacing-xl);
   }
 
   .avatar {
@@ -187,12 +187,12 @@
 
 @keyframes gradientAnimation {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 }
