@@ -342,7 +342,7 @@ public class ItemService : IItemService
                 .Where(u => u.Id == currentUserId)
                 .Include(u => u.Friends)
                 .FirstAsync();
-            foreach (var friend in newHolder.Friends)
+            foreach (var friend in newHolder.Friends.Where(f => f.Id != item.OwnerId))
             {
                 _dbContext.Notifications.Add(new FriendTakeBookToReadNotificationEntity
                 {
