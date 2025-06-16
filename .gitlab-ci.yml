@@ -45,6 +45,7 @@ test-backend:
   rules:
     - changes:
         - backend/**
+      when: on_success
     - when: manual
 
 
@@ -59,6 +60,7 @@ lint-frontend:
   rules:
     - changes:
         - frontend/**
+      when: on_success
     - when: manual
 
 
