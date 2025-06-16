@@ -3,10 +3,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './fade-in-section.module.css';
 
 interface FadeInSectionProps {
-    children: React.ReactNode;
-    rootMargin?: string;
-    threshold?: number;
-    className?: string;
+  children: React.ReactNode;
+  rootMargin?: string;
+  threshold?: number;
+  className?: string;
 }
 
 export const FadeInSection = React.memo(({
@@ -30,20 +30,21 @@ export const FadeInSection = React.memo(({
   }, [isVisible]);
 
   useEffect(() => {
-    if (!domRef.current) return;
+    const current = domRef.current;
+    if (!current) return;
 
     const rafId = requestAnimationFrame(() => {
       observerRef.current = new IntersectionObserver(handleIntersection, {
         rootMargin,
         threshold
       });
-      observerRef.current.observe(domRef.current!);
+      observerRef.current.observe(current);
     });
 
     return () => {
       cancelAnimationFrame(rafId);
-      if (observerRef.current && domRef.current) {
-        observerRef.current.unobserve(domRef.current);
+      if (observerRef.current && current) {
+        observerRef.current.unobserve(current);
       }
     };
   }, [handleIntersection, rootMargin, threshold]);
