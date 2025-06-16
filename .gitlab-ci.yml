@@ -166,9 +166,9 @@ production-deploy-frontend:
     name: production
   script:
     - echo "Применяем Deployment..."
-    - envsubst < k8s/frontend-deployment.yaml | kubectl apply -n staging -f -
-    - kubectl rollout restart deployment bs-app -n staging
-    - kubectl rollout status deployment bs-app -n staging --timeout=120s
+    - envsubst < k8s/frontend-deployment.yaml | kubectl apply -n production -f -
+    - kubectl rollout restart deployment bs-app -n production
+    - kubectl rollout status deployment bs-app -n production --timeout=120s
   when: manual
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
