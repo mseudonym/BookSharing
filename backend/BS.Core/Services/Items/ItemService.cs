@@ -248,7 +248,7 @@ public class ItemService : IItemService
         if (item is null)
             return Result.Fail(new ItemNotFoundError(itemId));
         
-        if (currentUser.Friends.Any(friend => friend.Id == item.OwnerId))
+        if (currentUser.Friends.All(friend => friend.Id != item.OwnerId))
             return Result.Fail(new PersonIsNotYourFriendError(item.OwnerId));
         
         if (await _dbContext.QueueItems.AnyAsync(queueItem => queueItem.ItemId == itemId && queueItem.UserId == currentUserId))
