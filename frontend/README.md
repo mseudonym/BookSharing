@@ -1,50 +1,26 @@
-# React + TypeScript + Vite
+<img src="https://storage.yandexcloud.net/bs-logos/Logo.png" width="225">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This React application helps you create a local book club. Share your personal library, borrow books from friends by joining a queue, and stay up-to-date on everyone’s current reads.
 
-Currently, two official plugins are available:
+## Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+In development...
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+* **Manage your books:** Add them to your shelf or remove them.
 
-- Configure the top-level `parserOptions` property like this:
+![Profile](https://github.com/user-attachments/assets/4088b8c5-806d-4776-8711-27ed2fad32f0)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+*   **See friend's books:** Look what your friend put on his shelf.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+![Friend's profile](https://github.com/user-attachments/assets/f6e12ded-0916-447a-b8db-3e32251df1b3)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+*   **Queuing:** Join waiting lists to borrow books from friends.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+![](https://github.com/user-attachments/assets/a1b15f45-7e5e-48de-9cff-0dd94d0a3e25)
+
+*   **Added books automatically**: Add your books by ISBN or title or add manually
+
+![Addition automatically](https://github.com/user-attachments/assets/4a267f00-0b51-4a3e-9fdb-dd8109b43cfd)
+
