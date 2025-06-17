@@ -1,6 +1,7 @@
 ﻿using BS.Data.Entities.Notifications.Friendship;
 using BS.Data.Entities.Notifications.FriendUpdate;
 using BS.Data.Entities.Notifications.Items;
+using BS.Data.Entities.Notifications.Reminders;
 
 namespace BS.Data.Entities.Notifications.Base;
 
@@ -13,7 +14,8 @@ public static class NotificationTypeMap
         (typeof(NewBooksInFriendShelfNotificationEntity), NotificationType.NewBooksInFriendShelf),
         (typeof(SomeoneBecameHolderOfYourItemNotificationEntity), NotificationType.SomeoneBecameHolderOfYourItem),
         (typeof(SomeoneQueueToItemNotificationEntity), NotificationType.SomeoneQueueToItem),
-        (typeof(YourQueuePositionChangedNotificationEntity), NotificationType.YourQueuePositionChanged)
+        (typeof(YourQueuePositionChangedNotificationEntity), NotificationType.YourQueuePositionChanged),
+        (typeof(ReadingProgressReminderNotificationEntity), NotificationType.ReadingProgressReminder)
     ];
 
     private static readonly IReadOnlyDictionary<Type, NotificationType> TypeToNotificationType =

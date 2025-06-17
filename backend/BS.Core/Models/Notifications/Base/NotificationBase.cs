@@ -7,7 +7,7 @@ using BS.Data.Entities.Notifications.Base;
 namespace BS.Core.Models.Notifications.Base;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
-[JsonDerivedType(typeof(SomeoneBecameHolderOfYourItemNotification),
+[JsonDerivedType(typeof(SomeoneBecameHolderOfYourItemNotification), 
     nameof(NotificationType.SomeoneBecameHolderOfYourItem))]
 [JsonDerivedType(typeof(SomeoneQueueToItemNotification), nameof(NotificationType.SomeoneQueueToItem))]
 [JsonDerivedType(typeof(YourQueuePositionChangedNotification), nameof(NotificationType.YourQueuePositionChanged))]

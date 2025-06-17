@@ -2,12 +2,14 @@ using BS.Core.Models.Notifications.Base;
 using BS.Core.Models.Notifications.Friendship;
 using BS.Core.Models.Notifications.FriendUpdate;
 using BS.Core.Models.Notifications.Items;
+using BS.Core.Models.Notifications.Reminders;
 using BS.Core.Models.S3;
 using BS.Core.Services.S3;
 using BS.Data.Entities.Notifications.Base;
 using BS.Data.Entities.Notifications.Friendship;
 using BS.Data.Entities.Notifications.FriendUpdate;
 using BS.Data.Entities.Notifications.Items;
+using BS.Data.Entities.Notifications.Reminders;
 
 namespace BS.Core.Models.Mapping;
 
@@ -89,6 +91,14 @@ public class NotificationMapper
                     PersonId = e.PersonId,
                     Person = _userMapper.ToUserProfile(e.Person, e.NewStatus),
                     NewStatus = e.NewStatus
+                };
+            case ReadingProgressReminderNotificationEntity e:
+                return new ReadingProgressReminderNotification()
+                {
+                    Id = e.Id,
+                    CreatedAt = e.CreatedAt,
+                    IsRead = e.IsRead,
+                    ReadingDays = e.ReadingDays,
                 };
             default:
                 throw new NotSupportedException($"Unknown notification entity type: {entity.GetType().Name}");
