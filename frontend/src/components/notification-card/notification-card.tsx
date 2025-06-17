@@ -52,8 +52,8 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
   };
 
   const renderContent = (): NotificationContent => {
-    switch (notification.$type) {
-      case 'SomeoneBecameHolderOfYourItemNotification': {
+    switch (notification.type) {
+      case 'SomeoneBecameHolderOfYourItem': {
         const {
           newHolder,
           createdAt,
@@ -69,7 +69,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'SomeoneQueueToItemNotification': {
+      case 'SomeoneQueueToItem': {
         const {
           newQueueMember,
           createdAt,
@@ -85,7 +85,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'FriendTakeBookToReadNotification': {
+      case 'FriendTakeBookToRead': {
         const { friend, createdAt, isRead, book } = notification as NotificationBaseFriendTakeBookToReadNotification;
         return {
           avatar: friend.lowQualityPhotoUrl,
@@ -96,7 +96,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'NewBooksInFriendShelfNotification': {
+      case 'NewBooksInFriendShelf': {
         const {
           friend,
           createdAt,
@@ -112,7 +112,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'YourQueuePositionChangedNotification': {
+      case 'YourQueuePositionChanged': {
         const {
           newPosition,
           createdAt,
@@ -128,7 +128,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'FriendshipStatusChangedNotification': {
+      case 'FriendshipStatusChanged': {
         const {
           person,
           newStatus,
