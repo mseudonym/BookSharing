@@ -22,8 +22,7 @@ export const SearchFriendsPage = () => {
     if (!userList || !friendList)
       return userList;
 
-    const friendIds = new Set(friendList.map((friend) => friend.id));
-    return userList.filter((user) => !friendIds.has(user.id) && user.id !== me?.id);
+    return userList.filter((user) => user.id !== me?.id);
   }, [userList, friendList, me?.id]);
 
   return (

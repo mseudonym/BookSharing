@@ -28,14 +28,6 @@
   aspect-ratio: 1;
 }
 
-.checkButton {
-  color: var(--green-color);
-}
-
-.crossButton {
-  color: var(--red-color);
-}
-
 @media (min-width: 768px) {
   .person {
     gap: var(--mantine-spacing-md);

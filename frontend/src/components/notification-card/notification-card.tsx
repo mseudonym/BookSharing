@@ -5,6 +5,7 @@ import React from 'react';
 import styles from '~/components/notification-card/notification-card.module.css';
 import _styles from '~/index.module.css';
 
+import { FriendRequestActions } from '~/components/friend-request-actions';
 import { AppRoute } from '~/conts';
 import {
   FriendshipStatus,
@@ -28,6 +29,7 @@ interface NotificationContent {
   isRead: boolean | undefined;
   bookImage?: string | null | undefined;
   newStatus?: FriendshipStatus;
+  personId?: string;
 }
 
 export const NotificationCard = ({ notification }: NotificationCardProps) => {
@@ -134,6 +136,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
           newStatus,
           createdAt,
           isRead,
+          personId
         } = notification as NotificationBaseFriendshipStatusChangedNotification;
 
         const messages: Partial<Record<FriendshipStatus, string>> = {
@@ -143,6 +146,8 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         
         return {
           avatar: person.lowQualityPhotoUrl,
+          newStatus: newStatus,
+          personId: personId,
           text: messages[newStatus || FriendshipStatus.None]!,
           date: createdAt,
           isRead: isRead,
@@ -159,7 +164,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
     }
   };
 
-  const { avatar, text, date, bookImage, isRead, newStatus } = renderContent();
+  const { avatar, text, date, bookImage, isRead, newStatus, personId } = renderContent();
   const dateFormated = new Date(date || '').toLocaleDateString('ru-RU', {
     day: '2-digit',
     month: '2-digit',
@@ -173,16 +178,11 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         <Text>{formatNotificationText(text)}</Text>
         <Text className={_styles.textGray}>{dateFormated}</Text>
       </Flex>
+
       {bookImage && <Image className={styles.image} src={bookImage}/>}
+
       {newStatus && newStatus === FriendshipStatus.IncomeRequest 
-        && <Flex>
-          <ActionIcon variant='transparent'>
-            <CheckAIcon24Regular className={styles.checkButton}/>
-          </ActionIcon>
-          <ActionIcon variant='transparent'>
-            <XIcon24Regular className={styles.crossButton}/>
-          </ActionIcon>
-        </Flex>}
+        && <FriendRequestActions id={personId}/>}
     </Flex>
   );
 };

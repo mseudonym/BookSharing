@@ -56,8 +56,7 @@
 }
 
 .modalHeader {
-  padding: 0;
-  padding-bottom: var(--mantine-spacing-sm);
+  padding: 0 0 var(--mantine-spacing-sm);
 }
 
 .modalBody {
@@ -201,6 +200,21 @@
     &:disabled {
       background-color: var(--light-background-color);
       color: var(--disabled-text-color);
+    }
+  }
+
+  &[data-variant='outline'] {
+    background-color: var(--white-color);
+    border: 1px solid var(--light-gray-16-color);
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: var(--light-background-color);
+    }
+
+    &:disabled {
+      color: var(--disabled-text-color);
+      background-color: var(--light-background-color);
     }
   }
 }
