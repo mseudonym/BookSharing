@@ -31,6 +31,7 @@ public class NotificationMapper
             case SomeoneBecameHolderOfYourItemNotificationEntity e:
                 return new SomeoneBecameHolderOfYourItemNotification
                 {
+                    Type = NotificationTypeMap.GetNotificationType(e.GetType()),
                     Id = e.Id,
                     CreatedAt = e.CreatedAt,
                     IsRead = e.IsRead,
@@ -41,6 +42,7 @@ public class NotificationMapper
             case SomeoneQueueToItemNotificationEntity e:
                 return new SomeoneQueueToItemNotification
                 {
+                    Type = NotificationTypeMap.GetNotificationType(e.GetType()),
                     Id = e.Id,
                     CreatedAt = e.CreatedAt,
                     IsRead = e.IsRead,
@@ -51,6 +53,7 @@ public class NotificationMapper
             case YourQueuePositionChangedNotificationEntity e:
                 return new YourQueuePositionChangedNotification
                 {
+                    Type = NotificationTypeMap.GetNotificationType(e.GetType()),
                     Id = e.Id,
                     CreatedAt = e.CreatedAt,
                     IsRead = e.IsRead,
@@ -61,6 +64,7 @@ public class NotificationMapper
             case FriendTakeBookToReadNotificationEntity e:
                 return new FriendTakeBookToReadNotification
                 {
+                    Type = NotificationTypeMap.GetNotificationType(e.GetType()),
                     Id = e.Id,
                     CreatedAt = e.CreatedAt,
                     IsRead = e.IsRead,
@@ -71,6 +75,7 @@ public class NotificationMapper
             case NewBooksInFriendShelfNotificationEntity e:
                 return new NewBooksInFriendShelfNotification
                 {
+                    Type = NotificationTypeMap.GetNotificationType(e.GetType()),
                     Id = e.Id,
                     CreatedAt = e.CreatedAt,
                     IsRead = e.IsRead,
@@ -83,6 +88,7 @@ public class NotificationMapper
             case FriendshipStatusChangedNotificationEntity e:
                 return new FriendshipStatusChangedNotification
                 {
+                    Type = NotificationTypeMap.GetNotificationType(e.GetType()),
                     Id = e.Id,
                     CreatedAt = e.CreatedAt,
                     IsRead = e.IsRead,

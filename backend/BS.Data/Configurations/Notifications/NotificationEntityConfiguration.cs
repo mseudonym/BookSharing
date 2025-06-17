@@ -25,16 +25,7 @@ public class NotificationEntityConfiguration : IEntityTypeConfiguration<Notifica
 
         // Дискриминатор для TPH
         var notificationTypeColumnName = "NotificationType";
-        builder.HasDiscriminator<string>(notificationTypeColumnName)
-            // Friendship
-            .HasValueByTypeName<FriendshipStatusChangedNotificationEntity>()
-            // Friends updates
-            .HasValueByTypeName<FriendTakeBookToReadNotificationEntity>()
-            .HasValueByTypeName<NewBooksInFriendShelfNotificationEntity>()
-            // Items
-            .HasValueByTypeName<SomeoneQueueToItemNotificationEntity>()
-            .HasValueByTypeName<YourQueuePositionChangedNotificationEntity>()
-            .HasValueByTypeName<SomeoneBecameHolderOfYourItemNotificationEntity>();
+        builder.HasNotificationDiscriminator(notificationTypeColumnName);
 
         builder.Property(notificationTypeColumnName)
             .HasColumnName(notificationTypeColumnName)
