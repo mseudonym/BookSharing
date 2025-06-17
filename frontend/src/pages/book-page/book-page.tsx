@@ -1,5 +1,5 @@
 import { ActionIcon, Divider, Menu, Modal, Title, Text, Button, Image, SimpleGrid } from '@mantine/core';
-import { useDisclosure, useViewportSize } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
@@ -28,7 +28,6 @@ import { Wrapper } from '~/ui/wrapper';
 
 export const BookPage = () => {
   const { id } = useParams();
-  const { width } = useViewportSize();
   const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
   const { data: ownerQueue } = useGetItemsMyByBook({ bookId: id });
   const {
@@ -41,12 +40,12 @@ export const BookPage = () => {
   const { mutateAsync: deleteBook } = useMutation({
     mutationFn: deleteItemsRemoveFromMyShelf,
     onSuccess: async () => {
-      router.navigate(AppRoute.Profile);
+      await router.navigate(AppRoute.Profile);
     },
   });
 
   const onDeleteBook = () => {
-    deleteBook({ bookId: id! });
+    deleteBook({ bookId: id! }).then();
   };
 
   if (isLoadingBook || isLoadingQueues) {
@@ -116,7 +115,7 @@ export const BookPage = () => {
                     г.
                   </Text>
                 </div>
-                <Title order={5} ta={width <= 768 && 'center'}>{book?.title}</Title>
+                <Title order={5} className={styles.bookTitle}>{book?.title}</Title>
               </div>
               <div className={styles.bookBlock}>
                 <Text span className={_styles.textGray}>Описание</Text>
