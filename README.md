@@ -1,4 +1,4 @@
-<img src="https://storage.yandexcloud.net/bs-logos/Logo.png" width="225">
+<img alt="Logo" src="https://storage.yandexcloud.net/bs-logos/Logo.png" width="225">
 
 This React application helps you create a local book club. Share your personal library, borrow books from friends by joining a queue, and stay up-to-date on everyone’s current reads.
 
