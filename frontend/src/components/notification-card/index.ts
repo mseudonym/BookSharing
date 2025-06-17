@@ -1,1 +1,1 @@
-export { NotificationCard } from './notification-card'
+export { NotificationCard } from './notification-card';
