@@ -41,7 +41,6 @@ public class ItemService : IItemService
 
     private async Task<Result<ItemModel>> GetItemAsync(Guid itemId)
     {
-        //TODO: Проверять на то, что мы в друзьях у держателя
         var item = await _dbContext.Items.FindAsync(itemId);
         if (item == null) return Result.Fail<ItemModel>("Item not found");
         var queueItemEntities = await _dbContext.QueueItems
@@ -298,9 +297,28 @@ public class ItemService : IItemService
     public async Task<Result> LeaveQueueAsync(Guid itemId)
     {
         var currentUserId = await _currentUserService.GetIdAsync();
-        await _dbContext.QueueItems
-            .Where(queueItem => queueItem.ItemId == itemId && queueItem.UserId == currentUserId)
-            .ExecuteDeleteAsync();
+        
+        var item = await _dbContext.Items
+            .Where(item => item.Id == itemId)
+            .Include(item => item.QueueItems)
+            .Include(item => item.Owner)
+            .Include(item => item.Holder)
+            .FirstOrDefaultAsync();
+        
+        if (item is null)
+            return Result.Fail("Item not found");
+        var queue = GetQueueItems(item);
+        var currentUserQueueItem = queue.FirstOrDefault(q => q.UserId == currentUserId);
+        if (currentUserQueueItem is null)
+        {
+            return Result.Fail(new OperationAlreadyApplied("User not in queue for item"));
+        }
+        
+        _dbContext.QueueItems.Remove(currentUserQueueItem);
+        queue.Remove(currentUserQueueItem);
+        AddPositionChangeNotificationsWhenCurrentUserLeave(queue, item);
+
+        await _dbContext.SaveChangesAsync();
         return Result.Ok();
     }
 
@@ -331,6 +349,7 @@ public class ItemService : IItemService
         if (isCurrentUserFirstInQueue)
         {
             _dbContext.QueueItems.Remove(queue[0]);
+            queue.RemoveAt(0);
         }
         
         var now = _timeProvider.GetUtcNow().UtcDateTime;
@@ -342,7 +361,7 @@ public class ItemService : IItemService
                 .Where(u => u.Id == currentUserId)
                 .Include(u => u.Friends)
                 .FirstAsync();
-            foreach (var friend in newHolder.Friends)
+            foreach (var friend in newHolder.Friends.Where(f => f.Id != item.OwnerId))
             {
                 _dbContext.Notifications.Add(new FriendTakeBookToReadNotificationEntity
                 {
@@ -364,29 +383,34 @@ public class ItemService : IItemService
                     ItemId = item.Id,
                     NewHolderId = newHolderEntity.Id,
                     CreatedAt = now,
-                    ShouldBeSentAt = now
+                    ShouldBeSentAt = now,
                 });
             }
         }
 
-        // Уведомления о смене позиции в очереди для оставшихся
+        AddPositionChangeNotificationsWhenCurrentUserLeave(queue, item);
+
+        await _dbContext.SaveChangesAsync();
+        return Result.Ok();
+    }
+
+    // Уведомления о смене позиции в очереди для оставшихся
+    private void AddPositionChangeNotificationsWhenCurrentUserLeave(List<QueueItemEntity> queue, ItemEntity item)
+    {
+        var now = _timeProvider.GetUtcNow().UtcDateTime;
+
         for (var i = 0; i < queue.Count; i++)
         {
             var queueUser = queue[i];
-            if (queueUser.UserId == currentUserId)
-                continue;
             _dbContext.Notifications.Add(new YourQueuePositionChangedNotificationEntity
             {
                 RecipientId = queueUser.UserId,
                 ItemId = item.Id,
                 NewPosition = i + 1,
                 CreatedAt = now,
-                ShouldBeSentAt = now
+                ShouldBeSentAt = now,
             });
         }
-        
-        await _dbContext.SaveChangesAsync();
-        return Result.Ok();
     }
 
     private async Task<bool> IsUserOwnsItem(Guid userId, Guid itemId)
