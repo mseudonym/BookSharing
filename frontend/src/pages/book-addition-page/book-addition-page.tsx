@@ -66,14 +66,14 @@ export const BookAdditionPage = () => {
                 <ScanFrameBarcodeClassicIcon20Regular/>
               </ActionIcon>}/>
           {!isErrorIsbn && bookIsbn &&
-          <BookAdditionCard {...bookIsbn} isUserAlreadyHaveBook={myBooksSet.has(bookIsbn.id)}/>}
+            <BookAdditionCard {...bookIsbn} isUserAlreadyHaveBook={myBooksSet.has(bookIsbn.id)}/>}
           {isbnQuery &&
-          <Flex direction='column' gap='sm' align='center' className={styles.buttonWithDescription}>
-            <Text className={_styles.textGray}>Не нашли что искали?</Text>
-            <Button
-              onClick={() => router.navigate(AppRoute.AddBookManually)}
-              variant='outline'>Добавить книгу вручную</Button>
-          </Flex>}
+            <Flex direction='column' gap='sm' align='center' className={styles.buttonWithDescription}>
+              <Text className={_styles.textGray}>Не нашли что искали?</Text>
+              <Button
+                onClick={() => router.navigate(AppRoute.AddBookManually)}
+                variant='outline'>Добавить книгу вручную</Button>
+            </Flex>}
         </Tabs.Panel>
 
         <Tabs.Panel value={BookAdditionTabs.Title}>

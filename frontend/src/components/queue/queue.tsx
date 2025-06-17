@@ -19,7 +19,7 @@ import { getNounForm } from '~/helpers/helpers';
 import { router } from '~/main';
 
 interface QueueProps extends ItemModel {
-    bookId: string;
+  bookId: string;
 }
 
 export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: QueueProps) => {
@@ -128,10 +128,10 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
               </Avatar.Group>
             </Flex>
           ))
-        : (firstInQueue
-          ? <Flex direction='column' gap='sm'>
-            <Text span className={_styles.textGray}>Следующий в очереди</Text>
-            <Flex gap='md'>
+        : <Flex direction='column' gap='sm'>
+          <Text span className={_styles.textGray}>Следующий в очереди</Text>
+          {firstInQueue
+            ? <Flex gap='md'>
               <Avatar
                 src={firstInQueue.lowQualityPhotoUrl ?? '/default-profile.png'}
                 radius='xl'
@@ -146,11 +146,10 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
                 <Anchor href={firstInQueue.contactUrl ?? ''}>Связаться</Anchor>
               </Flex>
             </Flex>
-          </Flex>
-          : <Flex direction='column' gap='sm'>
-            <Text span className={_styles.textGray}>Текущий держатель</Text>
-            <Text>Пока никого</Text>
-          </Flex>)}
+            : <Text>Пока никого</Text>
+          }
+        </Flex>
+      }
 
       {!isUserHolder && (!isUserInQueue
         ? isUserOwner

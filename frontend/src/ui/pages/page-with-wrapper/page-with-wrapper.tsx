@@ -5,9 +5,9 @@ import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper';
 
 type PageWithWrapperProps = {
-    backgroundColor?: BackgroundColor;
-    alignWrapper?: WrapperAlign;
-    withoutMenu?: boolean;
+  backgroundColor?: BackgroundColor;
+  alignWrapper?: WrapperAlign;
+  withoutMenu?: boolean;
 }
 
 export const PageWithWrapper = ({

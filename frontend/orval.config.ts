@@ -1,10 +1,7 @@
 import { config } from 'dotenv';
-// Импорт path для CommonJS-совместимости
 import * as path from 'path';
 
-// Сначала загружаем .env (базовые значения)
 config({ path: path.resolve(process.cwd(), '.env') });
-// Затем .env.local (локальные значения перекрывают базовые)
 config({ path: path.resolve(process.cwd(), '.env.local'), override: true });
 
 import { defineConfig } from 'orval';

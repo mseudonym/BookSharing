@@ -59,17 +59,17 @@ export const ProfileSettingsForm = () => {
     },
 
     onError: (error: AxiosError<{
-            problemDetails: {
-                errors: {
-                    UsernameAlreadyTakenError?: string[];
-                }
-            }
-        }>) => {
+      problemDetails: {
+        errors: {
+          UsernameAlreadyTakenError?: string[];
+        }
+      }
+    }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.problemDetails.errors) {
           const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0]
-                        && 'Никнейм уже занят') || undefined;
+            && 'Никнейм уже занят') || undefined;
 
           notifications.show({
             title: 'Ошибка сохранения',

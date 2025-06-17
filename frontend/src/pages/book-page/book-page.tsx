@@ -15,7 +15,11 @@ import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { Queue } from '~/components/queue/queue';
 import { AppRoute } from '~/conts';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
-import { deleteItemsRemoveFromMyShelf, useGetItemsFriendsByBook, useGetItemsMyByBook } from '~/generated-api/items/items';
+import {
+  deleteItemsRemoveFromMyShelf,
+  useGetItemsFriendsByBook,
+  useGetItemsMyByBook
+} from '~/generated-api/items/items';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { LoadingPage } from '~/pages/loading-page';
@@ -36,12 +40,12 @@ export const BookPage = () => {
   const { mutateAsync: deleteBook } = useMutation({
     mutationFn: deleteItemsRemoveFromMyShelf,
     onSuccess: async () => {
-      router.navigate(AppRoute.Profile);
+      await router.navigate(AppRoute.Profile);
     },
   });
 
   const onDeleteBook = () => {
-    deleteBook({ bookId: id! });
+    deleteBook({ bookId: id! }).then();
   };
 
   if (isLoadingBook || isLoadingQueues) {
@@ -111,7 +115,7 @@ export const BookPage = () => {
                     г.
                   </Text>
                 </div>
-                <Title order={5} ta='center'>{book?.title}</Title>
+                <Title order={5} className={styles.bookTitle}>{book?.title}</Title>
               </div>
               <div className={styles.bookBlock}>
                 <Text span className={_styles.textGray}>Описание</Text>
@@ -121,13 +125,13 @@ export const BookPage = () => {
             </div>
 
             {ownerQueue &&
-            <section className={styles.queues}>
-              <Header className={styles.queueTitle} variant='left' withPadding>
-                <Title order={5}>Эта книга у ваc</Title>
-              </Header>
-              <Queue {...ownerQueue} bookId={id!} key={id!}/>
-              <Divider my='l'/>
-            </section>
+              <section className={styles.queues}>
+                <Header className={styles.queueTitle} variant='left' withPadding>
+                  <Title order={5}>Эта книга у ваc</Title>
+                </Header>
+                <Queue {...ownerQueue} bookId={id!} key={id!}/>
+                <Divider my='l'/>
+              </section>
             }
 
             {queueList == undefined || queueList.length == 0 ?

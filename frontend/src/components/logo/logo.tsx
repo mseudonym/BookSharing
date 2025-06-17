@@ -4,8 +4,8 @@ import React from 'react';
 import styles from '~/components/logo/logo.module.css';
 
 type LogoProps = {
-    size?: 'small' | 'big';
-    className?: string;
+  size?: 'small' | 'big';
+  className?: string;
 }
 
 export const Logo = ({ size = 'small', className }: LogoProps) => {

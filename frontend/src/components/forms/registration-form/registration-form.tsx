@@ -39,15 +39,15 @@ export const RegistrationForm = () => {
   const { mutateAsync: registerMutation } = useMutation({
     mutationFn: postAuthRegister,
     onError: (error: AxiosError<{
-            errors: {
-                DuplicateEmail?: string[];
-            }
-        }>) => {
+      errors: {
+        DuplicateEmail?: string[];
+      }
+    }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.errors) {
           const errorMessage = (errorData.errors.DuplicateEmail?.[0] && 'Email уже занят') ||
-                        undefined;
+            undefined;
 
           notifications.show({
             title: 'Ошибка регистрации',

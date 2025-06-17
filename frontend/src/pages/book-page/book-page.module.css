@@ -9,7 +9,7 @@
 
 .bookContent {
   display: flex;
-  padding: var(--mantine-spacing-md) 0px var(--mantine-spacing-xl) 0px;
+  padding: var(--mantine-spacing-md) 0 var(--mantine-spacing-xl) 0;
   flex-direction: column;
   align-items: center;
   gap: var(--mantine-spacing-lg);
@@ -38,7 +38,7 @@
   display: flex;
   max-width: 600px;
   width: 100%;
-  padding: 0px var(--mantine-spacing-md);
+  padding: 0 var(--mantine-spacing-md);
   flex-direction: column;
   align-items: center;
   gap: var(--mantine-spacing-md);
@@ -70,6 +70,10 @@
   align-self: stretch;
 }
 
+.bookTitle {
+  text-align: center;
+}
+
 .queues {
   display: flex;
   max-width: 600px;
@@ -88,7 +92,7 @@
   max-width: 600px;
   min-width: 300px;
   width: 100%;
-  padding: 0px var(--mantine-spacing-md);
+  padding: 0 var(--mantine-spacing-md);
   flex-direction: column;
   align-items: center;
   gap: var(--mantine-spacing-md);
@@ -127,7 +131,7 @@
   }
 
   .bookContent {
-    padding: 0;
+    padding: 0 0 var(--mantine-spacing-xl) 0;
   }
 
   .bookWrapper {
@@ -145,6 +149,10 @@
 
   .bookHeader {
     align-items: flex-start;
+  }
+
+  .bookTitle {
+    text-align: left;
   }
 
   .menuDesktopButton {

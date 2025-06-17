@@ -129,7 +129,7 @@ export const LandingPage = () => {
                 <Burger opened={opened} onClick={open} className={styles.burger}/>
               </Flex>
               <Flex direction='column' align='center' className={styles.heroContent}>
-                <Title ta='center' order={mainTitleOrder}>Объедените книжные полки с друзьями</Title>
+                <Title textWrap='balance' ta='center' order={mainTitleOrder}>Объедените книжные полки с друзьями</Title>
                 <Text size={textSize} ta='center'>Читайте их книги, делитесь своими — это экологично,
                   выгодно и объединяет. Узнайте, что можно взять почитать, вместо покупки. Шерите
                   контекст, экономьте ресурсы!</Text>
@@ -267,7 +267,7 @@ export const LandingPage = () => {
                 </Flex>
               </div>
               <div className={styles.secondCreator}>
-                <Avatar src='/alexandr.png' className={styles.avatar}/>
+                <Avatar src='/alexander.png' className={styles.avatar}/>
                 <Flex direction='column' gap={8} align='center'>
                   <Title ta='center' order={creatorTitleOrder}>Александр Михайличенко</Title>
                   <Text ta='center' size={textSize} className={_styles.textGray}>Дизайнер,

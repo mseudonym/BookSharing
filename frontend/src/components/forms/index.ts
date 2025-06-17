@@ -1,4 +1,4 @@
-export { BookAdditionManuallyForm } from '~/components/forms/book-addition-manually-form/book-addition-manually-form';
+export { BookAdditionManuallyForm } from './book-addition-manually-form/book-addition-manually-form';
 export { LoginForm } from './login-form/login-form';
 export { ProfileFillingForm } from './profile-filling-form/profile-filling-form';
 export { RegistrationForm } from './registration-form/registration-form';
@@ -6,4 +6,4 @@ export { ForgotPasswordForm } from './forgot-password-form/forgot-password-form'
 export { ProfileSettingsForm } from './profile-settings-form/profile-settings-form';
 export { PasswordSettingsForm } from './password-settings-form/password-settings-form';
 export { EmailSettingsForm } from './email-settings-form/email-settings-form';
-export { ResetPasswordForm } from '~/components/forms/reset-password-form/reset-password-form';
+export { ResetPasswordForm } from './reset-password-form/reset-password-form';

@@ -64,7 +64,7 @@ export const ForgotPasswordForm = () => {
         placeholder='Введите почту'
         {...register('email')}
         error={errors?.email?.message}
-            />
+      />
 
       <Button fullWidth variant='filled' loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Войти

@@ -29,7 +29,7 @@ export const FriendsPage = () => {
       <Header variant='auto'>
         <Title order={5}>Друзья</Title>
         <ActionIcon variant='transparent' onClick={() => {
-          router.navigate(AppRoute.SearchFriends);
+          router.navigate(AppRoute.SearchFriends).then();
         }}>
           <SearchLoupeIcon24Regular/>
         </ActionIcon>
@@ -40,45 +40,45 @@ export const FriendsPage = () => {
           <Tabs.Tab value={FriendsTabs.MyFriends}>Мои друзья</Tabs.Tab>
           <Tabs.Tab value={FriendsTabs.Requests}
             rightSection={requestList && requestList.length > 0 &&
-            <Badge>{requestList.length}</Badge>}>
+              <Badge>{requestList.length}</Badge>}>
             Запросы
           </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value={FriendsTabs.MyFriends}>
-          {friendList == undefined || friendList.length == 0 ?
-            (
+          {friendList == undefined || friendList.length == 0
+            ? (
               <IllustrationWrapper
                 src='/friends-illustration.svg'
                 alt='No friends illustration'
                 text='Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху.'
               />
-            ) :
-              <SimpleGrid
+            )
+            : <SimpleGrid
                 cols={{ base: 1, md: 2 }}
                 spacing={{ base: 'md', }}
                 verticalSpacing={{ base: 'md' }}
             >
-                {friendList.map((friend) => <FriendCard {...friend} key={friend.id}/>)}
-              </SimpleGrid>
+              {friendList.map((friend) => <FriendCard {...friend} key={friend.id}/>)}
+            </SimpleGrid>
           }
         </Tabs.Panel>
 
         <Tabs.Panel value={FriendsTabs.Requests}>
-          {requestList == undefined || requestList.length == 0 ?
-            (
+          {requestList == undefined || requestList.length == 0
+            ? (
               <IllustrationWrapper
                 src='/request-illustration.svg'
                 alt='No requests illustration'
                 text='Заявок пока нет, но можно кого-нибудь добавить самому.'
-              />) :
-              <SimpleGrid
+              />)
+            : <SimpleGrid
                 cols={{ base: 1 }}
                 spacing={{ base: 'md', md: 'xl' }}
                 verticalSpacing={{ base: 'md', md: 'xl' }}
             >
-                {requestList.map((person) => <RequestCard {...person} key={person.id}/>)}
-              </SimpleGrid>
+              {requestList.map((person) => <RequestCard {...person} key={person.id}/>)}
+            </SimpleGrid>
           }
         </Tabs.Panel>
       </Tabs>

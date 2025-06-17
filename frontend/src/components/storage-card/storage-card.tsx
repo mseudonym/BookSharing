@@ -10,7 +10,7 @@ import { getNounForm } from '~/helpers/helpers';
 import { router } from '~/main';
 
 interface StorageFriendCardProps extends ItemInfo {
-    user: UserData | undefined;
+  user: UserData | undefined;
 }
 
 const getCardText = (props: StorageFriendCardProps): string | null => {
@@ -76,7 +76,7 @@ export const StorageCard = (props: StorageFriendCardProps) => {
               const [urlAndText, ...rest] = part.split(']');
               const [url, ...linkTextParts] = urlAndText.split(' ');
               const linkText = linkTextParts.join(' ');
-              const remainingText = rest.join(']'); //Extract all text from end
+              const remainingText = rest.join(']');
 
               if (!url) return [part];
 

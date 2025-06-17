@@ -1,12 +1,29 @@
-import { ActionIcon, Notification, Anchor, AppShell, Burger, Button, createTheme, Divider, Input, Loader, Menu, Modal, PasswordInput, Textarea, TextInput, Title, Text, Card, Tabs, Badge, Overlay } from '@mantine/core';
+import {
+  ActionIcon,
+  Notification,
+  Anchor,
+  AppShell,
+  Burger,
+  Button,
+  createTheme,
+  Divider,
+  Input,
+  Loader,
+  Menu,
+  Modal,
+  PasswordInput,
+  Textarea,
+  TextInput,
+  Title,
+  Text,
+  Card,
+  Tabs,
+  Badge,
+  Overlay,
+  Drawer
+} from '@mantine/core';
 
 import classes from './components.module.css';
-
-declare module '@mantine/core' {
-  export interface MantineTheme {
-    colorScheme: 'light' | 'dark';
-  }
-}
 
 export const theme = createTheme({
   headings: {
@@ -147,8 +164,8 @@ export const theme = createTheme({
     }),
     Input: Input.extend({
       classNames: {
-        wrapper: classes.inputWrapper, 
-        input: classes.input 
+        wrapper: classes.inputWrapper,
+        input: classes.input
       },
       defaultProps: {
         variant: 'default',
@@ -158,8 +175,8 @@ export const theme = createTheme({
     PasswordInput: PasswordInput.extend({
       classNames: {
         root: classes.inputWrapper,
-        input: classes.input, 
-        label: classes.inputLabel, 
+        input: classes.input,
+        label: classes.inputLabel,
         error: classes.inputError,
         visibilityToggle: classes.visibilityToggle
       },
@@ -169,15 +186,22 @@ export const theme = createTheme({
       },
     }),
     TextInput: TextInput.extend({
-      classNames: { 
+      classNames: {
         root: classes.inputWrapper,
-        input: classes.input, 
-        label: classes.inputLabel, 
-        error: classes.inputError 
+        input: classes.input,
+        label: classes.inputLabel,
+        error: classes.inputError
       },
       defaultProps: {
         variant: 'default',
         size: 'md',
+      },
+      styles: {
+        description: {
+          fontStyle: 'italic',
+          fontFamily: 'Inter, sans-serif',
+          color: 'var(--secondary-text-color)'
+        },
       },
     }),
     Textarea: Textarea.extend({
@@ -203,9 +227,9 @@ export const theme = createTheme({
       }
     }),
     Divider: Divider.extend({
-      classNames: { 
-        root: classes.divider, 
-        label: classes.dividerLabel 
+      classNames: {
+        root: classes.divider,
+        label: classes.dividerLabel
       },
     }),
     Tabs: Tabs.extend({
@@ -220,10 +244,19 @@ export const theme = createTheme({
       }
     }),
     Badge: Badge.extend({
-      classNames: { 
-        root: classes.badge, 
+      classNames: {
+        root: classes.badge,
         label: classes.badgeLabel
       },
+    }),
+    Drawer: Drawer.extend({
+      styles: (theme) => ({
+        title: {
+          ...theme.headings?.sizes?.h5,
+          fontWeight: theme.headings?.fontWeight,
+          fontFamily: theme.headings?.fontFamily,
+        },
+      }),
     }),
     Notification: Notification.extend({
       classNames: {

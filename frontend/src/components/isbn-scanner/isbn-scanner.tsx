@@ -164,18 +164,18 @@ export const ISBNScanner = () => {
     <>
       <Modal opened={opened} onClose={close} centered>
         <Flex direction='column' align='center' gap='md'>
-          <Image className={styles.bookCover} src={bookData?.bookCoverUrl} />
+          <Image className={styles.bookCover} src={bookData?.bookCoverUrl}/>
           <Title order={6}>{bookData?.title}</Title>
           <SimpleGrid
             cols={{ base: 1, sm: 2 }}
             spacing={{ base: 'md' }}
             verticalSpacing={{ base: 'md' }}
             style={{ width: '100%' }}
-            >
+          >
             <Button
               variant='filled'
               onClick={() => addBookToShelf({ bookId: bookData?.id })}
-              >
+            >
               Добавить книгу
             </Button>
             <Button variant='outline' onClick={close}>
@@ -185,7 +185,7 @@ export const ISBNScanner = () => {
         </Flex>
       </Modal>
 
-      {isLoading && <Loader />}
+      {isLoading && <Loader/>}
 
       {!isLoading && (isScanning ? (
         <>
@@ -199,18 +199,18 @@ export const ISBNScanner = () => {
             videoConstraints={videoConstraints}
             onUserMediaError={handleUserMediaError}
             style={{ width: '100%', maxWidth: '640px', border: '2px solid #ccc', borderRadius: '32px' }}
-              />
+          />
         </>
       ) : (
         <Flex direction='column' gap='md'>
           {isbn && !bookData && (
-          <>
-            <IllustrationWrapper
-              src='/scan-error.svg'
-              alt="Book isn't in database illustration"
-                    />
-            <Text span>Книги в базе нет, но вы можете добавить её вручную.</Text>
-          </>
+            <>
+              <IllustrationWrapper
+                src='/scan-error.svg'
+                alt="Book isn't in database illustration"
+              />
+              <Text span>Книги в базе нет, но вы можете добавить её вручную.</Text>
+            </>
           )}
           <Text span>Распознанный ISBN: {ISBN.hyphenate(isbn)}</Text>
           {error && <Text c='red'>{error}</Text>}

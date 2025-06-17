@@ -17,10 +17,10 @@ export const BookCard = ({ id, title, bookCoverUrl, author }: BookModel) => {
         className={styles.bookCover}
         alt={`Book cover for ${title}`}
       />
-      <div>
+      <>
         <Text lineClamp={3}>{title}</Text>
         <Text lineClamp={3} className={_styles.textGray}>{author}</Text>
-      </div>
+      </>
     </Card>
   );
 };
