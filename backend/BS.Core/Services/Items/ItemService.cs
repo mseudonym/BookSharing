@@ -247,13 +247,13 @@ public class ItemService : IItemService
         if (item is null)
             return Result.Fail(new ItemNotFoundError(itemId));
         
-        if (currentUser.Friends.All(friend => friend.Id != item.OwnerId))
+        if (currentUserId != item.OwnerId && currentUser.Friends.All(friend => friend.Id != item.OwnerId))
             return Result.Fail(new PersonIsNotYourFriendError(item.OwnerId));
         
         if (await _dbContext.QueueItems.AnyAsync(queueItem => queueItem.ItemId == itemId && queueItem.UserId == currentUserId))
             return Result.Fail(new OperationAlreadyApplied("The user is already in the queue"));
 
-        if (isForcesFirstByOwner && !await IsUserOwnsItem(currentUserId, itemId))
+        if (isForcesFirstByOwner && currentUserId != item.OwnerId)
             return Result.Fail(new OperationForbiddenError("The user is not owner of this item."));
 
         await _dbContext.QueueItems.AddAsync(new QueueItemEntity
@@ -309,7 +309,7 @@ public class ItemService : IItemService
             return Result.Fail("Item not found");
         var queue = GetQueueItems(item);
         var currentUserQueueItem = queue.FirstOrDefault(q => q.UserId == currentUserId);
-        if (currentUserQueueItem is null)
+        if (currentUserQueueItem is null)  
         {
             return Result.Fail(new OperationAlreadyApplied("User not in queue for item"));
         }
@@ -411,18 +411,6 @@ public class ItemService : IItemService
                 ShouldBeSentAt = now,
             });
         }
-    }
-
-    private async Task<bool> IsUserOwnsItem(Guid userId, Guid itemId)
-    {
-        var user = await _dbContext.Users
-            .Where(user => user.Id == userId)
-            .Include(user => user.Items)
-            .FirstAsync();
-
-        if (user.Items.Any(item => item.Id == itemId)) return true;
-
-        return false;
     }
     
     private ItemInfo ToFriendItemModel(ItemEntity item, Guid currentUserId)
