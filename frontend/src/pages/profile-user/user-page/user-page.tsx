@@ -124,7 +124,7 @@ export const UserPage = () => {
   }
 
   if (isErrorUser || isErrorBooks || isErrorUserMe || !user) {
-    return <ErrorPage/>;
+    return <ErrorPage withoutMenu={false}/>;
   }
 
   if (userMe?.id === user?.id) {

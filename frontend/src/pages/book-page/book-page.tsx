@@ -53,7 +53,7 @@ export const BookPage = () => {
   }
 
   if (isErrorBook || isErrorQueues || !book) {
-    return <ErrorPage/>;
+    return <ErrorPage withoutMenu={false}/>;
   }
 
   return (

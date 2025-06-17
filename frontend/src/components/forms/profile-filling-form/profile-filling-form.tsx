@@ -114,7 +114,6 @@ export const ProfileFillingForm = () => {
       <TextInput
         label='Ссылка для связи'
         placeholder='Введите ссылку для связи'
-        description='(Нужна, чтобы другие пользователи могли связаться с вами.)'
         {...register('contactUrl')}
         error={errors?.contactUrl?.message}
       />

@@ -33,24 +33,24 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
       notifications.show({
         title: answer?.isAccepted ? 'Запрос в друзья принят' : 'Запрос в друзья отклонен',
         message: undefined,
-        color: 'var(--red-color)',
+        color: answer?.isAccepted ? 'var(--green-color)' : 'var(--red-color)',
       });
     },
   });
 
   const onSubmit = async (isAccepted: boolean) => {
-    sendAnswer({ isAccepted, personToRespondId: id });
+    await sendAnswer({ isAccepted, personToRespondId: id });
   };
 
   const onAccept = async () => {
     setIsLoadingAccept(true);
-    onSubmit(true);
+    await onSubmit(true);
     setIsLoadingAccept(false);
   };
 
   const onReject = async () => {
     setIsLoadingReject(true);
-    onSubmit(false);
+    await onSubmit(false);
     setIsLoadingReject(false);
   };
 

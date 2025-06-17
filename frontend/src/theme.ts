@@ -196,13 +196,6 @@ export const theme = createTheme({
         variant: 'default',
         size: 'md',
       },
-      styles: {
-        description: {
-          fontStyle: 'italic',
-          fontFamily: 'Inter, sans-serif',
-          color: 'var(--secondary-text-color)'
-        },
-      },
     }),
     Textarea: Textarea.extend({
       classNames: {

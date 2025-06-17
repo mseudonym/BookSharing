@@ -6,7 +6,7 @@ export const queryClient = new QueryClient({
     queries: {
       retry: (_, error) => {
         const axiosError = error as AxiosError;
-        return axiosError.response?.status !== 404;
+        return (axiosError.response?.status !== 404 && axiosError.response?.status !== 400);
       },
     },
   },

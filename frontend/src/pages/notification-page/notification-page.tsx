@@ -43,6 +43,7 @@ export const NotificationPage = ({ isOpen, onClose }: NotificationPageProps) => 
       title='Уведомления'
       position='left'
       size='md'
+      style={{ overflowX: 'hidden' }}
     >
       {isLoading && <Loader/>}
       {!isLoading && data && (
