@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import styles from './fade-in-section.module.css';
+import styles from '~/ui/fade-in-section/fade-in-section.module.css';
 
 interface FadeInSectionProps {
-    children: React.ReactNode;
-    rootMargin?: string;
-    threshold?: number;
-    className?: string;
+  children: React.ReactNode;
+  rootMargin?: string;
+  threshold?: number;
+  className?: string;
 }
 
 export const FadeInSection = React.memo(({
@@ -53,7 +53,7 @@ export const FadeInSection = React.memo(({
       ref={domRef}
       className={`${styles.fadeInSection} ${isVisible ? styles.visible : ''} ${className}`}
       aria-hidden={!isVisible}
-        >
+    >
       {children}
     </div>
   );

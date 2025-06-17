@@ -389,7 +389,7 @@
 
 /* Badge styles */
 .badge {
-  padding: 0px var(--mantine-spacing-xs);
+  padding: 0 var(--mantine-spacing-xs);
   gap: var(--mantine-spacing-xs);
   border-radius: var(--mantine-spacing-md);
   color: var(--white-color);

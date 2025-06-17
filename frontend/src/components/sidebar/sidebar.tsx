@@ -1,4 +1,4 @@
-import { AppShell, SegmentedControl, Drawer } from '@mantine/core';
+import { AppShell, SegmentedControl } from '@mantine/core';
 import {
   BooksLibraryIcon24Regular,
   BooksLibraryIcon24Solid,
@@ -21,6 +21,7 @@ import styles from '~/components/sidebar/sidebar.module.css';
 import { Logo } from '~/components/logo';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
+import { NotificationPage } from '~/pages/notification-page';
 
 const allSidebarItems = [
   {
@@ -70,7 +71,7 @@ export const Sidebar = () => {
       setIsNotificationsOpen(true);
       return;
     }
-    router.navigate(value);
+    router.navigate(value).then();
   };
 
   const mainItems = allSidebarItems.slice(0, 4);
@@ -121,15 +122,7 @@ export const Sidebar = () => {
         />
       </AppShell.Section>
 
-      <Drawer
-        opened={isNotificationsOpen}
-        onClose={() => setIsNotificationsOpen(false)}
-        title='Уведомления'
-        position='left'
-        size='md'
-      >
-        {/* Здесь будет содержимое уведомлений */}
-      </Drawer>
+      <NotificationPage isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)}/>
     </AppShell.Navbar>
   );
 };

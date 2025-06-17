@@ -267,7 +267,7 @@ export const LandingPage = () => {
                 </Flex>
               </div>
               <div className={styles.secondCreator}>
-                <Avatar src='/alexandr.png' className={styles.avatar}/>
+                <Avatar src='/alexander.png' className={styles.avatar}/>
                 <Flex direction='column' gap={8} align='center'>
                   <Title ta='center' order={creatorTitleOrder}>Александр Михайличенко</Title>
                   <Text ta='center' size={textSize} className={_styles.textGray}>Дизайнер,

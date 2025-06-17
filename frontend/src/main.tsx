@@ -36,6 +36,26 @@ import { PublicRoute } from '~/ui/public-route';
 
 export const router = createBrowserRouter([
   {
+    path: `${AppRoute.Root}`,
+    element: <LandingPage/>,
+  },
+  {
+    path: `${AppRoute.EmailConfirmationWaiting}`,
+    element: <EmailConfirmationWaitingPage/>,
+  },
+  {
+    path: `${AppRoute.EmailConfirmation}`,
+    element: <EmailConfirmationPage/>,
+  },
+  {
+    path: `${AppRoute.ResetPassword}`,
+    element: <ResetPasswordPage/>,
+  },
+  {
+    path: `${AppRoute.ProfileFilling}`,
+    element: <ProfileFillingPage/>,
+  },
+  {
     element: <PublicRoute/>,
     children: [
       {
@@ -55,22 +75,6 @@ export const router = createBrowserRouter([
         element: <ForgotPasswordPage/>,
       },
     ],
-  },
-  {
-    path: `${AppRoute.EmailConfirmationWaiting}`,
-    element: <EmailConfirmationWaitingPage/>,
-  },
-  {
-    path: `${AppRoute.EmailConfirmation}`,
-    element: <EmailConfirmationPage/>,
-  },
-  {
-    path: `${AppRoute.ResetPassword}`,
-    element: <ResetPasswordPage/>,
-  },
-  {
-    path: `${AppRoute.ProfileFilling}`,
-    element: <ProfileFillingPage/>,
   },
   {
     element: <PrivateRoute/>,
@@ -160,7 +164,7 @@ const App = () => {
 };
 
 const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 
 root.render(

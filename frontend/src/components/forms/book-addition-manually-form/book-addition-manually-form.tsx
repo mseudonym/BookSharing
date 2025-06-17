@@ -80,13 +80,13 @@ export const BookAdditionManuallyForm = () => {
           BookCoverContentType_NotSupportedType: string[];
         }
       }
-  }>) => {
+    }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.problemDetails?.errors) {
           const errorMessage = (errorData.problemDetails.errors.BookCoverContentType_NotSupportedType?.[0] && 'Поддерживаемый формат изображения — jpeg') ||
-                        (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') ||
-                        undefined;
+            (errorData.problemDetails.errors.BookAlreadyAddedError?.[0] && 'Книга с таким ISBN уже существует') ||
+            undefined;
           setError('bookCover', { message: errorMessage });
 
           notifications.show({

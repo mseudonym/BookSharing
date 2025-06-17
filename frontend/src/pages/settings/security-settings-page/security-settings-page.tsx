@@ -26,7 +26,7 @@ export const SecuritySettingsPage = () => {
         fullWidth
         leftSection={<MailIcon24Regular/>}
         onClick={() => {
-          router.navigate(AppRoute.EmailSettings);
+          router.navigate(AppRoute.EmailSettings).then();
         }}>
         Изменение почты
       </Button>
@@ -37,7 +37,7 @@ export const SecuritySettingsPage = () => {
         fullWidth
         leftSection={<SecurityPasswordInputIcon24Regular/>}
         onClick={() => {
-          router.navigate(AppRoute.PasswordSettings);
+          router.navigate(AppRoute.PasswordSettings).then();
         }}>
         Изменение пароля
       </Button>

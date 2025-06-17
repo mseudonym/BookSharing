@@ -4,10 +4,10 @@ import React from 'react';
 import styles from '~/components/illustration-wrapper/illustration-wrapper.module.css';
 
 interface IllustrationWrapperProps {
-    src: string;
-    alt: string;
-    text?: string;
-    size?: 'small' | 'big';
+  src: string;
+  alt: string;
+  text?: string;
+  size?: 'small' | 'big';
 }
 
 export const IllustrationWrapper = ({ src, alt, text, size = 'small' }: IllustrationWrapperProps) => {

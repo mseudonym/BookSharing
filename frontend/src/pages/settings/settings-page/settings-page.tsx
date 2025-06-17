@@ -13,14 +13,15 @@ import styles from '~/pages/settings/settings.module.css';
 import { Header } from '~/components/header/header';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
+import { dropToken } from '~/services/token';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const SettingsPage = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const logout = () => {
-    localStorage.removeItem('bs-token');
-    router.navigate(AppRoute.Root);
+    dropToken();
+    router.navigate(AppRoute.Root).then();
     return {};
   };
 
@@ -67,10 +68,6 @@ export const SettingsPage = () => {
           onClick={() => router.navigate(AppRoute.SecuritySettings)}>
           Безопасность
         </Button>
-
-        {/* <Button leftSection={<SettingsIcon24Regular />}>
-        Уведомления
-      </Button> */}
 
         <Button fullWidth leftSection={<ArrowUiAuthLogoutIcon24Regular/>} onClick={open}>
           Выйти из аккаунта

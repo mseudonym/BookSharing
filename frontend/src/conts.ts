@@ -1,44 +1,44 @@
 import * as zod from 'zod';
 
 export enum AppRoute {
-    Root = '/',
-    Friends = '/friends',
-    Shelf = '/shelf',
-    Storage = '/storage',
-    Profile = '/profile',
-    Book = '/book/:id',
-    User = '/user/:username',
-    AddBook = '/add-book',
-    AddBookManually = '/add-book-manually',
-    Login = '/login',
-    Register = '/register',
-    ProfileFilling = '/profile-filling',
-    EmailConfirmationWaiting = '/email-confirmation-waiting',
-    EmailConfirmation = '/email-confirmation',
-    ResetPassword = '/reset-password',
-    SearchFriends = '/search-friends',
-    ForgotPassword = '/forgot-password',
-    Settings = '/settings',
-    ProfileSettings = '/profile-settings',
-    SecuritySettings = '/security-settings',
-    EmailSettings = '/email-settings',
-    PasswordSettings = '/password-settings',
-    ScanningCode = '/scanning-code'
+  Root = '/',
+  Friends = '/friends',
+  Shelf = '/shelf',
+  Storage = '/storage',
+  Profile = '/profile',
+  Book = '/book/:id',
+  User = '/user/:username',
+  AddBook = '/add-book',
+  AddBookManually = '/add-book-manually',
+  Login = '/login',
+  Register = '/register',
+  ProfileFilling = '/profile-filling',
+  EmailConfirmationWaiting = '/email-confirmation-waiting',
+  EmailConfirmation = '/email-confirmation',
+  ResetPassword = '/reset-password',
+  SearchFriends = '/search-friends',
+  ForgotPassword = '/forgot-password',
+  Settings = '/settings',
+  ProfileSettings = '/profile-settings',
+  SecuritySettings = '/security-settings',
+  EmailSettings = '/email-settings',
+  PasswordSettings = '/password-settings',
+  ScanningCode = '/scanning-code'
 }
 
 export enum FriendsTabs {
-    MyFriends = 'Мои друзья',
-    Requests = 'Заявки',
+  MyFriends = 'Мои друзья',
+  Requests = 'Заявки',
 }
 
 export enum StorageTabs {
-    Friends = 'Друзей',
-    My = 'Мои',
+  Friends = 'Друзей',
+  My = 'Мои',
 }
 
 export enum BookAdditionTabs {
-    Isbn = 'По ISBN',
-    Title = 'По названию'
+  Isbn = 'По ISBN',
+  Title = 'По названию'
 }
 
 export const REQUIRED_FIELD_TEXT = 'Обязательное поле';

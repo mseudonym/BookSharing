@@ -35,17 +35,17 @@ export const ProfileFillingForm = () => {
   const { mutateAsync: fillProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onError: (error: AxiosError<{
-            problemDetails: {
-                errors: {
-                    UsernameAlreadyTakenError?: string[];
-                }
-            }
-        }>) => {
+      problemDetails: {
+        errors: {
+          UsernameAlreadyTakenError?: string[];
+        }
+      }
+    }>) => {
       if (error.response?.status === 400) {
         const errorData = error.response.data;
         if (errorData.problemDetails?.errors) {
           const errorMessage = (errorData.problemDetails.errors.UsernameAlreadyTakenError?.[0] && 'Имя пользователя уже занято') ||
-                        undefined;
+            undefined;
 
           notifications.show({
             title: 'Ошибка заполнения профиля',
@@ -114,6 +114,7 @@ export const ProfileFillingForm = () => {
       <TextInput
         label='Ссылка для связи'
         placeholder='Введите ссылку для связи'
+        description='(Нужна, чтобы другие пользователи могли связаться с вами.)'
         {...register('contactUrl')}
         error={errors?.contactUrl?.message}
       />

@@ -1,5 +1,5 @@
 import { ActionIcon, Divider, Menu, Modal, Title, Text, Button, Image, SimpleGrid } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
@@ -15,7 +15,11 @@ import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { Queue } from '~/components/queue/queue';
 import { AppRoute } from '~/conts';
 import { useGetBooksByIdBookId } from '~/generated-api/books/books';
-import { deleteItemsRemoveFromMyShelf, useGetItemsFriendsByBook, useGetItemsMyByBook } from '~/generated-api/items/items';
+import {
+  deleteItemsRemoveFromMyShelf,
+  useGetItemsFriendsByBook,
+  useGetItemsMyByBook
+} from '~/generated-api/items/items';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { LoadingPage } from '~/pages/loading-page';
@@ -24,6 +28,7 @@ import { Wrapper } from '~/ui/wrapper';
 
 export const BookPage = () => {
   const { id } = useParams();
+  const { width } = useViewportSize();
   const { data: book, isLoading: isLoadingBook, isError: isErrorBook } = useGetBooksByIdBookId(id!);
   const { data: ownerQueue } = useGetItemsMyByBook({ bookId: id });
   const {
@@ -111,7 +116,7 @@ export const BookPage = () => {
                     г.
                   </Text>
                 </div>
-                <Title order={5} ta='center'>{book?.title}</Title>
+                <Title order={5} ta={width <= 768 && 'center'}>{book?.title}</Title>
               </div>
               <div className={styles.bookBlock}>
                 <Text span className={_styles.textGray}>Описание</Text>
@@ -121,13 +126,13 @@ export const BookPage = () => {
             </div>
 
             {ownerQueue &&
-            <section className={styles.queues}>
-              <Header className={styles.queueTitle} variant='left' withPadding>
-                <Title order={5}>Эта книга у ваc</Title>
-              </Header>
-              <Queue {...ownerQueue} bookId={id!} key={id!}/>
-              <Divider my='l'/>
-            </section>
+              <section className={styles.queues}>
+                <Header className={styles.queueTitle} variant='left' withPadding>
+                  <Title order={5}>Эта книга у ваc</Title>
+                </Header>
+                <Queue {...ownerQueue} bookId={id!} key={id!}/>
+                <Divider my='l'/>
+              </section>
             }
 
             {queueList == undefined || queueList.length == 0 ?

@@ -34,6 +34,9 @@ import { Wrapper } from '~/ui/wrapper/wrapper';
 export const UserPage = () => {
   const { username } = useParams();
   const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
+  const { width } = useViewportSize();
+
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersUsername(username!);
   const { data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe } = useGetUsersMe();
   const [opened, { open, close }] = useDisclosure(false);
@@ -41,8 +44,6 @@ export const UserPage = () => {
     { friendId: user?.id },
     { query: { enabled: user?.friendshipStatus === FriendshipStatus.Friend } }
   );
-  const [isLoading, setIsLoading] = useState(false);
-  const { width } = useViewportSize();
 
   const { mutateAsync: sendRequest } = useMutation({
     mutationFn: postFriendsSendRequest,

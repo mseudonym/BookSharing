@@ -14,7 +14,7 @@ import { deleteItemsRemoveFromMyShelf, postItemsAddToMyShelf } from '~/generated
 import { BookModel } from '~/generated-api/model';
 
 interface BookAdditionCardProps extends BookModel {
-    isUserAlreadyHaveBook: boolean;
+  isUserAlreadyHaveBook: boolean;
 }
 
 export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, author, id }: BookAdditionCardProps) => {
@@ -25,7 +25,7 @@ export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, a
   const { mutateAsync: addBookToShelf } = useMutation({
     mutationFn: postItemsAddToMyShelf,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: getGetBooksMyBooksQueryKey() });
+      await queryClient.invalidateQueries({ queryKey: getGetBooksMyBooksQueryKey() });
       notifications.show({
         title: 'Книга добавлена на полку',
         message: undefined,
@@ -55,13 +55,13 @@ export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, a
 
   const onAddBook = () => {
     setIsLoading(true);
-    addBookToShelf({ bookId: id });
+    addBookToShelf({ bookId: id }).then();
     setIsLoading(false);
   };
 
   const onDeleteBook = () => {
     setIsLoading(true);
-    deleteBook({ bookId: id });
+    deleteBook({ bookId: id }).then();
     setIsLoading(false);
   };
 
@@ -83,6 +83,7 @@ export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, a
           </Button>
         </SimpleGrid>
       </Modal>
+
       <Card className={styles.bookCard}>
         <Image src={bookCoverUrl} alt={`Book cover for ${title}`} className={styles.bookImage}/>
         <Flex style={{ width: '100%' }}>

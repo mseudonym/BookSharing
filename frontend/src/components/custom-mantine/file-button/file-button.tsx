@@ -16,18 +16,18 @@ import {
 import styles from '~/components/custom-mantine/file-button/file-button.module.css';
 
 type FileButtonProps<T extends FieldValues> = {
-    name: Path<T>;
-    type: 'avatar' | 'book';
-    setError?: UseFormSetError<T>;
-    setValue: UseFormSetValue<T>;
-    clearErrors?: UseFormClearErrors<T>;
-    photoUrl?: string | null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
-    accept?: string;
-    aspectRatio?: number;
-    validateFile?: (file: File) => boolean;
-    className?: string;
+  name: Path<T>;
+  type: 'avatar' | 'book';
+  setError?: UseFormSetError<T>;
+  setValue: UseFormSetValue<T>;
+  clearErrors?: UseFormClearErrors<T>;
+  photoUrl?: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  accept?: string;
+  aspectRatio?: number;
+  validateFile?: (file: File) => boolean;
+  className?: string;
 }
 
 export const FileButton = <T extends FieldValues>({

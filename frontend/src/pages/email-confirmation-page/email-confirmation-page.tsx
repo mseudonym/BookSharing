@@ -51,7 +51,7 @@ export const EmailConfirmationPage = () => {
             <IllustrationWrapper
               src='/email-error.svg'
               alt='Email error illustration'
-            />
+              />
           </>
           : (email
             ? <>
@@ -60,7 +60,7 @@ export const EmailConfirmationPage = () => {
               <IllustrationWrapper
                 src='/email-confirmed.svg'
                 alt='Email confirmed illustration'
-              />
+                  />
               <Button variant='filled' onClick={() => router.navigate(AppRoute.Storage)}>Вернуться
                 на главную</Button>
             </>
@@ -70,7 +70,7 @@ export const EmailConfirmationPage = () => {
               <IllustrationWrapper
                 src='/email-confirmed.svg'
                 alt='Email confirmed illustration'
-              />
+                  />
               <Button variant='filled' onClick={() => router.navigate(AppRoute.ProfileFilling)}>Перейти
                 к заполнению профиля</Button>
             </>

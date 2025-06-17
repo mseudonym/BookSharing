@@ -44,7 +44,7 @@ export const Navbar = () => {
   ];
 
   const handleNavigate = (value: string) => {
-    router.navigate(value);
+    router.navigate(value).then();
   };
 
   return (

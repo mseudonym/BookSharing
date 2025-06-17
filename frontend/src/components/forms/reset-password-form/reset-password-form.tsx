@@ -18,7 +18,7 @@ type IFormInput = zod.infer<typeof PasswordBaseSchema>;
 
 export const ResetPasswordForm = () => {
   const [searchParams] = useSearchParams();
-  
+
   const email = searchParams.get('email') ?? '';
   const resetCode = searchParams.get('code') ?? '';
   const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +72,7 @@ export const ResetPasswordForm = () => {
         placeholder='Введите новый пароль повторно'
         {...register('confirmPassword')}
         error={errors?.confirmPassword?.message}
-        />
+      />
 
       <Button fullWidth variant='filled' loading={isLoading} onClick={handleSubmit(onSubmit)}>
         Обновить пароль
