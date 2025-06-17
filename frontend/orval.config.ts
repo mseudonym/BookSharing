@@ -23,6 +23,7 @@ export default defineConfig({
         mutator: {
           path: './src/services/api.ts',
           name: 'api',
+          
         },
       },
     },
