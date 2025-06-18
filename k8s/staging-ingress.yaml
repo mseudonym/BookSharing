@@ -75,10 +75,3 @@ spec:
                 name: bs-api
                 port:
                   number: 80
-          - path: /hangfireDashboard
-            pathType: Prefix
-            backend:
-              service:
-                name: bs-api
-                port:
-                  number: 80
