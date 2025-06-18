@@ -1,4 +1,4 @@
-import { Title, Tabs, SimpleGrid, ActionIcon, Input, Loader, Flex, Text, Button } from '@mantine/core';
+import { ActionIcon, Button, Flex, Input, Loader, SimpleGrid, Tabs, Text, Title } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { ArrowALeftIcon24Regular, ScanFrameBarcodeClassicIcon20Regular } from '@skbkontur/icons';
 import React, { useState } from 'react';
@@ -24,7 +24,6 @@ export const BookAdditionPage = () => {
     isLoading: isLoadingIsbn,
     isError: isErrorIsbn
   } = useGetBooksByIsbnIsbn(isbnQuery, { query: { enabled: isbnQuery.length === 17 } });
-  console.log(isbnQuery.length);
   const {
     data: bookTitleList,
     isLoading: isLoadingTitleList,

@@ -2,16 +2,16 @@ import { AppShell, SegmentedControl } from '@mantine/core';
 import {
   BooksLibraryIcon24Regular,
   BooksLibraryIcon24Solid,
-  People2Icon24Regular,
-  People2Icon24Solid,
   FolderIcon24Regular,
   FolderIcon24Solid,
+  NotificationBellIcon24Regular,
+  NotificationBellIcon24Solid,
   People1Icon24Regular,
   People1Icon24Solid,
+  People2Icon24Regular,
+  People2Icon24Solid,
   SettingsGearIcon24Regular,
-  SettingsGearIcon24Solid,
-  NotificationBellIcon24Regular,
-  NotificationBellIcon24Solid
+  SettingsGearIcon24Solid
 } from '@skbkontur/icons';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -101,7 +101,7 @@ export const Sidebar = () => {
   return (
     <AppShell.Navbar className={styles.menu}>
       <AppShell.Section>
-        <Logo size='big'/>
+        <Logo size='big' onClick={() => router.navigate(AppRoute.Root)} className={styles.clickableLogo}/>
       </AppShell.Section>
 
       <AppShell.Section grow>

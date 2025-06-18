@@ -47,13 +47,11 @@ export const FriendsPage = () => {
 
         <Tabs.Panel value={FriendsTabs.MyFriends}>
           {friendList == undefined || friendList.length == 0
-            ? (
-              <IllustrationWrapper
+            ? <IllustrationWrapper
                 src='/friends-illustration.svg'
                 alt='No friends illustration'
                 text='Друзья пока не добавлены. Это можно сделать через кнопку поиска сверху.'
               />
-            )
             : <SimpleGrid
                 cols={{ base: 1, md: 2 }}
                 spacing={{ base: 'md', }}
