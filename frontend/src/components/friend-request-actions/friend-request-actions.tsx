@@ -3,7 +3,7 @@ import { useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular';
 import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 import styles from '~/components/friend-request-actions/friend-request-actions.module.css';
@@ -14,14 +14,16 @@ import {
   postFriendsRespondRequest
 } from '~/generated-api/friends/friends';
 import { getGetNotificationsQueryKey } from '~/generated-api/notifications/notifications';
+import { getGetUsersUsernameQueryKey } from '~/generated-api/users/users';
+import { queryClient } from '~/services/query-client';
 
 interface FriendRequestActionsProps {
   id: string | undefined;
   isBigSize?: boolean;
+  username?: string | undefined;
 }
 
-export const FriendRequestActions = ({ id, isBigSize = false }: FriendRequestActionsProps) => {
-  const queryClient = useQueryClient();
+export const FriendRequestActions = ({ id, isBigSize = false, username }: FriendRequestActionsProps) => {
   const [isLoadingAccept, setIsLoadingAccept] = useState(false);
   const [isLoadingReject, setIsLoadingReject] = useState(false);
   const { width } = useViewportSize();
@@ -32,6 +34,11 @@ export const FriendRequestActions = ({ id, isBigSize = false }: FriendRequestAct
     onSuccess: async (_, answer) => {
       await queryClient.invalidateQueries({ queryKey: getGetFriendsRequestsReceivedQueryKey() });
       await queryClient.invalidateQueries({ queryKey: getGetNotificationsQueryKey() });
+
+      if (username){
+        await queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
+      }
+
       if (answer?.isAccepted) {
         await queryClient.invalidateQueries({ queryKey: getGetFriendsListQueryKey() });
       }

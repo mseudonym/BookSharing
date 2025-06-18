@@ -33,7 +33,7 @@ export const RequestCard = ({ id, lowQualityPhotoUrl, username, firstName, lastN
         </div>
       </div>
 
-      <FriendRequestActions id={id}/>
+      <FriendRequestActions id={id} username={username}/>
     </Card>
   );
 };

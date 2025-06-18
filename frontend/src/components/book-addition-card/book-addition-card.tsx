@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { XIcon24Regular } from '@skbkontur/icons';
 import { PlusIcon24Regular } from '@skbkontur/icons/icons/PlusIcon';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 import styles from '~/components/book-addition-card/book-addition-card.module.css';
@@ -12,13 +12,13 @@ import _styles from '~/index.module.css';
 import { getGetBooksMyBooksQueryKey } from '~/generated-api/books/books';
 import { deleteItemsRemoveFromMyShelf, postItemsAddToMyShelf } from '~/generated-api/items/items';
 import { BookModel } from '~/generated-api/model';
+import { queryClient } from '~/services/query-client';
 
 interface BookAdditionCardProps extends BookModel {
   isUserAlreadyHaveBook: boolean;
 }
 
 export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, author, id }: BookAdditionCardProps) => {
-  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 

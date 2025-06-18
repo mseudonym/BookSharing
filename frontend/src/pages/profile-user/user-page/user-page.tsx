@@ -1,10 +1,10 @@
-import { ActionIcon, Anchor, Title, Text, Avatar, Button, Modal, Menu, SimpleGrid } from '@mantine/core';
+import { ActionIcon, Anchor, Avatar, Button, Menu, Modal, SimpleGrid, Text, Title } from '@mantine/core';
 import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import {  People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
+import { People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -21,19 +21,19 @@ import {
   deleteFriendsDelete,
   getGetFriendsListQueryKey,
   postFriendsCancelRequest,
+  postFriendsSendRequest,
 } from '~/generated-api/friends/friends';
-import { postFriendsSendRequest } from '~/generated-api/friends/friends';
 import { FriendshipStatus } from '~/generated-api/model';
 import { getGetUsersUsernameQueryKey, useGetUsersMe, useGetUsersUsername } from '~/generated-api/users/users';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { LoadingPage } from '~/pages/loading-page';
+import { queryClient } from '~/services/query-client';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper/wrapper';
 
 export const UserPage = () => {
   const { username } = useParams();
-  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const { width } = useViewportSize();
   const isRenderedOnDesktop = width >= 768;
@@ -193,7 +193,7 @@ export const UserPage = () => {
             )}
 
             {user.friendshipStatus == FriendshipStatus.IncomeRequest && (
-              <FriendRequestActions id={user.id} isBigSize/>
+              <FriendRequestActions id={user.id} isBigSize username={user.username}/>
             )}
 
             {user.friendshipStatus == FriendshipStatus.Friend && user.contactUrl && (
