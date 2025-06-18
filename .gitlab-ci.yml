@@ -46,6 +46,8 @@ test-backend:
     - changes:
         - backend/**
       when: on_success
+    - if: '$CI_COMMIT_MESSAGE =~ /(staging|production)-deploy-backend/'
+      when: on_success
     - when: manual
 
 
@@ -76,6 +78,8 @@ build-backend:
   needs:
     - job: test-backend
   rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /(staging|production)-deploy-backend/'
+      when: on_success
     - when: manual
 
 
@@ -120,10 +124,12 @@ staging-deploy-backend:
   - kubectl rollout status deployment bs-api -n staging --timeout=120s
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
-  when: manual
   needs:
     - job: build-backend
-
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /staging-deploy-backend/'
+      when: on_success
+    - when: manual
 
 staging-deploy-frontend:
   stage: deploy
