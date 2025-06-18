@@ -2,9 +2,11 @@ using BS.Api;
 using BS.Api.Endpoints;
 using BS.Api.Implementations;
 using BS.Core;
+using BS.Core.Jobs;
 using BS.Data;
 using BS.Data.Context;
 using BS.Data.Entities;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,7 @@ builder.Services.AddLogging();
 builder.Services.AddHttpLogging(_ => { });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddBsOpenApi();
+builder.Services.AddBsHangfire(configuration);
 
 builder.Services.AddControllers();
 
@@ -36,6 +39,7 @@ builder.Services.AddIdentityApiEndpoints<UserEntity>(options =>
         {
             options.User.RequireUniqueEmail = true;
             options.Password.RequiredLength = 12;
+            options.Password.RequireNonAlphanumeric = false;
             options.SignIn.RequireConfirmedEmail = false;
         }
     )
@@ -53,10 +57,12 @@ if (app.Environment.IsProduction() || app.Environment.IsStaging())
     db.Database.Migrate();
 }
 
+app.UseHangfireServer(() => new BackgroundJobServer());
 if (environment.IsDevelopment() || environment.IsStaging())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
+    app.UseHangfireDashboard("/hangfireDashboard");
 }
 
 app.UseCors();
@@ -67,6 +73,12 @@ app.UseAuthorization();
 app.MapNotificationsEndpoints();
 app.MapCustomIdentityEndpoints<UserEntity>();
 app.MapControllers();
+
+RecurringJob.AddOrUpdate<HolderReadingReminderJob>(
+    "notify-reading-progress-every-week",
+    job => job.RunAsync(),
+    Cron.Daily
+);
 
 app.Run();
 

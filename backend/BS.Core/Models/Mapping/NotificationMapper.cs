@@ -93,12 +93,13 @@ public class NotificationMapper
                     NewStatus = e.NewStatus
                 };
             case ReadingProgressReminderNotificationEntity e:
-                return new ReadingProgressReminderNotification()
+                return new ReadingProgressReminderNotification
                 {
                     Id = e.Id,
                     CreatedAt = e.CreatedAt,
                     IsRead = e.IsRead,
                     ReadingDays = e.ReadingDays,
+                    Book = _bookMapper.ToBookModel(e.Item.Book)
                 };
             default:
                 throw new NotSupportedException($"Unknown notification entity type: {entity.GetType().Name}");

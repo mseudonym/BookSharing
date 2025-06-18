@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using BS.Data.Entities.Notifications.Base;
 using BS.Data.Entities.Notifications.Friendship;
 using BS.Data.Entities.Notifications.FriendUpdate;
 using BS.Data.Entities.Notifications.Items;

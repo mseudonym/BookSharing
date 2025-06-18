@@ -1,4 +1,5 @@
 using BS.Data.Context;
+using BS.Data.Extensions;
 using BS.Data.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,10 +20,7 @@ public static class ServiceCollectionExtensions
     {
         services.Configure<ConnectionStringsOptions>(configuration.GetSection(ConnectionStringsOptions.Section));
 
-        var dbOptions = configuration.GetRequiredSection(ConnectionStringsOptions.Section)
-                            .Get<ConnectionStringsOptions>()
-                        ?? throw new NullReferenceException(
-                            $"Configuration section \"{nameof(ConnectionStringsOptions)}\" is missing");
+        var dbOptions = configuration.GetConnectionStringsOptions();
         services.AddDbContext<BookSharingContext>(options => options.UseNpgsql(dbOptions.Postgres));
     }
 }

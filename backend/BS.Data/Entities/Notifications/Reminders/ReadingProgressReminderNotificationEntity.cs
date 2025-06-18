@@ -2,7 +2,7 @@
 
 namespace BS.Data.Entities.Notifications.Reminders;
 
-public class ReadingProgressReminderNotificationEntity : NotificationBaseEntity
+public class ReadingProgressReminderNotificationEntity : ItemNotificationBaseEntity
 {
     public required int ReadingDays { get; set; }
 }

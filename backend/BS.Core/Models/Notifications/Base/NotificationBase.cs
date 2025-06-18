@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using BS.Core.Models.Notifications.Friendship;
 using BS.Core.Models.Notifications.FriendUpdate;
 using BS.Core.Models.Notifications.Items;
+using BS.Core.Models.Notifications.Reminders;
 using BS.Data.Entities.Notifications.Base;
 
 namespace BS.Core.Models.Notifications.Base;
@@ -14,6 +15,7 @@ namespace BS.Core.Models.Notifications.Base;
 [JsonDerivedType(typeof(FriendTakeBookToReadNotification), nameof(NotificationType.FriendTakeBookToRead))]
 [JsonDerivedType(typeof(NewBooksInFriendShelfNotification), nameof(NotificationType.NewBooksInFriendShelf))]
 [JsonDerivedType(typeof(FriendshipStatusChangedNotification), nameof(NotificationType.FriendshipStatusChanged))]
+[JsonDerivedType(typeof(ReadingProgressReminderNotification), nameof(NotificationType.ReadingProgressReminder))]
 public abstract class NotificationBase
 {
     public required Guid Id { get; set; }
