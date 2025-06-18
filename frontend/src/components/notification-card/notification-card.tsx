@@ -1,5 +1,4 @@
-import { Flex, Avatar, Text, Image, Anchor, ActionIcon } from '@mantine/core';
-import { CheckAIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
+import { Flex, Avatar, Text, Image, Anchor } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/components/notification-card/notification-card.module.css';
