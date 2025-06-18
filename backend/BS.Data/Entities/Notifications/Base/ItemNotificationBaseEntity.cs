@@ -1,6 +1,4 @@
-﻿using BS.Data.Entities.Notifications.Base;
-
-namespace BS.Data.Entities.Notifications.Items;
+﻿namespace BS.Data.Entities.Notifications.Base;
 
 public abstract class ItemNotificationBaseEntity : NotificationBaseEntity
 {

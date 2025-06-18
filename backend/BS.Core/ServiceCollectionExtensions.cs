@@ -11,6 +11,9 @@ using BS.Core.Services.Notifications;
 using BS.Core.Services.S3;
 using BS.Core.Services.User;
 using BS.Data.Entities;
+using BS.Data.Extensions;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +43,7 @@ public static class ServiceCollectionExtensions
         services.ConfigureByName<YandexCloudCredentialsOptions>(configuration);
         services.ConfigureByName<PaginationOptions>(configuration);
         services.ConfigureByName<NotificationOptions>(configuration);
+        services.ConfigureByName<InfraAuthOptions>(configuration);
     }
 
     private static void AddEmailSender(this IServiceCollection services)
@@ -76,6 +80,24 @@ public static class ServiceCollectionExtensions
             );
         });
         services.AddScoped<IS3Service, S3Service>();
+    }
+    
+    public static IServiceCollection AddBsHangfire(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var dbOptions = configuration.GetConnectionStringsOptions();
+        
+        services.AddHangfire(config => config
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UsePostgreSqlStorage(options =>
+            {
+                options.UseNpgsqlConnection(dbOptions.Postgres);
+            })
+        );
+        services.AddHangfireServer();
+        return services;
     }
 
     private static void AddCoreServices(this IServiceCollection services)

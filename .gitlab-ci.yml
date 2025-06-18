@@ -46,6 +46,8 @@ test-backend:
     - changes:
         - backend/**
       when: on_success
+    - if: '$CI_COMMIT_MESSAGE =~ /(staging|production)-deploy-backend/'
+      when: on_success
     - when: manual
 
 
@@ -60,6 +62,8 @@ lint-frontend:
   rules:
     - changes:
         - frontend/**
+      when: on_success
+    - if: '$CI_COMMIT_MESSAGE =~ /(staging|production)-deploy-frontend/'
       when: on_success
     - when: manual
 
@@ -76,6 +80,8 @@ build-backend:
   needs:
     - job: test-backend
   rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /(staging|production)-deploy-backend/'
+      when: on_success
     - when: manual
 
 
@@ -91,6 +97,8 @@ build-frontend:
   needs:
     - job: lint-frontend
   rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /(staging|production)-deploy-frontend/'
+      when: on_success
     - when: manual
 
 
@@ -120,10 +128,12 @@ staging-deploy-backend:
   - kubectl rollout status deployment bs-api -n staging --timeout=120s
   variables:
     ASPNETCORE_ENVIRONMENT: "Staging"
-  when: manual
   needs:
     - job: build-backend
-
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /staging-deploy-backend/'
+      when: on_success
+    - when: manual
 
 staging-deploy-frontend:
   stage: deploy
@@ -135,9 +145,12 @@ staging-deploy-frontend:
     - envsubst < k8s/frontend-deployment.yaml | kubectl apply -n staging -f -
     - kubectl rollout restart deployment bs-app -n staging
     - kubectl rollout status deployment bs-app -n staging --timeout=120s
-  when: manual
   needs:
     - job: build-frontend
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /staging-deploy-frontend/'
+      when: on_success
+    - when: manual
 
 
 production-deploy-backend:
@@ -156,6 +169,8 @@ production-deploy-backend:
     ASPNETCORE_ENVIRONMENT: "Production"
   when: manual
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_MESSAGE =~ /production-deploy-backend/'
+      when: on_success
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
   needs:
@@ -173,6 +188,8 @@ production-deploy-frontend:
     - kubectl rollout status deployment bs-app -n production --timeout=120s
   when: manual
   rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_MESSAGE =~ /production-deploy-frontend/'
+      when: on_success
     - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
   needs:

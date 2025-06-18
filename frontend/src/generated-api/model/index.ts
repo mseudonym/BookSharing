@@ -31,6 +31,8 @@ export * from './notificationBaseFriendshipStatusChangedNotification';
 export * from './notificationBaseFriendshipStatusChangedNotificationType';
 export * from './notificationBaseNewBooksInFriendShelfNotification';
 export * from './notificationBaseNewBooksInFriendShelfNotificationType';
+export * from './notificationBaseReadingProgressReminderNotification';
+export * from './notificationBaseReadingProgressReminderNotificationType';
 export * from './notificationBaseSomeoneBecameHolderOfYourItemNotification';
 export * from './notificationBaseSomeoneBecameHolderOfYourItemNotificationType';
 export * from './notificationBaseSomeoneQueueToItemNotification';
