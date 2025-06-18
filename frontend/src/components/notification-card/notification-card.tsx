@@ -1,4 +1,4 @@
-import { Flex, Avatar, Text, Image, Anchor } from '@mantine/core';
+import { Anchor, Avatar, Flex, Image, Text } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/components/notification-card/notification-card.module.css';
@@ -12,10 +12,12 @@ import {
   type NotificationBaseFriendshipStatusChangedNotification,
   NotificationBaseFriendTakeBookToReadNotification,
   NotificationBaseNewBooksInFriendShelfNotification,
+  NotificationBaseReadingProgressReminderNotification,
   NotificationBaseSomeoneBecameHolderOfYourItemNotification,
   NotificationBaseSomeoneQueueToItemNotification,
   NotificationBaseYourQueuePositionChangedNotification,
 } from '~/generated-api/model';
+import { getNounForm } from '~/helpers/helpers';
 
 interface NotificationCardProps {
   notification: NotificationBase;
@@ -123,6 +125,22 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         return {
           avatar: '/notification-base.png',
           text: `Ваша новая позиция в очереди: ${newPosition}`,
+          date: createdAt,
+          bookImage: book.bookCoverUrl,
+          isRead: isRead,
+        };
+      }
+
+      case 'ReadingProgressReminder': {
+        const {
+          readingDays,
+          createdAt,
+          isRead,
+          book
+        } = notification as NotificationBaseReadingProgressReminderNotification;
+        return {
+          avatar: '/notification-base.png',
+          text: `Вы читаете книгу: ${readingDays} ${getNounForm(readingDays, 'день', 'дня', 'дней')}`,
           date: createdAt,
           bookImage: book.bookCoverUrl,
           isRead: isRead,
