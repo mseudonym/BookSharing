@@ -21,7 +21,7 @@ public static class ApplicationBuilderExtensions
         else
         {
             var options = app.Services.GetRequiredService<IOptions<InfraAuthOptions>>().Value;
-            authorization = new BasicAuthDashboardAuthorizationFilter(options.Login, options.Password);
+            authorization = new BasicAuthDashboardAuthorizationFilter(options.Username, options.Password);
         }
         
         app.UseHangfireDashboard("/hangfireDashboard", new DashboardOptions {
