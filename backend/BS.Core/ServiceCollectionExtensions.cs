@@ -43,6 +43,7 @@ public static class ServiceCollectionExtensions
         services.ConfigureByName<YandexCloudCredentialsOptions>(configuration);
         services.ConfigureByName<PaginationOptions>(configuration);
         services.ConfigureByName<NotificationOptions>(configuration);
+        services.ConfigureByName<InfraAuthOptions>(configuration);
     }
 
     private static void AddEmailSender(this IServiceCollection services)

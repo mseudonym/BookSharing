@@ -62,9 +62,9 @@ if (environment.IsDevelopment() || environment.IsStaging())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
-    app.UseHangfireDashboard("/hangfireDashboard");
 }
 
+app.UseBsHangfire();
 app.UseCors();
 app.UseHttpLogging();
 app.UseAuthentication();
