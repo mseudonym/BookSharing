@@ -101,7 +101,7 @@ export const Sidebar = () => {
   return (
     <AppShell.Navbar className={styles.menu}>
       <AppShell.Section>
-        <Logo size='big' onClick={() => router.navigate(AppRoute.Root)} className={styles.clickableLogo}/>
+        <Logo isBigSize onClick={() => router.navigate(AppRoute.Root)} className={styles.clickableLogo}/>
       </AppShell.Section>
 
       <AppShell.Section grow>

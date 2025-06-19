@@ -75,13 +75,9 @@
 }
 
 .queues {
-  display: flex;
   max-width: 600px;
   width: 100%;
   padding-top: var(--mantine-spacing-sm);
-  flex-direction: column;
-  align-items: center;
-  gap: var(--mantine-spacing-md);
   align-self: stretch;
   margin-left: auto;
   margin-right: auto;

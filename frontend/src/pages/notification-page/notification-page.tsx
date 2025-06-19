@@ -23,7 +23,7 @@ export const NotificationPage = ({ isOpen, onClose }: NotificationPageProps) => 
   const [allNotifications, setAllNotifications] = useState<NotificationBase[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { data, isFetching, isError } = useGetNotifications({ page });
-  const notificationIds = data?.map((notification) => notification.id) ?? [];
+  const notificationIds = allNotifications?.map((notification) => notification.id) ?? [];
 
   const { mutateAsync: readNotifications } = useMutation({
     mutationFn: postNotificationsMarkAsRead,
@@ -63,7 +63,7 @@ export const NotificationPage = ({ isOpen, onClose }: NotificationPageProps) => 
       setIsLoading(false);
     }
   }, [data, isFetching]);
-  
+
   if (!isFetching && isError) {
     return <ErrorPage/>;
   }
@@ -83,7 +83,7 @@ export const NotificationPage = ({ isOpen, onClose }: NotificationPageProps) => 
         onScrollPositionChange={handleScrollPositionChange}
         scrollbarSize={8}
       >
-        {!isFetching && allNotifications.length === 0 
+        {!isFetching && allNotifications.length === 0
           ? <IllustrationWrapper
               src='/notifications-illustration.svg'
               alt='No notifications illustration'

@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Menu, Modal, Title, Text, Button, Image, SimpleGrid } from '@mantine/core';
+import { ActionIcon, Button, Divider, Flex, Image, Menu, Modal, SimpleGrid, Text, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
@@ -74,6 +74,7 @@ export const BookPage = () => {
           </Button>
         </SimpleGrid>
       </Modal>
+
       <Page>
         <Header variant='auto' withPadding hideOnDesktop>
           <ActionIcon variant='transparent' onClick={() => {
@@ -125,32 +126,32 @@ export const BookPage = () => {
             </div>
 
             {ownerQueue &&
-              <section className={styles.queues}>
-                <Header className={styles.queueTitle} variant='left' withPadding>
+              <Flex direction='column' align='center' gap='md' className={styles.queues}>
+                <Header className={styles.queueTitle} variant='left' withPadding withMaxHeight={false}>
                   <Title order={5}>Эта книга у ваc</Title>
                 </Header>
                 <Queue {...ownerQueue} bookId={id!} key={id!}/>
                 <Divider my='l'/>
-              </section>
+              </Flex>
             }
 
             {queueList == undefined || queueList.length == 0 ?
-              <section className={styles.queues}>
-                <Header className={styles.queueTitle} variant='left' withPadding>
+              <Flex direction='column' align='center' gap='sm' className={styles.queues}>
+                <Header className={styles.queueTitle} variant='left' withPadding withMaxHeight={false}>
                   <Title order={5}>Этой книги нет у ваших друзей</Title>
                 </Header>
                 <IllustrationWrapper
                   src='/queue-illustration.svg'
                   alt='Queue is empty illustration'
                 />
-              </section>
+              </Flex>
               :
-              <section className={styles.queues}>
-                <Header className={styles.queueTitle} variant='left' withPadding>
+              <Flex direction='column' align='center' gap='md' className={styles.queues}>
+                <Header className={styles.queueTitle} variant='left' withPadding withMaxHeight={false}>
                   <Title order={5}>Эта книга у ваших друзей</Title>
                 </Header>
                 {queueList.map((queue) => <Queue {...queue} bookId={id!} key={id!}/>)}
-              </section>
+              </Flex>
             }
           </div>
           {ownerQueue && <Menu position='bottom-end' offset={-50}>

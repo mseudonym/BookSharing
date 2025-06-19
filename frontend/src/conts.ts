@@ -42,7 +42,11 @@ export enum BookAdditionTabs {
 }
 
 export const REQUIRED_FIELD_TEXT = 'Обязательное поле';
+
 export const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;
+
+export const LOGO_SMALL_SRC = 'https://storage.yandexcloud.net/bs-logos/Logo-Small.png';
+export const LOGO_LARGE_SRC = 'https://storage.yandexcloud.net/bs-logos/Logo-Large.png';
 
 export const ProfileFormSchema = zod.object({
   firstName: zod

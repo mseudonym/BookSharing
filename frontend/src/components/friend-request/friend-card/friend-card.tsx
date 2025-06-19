@@ -8,13 +8,13 @@ import { AppRoute } from '~/conts';
 import { UserProfile } from '~/generated-api/model';
 import { router } from '~/main';
 
-export const FriendCard = ({ lowQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
+export const FriendCard = ({ highQualityPhotoUrl, username, firstName, lastName }: UserProfile) => {
   return (
     <Card className={styles.friendCard}>
       <div className={styles.person}
         onClick={() => router.navigate(AppRoute.User.replace(':username', username!))}>
         <Avatar
-          src={lowQualityPhotoUrl || '/default-profile.png'}
+          src={highQualityPhotoUrl || '/default-profile.png'}
           className={styles.avatar}
           alt={`Avatar image for ${username}`}
         />
