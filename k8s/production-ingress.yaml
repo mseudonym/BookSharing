@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - book-sharing.ru
-      secretName: bs-tls-cert
+      secretName: bs-tls
   rules:
     - host: book-sharing.ru
       http:
@@ -36,7 +36,7 @@ spec:
   tls:
     - hosts:
         - api.book-sharing.ru
-      secretName: bs-tls-cert
+      secretName: bs-tls
   rules:
     - host: api.book-sharing.ru
       http:
