@@ -111,7 +111,7 @@ build-frontend:
     - echo "$KUBECONFIG_BASE64" | base64 -d > kubeconfig
     - export KUBECONFIG=$PWD/kubeconfig
     - echo "Применяем ingress..."
-    - kubectl apply -f k8s/${CI_ENVIRONMENT_NAME}-ingress.yaml
+    - envsubst < k8s/${CI_ENVIRONMENT_NAME}-ingress.yaml | kubectl apply -f -
 
 
 staging-deploy-backend:
