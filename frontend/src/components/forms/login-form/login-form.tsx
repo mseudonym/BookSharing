@@ -44,7 +44,7 @@ export const LoginForm = () => {
   const { mutateAsync: loginMutation } = useMutation({
     mutationFn: postAuthLogin,
     onSuccess: async (response) => {
-      saveToken(response.accessToken!, response.tokenType!);
+      saveToken(response.accessToken, response.refreshToken, response.expiresIn);
       await checkProfileFilling(undefined, true);
       // router.navigate(AppRoute.Shelf);
     },

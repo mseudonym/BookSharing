@@ -41,6 +41,10 @@ export enum BookAdditionTabs {
   Title = 'По названию'
 }
 
+export const AUTH_TOKEN_KEY_NAME = 'bs-token';
+export const AUTH_REFRESH_TOKEN_KEY_NAME = 'bs-token-refresh';
+export const TOKEN_EXPIRATION_KEY_NAME = 'token-expiration';
+
 export const REQUIRED_FIELD_TEXT = 'Обязательное поле';
 
 export const RESEND_CONFIRMATION_EMAIL_SECONDS = 30;
