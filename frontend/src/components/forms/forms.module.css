@@ -11,7 +11,7 @@
 }
 
 .formPadding {
-  padding: var(--mantine-spacing-md) 0px var(--mantine-spacing-xl) 0px;
+  padding: var(--mantine-spacing-md) 0 var(--mantine-spacing-xl) 0;
 }
 
 .desktopFileButton {
