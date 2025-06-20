@@ -22,13 +22,11 @@ export const BookAdditionPage = () => {
   const [debouncedTitle] = useDebouncedValue(titleQuery, 500);
   const {
     data: bookIsbn,
-    isLoading: isLoadingIsbn,
-    isError: isErrorIsbn
+    isLoading: isLoadingIsbn
   } = useGetBooksByIsbnIsbn(isbnQuery, { query: { enabled: isbnQuery.length === 17 } });
   const {
     data: bookTitleList,
-    isLoading: isLoadingTitleList,
-    isError: isErrorTitleList
+    isLoading: isLoadingTitleList
   } = useGetBooksByTitleTitle(debouncedTitle, { query: { enabled: debouncedTitle.length > 2 } });
   const { data: myBooks, isLoading: isLoadingMyBooks, isError: isErrorMyBooks } = useGetBooksMyBooks();
   const myBooksSet: Set<string | undefined> = new Set(myBooks?.map((item) => item.id));
@@ -69,7 +67,8 @@ export const BookAdditionPage = () => {
             rightSection={
               <ActionIcon variant='transparent' onClick={() => router.navigate(AppRoute.ScanningCode)}>
                 <ScanFrameBarcodeClassicIcon20Regular/>
-              </ActionIcon>}/>
+              </ActionIcon>}
+          />
           {!isLoadingIsbn && (!bookIsbn
             ? <IllustrationWrapper
                 src='/search-illustration.svg'
