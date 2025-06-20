@@ -27,7 +27,10 @@ export const refreshAuthLogic = async (failedRequest: InternalAxiosRequestConfig
 
     setTokens(accessToken, newRefreshToken || refreshToken, expiresIn);
 
-    failedRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+    if (failedRequest.headers) {
+      failedRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return Promise.resolve();
   } catch (error) {
     clearTokens();
     throw error;

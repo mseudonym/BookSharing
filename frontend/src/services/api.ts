@@ -15,7 +15,6 @@ AXIOS_INSTANCE.interceptors.request.use((config: InternalAxiosRequestConfig) => 
   if (token && config.headers) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
-
   return config;
 });
 
