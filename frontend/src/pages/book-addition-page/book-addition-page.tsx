@@ -9,6 +9,7 @@ import styles from '~/pages/book-addition-page/book-addition-page.module.css';
 import { BookAdditionCard } from '~/components/book-addition-card';
 import { IsbnInput } from '~/components/custom-mantine';
 import { Header } from '~/components/header';
+import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { AppRoute, BookAdditionTabs } from '~/conts';
 import { useGetBooksByIsbnIsbn, useGetBooksByTitleTitle, useGetBooksMyBooks } from '~/generated-api/books/books';
 import { router } from '~/main';
@@ -28,7 +29,7 @@ export const BookAdditionPage = () => {
     data: bookTitleList,
     isLoading: isLoadingTitleList,
     isError: isErrorTitleList
-  } = useGetBooksByTitleTitle(debouncedTitle, { query: { enabled: debouncedTitle.length > 4 } });
+  } = useGetBooksByTitleTitle(debouncedTitle, { query: { enabled: debouncedTitle.length > 2 } });
   const { data: myBooks, isLoading: isLoadingMyBooks, isError: isErrorMyBooks } = useGetBooksMyBooks();
   const myBooksSet: Set<string | undefined> = new Set(myBooks?.map((item) => item.id));
   const [opened, setOpened] = useState(false);
@@ -69,8 +70,14 @@ export const BookAdditionPage = () => {
               <ActionIcon variant='transparent' onClick={() => router.navigate(AppRoute.ScanningCode)}>
                 <ScanFrameBarcodeClassicIcon20Regular/>
               </ActionIcon>}/>
-          {!isErrorIsbn && bookIsbn &&
-            <BookAdditionCard {...bookIsbn} isUserAlreadyHaveBook={myBooksSet.has(bookIsbn.id)}/>}
+          {!isLoadingIsbn && (!bookIsbn
+            ? <IllustrationWrapper
+                src='/search-illustration.svg'
+                alt='No books illustration'
+                text='Тут пусто. Введите ISBN полностью или добавьте книгу вручную.'
+            />
+            : <BookAdditionCard {...bookIsbn} isUserAlreadyHaveBook={myBooksSet.has(bookIsbn.id)}/>
+          )}
         </Tabs.Panel>
 
         <Tabs.Panel value={BookAdditionTabs.Title}>
@@ -80,9 +87,14 @@ export const BookAdditionPage = () => {
             spacing={{ base: 'md', md: 'xl' }}
             verticalSpacing={{ base: 'md' }}
           >
-            {!isErrorTitleList && bookTitleList && (
-              bookTitleList?.map((item) => (<BookAdditionCard key={item.id} {...item}
-                isUserAlreadyHaveBook={myBooksSet.has(item.id)}/>
+            {!isLoadingTitleList && ((!bookTitleList || bookTitleList.length == 0)
+              ? <IllustrationWrapper
+                  src='/search-illustration.svg'
+                  alt='No books illustration'
+                  text='Тут пусто. Начните вводить название или добавьте книгу вручную.'
+                />
+              : bookTitleList?.map((item) => (<BookAdditionCard key={item.id} {...item}
+                  isUserAlreadyHaveBook={myBooksSet.has(item.id)}/>
               )))}
           </SimpleGrid>
         </Tabs.Panel>
