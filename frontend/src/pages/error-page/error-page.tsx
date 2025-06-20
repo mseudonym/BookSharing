@@ -6,9 +6,13 @@ import _styles from '~/index.module.css';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { PageWithWrapper } from '~/ui/pages';
 
-export const ErrorPage = () => {
+interface ErrorPageProps {
+  withoutMenu?: boolean;
+}
+
+export const ErrorPage = ({ withoutMenu = true }: ErrorPageProps) => {
   return (
-    <PageWithWrapper alignWrapper='center' withoutMenu>
+    <PageWithWrapper alignWrapper='center' withoutMenu={withoutMenu}>
       <IllustrationWrapper
         size='big'
         src='/error-illustration.svg'

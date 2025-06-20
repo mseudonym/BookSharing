@@ -1,45 +1,50 @@
-.landingRoot {
+.root {
   gap: 40px;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+
+.header {
+  padding: var(--mantine-spacing-xs);
+  background: var(--white-color);
+  border-radius: var(--mantine-spacing-xl);
 }
 
 .hero {
   background: var(--rainbow-color);
   width: 100%;
-  min-height: 100vh;
+  min-height: fit-content;
+  height: 100vh;
+  max-height: 1000px;
   border-radius: 0 0 var(--mantine-radius-md) var(--mantine-radius-md);
-  box-sizing: border-box;
   background-size: 200% 200%;
   animation: gradientAnimation 10s ease infinite;
 }
 
-.secondaryBlock, .blockWrapper {
-  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
-  box-sizing: border-box;
-}
-
-.heroContent {
-  gap: var(--mantine-spacing-md);
-  display: flex;
-  flex-direction: column;
-}
-
-.firstBlock {
+.heroBlock {
   max-width: 1300px;
   width: 100%;
   padding: var(--mantine-spacing-md);
 }
 
-.landingHeader {
-  padding: var(--mantine-spacing-xs);
-  align-items: center;
-  background: var(--white-color);
-  backdrop-filter: blur(8px);
-  border-radius: var(--mantine-spacing-xl);
-  display: flex;
+.heroContent {
+  gap: var(--mantine-spacing-md);
+}
+
+.block {
+  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+  max-width: 1300px;
+  width: 100%;
+}
+
+.featureBlockImageWrapper {
+  border-radius: var(--mantine-spacing-xxl);
+  border: 2px solid var(--light-gray-16-color);
+  max-width: 600px;
+  width: 100%;
+}
+
+.featureBlockImage {
+  aspect-ratio: 1;
 }
 
 .logo {
@@ -53,36 +58,6 @@
 
 .burger {
   display: block;
-}
-
-.drawer {
-  max-width: 100px;
-}
-
-.secondaryBlock {
-  max-width: 1300px;
-  width: 100%;
-}
-
-.secondaryBlockInfo {
-  gap: var(--mantine-spacing-md);
-  display: flex;
-  flex-direction: column;
-}
-
-.secondaryBlockImage {
-  border-radius: var(--mantine-spacing-xxl);
-  border: 2px solid var(--light-gray-16-color);
-  max-width: 600px;
-  width: 100%;
-}
-
-.blockWrapper {
-  max-width: 1300px;
-  gap: var(--mantine-spacing-md);
-  flex-direction: column;
-  width: 100%;
-  display: flex;
 }
 
 .creators {
@@ -117,16 +92,14 @@
 
 .footer {
   padding: var(--mantine-spacing-xl) var(--mantine-spacing-xl) 0 0;
-  box-sizing: border-box;
 }
 
-/* Медиа-запросы для планшетов (min-width: 600px) */
 @media (min-width: 600px) {
-  .landingRoot {
+  .root {
     gap: 60px;
   }
 
-  .secondaryBlock, .blockWrapper {
+  .block {
     padding: var(--mantine-spacing-md);
   }
 
@@ -135,14 +108,13 @@
     height: 80px !important;
   }
 
-  .landingHeader {
+  .header {
     padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
   }
 }
 
-/* Медиа-запросы для десктопов (min-width: 1024px) */
 @media (min-width: 1024px) {
-  .landingRoot {
+  .root {
     gap: 80px;
   }
 
@@ -158,20 +130,20 @@
     flex-direction: row;
   }
 
-  .landingHeader {
+  .header {
     padding: var(--mantine-spacing-md) var(--mantine-spacing-xl);
   }
 
-  .firstBlock {
+  .heroBlock {
     padding: var(--mantine-spacing-xl);
   }
 
-  .secondaryBlock, .blockWrapper {
+  .block {
     padding: var(--mantine-spacing-md) var(--mantine-spacing-xl);
   }
 
-  .heroContent, .secondaryBlockInfo, .blockWrapper {
-    gap: var(--mantine-spacing-xl);
+  .heroContent, .block {
+    gap: var(--mantine-spacing-md);
   }
 
   .avatar {
@@ -181,7 +153,6 @@
 
   .logo {
     width: auto !important;
-    height: auto !important;
   }
 }
 

@@ -1,10 +1,10 @@
-import { ActionIcon, Anchor, Title, Text, Avatar, Button, Flex, Modal, Menu, SimpleGrid } from '@mantine/core';
+import { ActionIcon, Anchor, Avatar, Button, Menu, Modal, SimpleGrid, Text, Title } from '@mantine/core';
 import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { CheckAIcon24Regular, People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
+import { People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
 import { UiMenuDots3HIcon24Regular } from '@skbkontur/icons/icons/UiMenuDots3HIcon';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import _styles from '~/index.module.css';
 import styles from '~/pages/profile-user/profile-user.module.css';
 
 import { BookCard } from '~/components/book-card/book-card';
+import { FriendRequestActions } from '~/components/friend-request-actions';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { AppRoute } from '~/conts';
@@ -20,22 +21,22 @@ import {
   deleteFriendsDelete,
   getGetFriendsListQueryKey,
   postFriendsCancelRequest,
-  postFriendsRespondRequest
+  postFriendsSendRequest,
 } from '~/generated-api/friends/friends';
-import { postFriendsSendRequest } from '~/generated-api/friends/friends';
 import { FriendshipStatus } from '~/generated-api/model';
 import { getGetUsersUsernameQueryKey, useGetUsersMe, useGetUsersUsername } from '~/generated-api/users/users';
 import { router } from '~/main';
 import { ErrorPage } from '~/pages/error-page/error-page';
 import { LoadingPage } from '~/pages/loading-page';
+import { queryClient } from '~/services/query-client';
 import { Page } from '~/ui/pages';
 import { Wrapper } from '~/ui/wrapper/wrapper';
 
 export const UserPage = () => {
   const { username } = useParams();
-  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const { width } = useViewportSize();
+  const isRenderedOnDesktop = width >= 768;
 
   const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useGetUsersUsername(username!);
   const { data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe } = useGetUsersMe();
@@ -57,18 +58,6 @@ export const UserPage = () => {
     },
   });
 
-  const { mutateAsync: respondRequest } = useMutation({
-    mutationFn: postFriendsRespondRequest,
-    onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: getGetUsersUsernameQueryKey(username!) });
-      notifications.show({
-        title: variables?.isAccepted ? 'Заявка принята' : 'Заявка отклонена',
-        message: undefined,
-        color: 'var(--green-color)',
-      });
-    },
-  });
-
   const { mutateAsync: deleteFriend } = useMutation({
     mutationFn: deleteFriendsDelete,
     onSuccess: async () => {
@@ -76,7 +65,7 @@ export const UserPage = () => {
       await router.navigate(AppRoute.Friends);
 
       notifications.show({
-        title: 'Друг удален',
+        title: 'Пользователь удален из друзей',
         message: undefined,
         color: 'var(--green-color)',
       });
@@ -107,12 +96,6 @@ export const UserPage = () => {
     setIsLoading(false);
   };
 
-  const onRespondRequest = async ({ isAccepted }: { isAccepted: boolean }) => {
-    setIsLoading(true);
-    await respondRequest({ personToRespondId: user?.id, isAccepted });
-    setIsLoading(false);
-  };
-
   const onRemoveRequest = async () => {
     setIsLoading(true);
     await removeRequest({ person: user?.id });
@@ -124,7 +107,7 @@ export const UserPage = () => {
   }
 
   if (isErrorUser || isErrorBooks || isErrorUserMe || !user) {
-    return <ErrorPage/>;
+    return <ErrorPage withoutMenu={false}/>;
   }
 
   if (userMe?.id === user?.id) {
@@ -196,31 +179,21 @@ export const UserPage = () => {
             </div>
 
             {user.friendshipStatus == FriendshipStatus.None && (
-              <Button fullWidth loading={isLoading} variant={width < 768 ? 'white' : 'outline'}
+              <Button fullWidth={!isRenderedOnDesktop} loading={isLoading} variant={isRenderedOnDesktop ? 'outline' : 'white'}
                 leftSection={<People1PlusIcon24Regular/>} onClick={onSentRequest}>
                 Добавить в друзья
               </Button>
             )}
 
             {user.friendshipStatus == FriendshipStatus.OutcomeRequest && (
-              <Button fullWidth loading={isLoading} variant={width < 768 ? 'white' : 'outline'}
+              <Button fullWidth={!isRenderedOnDesktop} loading={isLoading} variant={isRenderedOnDesktop ? 'outline' : 'white'}
                 leftSection={<XIcon24Regular/>} onClick={onRemoveRequest}>
                 Отменить заявку
               </Button>
             )}
 
             {user.friendshipStatus == FriendshipStatus.IncomeRequest && (
-              <Flex gap='sm' className={styles.userRespondActions}>
-                <Button fullWidth variant={width < 768 ? 'white' : 'outline'}
-                  leftSection={<CheckAIcon24Regular color='var(--green-color)'/>}
-                  onClick={() => onRespondRequest({ isAccepted: true })}>
-                  Принять заявку
-                </Button>
-                <ActionIcon variant={width < 768 ? 'white' : 'outline'}
-                  onClick={() => onRespondRequest({ isAccepted: false })}>
-                  <XIcon24Regular color='var(--red-color)'/>
-                </ActionIcon>
-              </Flex>
+              <FriendRequestActions id={user.id} isBigSize username={user.username}/>
             )}
 
             {user.friendshipStatus == FriendshipStatus.Friend && user.contactUrl && (

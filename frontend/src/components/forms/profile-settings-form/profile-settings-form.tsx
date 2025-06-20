@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,13 +13,13 @@ import { FileButton } from '~/components/custom-mantine';
 import { ProfileFormSchema } from '~/conts';
 import { getGetUsersMeQueryKey, postUsersEditProfile, useGetUsersMe } from '~/generated-api/users/users';
 import { LoadingPage } from '~/pages/loading-page';
+import { queryClient } from '~/services/query-client';
 
 type IFormInput = zod.infer<typeof ProfileFormSchema>;
 
 export const ProfileSettingsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { data, isLoading: isLoadingData } = useGetUsersMe();
-  const queryClient = useQueryClient();
 
   const {
     setValue,
@@ -49,7 +49,7 @@ export const ProfileSettingsForm = () => {
   const { mutateAsync: updateProfile } = useMutation({
     mutationFn: postUsersEditProfile,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: getGetUsersMeQueryKey() });
+      queryClient.invalidateQueries({ queryKey: getGetUsersMeQueryKey() }).then();
 
       notifications.show({
         title: 'Профиль обновлен',

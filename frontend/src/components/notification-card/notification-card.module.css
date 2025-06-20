@@ -1,12 +1,18 @@
 .root {
-  padding: var(--mantine-spacing-sm) var(--mantine-spacing-sm) var(--mantine-spacing-md) var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md) var(--mantine-spacing-sm)  var(--mantine-spacing-md);
   border-radius: var(--mantine-radius-sm);
+  min-height: 78px;
+}
+
+.content {
+  flex-grow: 1;
 }
 
 .image {
   height: 62px;
   width: 43px;
   border-radius: var(--mantine-radius-sm);
+  flex-shrink: 0;
 }
 
 .unRead {

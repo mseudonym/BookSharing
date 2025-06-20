@@ -46,3 +46,7 @@
   margin: 0;
   pointer-events: none;
 }
+
+.clickableLogo {
+  cursor: pointer;
+}

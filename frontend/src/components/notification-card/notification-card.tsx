@@ -1,15 +1,23 @@
-import { Flex, Avatar, Text, Image, Anchor } from '@mantine/core';
+import { Anchor, Avatar, Flex, Image, Text } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/components/notification-card/notification-card.module.css';
 import _styles from '~/index.module.css';
 
+import { FriendRequestActions } from '~/components/friend-request-actions';
 import { AppRoute } from '~/conts';
 import {
-  NotificationBase, NotificationBaseFriendTakeBookToReadNotification, NotificationBaseNewBooksInFriendShelfNotification,
+  FriendshipStatus,
+  NotificationBase,
+  type NotificationBaseFriendshipStatusChangedNotification,
+  NotificationBaseFriendTakeBookToReadNotification,
+  NotificationBaseNewBooksInFriendShelfNotification,
+  NotificationBaseReadingProgressReminderNotification,
   NotificationBaseSomeoneBecameHolderOfYourItemNotification,
   NotificationBaseSomeoneQueueToItemNotification,
+  NotificationBaseYourQueuePositionChangedNotification,
 } from '~/generated-api/model';
+import { getNounForm } from '~/helpers/helpers';
 
 interface NotificationCardProps {
   notification: NotificationBase;
@@ -19,8 +27,10 @@ interface NotificationContent {
   avatar: string | null | undefined;
   text: string;
   date: string | undefined;
-  bookImage: string | null | undefined;
-  isRead?: boolean;
+  isRead: boolean | undefined;
+  bookImage?: string | null | undefined;
+  newStatus?: FriendshipStatus;
+  personId?: string;
 }
 
 export const NotificationCard = ({ notification }: NotificationCardProps) => {
@@ -45,8 +55,8 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
   };
 
   const renderContent = (): NotificationContent => {
-    switch (notification.$type) {
-      case 'SomeoneBecameHolderOfYourItemNotification': {
+    switch (notification.type) {
+      case 'SomeoneBecameHolderOfYourItem': {
         const {
           newHolder,
           createdAt,
@@ -62,7 +72,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'SomeoneQueueToItemNotification': {
+      case 'SomeoneQueueToItem': {
         const {
           newQueueMember,
           createdAt,
@@ -78,7 +88,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'FriendTakeBookToReadNotification': {
+      case 'FriendTakeBookToRead': {
         const { friend, createdAt, isRead, book } = notification as NotificationBaseFriendTakeBookToReadNotification;
         return {
           avatar: friend.lowQualityPhotoUrl,
@@ -89,7 +99,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         };
       }
 
-      case 'NewBooksInFriendShelfNotification': {
+      case 'NewBooksInFriendShelf': {
         const {
           friend,
           createdAt,
@@ -100,7 +110,63 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
           avatar: friend.lowQualityPhotoUrl,
           text: `@${friend.username} добавил к себе на полку новую книгу`,
           date: createdAt,
-          bookImage: newBooksCoverUrls[0],
+          bookImage: newBooksCoverUrls[0], // Поправить
+          isRead: isRead,
+        };
+      }
+
+      case 'YourQueuePositionChanged': {
+        const {
+          newPosition,
+          createdAt,
+          isRead,
+          book
+        } = notification as NotificationBaseYourQueuePositionChangedNotification;
+        return {
+          avatar: '/notification-base.png',
+          text: `Ваша новая позиция в очереди: ${newPosition}`,
+          date: createdAt,
+          bookImage: book.bookCoverUrl,
+          isRead: isRead,
+        };
+      }
+
+      case 'ReadingProgressReminder': {
+        const {
+          readingDays,
+          createdAt,
+          isRead,
+          book
+        } = notification as NotificationBaseReadingProgressReminderNotification;
+        return {
+          avatar: '/notification-base.png',
+          text: `Вы читаете книгу: ${readingDays} ${getNounForm(readingDays, 'день', 'дня', 'дней')}`,
+          date: createdAt,
+          bookImage: book.bookCoverUrl,
+          isRead: isRead,
+        };
+      }
+
+      case 'FriendshipStatusChanged': {
+        const {
+          person,
+          newStatus,
+          createdAt,
+          isRead,
+          personId
+        } = notification as NotificationBaseFriendshipStatusChangedNotification;
+
+        const messages: Partial<Record<FriendshipStatus, string>> = {
+          [FriendshipStatus.Friend]: `@${person.username} принял вашу заявку в друзья`,
+          [FriendshipStatus.IncomeRequest]: `@${person.username} хочет добавиться к вам в друзья`,
+        };
+        
+        return {
+          avatar: person.lowQualityPhotoUrl,
+          newStatus: newStatus,
+          personId: personId,
+          text: messages[newStatus || FriendshipStatus.None]!,
+          date: createdAt,
           isRead: isRead,
         };
       }
@@ -110,13 +176,12 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
           avatar: null,
           text: 'Новое уведомление',
           date: '',
-          bookImage: null,
           isRead: false,
         };
     }
   };
 
-  const { avatar, text, date, bookImage, isRead } = renderContent();
+  const { avatar, text, date, bookImage, isRead, newStatus, personId } = renderContent();
   const dateFormated = new Date(date || '').toLocaleDateString('ru-RU', {
     day: '2-digit',
     month: '2-digit',
@@ -125,12 +190,16 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
 
   return (
     <Flex gap={8} className={`${styles.root} ${!isRead && styles.unRead}`}>
-      <Avatar size={41} src={avatar}/>
-      <Flex direction='column' gap={4}>
+      <Avatar size={41} src={avatar || '/default-profile.png'}/>
+      <Flex direction='column' gap={4} className={styles.content}>
         <Text>{formatNotificationText(text)}</Text>
         <Text className={_styles.textGray}>{dateFormated}</Text>
       </Flex>
+
       {bookImage && <Image className={styles.image} src={bookImage}/>}
+
+      {newStatus && newStatus === FriendshipStatus.IncomeRequest 
+        && <FriendRequestActions id={personId}/>}
     </Flex>
   );
 };

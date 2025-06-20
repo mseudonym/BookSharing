@@ -1,4 +1,4 @@
-import { Card, Image, Text } from '@mantine/core';
+import { Card, Flex, Image, Text } from '@mantine/core';
 import React from 'react';
 
 import styles from '~/components/book-card/book-card.module.css';
@@ -17,10 +17,10 @@ export const BookCard = ({ id, title, bookCoverUrl, author }: BookModel) => {
         className={styles.bookCover}
         alt={`Book cover for ${title}`}
       />
-      <>
+      <Flex direction='column' gap='xs'>
         <Text lineClamp={3}>{title}</Text>
         <Text lineClamp={3} className={_styles.textGray}>{author}</Text>
-      </>
+      </Flex>
     </Card>
   );
 };

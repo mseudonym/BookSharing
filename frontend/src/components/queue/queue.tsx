@@ -1,6 +1,6 @@
-import { Avatar, Flex, Button, ActionIcon, Anchor, Text, Card } from '@mantine/core';
+import { ActionIcon, Anchor, Avatar, Button, Card, Flex, Text } from '@mantine/core';
 import { ArrowUiAuthLogoutIcon24Regular } from '@skbkontur/icons/icons/ArrowUiAuthLogoutIcon';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 
 import styles from '~/components/queue/queue.module.css';
@@ -17,14 +17,13 @@ import {
 import { useGetUsersMe } from '~/generated-api/users/users';
 import { getNounForm } from '~/helpers/helpers';
 import { router } from '~/main';
+import { queryClient } from '~/services/query-client';
 
 interface QueueProps extends ItemModel {
   bookId: string;
 }
 
 export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: QueueProps) => {
-  const queryClient = useQueryClient();
-
   const { mutateAsync: enqueue } = useMutation({
     mutationFn: postQueueItemIdEnqueue,
     onSuccess: async () => {

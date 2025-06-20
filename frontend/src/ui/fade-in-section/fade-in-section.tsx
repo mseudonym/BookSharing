@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from '~/ui/fade-in-section/fade-in-section.module.css';
 
 interface FadeInSectionProps {
+  key?: number;
   children: React.ReactNode;
   rootMargin?: string;
   threshold?: number;
@@ -10,6 +11,7 @@ interface FadeInSectionProps {
 }
 
 export const FadeInSection = React.memo(({
+  key,
   children,
   rootMargin = '0px',
   threshold = 0.2,
@@ -54,6 +56,7 @@ export const FadeInSection = React.memo(({
       ref={domRef}
       className={`${styles.fadeInSection} ${isVisible ? styles.visible : ''} ${className}`}
       aria-hidden={!isVisible}
+      key={key}
     >
       {children}
     </div>

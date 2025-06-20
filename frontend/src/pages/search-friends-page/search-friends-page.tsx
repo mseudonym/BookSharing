@@ -1,6 +1,7 @@
 import { ActionIcon, Input, Loader } from '@mantine/core';
+import { useDebouncedValue } from '@mantine/hooks';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { SearchFriendCard } from '~/components/friend-request/search-friend-card/search-friend-card';
 import { Header } from '~/components/header/header';
@@ -11,19 +12,19 @@ import { PageWithWrapper } from '~/ui/pages/page-with-wrapper/page-with-wrapper'
 
 export const SearchFriendsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [ debouncedSearchQuery ] = useDebouncedValue(searchQuery, 500);
   const { data: friendList } = useGetFriendsList();
   const { data: me } = useGetUsersMe();
   const {
     data: userList,
     isLoading: isLoadingUserList
-  } = useGetUsersSearchUsernamePrefix(searchQuery, { query: { enabled: searchQuery.length > 2 } });
+  } = useGetUsersSearchUsernamePrefix(debouncedSearchQuery, { query: { enabled: debouncedSearchQuery.length > 2 } });
 
   const filteredUserList = useMemo(() => {
     if (!userList || !friendList)
       return userList;
 
-    const friendIds = new Set(friendList.map((friend) => friend.id));
-    return userList.filter((user) => !friendIds.has(user.id) && user.id !== me?.id);
+    return userList.filter((user) => user.id !== me?.id);
   }, [userList, friendList, me?.id]);
 
   return (
