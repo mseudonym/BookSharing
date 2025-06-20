@@ -1,7 +1,7 @@
-import { ActionIcon, Button, Flex, Input, Loader, SimpleGrid, Tabs, Text, Title } from '@mantine/core';
+import { ActionIcon, Button, Flex, Input, Loader, SimpleGrid, Tabs, Text, Title, Transition } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { ArrowALeftIcon24Regular, ScanFrameBarcodeClassicIcon20Regular } from '@skbkontur/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import _styles from '~/index.module.css';
 import styles from '~/pages/book-addition-page/book-addition-page.module.css';
@@ -31,6 +31,11 @@ export const BookAdditionPage = () => {
   } = useGetBooksByTitleTitle(debouncedTitle, { query: { enabled: debouncedTitle.length > 4 } });
   const { data: myBooks, isLoading: isLoadingMyBooks, isError: isErrorMyBooks } = useGetBooksMyBooks();
   const myBooksSet: Set<string | undefined> = new Set(myBooks?.map((item) => item.id));
+  const [opened, setOpened] = useState(false);
+
+  useEffect(() => {
+    setOpened(!!(isbnQuery || titleQuery));
+  }, [isbnQuery, titleQuery]);
 
   if (isErrorMyBooks) {
     return <ErrorPage/>;
@@ -66,13 +71,6 @@ export const BookAdditionPage = () => {
               </ActionIcon>}/>
           {!isErrorIsbn && bookIsbn &&
             <BookAdditionCard {...bookIsbn} isUserAlreadyHaveBook={myBooksSet.has(bookIsbn.id)}/>}
-          {isbnQuery &&
-            <Flex direction='column' gap='sm' align='center' className={styles.buttonWithDescription}>
-              <Text className={_styles.textGray}>Не нашли что искали?</Text>
-              <Button
-                onClick={() => router.navigate(AppRoute.AddBookManually)}
-                variant='outline'>Добавить книгу вручную</Button>
-            </Flex>}
         </Tabs.Panel>
 
         <Tabs.Panel value={BookAdditionTabs.Title}>
@@ -88,6 +86,20 @@ export const BookAdditionPage = () => {
               )))}
           </SimpleGrid>
         </Tabs.Panel>
+
+        <Transition mounted={opened} transition='fade-up' enterDelay={200} exitDelay={200}>
+          {(transitionStyle) => (
+            <Flex direction='column' gap='sm' align='center' className={styles.buttonWithDescription} style={{
+              ...transitionStyle,
+              zIndex: 1
+            }}>
+              <Text className={_styles.textGray}>Не нашли что искали?</Text>
+              <Button
+                onClick={() => router.navigate(AppRoute.AddBookManually)}
+                variant='outline'>Добавить книгу вручную</Button>
+            </Flex>
+          )}
+        </Transition>
       </Tabs>
     </PageWithWrapper>
   );
