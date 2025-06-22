@@ -1,6 +1,8 @@
+using BS.Data.Entities.Base;
+
 namespace BS.Data.Entities;
 
-public class ItemEntity
+public class ItemEntity : ISoftDeletable
 {
     public Guid Id { get; set; } = Guid.CreateVersion7();
     public Guid OwnerId { get; set; }
@@ -12,4 +14,5 @@ public class ItemEntity
     public DateTime HolderChangedUtc { get; set; }
     public List<QueueItemEntity> QueueItems { get; set; } = [];
     public DateTime CreatedUtc { get; set; }
+    public bool IsDeleted { get; set; }
 }

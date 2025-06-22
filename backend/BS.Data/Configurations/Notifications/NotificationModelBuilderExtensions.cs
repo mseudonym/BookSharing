@@ -37,7 +37,6 @@ public static class NotificationModelBuilderExtensions
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // 5. Для SomeoneBecameHolderOfYourItemNotificationEntity — связь с NewHolder
         modelBuilder.Entity<SomeoneBecameHolderOfYourItemNotificationEntity>(builder =>
         {
             builder.Property(x => x.NewHolderId)
@@ -71,7 +70,6 @@ public static class NotificationModelBuilderExtensions
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // 8. Для NewBooksInFriendShelfNotificationEntity — сериализация NewBookIds
         modelBuilder.Entity<NewBooksInFriendShelfNotificationEntity>(builder =>
         {
             builder.Property(x => x.NewBookIds)
