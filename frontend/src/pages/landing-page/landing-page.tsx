@@ -164,9 +164,9 @@ export const LandingPage = () => {
                 <Burger opened={opened} onClick={open} className={styles.burger}/>
               </Flex>
               <Flex direction='column' align='center' className={styles.heroContent}>
-                <Title textWrap='balance' ta='center' order={mainTitleOrder}>Объедините книжные полки с друзьями</Title>
-                <Text size={textSize} ta='center'>Читайте их книги, делитесь своими — это экологично,
-                  выгодно и объединяет. Узнайте, что можно взять почитать, вместо покупки. Шарьте
+                <Title textWrap='balance' ta='center' order={mainTitleOrder}>Объединяйте книжные полки с друзьями</Title>
+                <Text size={textSize} ta='center'>Читайте книги друзей, делитесь своими — это выгодно,
+                  экологично и объединяет. Узнайте, что можно взять почитать, вместо покупки. Шарьте
                   контекст, экономьте ресурсы!</Text>
                 <Button size={buttonSize} variant='filled'
                   onClick={() => router.navigate(AppRoute.Register)}>Начать шарить</Button>
