@@ -23,7 +23,7 @@ var environment = builder.Environment;
 builder.Services.AddLogging();
 builder.Services.AddHttpLogging(_ => { });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddBsOpenApi();
+builder.Services.AddBsOpenApi(builder.Environment);
 builder.Services.AddBsHangfire(configuration);
 
 builder.Services.AddControllers();
@@ -61,7 +61,10 @@ app.UseHangfireServer(() => new BackgroundJobServer());
 if (environment.IsDevelopment() || environment.IsStaging())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(options =>
+    {
+        options.Servers = options.Servers;
+    });
 }
 
 app.UseBsHangfire();
