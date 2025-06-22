@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextInput } from '@mantine/core';
+import { useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -20,6 +21,8 @@ type IFormInput = zod.infer<typeof ProfileFormSchema>;
 export const ProfileSettingsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { data, isLoading: isLoadingData } = useGetUsersMe();
+  const { width } = useViewportSize();
+  const isRenderedOnDesktop = width >= 768;
 
   const {
     setValue,
@@ -101,7 +104,7 @@ export const ProfileSettingsForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter} ${isRenderedOnDesktop && styles.formMaxWidth}`}>
       <FileButton
         name='profilePhoto'
         type='avatar'

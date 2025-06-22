@@ -1,4 +1,5 @@
 import { ActionIcon, Button, Title } from '@mantine/core';
+import { useViewportSize } from '@mantine/hooks';
 import { ArrowALeftIcon24Regular, MailIcon24Regular, SecurityPasswordInputIcon24Regular } from '@skbkontur/icons';
 import React from 'react';
 
@@ -10,6 +11,9 @@ import { router } from '~/main';
 import { PageWithWrapper } from '~/ui/pages';
 
 export const SecuritySettingsPage = () => {
+  const { width } = useViewportSize();
+  const isRenderedOnDesktop = width >= 768;
+  
   return (
     <PageWithWrapper backgroundColor='white'>
       <Header variant='left'>
@@ -23,7 +27,7 @@ export const SecuritySettingsPage = () => {
 
       <Button variant='white'
         className={styles.buttonLeft}
-        fullWidth
+        fullWidth={!isRenderedOnDesktop}
         leftSection={<MailIcon24Regular/>}
         onClick={() => {
           router.navigate(AppRoute.EmailSettings).then();
@@ -34,7 +38,7 @@ export const SecuritySettingsPage = () => {
       <Button
         variant='white'
         className={styles.buttonLeft}
-        fullWidth
+        fullWidth={!isRenderedOnDesktop}
         leftSection={<SecurityPasswordInputIcon24Regular/>}
         onClick={() => {
           router.navigate(AppRoute.PasswordSettings).then();

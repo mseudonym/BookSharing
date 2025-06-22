@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextInput, Text } from '@mantine/core';
+import { Button, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -14,6 +14,7 @@ import { postAuthManageChangeEmail } from '~/generated-api/auth/auth';
 import { useGetUsersMe } from '~/generated-api/users/users';
 import { ErrorPage } from '~/pages/error-page';
 import { LoadingPage } from '~/pages/loading-page';
+import { useViewportSize } from '@mantine/hooks';
 
 const FormSchema = zod.object({
   email: zod
@@ -26,6 +27,8 @@ type IFormInput = zod.infer<typeof FormSchema>;
 export const EmailSettingsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: userMe, isLoading: isLoadingUserMe, isError: isErrorUserMe } = useGetUsersMe();
+  const { width } = useViewportSize();
+  const isRenderedOnDesktop = width >= 768;
 
   const {
     register,
@@ -72,7 +75,7 @@ export const EmailSettingsForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${isRenderedOnDesktop && styles.formMaxWidth}`}>
       <Text className={_styles.textGray}>Текущий адрес</Text>
       <Text>{userMe?.email}</Text>
 

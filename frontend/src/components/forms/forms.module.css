@@ -6,6 +6,10 @@
   gap: var(--mantine-spacing-md);
 }
 
+.formMaxWidth {
+  max-width: 600px;
+}
+
 .formCenter {
   align-items: center;
 }

@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@mantine/core';
+import { useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -24,6 +25,8 @@ type IFormInput = zod.infer<typeof FormSchema>;
 
 export const PasswordSettingsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { width } = useViewportSize();
+  const isRenderedOnDesktop = width >= 768;
 
   const {
     register,
@@ -60,7 +63,7 @@ export const PasswordSettingsForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.formCenter} ${isRenderedOnDesktop && styles.formMaxWidth}`}>
       <PasswordInput
         label='Старый пароль'
         placeholder='Введите старый пароль'

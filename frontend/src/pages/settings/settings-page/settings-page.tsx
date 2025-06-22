@@ -47,7 +47,7 @@ export const SettingsPage = () => {
 
         <Button className={styles.buttonLeft}
           variant='white'
-          fullWidth
+          fullWidth={!isRenderedOnDesktop}
           leftSection={<People1EditIcon24Regular/>}
           onClick={() => router.navigate(AppRoute.ProfileSettings)}>
           Личные данные
@@ -55,13 +55,13 @@ export const SettingsPage = () => {
 
         <Button className={styles.buttonLeft}
           variant='white'
-          fullWidth
+          fullWidth={!isRenderedOnDesktop}
           leftSection={<SecurityShieldCheckIcon24Regular/>}
           onClick={() => router.navigate(AppRoute.SecuritySettings)}>
           Безопасность
         </Button>
 
-        <Button fullWidth leftSection={<ArrowUiAuthLogoutIcon24Regular/>} onClick={open}>
+        <Button fullWidth={!isRenderedOnDesktop} leftSection={<ArrowUiAuthLogoutIcon24Regular/>} onClick={open}>
           Выйти из аккаунта
         </Button>
 
