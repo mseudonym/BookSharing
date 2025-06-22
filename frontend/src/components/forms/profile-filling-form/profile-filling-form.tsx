@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextInput } from '@mantine/core';
+import { Button, Flex, HoverCard, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { QuestionCircleIcon16Solid } from '@skbkontur/icons';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import React, { useState } from 'react';
@@ -112,7 +113,19 @@ export const ProfileFillingForm = () => {
       />
 
       <TextInput
-        label='Ссылка для связи'
+        label={
+          <Flex gap='sm'>Ссылка для связи <HoverCard width={280} shadow='md'>
+            <HoverCard.Target>
+              <QuestionCircleIcon16Solid/>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <Text>
+                Hужна, чтобы люди могли связаться с вами для передачи книги.
+              </Text>
+            </HoverCard.Dropdown>
+          </HoverCard>
+          </Flex>
+      }
         placeholder='Введите ссылку для связи'
         {...register('contactUrl')}
         error={errors?.contactUrl?.message}
