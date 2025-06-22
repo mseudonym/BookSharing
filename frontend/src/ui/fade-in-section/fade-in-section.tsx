@@ -14,7 +14,7 @@ export const FadeInSection = React.memo(({
   key,
   children,
   rootMargin = '0px',
-  threshold = 0.2,
+  threshold = 0.4,
   className = ''
 }: FadeInSectionProps) => {
   const [isVisible, setVisible] = useState(false);

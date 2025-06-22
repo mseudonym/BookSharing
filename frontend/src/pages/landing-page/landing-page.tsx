@@ -236,7 +236,7 @@ export const LandingPage = () => {
               <Text span className={_styles.textGray}>Отдельная благодарность Никите Александрову за вклад в проект.</Text>
             </Flex>
           </Flex>
-          <Flex className={styles.block} direction='column'>
+          <Flex className={styles.block} direction='column' gap='sm'>
             <Divider/>
             <Text size={textSize}>© 2025 Шарю</Text>
           </Flex>
