@@ -75,11 +75,9 @@ export const ProfileFormSchema = zod.object({
 export const PasswordBaseSchema = zod.object({
   password: zod
     .string()
-    .min(12, 'Пароль должен быть не меньше 12-ти символов')
-    .regex(/[0-9]+/, 'Пароль должен содержать минимум одну цифру')
+    .min(8, 'Пароль должен быть не меньше 8-ми символов')
     .regex(/[a-z]+/, 'Пароль должен содержать минимум одну строчную латинскую букву')
     .regex(/[A-Z]+/, 'Пароль должен содержать минимум одну заглавную латинскую букву')
-    .regex(/[^0-9a-zA-Z]+/, 'Пароль должен содержать минимум один не буквенный и не числовой символ')
     .nonempty(REQUIRED_FIELD_TEXT),
   confirmPassword: zod
     .string()

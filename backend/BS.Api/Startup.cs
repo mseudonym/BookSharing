@@ -38,8 +38,9 @@ builder.Services.AddAuthentication(BearerTokenDefaults.AuthenticationScheme);
 builder.Services.AddIdentityApiEndpoints<UserEntity>(options =>
         {
             options.User.RequireUniqueEmail = true;
-            options.Password.RequiredLength = 12;
+            options.Password.RequiredLength = 8;
             options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireDigit = false;
             options.SignIn.RequireConfirmedEmail = false;
         }
     )
