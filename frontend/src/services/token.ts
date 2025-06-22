@@ -23,17 +23,14 @@ export const refreshAuthLogic = async (failedRequest: InternalAxiosRequestConfig
 
   if (!refreshToken) {
     clearTokens();
-    if (!publicRoutes.includes(currentRoute)) {
+    if (!publicRoutes.includes(<AppRoute>currentRoute)) {
       await router.navigate(AppRoute.Login);
     }
     return Promise.reject(new Error('No refresh token available'));
   }
 
-  console.log('зашли');
-
   try {
     const response = await postAuthRefresh({ refreshToken });
-    console.log('успех');
     const { accessToken, refreshToken: newRefreshToken, expiresIn } = response;
 
     setTokens(accessToken, newRefreshToken || refreshToken, expiresIn);
@@ -43,9 +40,8 @@ export const refreshAuthLogic = async (failedRequest: InternalAxiosRequestConfig
     }
     return Promise.resolve();
   } catch (error) {
-    console.log('ошибка');
     clearTokens();
-    if (!publicRoutes.includes(currentRoute)) {
+    if (!publicRoutes.includes(<AppRoute>currentRoute)) {
       await router.navigate(AppRoute.Login);
     }
     return Promise.reject(error);
