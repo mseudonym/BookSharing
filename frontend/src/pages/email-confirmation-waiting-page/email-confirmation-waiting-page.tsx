@@ -67,7 +67,7 @@ export const EmailConfirmationWaitingPage = () => {
       />
       {seconds === 0
         ? (
-          <Anchor className={_styles.anchorGray}
+          <Anchor className={_styles.anchorGray} style={{ alignSelf: 'auto' }}
             onClick={() => resendConfirmationEmail({ email: userData?.email ?? '' })}>
             Отправить письмо ещё раз
           </Anchor>
