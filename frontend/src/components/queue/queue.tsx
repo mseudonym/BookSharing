@@ -50,7 +50,8 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
 
   const { data: userData } = useGetUsersMe();
 
-  const isUserInQueue: boolean = queue!.find((element) => element.id == userData?.id) !== undefined;
+  const indexInQueue: number = queue!.findIndex((element) => element.id == userData?.id);
+  const isUserInQueue: boolean = indexInQueue !== -1;
   const isUserFirst: boolean = queue!.at(0)?.id === userData?.id;
   const isUserHolder: boolean = userData?.username === holder?.username;
   const isUserOwner: boolean = owner.username === userData?.username;
@@ -100,21 +101,29 @@ export const Queue = ({ bookId, itemId, owner, holder, queue, firstInQueue }: Qu
         : (firstInQueue
           ? <Text>Книга у вас. За вами в очереди стоит человек. После прочтения книги, свяжитесь с ним и
             передайте её.</Text>
-          : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не
-            появится — отдайте книгу владельцу после прочтения.</Text>)}
+          : (isUserOwner
+            ? <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету.</Text>
+            : <Text className={_styles.textGray}>Книга у вас. За вами в очереди никого нету. Если никто не
+              появится — отдайте книгу владельцу после прочтения.</Text>))}
 
       {!isUserHolder
         ? (!queue || queue.length == 0
           ? <Text className={_styles.textGray}>Пока что никого нет в очереди, но вы можете быть первым.</Text>
           : (
             <Flex gap={4} direction='column'>
-              <Text span className={_styles.textGray}>
-                {queue.length}
-                {' '}
-                {getNounForm(queue.length, 'человек', 'человека', 'человек')}
-                {' '}
-                в очереди
-              </Text>
+              {isUserInQueue
+                ? <Text span className={_styles.textGray}>
+                  Ваш текущий номер в очереди:
+                  {' '}
+                  {indexInQueue + 1}
+                </Text>
+                : <Text span className={_styles.textGray}>
+                  {queue.length}
+                  {' '}
+                  {getNounForm(queue.length, 'человек', 'человека', 'человек')}
+                  {' '}
+                  в очереди
+                </Text>}
               <Avatar.Group>
                 {queue.map((avatar, index) => (
                   <Avatar

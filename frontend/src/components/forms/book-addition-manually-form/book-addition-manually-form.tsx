@@ -3,7 +3,7 @@ import { Button, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
@@ -39,7 +39,6 @@ const FormSchema = zod.object({
     .lte(new Date().getFullYear(), 'Год не может быть в будущем'),
   isbn: zod
     .string()
-    .nonempty(REQUIRED_FIELD_TEXT)
 });
 
 type IFormInput = zod.infer<typeof FormSchema>;

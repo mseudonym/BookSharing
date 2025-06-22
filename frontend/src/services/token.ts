@@ -1,7 +1,8 @@
 import { InternalAxiosRequestConfig } from 'axios';
 
-import { AUTH_REFRESH_TOKEN_KEY_NAME, AUTH_TOKEN_KEY_NAME, TOKEN_EXPIRATION_KEY_NAME } from '~/conts';
+import { AppRoute, AUTH_REFRESH_TOKEN_KEY_NAME, AUTH_TOKEN_KEY_NAME, TOKEN_EXPIRATION_KEY_NAME } from '~/conts';
 import { postAuthRefresh } from '~/generated-api/auth/auth';
+import { router } from '~/main';
 
 const setTokens = (accessToken: string, refreshToken: string, expiresIn: number): void => {
   localStorage.setItem(AUTH_TOKEN_KEY_NAME, accessToken);
@@ -15,14 +16,24 @@ const clearTokens = (): void => {
   localStorage.removeItem(TOKEN_EXPIRATION_KEY_NAME);
 };
 
-export const refreshAuthLogic = async (failedRequest: InternalAxiosRequestConfig) => {
-  try {
-    const refreshToken = localStorage.getItem(AUTH_REFRESH_TOKEN_KEY_NAME);
-    if (!refreshToken) {
-      throw new Error('No refresh token available');
-    }
+export const refreshAuthLogic = async (failedRequest: InternalAxiosRequestConfig): Promise<void> => {
+  const refreshToken = localStorage.getItem(AUTH_REFRESH_TOKEN_KEY_NAME);
+  const publicRoutes = [AppRoute.Login, AppRoute.Register, AppRoute.ForgotPassword, AppRoute.ResetPassword];
+  const currentRoute = router.state.location.pathname;
 
-    const response = await postAuthRefresh({ refreshToken: refreshToken });
+  if (!refreshToken) {
+    clearTokens();
+    if (!publicRoutes.includes(currentRoute)) {
+      await router.navigate(AppRoute.Login);
+    }
+    return Promise.reject(new Error('No refresh token available'));
+  }
+
+  console.log('зашли');
+
+  try {
+    const response = await postAuthRefresh({ refreshToken });
+    console.log('успех');
     const { accessToken, refreshToken: newRefreshToken, expiresIn } = response;
 
     setTokens(accessToken, newRefreshToken || refreshToken, expiresIn);
@@ -32,8 +43,12 @@ export const refreshAuthLogic = async (failedRequest: InternalAxiosRequestConfig
     }
     return Promise.resolve();
   } catch (error) {
+    console.log('ошибка');
     clearTokens();
-    throw error;
+    if (!publicRoutes.includes(currentRoute)) {
+      await router.navigate(AppRoute.Login);
+    }
+    return Promise.reject(error);
   }
 };
 

@@ -1,4 +1,4 @@
-import { AppShell, SegmentedControl } from '@mantine/core';
+import { AppShell, Flex, Indicator, SegmentedControl } from '@mantine/core';
 import {
   BooksLibraryIcon24Regular,
   BooksLibraryIcon24Solid,
@@ -20,6 +20,7 @@ import styles from '~/components/sidebar/sidebar.module.css';
 
 import { Logo } from '~/components/logo';
 import { AppRoute } from '~/conts';
+import { useGetNotificationsUnreadCount } from '~/generated-api/notifications/notifications';
 import { router } from '~/main';
 import { NotificationPage } from '~/pages/notification-page';
 
@@ -29,42 +30,49 @@ const allSidebarItems = [
     label: 'Полка друзей',
     iconRegular: <BooksLibraryIcon24Regular/>,
     iconSolid: <BooksLibraryIcon24Solid/>,
+    withBadge: false
   },
   {
     value: AppRoute.Friends,
     label: 'Друзья',
     iconRegular: <People2Icon24Regular/>,
     iconSolid: <People2Icon24Solid/>,
+    withBadge: false
   },
   {
     value: AppRoute.Storage,
     label: 'Предметы',
     iconRegular: <FolderIcon24Regular/>,
     iconSolid: <FolderIcon24Solid/>,
+    withBadge: false
   },
   {
     value: AppRoute.Profile,
     label: 'Профиль',
     iconRegular: <People1Icon24Regular/>,
     iconSolid: <People1Icon24Solid/>,
+    withBadge: false
   },
   {
     value: '',
     label: 'Уведомления',
     iconRegular: <NotificationBellIcon24Regular/>,
     iconSolid: <NotificationBellIcon24Solid/>,
+    withBadge: true
   },
   {
     value: AppRoute.Settings,
     label: 'Настройки',
     iconRegular: <SettingsGearIcon24Regular/>,
     iconSolid: <SettingsGearIcon24Solid/>,
+    withBadge: false
   },
 ];
 
 export const Sidebar = () => {
   const { pathname } = useLocation();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const { data: unreadNotificationCount, isLoading, isError } = useGetNotificationsUnreadCount();
 
   const handleNavigate = (value: string) => {
     if (value === '') {
@@ -81,19 +89,21 @@ export const Sidebar = () => {
     ...mainItems.map((item) => ({
       ...item,
       label: (
-        <div className={`${styles.menuItem} ${item.value == AppRoute.Profile ? styles.profileMenuItem : ''}`}>
+        <Flex align='center' gap='sm'>
           {pathname === item.value ? item.iconSolid : item.iconRegular}
           {item.label}
-        </div>
+        </Flex>
       )
     })),
     ...footerItems.map((item) => ({
       ...item,
       label: (
-        <div className={styles.menuItem}>
-          {pathname === item.value ? item.iconSolid : item.iconRegular}
+        <Flex align='center' gap='sm'>
+          <Indicator processing color='red' inline label={unreadNotificationCount} size={16} disabled={!(!isError && !isLoading && item.withBadge && unreadNotificationCount! > 0)}>
+            {pathname === item.value ? item.iconSolid : item.iconRegular}
+          </Indicator>
           {item.label}
-        </div>
+        </Flex>
       )
     }))
   ];

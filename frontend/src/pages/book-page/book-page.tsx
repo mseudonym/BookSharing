@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Divider, Flex, Image, Menu, Modal, SimpleGrid, Text, Title } from '@mantine/core';
+import { ActionIcon, Divider, Flex, Image, Menu, Modal, Text, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
@@ -58,22 +58,10 @@ export const BookPage = () => {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title='Удалить книгу?' centered>
-        <Text className={_styles.textGray}>Это также удалит все очереди за ней.</Text>
-        <SimpleGrid
-          cols={{ base: 1, sm: 2 }}
-          spacing={{ base: 'md' }}
-          verticalSpacing={{ base: 'md' }}
-          style={{ width: '100%' }}
-        >
-          <Button variant='filled' onClick={onDeleteBook}>
-            Да, удалить
-          </Button>
-          <Button color='outline' onClick={close}>
-            Нет, оставить
-          </Button>
-        </SimpleGrid>
-      </Modal>
+      <Modal opened={opened} onClose={close} onSubmit={onDeleteBook}
+        title='Удалить книгу с полки?'
+        description='Это также удалит все очереди за ней.'
+        submitButtonText='Да, удалить' closeButtonText='Нет, оставить'/>
 
       <Page>
         <Header variant='auto' withPadding hideOnDesktop>
@@ -121,6 +109,14 @@ export const BookPage = () => {
               <div className={styles.bookBlock}>
                 <Text span className={_styles.textGray}>Описание</Text>
                 <Text>{book?.description}</Text>
+              </div>
+              {book?.isbn && <div className={styles.bookBlock}>
+                <Text span className={_styles.textGray}>ISBN</Text>
+                <Text>{book?.isbn}</Text>
+              </div>}
+              <div className={styles.bookBlock}>
+                <Text span className={_styles.textGray}>Язык</Text>
+                <Text>{book?.language}</Text>
               </div>
               <Divider my='l'/>
             </div>

@@ -11,14 +11,22 @@ export const AXIOS_INSTANCE = axios.create(
 );
 
 AXIOS_INSTANCE.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = getToken();
-  if (token && config.headers) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+  const publicEndpoints = ['/auth/login', '/auth/register', '/auth/refresh', '/auth/forgot-password', '/auth/reset-password'];
+  const isPublicEndpoint = publicEndpoints.some((endpoint) => config.url?.includes(endpoint));
+
+  if (!isPublicEndpoint) {
+    const token = getToken();
+    if (token && config.headers) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
   }
   return config;
 });
 
-createAuthRefreshInterceptor(AXIOS_INSTANCE, refreshAuthLogic);
+createAuthRefreshInterceptor(AXIOS_INSTANCE, refreshAuthLogic, {
+  statusCodes: [401], // Перехватывать только 401 ошибки
+  pauseInstanceWhileRefreshing: true, // Приостановить все запросы во время обновления токена
+});
 
 export const api = <T>(
   config: AxiosRequestConfig,

@@ -1,12 +1,13 @@
 import { Drawer, Flex, ScrollArea } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { NotificationCard } from '~/components/notification-card';
 import { NotificationBase } from '~/generated-api/model';
 import {
   getGetNotificationsQueryKey,
+  getGetNotificationsUnreadCountQueryKey,
   postNotificationsMarkAsRead,
   useGetNotifications,
 } from '~/generated-api/notifications/notifications';
@@ -23,12 +24,17 @@ export const NotificationPage = ({ isOpen, onClose }: NotificationPageProps) => 
   const [allNotifications, setAllNotifications] = useState<NotificationBase[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { data, isFetching, isError } = useGetNotifications({ page });
-  const notificationIds = allNotifications?.map((notification) => notification.id) ?? [];
+
+  const notificationIds = useMemo(
+    () => allNotifications.map((notification) => notification.id),
+    [allNotifications]
+  );
 
   const { mutateAsync: readNotifications } = useMutation({
     mutationFn: postNotificationsMarkAsRead,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: getGetNotificationsQueryKey() });
+      await queryClient.invalidateQueries({ queryKey: getGetNotificationsUnreadCountQueryKey() });
     },
   });
 

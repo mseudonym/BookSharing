@@ -1,10 +1,10 @@
 import Quagga from '@ericblade/quagga2';
-import { Button, Flex, Image, Modal, Text, Title, SimpleGrid, Loader } from '@mantine/core';
+import { Button, Flex, Image, Loader, Modal, SimpleGrid, Text, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import ISBN from 'isbn3';
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
 import styles from '~/components/isbn-scanner/isbn-scanner.module.css';
@@ -84,7 +84,7 @@ export const ISBNScanner = () => {
         (err) => {
           if (err || !isMounted) {
             if (isMounted) {
-              setError(`Ошибка инициализации: ${err ? err.message : 'Неизвестная ошибка'}`);
+              setError(`Ошибка инициализации`);
               setIsScanning(false);
             }
             return;

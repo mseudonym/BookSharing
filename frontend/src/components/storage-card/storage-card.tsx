@@ -71,7 +71,7 @@ export const StorageCard = (props: StorageFriendCardProps) => {
         {cardText && (
           <Text className={_styles.textGray}>
             {cardText.split('[').flatMap((part, index) => {
-              if (index === 0) return part; // First part before link
+              if (index === 0) return part;
 
               const [urlAndText, ...rest] = part.split(']');
               const [url, ...linkTextParts] = urlAndText.split(' ');

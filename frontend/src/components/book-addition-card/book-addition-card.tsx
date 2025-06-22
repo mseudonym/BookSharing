@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Card, Flex, Image, Modal, SimpleGrid, Text } from '@mantine/core';
+import { ActionIcon, Card, Flex, Image, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { XIcon24Regular } from '@skbkontur/icons';
@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import styles from '~/components/book-addition-card/book-addition-card.module.css';
 import _styles from '~/index.module.css';
 
+import { Modal } from '~/components/custom-mantine/modal/modal';
 import { getGetBooksMyBooksQueryKey } from '~/generated-api/books/books';
 import { deleteItemsRemoveFromMyShelf, postItemsAddToMyShelf } from '~/generated-api/items/items';
 import { BookModel } from '~/generated-api/model';
@@ -67,22 +68,10 @@ export const BookAdditionCard = ({ isUserAlreadyHaveBook, title, bookCoverUrl, a
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title='Удалить книгу с полки?' centered>
-        <Text className={_styles.textGray}>Это также удалит все очереди за ней.</Text>
-        <SimpleGrid
-          cols={{ base: 1, sm: 2 }}
-          spacing={{ base: 'md' }}
-          verticalSpacing={{ base: 'md' }}
-          style={{ width: '100%' }}
-        >
-          <Button variant='filled' onClick={onDeleteBook}>
-            Да, удалить
-          </Button>
-          <Button color='outline' onClick={close}>
-            Нет, оставить
-          </Button>
-        </SimpleGrid>
-      </Modal>
+      <Modal opened={opened} onClose={close} onSubmit={onDeleteBook}
+        title='Удалить книгу с полки?'
+        description='Это также удалит все очереди за ней.'
+        submitButtonText='Да, удалить' closeButtonText='Нет, оставить'/>
 
       <Card className={styles.bookCard}>
         <Image src={bookCoverUrl} alt={`Book cover for ${title}`} className={styles.bookImage}/>

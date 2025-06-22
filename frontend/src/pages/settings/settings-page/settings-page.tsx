@@ -1,5 +1,5 @@
-import { ActionIcon, Button, Modal, Title, SimpleGrid } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { ActionIcon, Button, Title } from '@mantine/core';
+import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import {
   ArrowALeftIcon24Regular,
   ArrowUiAuthLogoutIcon24Regular,
@@ -10,6 +10,7 @@ import React from 'react';
 
 import styles from '~/pages/settings/settings.module.css';
 
+import { Modal } from '~/components/custom-mantine/modal/modal';
 import { Header } from '~/components/header/header';
 import { AppRoute } from '~/conts';
 import { router } from '~/main';
@@ -18,6 +19,8 @@ import { PageWithWrapper } from '~/ui/pages';
 
 export const SettingsPage = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const { width } = useViewportSize();
+  const isRenderedOnDesktop = width >= 768;
 
   const logout = () => {
     dropToken();
@@ -27,30 +30,19 @@ export const SettingsPage = () => {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title='Выйти из аккаунта?' centered>
-        <SimpleGrid
-          cols={{ base: 1, sm: 2 }}
-          spacing={{ base: 'md' }}
-          verticalSpacing={{ base: 'md' }}
-          style={{ width: '100%' }}
-        >
-          <Button variant='filled' onClick={logout}>
-            Да, выйти
-          </Button>
-          <Button color='outline' onClick={close}>
-            Нет, остаться
-          </Button>
-        </SimpleGrid>
-      </Modal>
+      <Modal opened={opened} onClose={close} onSubmit={logout}
+        title='Выйти из аккаунта?' submitButtonText='Да, выйти' closeButtonText='Нет, остаться'/>
 
       <PageWithWrapper backgroundColor='white'>
         <Header variant='left'>
-          <ActionIcon variant='transparent' onClick={() => {
-            window.history.back();
-          }}>
-            <ArrowALeftIcon24Regular/>
-          </ActionIcon>
-          <Title order={6}>Настройки</Title>
+          {!isRenderedOnDesktop &&
+            <ActionIcon variant='transparent' onClick={() => {
+              window.history.back();
+            }}>
+              <ArrowALeftIcon24Regular/>
+            </ActionIcon>
+          }
+          <Title order={isRenderedOnDesktop ? 5 : 6}>Настройки</Title>
         </Header>
 
         <Button className={styles.buttonLeft}

@@ -401,16 +401,13 @@
   align-self: stretch;
 }
 
-/* Badge styles */
-.badge {
-  padding: 0 var(--mantine-spacing-xs);
-  gap: var(--mantine-spacing-xs);
-  border-radius: var(--mantine-spacing-md);
+/* Badge and indicator styles */
+.badge, .indicator {
   color: var(--white-color);
   background: var(--red-color);
 }
 
-.badgeLabel {
+.badgeLabel, .indicatorLabel {
   font-size: var(--mantine-font-size-sm);
   font-weight: 600;
 }

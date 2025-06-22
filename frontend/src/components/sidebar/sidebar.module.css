@@ -16,6 +16,7 @@
   gap: var(--mantine-spacing-sm);
   padding: var(--mantine-spacing-lg) var(--mantine-spacing-md);
   color: var(--primary-color);
+  overflow: visible;
 }
 
 .menuControl {
@@ -31,12 +32,6 @@
   animation: show 0.7s;
   animation-fill-mode: forwards;
   box-shadow: none;
-}
-
-.menuItem {
-  display: flex;
-  align-items: center;
-  gap: var(--mantine-spacing-sm);
 }
 
 .menuDivider {

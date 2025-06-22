@@ -46,7 +46,7 @@ export const FriendRequestActions = ({ id, isBigSize = false, username }: Friend
       notifications.show({
         title: answer?.isAccepted ? 'Запрос в друзья принят' : 'Запрос в друзья отклонен',
         message: undefined,
-        color: answer?.isAccepted ? 'var(--green-color)' : 'var(--red-color)',
+        color: 'var(--green-color)',
       });
     },
   });

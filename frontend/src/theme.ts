@@ -1,26 +1,27 @@
 import {
   ActionIcon,
-  Notification,
   Anchor,
   AppShell,
+  Badge,
   Burger,
   Button,
+  Card,
   createTheme,
   Divider,
+  Drawer,
+  Indicator,
   Input,
   Loader,
   Menu,
   Modal,
+  Notification,
+  Overlay,
   PasswordInput,
+  Tabs,
+  Text,
   Textarea,
   TextInput,
-  Title,
-  Text,
-  Card,
-  Tabs,
-  Badge,
-  Overlay,
-  Drawer
+  Title
 } from '@mantine/core';
 
 import classes from './components.module.css';
@@ -240,6 +241,14 @@ export const theme = createTheme({
       classNames: {
         root: classes.badge,
         label: classes.badgeLabel
+      },
+      defaultProps: {
+        circle: true
+      }
+    }),
+    Indicator: Indicator.extend({
+      classNames: {
+        indicator: classes.indicatorLabel
       },
     }),
     Drawer: Drawer.extend({
