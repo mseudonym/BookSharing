@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Avatar, Button, Menu, Modal, SimpleGrid, Text, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Avatar, Button, Menu, Text, Title } from '@mantine/core';
 import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { People1PlusIcon24Regular, TrashCanIcon24Regular, XIcon24Regular } from '@skbkontur/icons';
@@ -12,6 +12,7 @@ import _styles from '~/index.module.css';
 import styles from '~/pages/profile-user/profile-user.module.css';
 
 import { BookCard } from '~/components/book-card/book-card';
+import { Modal } from '~/components/custom-mantine/modal/modal';
 import { FriendRequestActions } from '~/components/friend-request-actions';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
@@ -116,23 +117,10 @@ export const UserPage = () => {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title='Удалить из друзей?' centered>
-        <Text className={_styles.textGray}>Человек удалится из всех ваших очередей, а вы будете удалены из всех
-          очередей человека.</Text>
-        <SimpleGrid
-          cols={{ base: 1, sm: 2 }}
-          spacing={{ base: 'md' }}
-          verticalSpacing={{ base: 'md' }}
-          style={{ width: '100%' }}
-        >
-          <Button variant='filled' onClick={onDeleteFriend} loading={isLoading}>
-            Да, удалить
-          </Button>
-          <Button color='outline' onClick={close}>
-            Нет, оставить
-          </Button>
-        </SimpleGrid>
-      </Modal>
+      <Modal opened={opened} onClose={close} onSubmit={onDeleteFriend} loadingSubmit={isLoading}
+        title='Удалить из друзей?'
+        description='Человек удалится из всех ваших очередей, а вы будете удалены из всех очередей человека.'
+        submitButtonText='Да, удалить' closeButtonText='Нет, оставить'/>
 
       <Page>
         <Header variant='auto' withPadding hideOnDesktop>

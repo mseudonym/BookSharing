@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Flex, Image, Menu, Modal, Text, Title } from '@mantine/core';
+import { ActionIcon, Divider, Flex, Image, Menu, Text, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TrashCanIcon24Regular } from '@skbkontur/icons';
 import { ArrowALeftIcon24Regular } from '@skbkontur/icons/icons/ArrowALeftIcon';
@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import _styles from '~/index.module.css';
 import styles from '~/pages/book-page/book-page.module.css';
 
+import { Modal } from '~/components/custom-mantine/modal/modal';
 import { Header } from '~/components/header';
 import { IllustrationWrapper } from '~/components/illustration-wrapper';
 import { Queue } from '~/components/queue/queue';
