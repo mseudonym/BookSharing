@@ -135,7 +135,7 @@ export const LandingPage = () => {
         position='right'
         size='sm'
       >
-        <Flex direction='column' gap='md' >
+        <Flex direction='column' gap='md'>
           <Button size={buttonSize} variant='outline' onClick={() => router.navigate(AppRoute.Login)}>
             Войти
           </Button>
@@ -232,8 +232,11 @@ export const LandingPage = () => {
                 </Flex>
               </div>
             </div>
+            <Flex>
+              <Text span className={_styles.textGray}>Отдельная благодарность Никите Александрову за вклад в проект.</Text>
+            </Flex>
           </Flex>
-          <Flex className={styles.block}>
+          <Flex className={styles.block} direction='column'>
             <Divider/>
             <Text size={textSize}>© 2025 Шарю</Text>
           </Flex>
