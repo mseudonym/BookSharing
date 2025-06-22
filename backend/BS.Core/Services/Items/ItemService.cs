@@ -222,10 +222,18 @@ public class ItemService : IItemService
     {
         var currentUserId = await _currentUserService.GetIdAsync();
 
-        await _dbContext.Items
+        var item = await _dbContext.Items
             .Where(item => item.BookId == bookId && item.OwnerId == currentUserId)
-            .ExecuteDeleteAsync();
+            .Include(item => item.QueueItems)
+            .FirstOrDefaultAsync();
 
+        if (item is null)
+        {
+            return Result.Fail(ItemNotFoundError.ByBookId(bookId));
+        }
+        
+        item.IsDeleted = true;
+        _dbContext.QueueItems.RemoveRange(item.QueueItems);
         await _dbContext.SaveChangesAsync();
 
         return Result.Ok();
@@ -245,7 +253,7 @@ public class ItemService : IItemService
             .ThenInclude(q => q.User)
             .FirstOrDefaultAsync();
         if (item is null)
-            return Result.Fail(new ItemNotFoundError(itemId));
+            return Result.Fail(ItemNotFoundError.ById(itemId));
         
         if (currentUserId != item.OwnerId && currentUser.Friends.All(friend => friend.Id != item.OwnerId))
             return Result.Fail(new PersonIsNotYourFriendError(item.OwnerId));

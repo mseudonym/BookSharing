@@ -9,6 +9,8 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<ItemEntity>
     public void Configure(EntityTypeBuilder<ItemEntity> builder)
     {
         builder.ToTable(Tables.ItemsTableName);
+        
+        builder.HasQueryFilter(e => !e.IsDeleted);
 
         builder.HasKey(item => item.Id);
         builder.HasOne(item => item.Book)
