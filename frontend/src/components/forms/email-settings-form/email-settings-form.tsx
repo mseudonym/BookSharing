@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Text, TextInput } from '@mantine/core';
+import { useViewportSize } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
@@ -14,7 +15,6 @@ import { postAuthManageChangeEmail } from '~/generated-api/auth/auth';
 import { useGetUsersMe } from '~/generated-api/users/users';
 import { ErrorPage } from '~/pages/error-page';
 import { LoadingPage } from '~/pages/loading-page';
-import { useViewportSize } from '@mantine/hooks';
 
 const FormSchema = zod.object({
   email: zod
