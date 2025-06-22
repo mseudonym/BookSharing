@@ -217,7 +217,7 @@ export const ISBNScanner = () => {
           <Button onClick={handleRetry} variant='filled'>
             Сканировать снова
           </Button>
-          <Button onClick={() => router.navigate(AppRoute.AddBookManually)} variant='outline'>
+          <Button onClick={() => router.navigate(`${AppRoute.AddBookManually}?isbn=${isbn}`)} variant='outline'>
             Добавить книгу вручную
           </Button>
         </Flex>

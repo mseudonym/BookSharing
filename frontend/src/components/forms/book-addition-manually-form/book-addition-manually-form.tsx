@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router';
 import * as zod from 'zod';
 
 import f_styles from '~/components/forms/forms.module.css';
@@ -45,6 +46,9 @@ type IFormInput = zod.infer<typeof FormSchema>;
 
 export const BookAdditionManuallyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const isbnCode = searchParams.get('isbn') || undefined;
+  const title = searchParams.get('title') || undefined;
 
   const {
     register,
@@ -154,6 +158,7 @@ export const BookAdditionManuallyForm = () => {
         <div className={styles.actions}>
           <TextInput
             label='Название'
+            defaultValue={title ?? ''}
             placeholder='Введите название книги'
             {...register('title')}
             error={errors?.title?.message}
@@ -186,6 +191,7 @@ export const BookAdditionManuallyForm = () => {
           <IsbnInput
             label='ISBN'
             placeholder='Введите ISBN книги'
+            defaultValue={isbnCode ?? ''}
             {...register('isbn')}
             error={errors?.isbn?.message}
           />

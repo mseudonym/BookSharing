@@ -106,7 +106,7 @@ export const BookAdditionPage = () => {
             }}>
               <Text className={_styles.textGray}>Не нашли что искали?</Text>
               <Button
-                onClick={() => router.navigate(AppRoute.AddBookManually)}
+                onClick={() => router.navigate(`${AppRoute.AddBookManually}?isbn=${isbnQuery}&title=${titleQuery}`)}
                 variant='outline'>Добавить книгу вручную</Button>
             </Flex>
           )}
