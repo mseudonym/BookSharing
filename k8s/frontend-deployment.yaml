@@ -42,7 +42,7 @@ kind: Service
 metadata:
   name: bs-app
   labels:
-    app: bs-api
+    app: bs-app
 spec:
   selector:
     app: bs-app

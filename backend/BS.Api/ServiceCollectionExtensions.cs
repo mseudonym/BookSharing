@@ -14,12 +14,21 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddBsOpenApi(this IServiceCollection services)
+    public static IServiceCollection AddBsOpenApi(this IServiceCollection services, IWebHostEnvironment environment)
     {
         services.AddOpenApi(options =>
         {
             options.AddDocumentTransformer((document, _, _) =>
             {
+                // При локальном запуске оставляем http
+                if (!environment.IsDevelopment())
+                {
+                    foreach (var server in document.Servers)
+                    {
+                        server.Url = server.Url.Replace("http", "https");
+                    }
+                }
+                
                 document.Components ??= new OpenApiComponents();
                 document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
 

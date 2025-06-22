@@ -1,0 +1,13 @@
+﻿apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bs-cert
+  namespace: OVERRIDE
+spec:
+  secretName: bs-tls
+  issuerRef:
+    name: yc-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - "*.book-sharing.ru"
+    - "book-sharing.ru"
