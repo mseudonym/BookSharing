@@ -67,7 +67,7 @@ public class NotificationService : INotificationsService
         var unreadNotificationsCount = await _dbContext
             .Notifications
             .Where(n => n.RecipientId == currentUserId && !n.IsRead)
-            .Where(n => n.ShouldBeSentAt <= now)
+            .Where(n => n.ShouldBeSentAt == null || n.ShouldBeSentAt <= now)
             .CountAsync();
         
         return unreadNotificationsCount;
