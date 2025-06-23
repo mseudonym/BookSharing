@@ -4,7 +4,7 @@ This React application helps you create a local book club. Share your personal l
 
 ## Demo
 
-In development...
+https://book-sharing.ru/
 
 ## Features
 
