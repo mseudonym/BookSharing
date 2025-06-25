@@ -232,7 +232,7 @@ export const LandingPage = () => {
               </div>
             </div>
             <Flex>
-              <Text span className={_styles.textGray}>Отдельная благодарность Никите Александрову за вклад в проект.</Text>
+              <Text span className={_styles.textGray}>Отдельная благодарность Никите Александрову и Екатерине Собке за вклад в проект.</Text>
             </Flex>
           </Flex>
           <Flex className={styles.block} direction='column' gap='sm'>
